@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.3 1998/12/02 00:26:30 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.4 1998/12/04 00:03:29 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.3 1998/12/02 00:26:30 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.4 1998/12/04 00:03:29 gap Exp $";
 
 
 #############################################################################
@@ -1479,3 +1479,24 @@ function( G )
           GGLInfoDisplaysForFpGroups];
 end);
 
+
+#############################################################################
+##  
+##  Some small things that don't fit in another section:
+##
+#############################################################################
+
+##
+##  ViewObj methods:
+##
+InstallMethod( ViewObj,"for a graphic subgroup lattice",true,
+        [IsGraphicSheet and IsGraphicSheetRep and IsGraphicGraphRep and 
+         IsGraphicPosetRep and IsGraphicSubgroupLattice],
+        0,function( sheet ) 
+  Print("<");
+  if not IsAlive(sheet) then
+    Print("dead ");
+  fi;
+  Print("graphic subgroup lattice \"",sheet!.name,"\">");
+end);
+  

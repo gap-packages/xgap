@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.4 1998/12/02 00:26:30 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.5 1998/12/04 00:03:30 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.4 1998/12/02 00:26:30 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.5 1998/12/04 00:03:30 gap Exp $";
 
 
 
@@ -162,13 +162,18 @@ end;
 ##  Our menu which goes in all poset sheets:
 PosetMenuEntries :=
   ["Redraw","Show Levels",,"Delete Vertices","Delete Edge",,
-   "Magnify Lattice", "Shrink Lattice", "Resize Lattice", "Resize Sheet"];  
+   "Magnify Lattice", "Shrink Lattice", "Resize Lattice", "Resize Sheet",
+   "Move Lattice",,
+   "Change Labels"];
 PosetMenuTypes :=
   ["forany","forany",,"forsubset","foredge",,
-   "forany","forany","forany","forany"];
+   "forany","forany","forany","forany","forany",,
+   "forsubset"];
 PosetMenuFunctions :=
   [ PosetDoRedraw,PosetShowLevels,,UserDeleteVerticesOp, UserDeleteEdgeOp,,
-    UserMagnifyLattice,UserShrinkLattice,UserResizeLattice,UserResizeSheet];
+    UserMagnifyLattice,UserShrinkLattice,UserResizeLattice,UserResizeSheet,
+    UserMoveLattice,,
+    UserChangeLabels];
 
 
 #############################################################################
@@ -3032,6 +3037,71 @@ end);
 
 #############################################################################
 ##
+#M  UserMoveLattice . . . . . . . . . . . . . lets the user move all vertices
+##
+##  This operation is called when the user selects "Move Lattice". 
+##  The generic method asks the user for a pixel number and
+##  changes the position of all vertices horizontally. No positions of 
+##  levels are changed. 
+##
+InstallMethod( UserMoveLattice,
+    "for a graphic poset, a menu, and a string",
+    true,
+    [ IsGraphicGraphRep and IsGraphicPosetRep, IsMenu, IsString ],
+    0,
+    
+function(poset, menu, entry)
+  local   res,  pix,  l,  cl,  v;
+  res := Query( Dialog( "OKcancel", "Move horizontally" ) );
+  if res = false or 0 = Length(res)  then
+    return;
+  fi;
+  pix := Int(res);
+  if pix <> 0 then
+    for l in poset!.levels do
+      for cl in l!.classes do
+        for v in cl do
+          Move(poset,v,v!.x+pix,v!.y);
+        od;
+      od;
+    od;
+  fi;
+end);
+
+
+#############################################################################
+##
+#M  UserChangeLabels . . . . . . . .  lets the user change labels of vertices
+##
+##  This operation is called when the user selects "Change Labels". 
+##  The user is prompted for every selected vertex, which label it should
+##  have.
+##
+InstallMethod( UserChangeLabels,
+    "for a graphic graph, a menu, and a string",
+    true,
+    [ IsGraphicGraphRep, IsMenu, IsString ],
+    0,
+        
+function(graph, menu, entry)
+  local   D,  sel,  v,  res;
+  
+  D := Dialog("OKcancel", "Label");
+  sel := Selected(graph);
+  for v in sel do
+    res := Query(D,v!.label);
+    if res = false then
+      return;
+    fi;
+    if 0 < Length(res) then
+      Relabel(graph,v,res);
+    fi;
+  od;
+end);
+
+
+#############################################################################
+##
 #M  PosetShowLevels  . . . . . . . . . . . . . . . . switch display of levels
 ##
 ##  This operation is called when the user selects "Show Levels" in the menu.
@@ -3094,13 +3164,60 @@ end);
 
 #############################################################################
 ##
+##  Some things that don't fit in other sections:
+##
+#############################################################################
+
+##
 ##  We want Position and PositionSorted for lists of vertices:
 ##
 InstallMethod( EQ, "for two vertices", true, [IsGGVertex,IsGGVertex],0,
         IsIdenticalObj );
 InstallMethod( \<, "for two vertices", true, [IsGGVertex,IsGGVertex],0,
         function(a,b) return (a!.serial < b!.serial); end);
+InstallMethod( EQ, "for two levels", true, [IsGPLevel,IsGPLevel],0,
+        IsIdenticalObj );
         
+##
+##  ViewObj methods:
+##
+InstallMethod( ViewObj,"for a graphic graph",true,
+        [IsGraphicSheet and IsGraphicSheetRep and IsGraphicGraphRep],
+        0,function( sheet ) 
+  Print("<");
+  if not IsAlive(sheet) then
+    Print("dead ");
+  fi;
+  Print("graphic graph \"",sheet!.name,"\">");
+end);
+  
+InstallMethod( ViewObj,"for a graphic poset",true,
+        [IsGraphicSheet and IsGraphicSheetRep and IsGraphicGraphRep and 
+         IsGraphicPosetRep],
+        0,function( sheet ) 
+  Print("<");
+  if not IsAlive(sheet) then
+    Print("dead ");
+  fi;
+  Print("graphic poset \"",sheet!.name,"\">");
+end);
+  
+InstallMethod( ViewObj,"for a level",true,
+        [IsGraphicObject and IsGPLevel],
+        0,function( level ) 
+  local   pos;
+  pos := Position(level!.poset!.levels,level);
+  Print("<level of graphic poset \"",level!.poset!.name,"\", Parameter: ",
+        level!.poset!.levelparams[pos],">");
+end);
+
+InstallMethod( ViewObj,"for a vertex",true,
+        [IsGraphicObject and IsGGVertex],
+        0,function( vertex ) 
+  Print("<vertex of graphic graph, label: \"",vertex!.label,"\", Serial:",
+        vertex!.serial,">");
+end);
+
 ## FIXME: ... TODO-List for graphs:
         
 # comments for GraphicGraphRep

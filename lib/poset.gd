@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.3 1998/12/02 00:26:30 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.4 1998/12/04 00:03:29 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.3 1998/12/02 00:26:30 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.4 1998/12/04 00:03:29 gap Exp $";
 
 
 #############################################################################
@@ -926,6 +926,37 @@ if IsBound(UserResizeSheet) then if not IsOperation(UserResizeSheet) then
   Error("Identifier UserResizeSheet already in use!"); fi;
 else
   DeclareOperation( "UserResizeSheet", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserMoveLattice . . . . . . . . . . . . . lets the user move all vertices
+##
+##  This operation is called when the user selects "Move Lattice". 
+##  The generic method asks the user for a pixel number and
+##  changes the position of all vertices horizontally. No positions of 
+##  levels are changed. 
+##
+if IsBound(UserMoveLattice) then if not IsOperation(UserMoveLattice) then
+  Error("Identifier UserMoveLattice already in use!"); fi;
+else
+  DeclareOperation( "UserMoveLattice", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserChangeLabels . . . . . . . .  lets the user change labels of vertices
+##
+##  This operation is called when the user selects "Change Labels". 
+##  The user is prompted for every selected vertex, which label it should
+##  have.
+##
+if IsBound(UserChangeLabels) then if not IsOperation(UserChangeLabels) then
+  Error("Identifier UserChangeLabels already in use!"); fi;
+else
+  DeclareOperation( "UserChangeLabels", [IsGraphicSheet, IsMenu, IsString] );
 fi;
 
 
