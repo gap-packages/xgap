@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.8 1999/03/03 01:13:46 gap Exp $
+*H  @(#)$Id: xgap.c,v 1.9 1999/03/22 10:13:08 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1177,10 +1177,10 @@ int main ( argc,  argv )
     XtAppAddInput( AppContext,  fromGap,  (XtPointer) XtInputReadMask,
                    (XtInputCallbackProc) GapOutput,  (XtPointer) 0 );
 
+    StoreInput( "RequirePackage(\"xgap\");;\n",25 );
+
     /* force a garbage collection in the beginning */
     StoreInput( "GASMAN(\"collect\");\n", 19 );
-
-    StoreInput( "RequirePackage(\"xgap\");;\n",25 );
 
     /* talk window is drawn only partial during start up otherwise (why?) */
     /*XFlush( GapDisplay );
