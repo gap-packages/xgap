@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.6 1997/12/05 17:31:13 frank Exp $
+*H  @(#)$Id: xgap.c,v 1.7 1998/11/27 14:51:01 ahulpke Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1192,13 +1192,16 @@ int main ( argc,  argv )
     /* force a garbage collection in the beginning */
     StoreInput( "GASMAN(\"collect\");\n", 19 );
 
+    StoreInput( "RequirePackage(\"xgap\");;\n",25 );
+
     /* talk window is drawn only partial during start up otherwise (why?) */
-    XFlush( GapDisplay );
+    /*XFlush( GapDisplay );
     sleep(1);
     XFlush( GapDisplay );
     sleep(1);
     XFlush( GapDisplay );
-    sleep(1);
+    sleep(1);*/
+    /* FIXME: No longer necessary??? */
 
     /* enter main read-eval loop */
     XtAppMainLoop(AppContext);

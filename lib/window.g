@@ -2,18 +2,18 @@
 ##
 #W  window.g                    XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.6 1998/03/06 13:15:03 gap Exp $
+#H  @(#)$Id: window.g,v 1.7 1998/11/27 14:50:57 ahulpke Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
+#Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_window_g :=
-    "@(#)$Id: window.g,v 1.6 1998/03/06 13:15:03 gap Exp $";
+    "@(#)$Id: window.g,v 1.7 1998/11/27 14:50:57 ahulpke Exp $";
 
 
 #############################################################################
 ##
-
 #V  WINDOWS . . . . . . . . . . . . . . . . . . . . . . . . . list of windows
 ##
 BindGlobal( "WINDOWS", [] );
@@ -27,9 +27,9 @@ BindGlobal( "WcStoreWindow", function( id, w )
     WINDOWS[id+1] := w;
 end );
 
+
 #############################################################################
 ##
-
 #F  WcCloseWindow( <id> ) . . . . . . . . . . . . . . . . . . .  close window
 ##
 BindGlobal( "WcCloseWindow", function( id )
@@ -134,6 +134,21 @@ end );
 
 #############################################################################
 ##
+#F  WcDestroyFlat( <id>, <objlist> )  . . . . . . destroy <obj> on sheet <id>
+##
+##  Works with lists of ids instead of ids because of Flat
+##
+BindGlobal( "WcDestroyFlat", function( arg )
+    local   cmd;
+
+    cmd := Concatenation( ["XRO"], Flat(arg) );
+    WindowCmd(cmd);
+
+end );
+
+
+#############################################################################
+##
 #F  WcEnableMenu( <wid>, <mid>, <pos>, <flag> ) . . . . en/disable menu entry
 ##
 BindGlobal( "WcEnableMenu", function( wid, mid, pos, flag )
@@ -190,6 +205,20 @@ BindGlobal( "WcSetTitle", function( id, text )
 end );
 
 
+
+#############################################################################
+##
+#F  WcTextSelector( <name>, <text>, <btn> ) . . . . .  create a text selector
+##
+BindGlobal( "WcTextSelector", function( name, text, btn )
+    local   sel, id;
+    
+    # create text selector
+    return WindowCmd([ "XOS", name, text, btn ])[1];
+
+end );
+
+
 #############################################################################
 ##
 #F  WcTsChangeText( <id>, <str> ) . . . . . . .  change text of text selector
@@ -201,10 +230,18 @@ end );
 
 #############################################################################
 ##
-
 #V  SELECTORS . . . . . . . . . . . . . . . . . . . . . . . list of selectors
 ##
 BindGlobal( "SELECTORS", [] );
+
+
+#############################################################################
+##
+#F  WcStoreTs( <id>, <t> )  . . . . . . . . . . .  store text selector object
+##
+BindGlobal( "WcStoreTs", function( id, t )
+    SELECTORS[id+1] := t;
+end );
 
 
 #############################################################################
@@ -237,7 +274,6 @@ end );
 
 #############################################################################
 ##
-
 #F  WcMenu( <wid>, <title>, <str> ) . . . . . .  create new menu for a window
 ##
 BindGlobal( "WcMenu", function( id, title, str )
@@ -256,6 +292,24 @@ end );
 
 #############################################################################
 ##
+#F  WcPopupMenu( <title>, <str> ) . . . . . . . . . . . . create a popup menu
+##
+BindGlobal( "WcPopupMenu", function( title, str )
+    local   pop;
+    
+    return WindowCmd([ "XPS", title, str ])[1];
+end );
 
+
+#############################################################################
+##
+#F  WcDialog( <type>, <text>, <def> ) . . . . . . . . . . . . . . . .  dialog
+##
+BindGlobal( "WcDialog", function( type, text, def )
+    return WindowCmd([ "XSD", type, text, def ]);
+end );
+
+#############################################################################
+##
 #F  window.g  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
 ##

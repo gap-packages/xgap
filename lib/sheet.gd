@@ -2,96 +2,37 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.5 1998/03/06 13:15:01 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.6 1998/11/27 14:50:57 ahulpke Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
+#Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.5 1998/03/06 13:15:01 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.6 1998/11/27 14:50:57 ahulpke Exp $";
 
 
 #############################################################################
 ##
-
-#C  IsGraphicWindow . . . . . . . . . . . . . . . . . .   category of windows
+#F  IsAlive . . . . . . . . . . . . . . . filter for living displayed objects
 ##
-DeclareCategory( "IsGraphicWindow", IsObject );
+DeclareFilter( "IsAlive" );
 
 
 #############################################################################
 ##
-#V  GraphicWindowsFamily  . . . . . . . . . . . . . . . family of all windows
+#V  GraphicSheetFamily  . . . . . . . . . . . . . . . .  family of all sheets
 ##
-BindGlobal( "GraphicWindowsFamily", NewFamily( "GraphicWindowsFamily" ) );
+BindGlobal( "GraphicSheetFamily", NewFamily( "GraphicSheetFamily" ) );
 
 
 #############################################################################
 ##
-#V  DefaultGAPMenu  . . . . . . . . . . . . . . . . . . . .  default GAP menu
-##
-DeclareGlobalVariable( "DefaultGAPMenu",
-    "default menu for graphic windows" );
-
-
-#############################################################################
-##
-#O  GraphicWindow( <catrep>, <name>, <width>, <height> ) a new graphic window
-##
-DeclareOperation( "GraphicWindow", [ IsObject, IsString, IsInt, IsInt ] );
-
-
-#############################################################################
-##
-#A  WindowId( <window> )  . . . . . . . . . . . . . . .  window id of <sheet>
-##
-DeclareAttribute( "WindowId", IsGraphicWindow );
-
-
-#############################################################################
-##
-#O  Callback( <window>, <func>, <args> )  . . . . execute a callback function
-##
-DeclareOperation( "Callback", [ IsGraphicWindow, IsObject, IsList ] );
-
-
-#############################################################################
-##
-#O  Close( <window> ) . . . . . . . . . . . . . . . .  close a graphic window
-##
-DeclareOperation( "Close", [ IsGraphicWindow ] );
-
-
-#############################################################################
-##
-#O  InstallCallback( <window>, <func>, <call> ) . . . .  install new callback
-##
-DeclareOperation( "InstallCallback",
-    [ IsGraphicWindow, IsObject, IsFunction ] );
-
-
-#############################################################################
-##
-#O  MakeGAPMenu( <window> ) . . . . . . . . . . . . .  create a standard menu
-##
-DeclareOperation( "MakeGAPMenu", [ IsGraphicWindow ] );
-
-
-#############################################################################
-##
-#O  Resize( <window>, <width>, <height> ) . . . . . . . . . . .  resize sheet
-##
-DeclareOperation( "Resize", [ IsGraphicWindow, IsInt, IsInt ] );
-
-
-#############################################################################
-##
-
 #C  IsGraphicSheet  . . . . . . . . . . . . . . .  category of graphic sheets
 ##
-DeclareCategory( "IsGraphicSheet", IsGraphicWindow );
+DeclareCategory( "IsGraphicSheet", IsObject );
 
 
 #############################################################################
@@ -159,6 +100,65 @@ DeclareOperation( "GraphicSheet", [ IsString, IsInt, IsInt ] );
 
 #############################################################################
 ##
+#V  DefaultGAPMenu  . . . . . . . . . . . . . . . . . . . .  default GAP menu
+##
+DeclareGlobalVariable( "DefaultGAPMenu",
+    "default menu for graphic sheets" );
+
+
+#############################################################################
+##
+#A  WindowId( <sheet> ) . . . . . . . . . . . . . . . .  window id of <sheet>
+##
+DeclareAttribute( "WindowId", IsGraphicSheet );
+
+
+#############################################################################
+##
+#O  Callback( <sheet>, <func>, <args> )  . . . .  execute a callback function
+##
+DeclareOperation( "Callback", [ IsGraphicSheet, IsObject, IsList ] );
+
+
+#############################################################################
+##
+#O  Close( <sheet> )  . . . . . . . . . . . . . . . . . close a graphic sheet
+##
+DeclareOperation( "Close", [ IsGraphicSheet ] );
+
+
+#############################################################################
+##
+#O  InstallCallback( <sheet>, <func>, <call> ) . . . . . install new callback
+##
+DeclareOperation( "InstallCallback",
+    [ IsGraphicSheet, IsObject, IsFunction ] );
+
+
+#############################################################################
+##
+#O  RemoveCallback( <sheet>, <func>, <call> ) . . . . . . remove old callback
+##
+DeclareOperation( "RemoveCallback",
+    [ IsGraphicSheet, IsObject, IsFunction ] );
+
+
+#############################################################################
+##
+#O  MakeGAPMenu( <sheet> ) . . . . . . . . . . . . . . create a standard menu
+##
+DeclareOperation( "MakeGAPMenu", [ IsGraphicSheet ] );
+
+
+#############################################################################
+##
+#O  Resize( <sheet>, <width>, <height> ) . . . . . . . . . . . . resize sheet
+##
+DeclareOperation( "Resize", [ IsGraphicSheet, IsInt, IsInt ] );
+
+
+#############################################################################
+##
 #A  DefaultsForGraphicObject( <sheet> ) . . . . . . . . .  default color, etc
 ##
 DeclareAttribute( "DefaultsForGraphicObject", IsGraphicSheet );
@@ -166,14 +166,14 @@ DeclareAttribute( "DefaultsForGraphicObject", IsGraphicSheet );
 
 #############################################################################
 ##
-#O  CtrlLeftPBDown( <sheet>, <x>, <y> ) . . . . . .  left pointer button down
+#O  CtrlLeftPBDown( <sheet>, <x>, <y> ) . .  left pointer button down w. CTRL
 ##
 DeclareOperation( "CtrlLeftPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
-#O  CtrlRightPBDown( <sheet>, <x>, <y> )  . . . . . right pointer button down
+#O  CtrlRightPBDown( <sheet>, <x>, <y> ) .  right pointer button down w. CTRL
 ##
 DeclareOperation( "CtrlRightPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
@@ -194,21 +194,20 @@ DeclareOperation( "RightPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 #############################################################################
 ##
-#O  ShiftLeftPBDown( <sheet>, <x>, <y> )  . . . . .  left pointer button down
+#O  ShiftLeftPBDown( <sheet>, <x>, <y> )  . left pointer button down w. SHIFT
 ##
 DeclareOperation( "ShiftLeftPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
-#O  ShiftRightPBDown( <sheet>, <x>, <y> ) . . . . . right pointer button down
+#O  ShiftRightPBDown( <sheet>, <x>, <y> ) .right pointer button down w. SHIFT
 ##
 DeclareOperation( "ShiftRightPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
-
 #F  UseFastUpdate . . . . . . . . . . . . . . . . . .  filter for fast update
 ##
 DeclareFilter( "UseFastUpdate" );
@@ -216,10 +215,39 @@ DeclareFilter( "UseFastUpdate" );
 
 #############################################################################
 ##
-
 #O  SetTitle( <sheet>, <title> )  . . . . . . . . . . . . . . . . add a title
 ##
-DeclareOperation( "SetTitle", [ IsGraphicSheet ] );
+DeclareOperation( "SetTitle", [ IsGraphicSheet, IsString ] );
+
+
+#############################################################################
+##
+#O  FastUpdate( <sheet>, <flag> ) . . . . . . . . . . . . . switch fastupdate
+##
+DeclareOperation( "FastUpdate", [ IsGraphicSheet, IsBool ] );
+
+
+#############################################################################
+##
+#V  BUTTONS . . . . . . . . . . . . . . . . . . . . left/right pointer button
+##
+DeclareGlobalVariable( "BUTTONS" );
+
+
+#############################################################################
+##
+#O  PointerButtonDown( <sheet>, <x>, <y>, <btn>, <state> . . reaction on user
+##
+DeclareOperation( "PointerButtonDown", 
+        [ IsGraphicSheet, IsInt, IsInt, IsInt, IsInt ] );
+
+
+#############################################################################
+##
+#O  Drag( <sheet>, <x>, <y>, <bt>, <func> ) . . . . . . . . .  drag something
+##
+DeclareOperation( "Drag",
+        [ IsGraphicSheet, IsInt, IsInt, IsInt, IsFunction ] );
 
 
 #############################################################################

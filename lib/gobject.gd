@@ -2,26 +2,18 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.4 1998/03/06 13:14:54 gap Exp $
+#H  @(#)$Id: gobject.gd,v 1.5 1998/11/27 14:50:50 ahulpke Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
+#Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.4 1998/03/06 13:14:54 gap Exp $";
+    "@(#)$Id: gobject.gd,v 1.5 1998/11/27 14:50:50 ahulpke Exp $";
 
 
 #############################################################################
 ##
-
-#F  IsAlive . . . . . . . . . . . . . . . filter for living displayed objects
-##
-DeclareFilter( "IsAlive" );
-
-
-#############################################################################
-##
-
 #C  IsGraphicObject . . . . . . . . . . . . . . . category of graphic objects
 ##
 DeclareCategory( "IsGraphicObject", IsObject );
@@ -63,6 +55,16 @@ DeclareOperation( "Destroy", [ IsGraphicObject ] );
 
 #############################################################################
 ##
+#O  Revive( <object> ) . . . . . . . . . . . . . revive a dead graphic object
+##
+##  Note that <object> is this is only possible for `Destroyed', not
+##  for `Deleted' graphic objects.
+##
+DeclareOperation( "Revive", [ IsGraphicObject ] );
+
+
+#############################################################################
+##
 #O  Draw( <object> )  . . . . . . . . . . . . . . . (re)draw a graphic object
 ##
 DeclareOperation( "Draw", [ IsGraphicObject ] );
@@ -92,9 +94,9 @@ DeclareOperation( "PrintInfo", [ IsGraphicObject ] );
 
 #############################################################################
 ##
-#O  PostScriptString( <object> )  . . . . . . . . . . . . . PostScript string
+#O  PSString( <object> )  . . . . . . . . . . . . . . . . . PostScript string
 ##
-DeclareOperation( "PostScriptString", [ IsGraphicObject ] );
+DeclareOperation( "PSString", [ IsGraphicObject ] );
 
 
 #############################################################################
@@ -115,7 +117,34 @@ DeclareOperation( "Reshape", [ IsGraphicObject, IsObject ] );
 
 #############################################################################
 ##
+#O  Change( <object>, ... ) . . . . . . . . . . . . . . . .  change an object
+##
+DeclareOperation( "Change", [ IsGraphicObject, IsObject ] );
 
+
+#############################################################################
+##
+#O  Relabel( <object>, ... )  . . . . . . . . . . . . . . . relabel an object
+##
+DeclareOperation( "Relabel", [ IsObject, IsString ] );
+
+
+#############################################################################
+##
+#O  LabelPosition( <object>, ... )  . . . . . . . . .  calculate a label pos.
+##
+DeclareOperation( "LabelPosition", [ IsGraphicObject ] );
+
+
+#############################################################################
+##
+#O  SetWidth( <object>, w )  . . . . . . . . . . . . . . .  change line width
+##
+DeclareOperation( "SetWidth", [ IsGraphicObject, IsObject ] );
+
+
+#############################################################################
+##
 #O  Box( <sheet>, <x>, <y>, <w>, <h> )  . . . . . . . . draw a box in a sheet
 #O  Box( <sheet>, <x>, <y>, <w>, <h>, <defaults> )  . . draw a box in a sheet
 ##
@@ -143,7 +172,6 @@ DeclareOperation( "Box",
 
 #############################################################################
 ##
-
 #O  Circle( <sheet>, <x>, <y>, <r> )  . . . . . . .  draw a circle in a sheet
 #O  Circle( <sheet>, <x>, <y>, <r>, <defaults> )  .  draw a circle in a sheet
 ##
@@ -155,7 +183,6 @@ DeclareOperation( "Circle",
 
 #############################################################################
 ##
-
 #O  Disc( <sheet>, <x>, <y>, <r> )  . . . . . . . . .  draw a disc in a sheet
 #O  Disc( <sheet>, <x>, <y>, <r>, <defaults> )  . . .  draw a disc in a sheet
 ##
@@ -165,7 +192,6 @@ DeclareOperation( "Disc",
 
 #############################################################################
 ##
-
 #O  Diamond( <sheet>, <x>, <y>, <w>, <h> )  . . . . draw a diamond in a sheet
 #O  Diamond( <sheet>, <x>, <y>, <w>, <h>, <defaults> )
 ##
@@ -175,7 +201,6 @@ DeclareOperation( "Diamond",
 
 #############################################################################
 ##
-
 #O  Rectangle( <sheet>, <x>, <y>, <w>, <h> )  . . draw a Rectangle in a sheet
 #O  Rectangle( <sheet>, <x>, <y>, <w>, <h>, <defaults> )
 ##
@@ -185,7 +210,6 @@ DeclareOperation( "Rectangle",
 
 #############################################################################
 ##
-
 #O  Line( <sheet>, <x>, <y>, <w>, <h> ) . . . . . . .  draw a line in a sheet
 #O  Line( <sheet>, <x>, <y>, <w>, <h>, <defaults> ) .  draw a line in a sheet
 ##
@@ -195,22 +219,57 @@ DeclareOperation( "Line",
 
 #############################################################################
 ##
-
 #O  Text( <sheet>, <font>, <x>, <y>, <str> )  . . . . write a text in a sheet
 #O  Text( <sheet>, <font>, <x>, <y>, <str>, <defaults> )
 ##
 DeclareOperation( "Text",
-    [ IsGraphicSheet, IsInt, IsInt, IsInt, IsInt, IsRecord ] );
+    [ IsGraphicSheet, IsFont, IsInt, IsInt, IsString, IsRecord ] );
 
 
 #############################################################################
 ##
-
 #O  Vertex( <sheet>, <x>, <y> ) . . . . . . . . . . . . . . . . draw a vertex
 #O  Vertex( <sheet>, <x>, <y>, <defaults> ) . . . . . . . . . . draw a vertex
 ##
 DeclareOperation( "Vertex",
     [ IsGraphicSheet, IsInt, IsInt, IsRecord ] );
+
+
+#############################################################################
+##
+#O  ConnectionPosition( <vertex>, <x>, <y> ) . calculate pos. of a connection
+##
+DeclareOperation( "ConnectionPosition", 
+        [ IsGraphicObject, IsInt, IsInt ] );
+
+
+#############################################################################
+##
+#O  Connection( <vertex>, <vertex>) . . . . . . . . . .  connect two vertices
+#O  Connection( <vertex>, <vertex>, <def>)  . . . . . .  connect two vertices
+##
+##  The second variation can get a default record for the actual line. The
+##  same entries as in the default record for lines are allowed.
+DeclareOperation( "Connection", 
+        [ IsGraphicObject,
+          IsGraphicObject ] );
+
+
+#############################################################################
+##
+#O  Disconnect( <vertex>, <vertex>) .  delete connection between two vertices
+##
+DeclareOperation( "Disconnect", 
+        [ IsGraphicObject,
+          IsGraphicObject ] );
+
+
+#############################################################################
+##
+#O  Highlight( <vertex>, ... ) . . . .  switch highlightning status of vertex
+##
+DeclareOperation( "Highlight", 
+        [ IsGraphicObject, IsBool ] );
 
 
 #############################################################################

@@ -2,27 +2,30 @@
 ##
 #X  declaration part
 ##
-ReadXGAP( "color.gd"   );
-ReadXGAP( "sheet.gd"   );
-ReadXGAP( "gobject.gd" );
-ReadXGAP( "menu.gd"    );
-
+ReadPkg( "xgap", "lib/color.gd"   );
+ReadPkg( "xgap", "lib/font.gd"    );
+ReadPkg( "xgap", "lib/sheet.gd"   );
+ReadPkg( "xgap", "lib/gobject.gd" );
+ReadPkg( "xgap", "lib/menu.gd"    );
+ReadPkg( "xgap", "lib/poset.gd"   );
 
 #############################################################################
 ##
 #X  interface to `WindowCmd'
 ##
-ReadXGAP( "window.g"   );
+ReadPkg( "xgap", "lib/window.g"   );
 
 
 #############################################################################
 ##
 #X  implementation part
 ##
-ReadXGAP( "color.gi"   );
-ReadXGAP( "sheet.gi"   );
-ReadXGAP( "gobject.gi" );
-ReadXGAP( "menu.gi"    );
+ReadPkg( "xgap", "lib/color.gi"   );
+ReadPkg( "xgap", "lib/font.gi"    );
+ReadPkg( "xgap", "lib/sheet.gi"   );
+ReadPkg( "xgap", "lib/gobject.gi" );
+ReadPkg( "xgap", "lib/menu.gi"    );
+ReadPkg( "xgap", "lib/poset.gi"   );
 
 #############################################################################
 ##

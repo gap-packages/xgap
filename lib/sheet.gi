@@ -2,10 +2,11 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.5 1998/03/06 13:15:02 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.6 1998/11/27 14:50:57 ahulpke Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
+#Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains all methods for graphic sheets.
 ##  The low level window functions are in `window.g'.
@@ -14,19 +15,78 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.5 1998/03/06 13:15:02 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.6 1998/11/27 14:50:57 ahulpke Exp $";
 
 
 #############################################################################
 ##
-
-#R  IsGraphicWindowRep  . . . . . . . . . . . . . . .  default representation
+#R  IsGraphicSheetRep . . . . . . . . . . . . . . . .  default representation
 ##
-DeclareRepresentation( "IsGraphicWindowRep",
+DeclareRepresentation( "IsGraphicSheetRep",
     IsComponentObjectRep and IsAttributeStoringRep,
     [ "name", "width", "height", "gapMenu", "callbackName", "callbackFunc",
-      "menus" ],
-    IsGraphicWindow );
+      "menus", "objects", "free" ],
+    IsGraphicSheet );
+
+
+#############################################################################
+##
+#M  GraphicSheet( <name>, <width>, <height> ) . . . . . . a new graphic sheet
+##
+InstallMethod( GraphicSheet,
+    "for a string, and two integers",
+    true,
+    [ IsString,
+      IsInt,
+      IsInt ],
+    0,
+
+function( name, width, height )
+    local   s,  id,  defaults;
+    
+    # create a new object
+    s := rec();
+    s.name   := name;
+    s.width  := width;
+    s.height := height;
+    Objectify( NewType( GraphicSheetFamily, 
+                        IsGraphicSheet and IsGraphicSheetRep ), s );
+
+    # really create a window and store the id
+    id := WcOpenWindow( name, width, height );
+    SetWindowId( s, id );
+    SetFilterObj( s, IsAlive );
+
+    # store in list of windows
+    WcStoreWindow( id, s );
+
+    # store list of callbacks
+    s!.callbackName := [];
+    s!.callbackFunc := [];
+
+    # add menu to close GraphicSheet
+    s!.menus := [];
+    MakeGAPMenu(s);
+
+    # there are no objects right now
+    s!.objects := [];
+    s!.free    := [];
+
+    # no fast update
+    ResetFilterObj( s, UseFastUpdate );
+
+    # set defaults for color, line width, shape
+    defaults       := rec();
+    defaults.color := COLORS.black;
+    defaults.width := 1;
+    defaults.shape := 1;
+    defaults.label := false;
+    SetDefaultsForGraphicObject( s, defaults );
+
+    # return the graphic sheet <s>
+    return s;
+
+end );
 
 
 #############################################################################
@@ -49,66 +109,22 @@ InstallValue( DefaultGAPMenu,
 
 #############################################################################
 ##
-#M  GraphicWindow( <catrep>, <name>, <width>, <height> ) a new graphic window
-##
-InstallMethod( GraphicWindow,
-    true,
-    [ IsObject,
-      IsString,
-      IsInt,
-      IsInt ],
-    0,
-
-function( catrep, name, width, height )
-    local   w,  id;
-
-    # open a new window and store the identifier
-    w := rec();
-    w.name   := name;
-    w.width  := width;
-    w.height := height;
-    Objectify( NewType( GraphicWindowsFamily, catrep ), w );
-
-    # really create a window and store the id
-    id := WcOpenWindow( name, width, height );
-    SetWindowId( w, id );
-    SetFilterObj( w, IsAlive );
-
-    # store in list of windows
-    WcStoreWindow( id, w );
-
-    # store list of callbacks
-    w!.callbackName := [];
-    w!.callbackFunc := [];
-
-    # add menu to close GraphicSheet
-    w!.menus := [];
-    MakeGAPMenu(w);
-
-    # return the window <w>
-    return w;
-
-end );
-
-
-#############################################################################
-##
-#M  Callback( <window>, <func>, <args> )  . . . . execute a callback function
+#M  Callback( <sheet>, <func>, <args> )  . . . .  execute a callback function
 ##
 InstallMethod( Callback,
-    "for graphic window",
+    "for graphic sheet",
     true,
-    [ IsGraphicWindow and IsGraphicWindowRep,
+    [ IsGraphicSheet and IsGraphicSheetRep,
       IsObject,
       IsList ],
     0,
 
-function( window, func, args )
-    local   p,  list,  f;
+function( sheet, func, args )
+    local   p,  list,  f,  l;
 
-    p := Position( window!.callbackName, func );
+    p := Position( sheet!.callbackName, func );
     if p <> fail  then
-        list := window!.callbackFunc[p];
+        list := sheet!.callbackFunc[p];
         for f  in list  do
             CallFuncList( f, args );
         od;
@@ -118,55 +134,87 @@ end );
 
 #############################################################################
 ##
-#M  Close( <window> ) . . . . . . . . . . . . . . . . . . close graphic sheet
+#M  Close( <sheet> ) . . . . . . . . . . . . . . . . . .  close graphic sheet
 ##
 InstallMethod( Close,
-    "for graphic window",
+    "for graphic sheet",
     true,
-    [ IsGraphicWindow and IsGraphicWindowRep ],
+    [ IsGraphicSheet and IsGraphicSheetRep ],
     0,
 
-function( window )
-    Callback( window, Close, [ window ] );
-    ResetFilterObj( window, IsAlive );
-    WcCloseWindow(WindowId(window));
+function( sheet )
+    local   obj;
+
+    Callback( sheet, "Close", [ sheet ] );
+    ResetFilterObj( sheet, IsAlive );
+    WcCloseWindow(WindowId(sheet));
+    for obj  in sheet!.objects  do
+        ResetFilterObj( obj, IsAlive );
+    od;
 end );
 
 
 #############################################################################
 ##
-#M  InstallCallback( <window>, <func>, <call> ) . . . .  install new callback
+#M  InstallCallback( <sheet>, <func>, <call> ) . . . . . install new callback
 ##
 InstallMethod( InstallCallback,
-    "for graphic window",
+    "for a graphic sheet, an object, and a function",
     true,
-    [ IsGraphicWindow and IsGraphicWindowRep,
+    [ IsGraphicSheet and IsGraphicSheetRep,
       IsObject,
       IsFunction ],
     0,
 
-function( window, func, call )
+function( sheet, func, call )
     local   p,  list;
 
-    p := Position( window!.callbackName, func );
+    p := Position( sheet!.callbackName, func );
     if p <> fail  then
-        list := window!.callbackFunc[p];
+        list := sheet!.callbackFunc[p];
         Add( list, call );
     else
-        Add( window!.callbackName, func   );
-        Add( window!.callbackFunc, [call] );
+        Add( sheet!.callbackName, func   );
+        Add( sheet!.callbackFunc, [call] );
     fi;
 end );
 
 
 #############################################################################
 ##
-#M  MakeGAPMenu( <window> ) . . . . . . . . . . . . .  create a standard menu
+#M  RemoveCallback( <sheet>, <func>, <call> ) . . . . . . remove old callback
+##
+InstallMethod( RemoveCallback,
+    "for a graphic sheet, an object, and a function",
+    true,
+    [ IsGraphicSheet and IsGraphicSheetRep,
+      IsObject,
+      IsFunction ],
+    0,
+
+function( sheet, func, call )
+    local   p, q, list;
+
+    p := Position( sheet!.callbackName, func );
+    if p <> fail  then
+      list := sheet!.callbackFunc[p];
+      q := Position(list,call);
+      if q <> fail then
+        list[q] := list[Length(list)];
+        Unbind(list[Length(list)]);
+      fi;	
+    fi;
+end );
+
+
+#############################################################################
+##
+#M  MakeGAPMenu( <sheet> ) . . . . . . . . . . . . . . create a standard menu
 ##
 InstallMethod( MakeGAPMenu,
-    "for graphic window",
+    "for graphic sheet",
     true,
-    [ IsGraphicWindow and IsGraphicWindowRep ],
+    [ IsGraphicSheet and IsGraphicSheetRep ],
     0,
 
 function( sheet )
@@ -179,111 +227,20 @@ end );
 
 #############################################################################
 ##
-#M  Resize( <window>, <width>, <height> ) . . . . . . . . . . .  resize sheet
+#M  Resize( <sheet>, <width>, <height> ) . . . . . . . . . . . . resize sheet
 ##
 InstallMethod( Resize,
-    "for graphic window",
-    true,
-    [ IsGraphicWindow and IsGraphicWindowRep,
-      IsInt,
-      IsInt ],
-    0,
-
-function( window, width, height )
-    WcResizeWindow( WindowId(window), width, height );
-    window!.height := height;
-    window!.width  := width;
-end );
-
-
-#############################################################################
-##
-#M  ViewObj( <window> ) . . . . . . . . . . . . pretty print a graphic window
-##
-InstallMethod( ViewObj,
-    "for graphic window",
-    true,
-    [ IsGraphicWindow and IsGraphicWindowRep ],
-    0,
-
-function( win )
-    if IsAlive(win)  then
-        Print( "<graphic window \"", win!.name, "\">" );
-    else
-        Print( "<dead graphic window>" );
-    fi;
-end );
-
-
-#############################################################################
-##
-
-#R  IsGraphicSheetRep . . . . . . . . . . . . . . . .  default representation
-##
-DeclareRepresentation( "IsGraphicSheetRep",
-    IsGraphicWindowRep,
-    [ "objects", "free" ],
-    IsGraphicSheet );
-
-
-#############################################################################
-##
-#M  GraphicSheet( <name>, <width>, <height> ) . . . . . . a new graphic sheet
-##
-InstallMethod( GraphicSheet,
-    true,
-    [ IsString,
-      IsInt,
-      IsInt ],
-    0,
-
-function( name, width, height )
-    local   w,  defaults;
-
-    # open a new graphic sheet and store the identifier
-    w := GraphicWindow( IsGraphicSheet and IsGraphicSheetRep,
-                        name, width, height );
-
-    # there are no objects right now
-    w!.objects := [];
-    w!.free    := [];
-
-    # no fast update
-    ResetFilterObj( w, UseFastUpdate );
-
-    # set defaults for color, line width, shape
-    defaults       := rec();
-    defaults.color := COLORS.black;
-    defaults.width := 1;
-    defaults.shape := 1;
-    defaults.label := false;
-    SetDefaultsForGraphicObject( w, defaults );
-
-    # return the graphic sheet <w>
-    return w;
-
-end );
-
-
-#############################################################################
-##
-#M  Close( <sheet> )  . . . . . . . . . . . . . . . . . . close graphic sheet
-##
-InstallMethod( Close,
     "for graphic sheet",
     true,
-    [ IsGraphicSheet and IsGraphicSheetRep ],
+    [ IsGraphicSheet and IsGraphicSheetRep,
+      IsInt,
+      IsInt ],
     0,
 
-function( sheet )
-    local   obj;
-
-    Callback( sheet, Close, [ sheet ] );
-    ResetFilterObj( sheet, IsAlive );
-    WcCloseWindow(WindowId(sheet));
-    for obj  in sheet!.objects  do
-        ResetFilterObj( obj, IsAlive );
-    od;
+function( sheet, width, height )
+    WcResizeWindow( WindowId(sheet), width, height );
+    sheet!.height := height;
+    sheet!.width  := width;
 end );
 
 
@@ -294,7 +251,7 @@ end );
 InstallMethod( ViewObj,
     "for graphic sheet",
     true,
-    [ IsGraphicSheet and IsGraphicWindowRep ],
+    [ IsGraphicSheet and IsGraphicSheetRep ],
     0,
 
 function( sheet )
@@ -313,7 +270,7 @@ end );
 InstallMethod( Delete,
     "for graphic sheet, and object",
     true,
-    [ IsGraphicSheet and IsGraphicWindowRep, IsGraphicObject ],
+    [ IsGraphicSheet and IsGraphicSheetRep, IsGraphicObject ],
     0,
 function( sheet, obj )
     local   pos;
@@ -328,6 +285,171 @@ function( sheet, obj )
     Unbind(sheet!.objects[pos]);
     Add( sheet!.free, pos );
 
+end );
+
+
+#############################################################################
+##
+#M  FastUpdate( <sheet>, <flag> ) . . . . . . . . . . . . . switch fastupdate
+##
+InstallMethod( FastUpdate,
+    "for a graphic sheet, and a flag",
+    true,
+    [ IsGraphicSheet, IsBool ],
+    0,
+
+function (sheet, flag)
+    if flag then
+        if not UseFastUpdate(sheet) then
+            WcFastUpdate( WindowId(sheet), true );
+        fi;
+        SetFilterObj(sheet, UseFastUpdate);
+    else
+        if UseFastUpdate(sheet) then
+            WcFastUpdate( WindowId(sheet), false );
+        fi;
+        ResetFilterObj(sheet, UseFastUpdate);
+    fi;
+end );
+
+
+#############################################################################
+##
+#M  FastUpdate( <sheet> ) . . . . . . . . . . . . . . .  switch fastupdate on
+##
+InstallOtherMethod( FastUpdate,
+    "for a graphic sheet",
+    true,
+    [ IsGraphicSheet ],
+    0,
+
+function ( sheet )
+    if not UseFastUpdate(sheet) then
+        WcFastUpdate( WindowId(sheet), true );
+    fi;
+    SetFilterObj( sheet, UseFastUpdate );
+end );
+
+    
+#############################################################################
+##
+#M  SetTitle( <sheet>, <title> )  . . . . . . . . . . . . . . . . add a title
+##
+InstallMethod( SetTitle,
+    "for a graphic sheet, and a string",
+    true,
+    [ IsGraphicSheet, IsString ],
+    0,
+        
+function ( S, title )
+    S!.name := title;
+    WcSetTitle( WindowId(S), title);
+end );
+
+
+#############################################################################
+##
+#V  BUTTONS . . . . . . . . . . . . . . . . . . . . left/right pointer button
+##
+InstallValue( BUTTONS, rec(left  := 1,
+                           right := 2,
+                           shift := 1,
+                           ctrl  := 2) );
+
+
+#############################################################################
+##
+#M  PointerButtonDown( <sheet>, <x>, <y>, <btn>, <state> . . reaction on user
+##
+InstallMethod( PointerButtonDown,
+    "for a graphic sheet, two integers, a button no., and a state list",
+    true,    
+    [ IsGraphicSheet, IsInt, IsInt, IsInt, IsInt ], 
+    0,
+      
+function( sheet, x, y, btn, state )
+    local   upper,  lower,  name;
+
+    upper := "LRSC";
+    lower := "lrsc";
+    name := "PBDown";
+    if btn = BUTTONS.left  then
+        name := Concatenation( "Left", name );
+    else
+        name := Concatenation( "Right", name );
+    fi;
+    if QuoInt(state,BUTTONS.shift) mod 2 = 1  then
+        name := Concatenation( "Shift", name );
+    fi;
+    if QuoInt(state,BUTTONS.ctrl) mod 2 = 1  then
+        name := Concatenation( "Ctrl", name );
+    fi;
+    
+    Callback(sheet, name, [sheet,x,y] );
+    
+end );
+    
+        
+#############################################################################
+##
+#M  PointerButtonDown( <wid>, <x>, <y>, <btn> ) . . . . button down, internal
+##
+InstallOtherMethod( PointerButtonDown,
+    "for a window no., two integers, and a button no.",
+    true,
+    [ IsInt, IsInt, IsInt, IsInt ],    
+    0,    
+        
+function( wid, x, y, btn )
+    local    win,  qry;
+
+    win := WINDOWS[wid+1];
+    qry := WcQueryPointer( wid );
+    PointerButtonDown( win, x, y, btn, qry[4] );
+
+end );
+
+
+#############################################################################
+##
+#F  Drag( <sheet>, <x>, <y>, <bt>, <func> ) . . . . . . . . .  drag something
+##
+InstallMethod( Drag,
+    "for a sheet, two integers, a button number and a function",
+    true,    
+    [ IsGraphicSheet, IsInt, IsInt, IsInt, IsFunction ],    
+    0,
+        
+function( sheet, x, y, bt, func )
+    local   tmp, count;
+    
+    # wait for a small movement
+    repeat
+        tmp := WcQueryPointer( WindowId(sheet) );
+        if tmp[3] <> bt  then return false;  fi;
+    until 5 < AbsInt(x-tmp[1]) or 5 < AbsInt(y-tmp[2]);
+    
+    # now start dragging:
+    count := 30;
+    FastUpdate(sheet,true);
+    while true  do
+        tmp := WcQueryPointer( WindowId(sheet) );
+        if tmp[3] <> bt  then return true;  fi;
+        if tmp[1] = -1  then tmp[1] := x;  fi;
+        if tmp[2] = -1  then tmp[2] := y;  fi;
+        if tmp[1] <> x or tmp[2] <> y  then
+            func( tmp[1], tmp[2] );
+            x := tmp[1];
+            y := tmp[2];
+        fi;
+        count := count - 1;
+        if count <= 0 then
+            FastUpdate(sheet,false);
+            FastUpdate(sheet,true);
+            count := 30;
+        fi;
+    od;
+    
 end );
 
 

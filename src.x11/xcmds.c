@@ -2,7 +2,7 @@
 **
 *W  xcmds.c                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xcmds.c,v 1.4 1997/12/05 17:31:10 frank Exp $
+*H  @(#)$Id: xcmds.c,v 1.5 1998/11/27 14:51:01 ahulpke Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -977,8 +977,10 @@ static Boolean FunShowDialog (
 #       else
 
 	  /* free memory from the previous run */
-	  if ( tmp )
+	  if ( tmp ) {
 	      XtFree(tmp);
+              tmp = NULL;
+          }
 
 	  /* call the file selector */
 	  if ( *(arg->sargs[1]) )
@@ -986,13 +988,13 @@ static Boolean FunShowDialog (
 	  else
 	      res = XsraSelFile(XGap,arg->sargs[0],0,0,&str);
 
-	  /* <tmp> will be freed next time */
-	  tmp = str;
-
 	  /* ok is first button */
 	  first = 1;
 	  if ( res != first )
 	      str = "";
+          else
+	      tmp = str;
+
 #       endif
     }
 

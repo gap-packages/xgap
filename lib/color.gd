@@ -2,18 +2,18 @@
 ##
 #W  color.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gd,v 1.3 1998/03/06 13:14:51 gap Exp $
+#H  @(#)$Id: color.gd,v 1.4 1998/11/27 14:50:47 ahulpke Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
+#Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_color_gd :=
-    "@(#)$Id: color.gd,v 1.3 1998/03/06 13:14:51 gap Exp $";
+    "@(#)$Id: color.gd,v 1.4 1998/11/27 14:50:47 ahulpke Exp $";
 
 
 #############################################################################
 ##
-
 #C  IsColor . . . . . . . . . . . . . . . . . . . . . . .  category of colors
 ##
 DeclareCategory( "IsColor", IsObject );
@@ -30,7 +30,6 @@ DeclareSynonym( "ColourId", ColorId );
 
 #############################################################################
 ##
-
 #V  ColorFamily . . . . . . . . . . . . . . . . . . . . . .  family of colors
 ##
 BindGlobal( "ColorFamily", NewFamily( "ColorFamily" ) );

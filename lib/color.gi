@@ -2,18 +2,18 @@
 ##
 #W  color.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gi,v 1.3 1998/03/06 13:14:53 gap Exp $
+#H  @(#)$Id: color.gi,v 1.4 1998/11/27 14:50:47 ahulpke Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
+#Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_color_gi :=
-    "@(#)$Id: color.gi,v 1.3 1998/03/06 13:14:53 gap Exp $";
+    "@(#)$Id: color.gi,v 1.4 1998/11/27 14:50:47 ahulpke Exp $";
 
 
 #############################################################################
 ##
-
 #R  IsColorRep  . . . . . . . . . . . . . . . . . . .  default representation
 ##
 DeclareRepresentation( "IsColorRep",
@@ -26,7 +26,6 @@ DeclareSynonym( "IsColourRep", IsColorRep );
 
 #############################################################################
 ##
-
 #M  ColorId( <color> )  . . . . . . . . . . . . . . . . . color id of a color
 ##
 InstallMethod( ColorId,
@@ -113,7 +112,7 @@ InstallGlobalFunction( CreateColors, function()
     # get color type
     type := NewType( ColorFamily, IsColor and IsColorRep );
 
-    # "black" and "white" are alway displayable
+    # "black" and "white" are always displayable
     color           := rec();
     color.black     := Objectify( type,
                              rec( colorId := 0, name := "black" ) );
