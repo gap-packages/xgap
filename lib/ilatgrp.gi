@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.28 1999/05/06 00:12:12 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.29 1999/05/16 22:56:00 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.28 1999/05/06 00:12:12 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.29 1999/05/16 22:56:00 gap Exp $";
 
 
 #############################################################################
@@ -317,6 +317,7 @@ end );
 ##   where    : GGLwhereUp, GGLwhereDown, GGLwhereAny, GGLWhereBetween
 ##   plural   : true, false
 ##   rels     : GGLrelsMax, GGLrelsTotal, GGLrelsNo, GGLrelsDown, GGLrelsup
+##   retsel   : true, false
 ##
 ##  Please use always these names instead of actual values because the values
 ##  of these variables can be subject to changes, especially because they
@@ -365,6 +366,8 @@ end );
 ##  new vertices are put in the same class as the input vertex, so this
 ##  only makes sense for <from>=GGLfrom1. It is also only necessary for
 ##  those group types, where we don't have CanCompareSubgroups.
+##  If retsel is bound and set to true, GGLMenuOps will return the groups
+##  produced by the operation.
 
 
 ##  we have two cases up to now:
@@ -433,7 +436,28 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
           rec( name := "Sylow Subgroups", op := GGLSylowSubgroup,
                parent := false, from := GGLfrom1, to := GGLto1, 
-               where := GGLwhereDown, plural := true, rels := GGLrelsNo )
+               where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
+          rec( name := "SelectedGroups to GAP", op := Ignore,
+               parent := false, sheet := true, retsel := true,
+               from := GGLfromSet, to := GGLtoSet,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
+          rec( name := "InsertVertices from GAP",
+               op := function(arg) 
+                 local v;
+                 v := last;
+                 if not IsList(v) then
+                   if IsGroup(v) then
+                     return [v];
+                   else
+                     return [];
+                   fi;
+                 else
+                   return Filtered(v,x->IsGroup(x));
+                 fi;
+               end,
+               parent := false, sheet := false,
+               from := GGLfromSet, to := GGLtoSet,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo )
 ] );
                                              
 BindGlobal( "GGLMenuOpsForFpGroups",
@@ -491,7 +515,28 @@ BindGlobal( "GGLMenuOpsForFpGroups",
           rec( name := "Test Conjugacy", op := GGLTestConjugacy,
                parent := false, from := GGLfromSet, to := GGLto0, 
                where := GGLwhereAny, plural := false, rels := GGLrelsNo,
-               sheet := true )
+               sheet := true ),
+          rec( name := "SelectedGroups to GAP", op := Ignore,
+               parent := false, sheet := true, retsel := true,
+               from := GGLfromSet, to := GGLto0,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
+          rec( name := "InsertVertices from GAP",
+               op := function(arg) 
+                 local v;
+                 v := last;
+                 if not IsList(v) then
+                   if IsGroup(v) then
+                     return [v];
+                   else
+                     return [];
+                   fi;
+                 else
+                   return Filtered(v,x->IsGroup(x));
+                 fi;
+               end,
+               parent := false, sheet := false,
+               from := GGLfromSet, to := GGLtoSet,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo )
         ] );
 
 
@@ -1030,6 +1075,9 @@ function(sheet, menu, entry)
       fi;     # not HasseProperty
     fi;  # operation produced something
   od;  # all done
+  if IsBound(menuop.retsel) and menuop.retsel = true then
+    last := SelectedGroups(sheet);
+  fi;
 end);
 
 
@@ -1112,6 +1160,9 @@ function(sheet,grp)
     return fail;
   fi;
   epi := EpimorphismPGroup( grp, p, 1 );
+  # this should be cheap and store the Size in the Image
+  # therefore the following Kernel will know its Index in the whole group!
+  Size(Image(epi));
   return Kernel(epi);
 end);
 
@@ -1152,6 +1203,9 @@ function(sheet,grp)
   l := [];
   for i in [1..cl] do
     epi := EpimorphismPGroup( grp, p, i );
+    # this should be cheap and store the Size in the Image
+    # therefore the following Kernel will know its Index in the whole group!
+    Size(Image(epi));
     Add(l, Kernel(epi) );
   od;
   return l;
@@ -1163,16 +1217,17 @@ end);
 #M  GGLKernelQuotientSystem  . . . . . . . calculates the kernel of epi to qs
 ##
 ##  obsolete!?!
+#FIXME:
 ##
-InstallMethod( GGLKernelQuotientSystem,
-    "for a quotient system",
-    true,
-    [ IsQuotientSystem ],
-    -5,
-
-function(qs)
-  return Kernel( GGLEpiQuotientSystem(qs) );
-end );
+#InstallMethod( GGLKernelQuotientSystem,
+#    "for a quotient system",
+#    true,
+#    [ IsQuotientSystem ],
+#    -5,
+#
+#function(qs)
+#  return Kernel( GGLEpiQuotientSystem(qs) );
+#end );
 
 
 # We store the text selector in this variable to destroy it, if the next one
@@ -1298,7 +1353,12 @@ function(sheet,grp)
   # calculated results are put into the lattice.
   
   GGLEpiShowResult := function(sel,entry)
-    local   groups,  g,  v,  txt,  tid,  len;
+    local   groups,  g,  v,  txt,  tid,  len,  e;
+    for e in GGLEpiResults do
+      # this should be cheap and store the Size in the Image
+      # therefore the following Kernel will know its Index in the whole group!
+      Size(Image(e));
+    od;
     groups := List(GGLEpiResults,Kernel);
     kerneldone := [];
     for g in [1..Length(groups)] do
