@@ -2,7 +2,7 @@
 ##
 #W  menu.gd                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gd,v 1.6 1999/02/09 18:59:39 gap Exp $
+#H  @(#)$Id: menu.gd,v 1.7 1999/04/01 16:07:48 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -14,7 +14,7 @@
 ##  "sheet.gi".
 ##
 Revision.pkg_xgap_lib_menu_gd :=
-    "@(#)$Id: menu.gd,v 1.6 1999/02/09 18:59:39 gap Exp $";
+    "@(#)$Id: menu.gd,v 1.7 1999/04/01 16:07:48 gap Exp $";
 
 
 #############################################################################
@@ -186,6 +186,18 @@ DeclareOperation( "Dialog", [ IsString, IsString ] );
 #V  FILENAME_DIALOG . . . . . . . . . . . . . . a dialog asking for filenames
 ##
 DeclareGlobalVariable( "FILENAME_DIALOG", "dialog for querying filenames" );
+
+
+#############################################################################
+##
+#O  PopupFromMenu( <menu> ) . . . . . . . .  creates a popup menu from a menu
+##
+##  creates a popup menu that contains exactly the enabled menu entries of
+##  the menu <menu>. This popup is queried via `Query' and if the user 
+##  selected an entry the corresponding function installed in the menu is 
+##  called with as if the user had selected the menu entry. Returns without 
+##  a return value.
+DeclareOperation( "PopupFromMenu", [ IsMenu ] );
 
 
 #############################################################################

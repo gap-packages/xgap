@@ -2,14 +2,14 @@
 ##
 #W  menu.gi                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gi,v 1.5 1999/03/30 07:06:26 gap Exp $
+#H  @(#)$Id: menu.gi,v 1.6 1999/04/01 16:07:48 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_menu_gi :=
-    "@(#)$Id: menu.gi,v 1.5 1999/03/30 07:06:26 gap Exp $";
+    "@(#)$Id: menu.gi,v 1.6 1999/04/01 16:07:48 gap Exp $";
 
 
 #############################################################################
@@ -24,7 +24,7 @@ Revision.pkg_xgap_lib_menu_gi :=
 #R  IsPulldownMenuRep( <obj> )
 ##
 DeclareRepresentation( "IsPulldownMenuRep", IsAttributeStoringRep,
-    [ "title", "sheet", "labels", "entries", "functions" ] );
+    [ "title", "sheet", "entries", "functions", "enabled" ] );
 
 
 #############################################################################
@@ -84,12 +84,12 @@ function( sheet, title, lbs, func )
     menu!.sheet      := sheet;
     # only the bound non-delimiters:
     l := Filtered([1..Length(lbs)],x->IsBound(lbs[x]) and (lbs[x][1] <> '-'));
-    menu!.labels     := lbs{l};
 #T was `Copy'!
     menu!.entries    := lbs{l};
 #T was `Copy'!
     menu!.functions  := func{l};
-
+    menu!.enabled    := List(l,x->true);
+    
     SetMenuId( menu, id );
     SetFilterObj( menu, IsAlive );
 
@@ -241,8 +241,10 @@ function( menu, entry, flag )
     fi;
     if flag  then
         WcEnableMenu( WindowId(menu), MenuId(menu), pos, 1 );
+        menu!.enabled[pos] := true;
     else
         WcEnableMenu( WindowId(menu), MenuId(menu), pos, 0 );
+        menu!.enabled[pos] := false;
     fi;
 
 end );
@@ -728,6 +730,46 @@ end );
 #V  FILENAME_DIALOG . . . . . . . . . . . . . . a dialog asking for filenames
 ##
 InstallValue( FILENAME_DIALOG, Dialog( "Filename", "Enter a filename" ) );
+
+
+#############################################################################
+##
+#M  PopupFromMenu( <menu> ) . . . . . . . .  creates a popup menu from a menu
+##
+##  creates a popup menu that contains exactly the enabled menu entries of
+##  the menu <menu>. This popup is queried via `Query' and if the user 
+##  selected an entry the corresponding function installed in the menu is 
+##  called with as if the user had selected the menu entry. Returns without 
+##  a return value.
+##
+InstallMethod( PopupFromMenu,
+    "for a menu",
+    true,
+    [ IsMenu ],
+    0,
+function( menu )
+  local   ents,  e,  pop,  res,  pos;
+  
+  ents := [];
+  for e in [1..Length(menu!.enabled)] do
+    if menu!.enabled[e] then
+      Add(ents,menu!.entries[e]);
+    fi;
+  od;
+  if Length(ents) <> 0 then
+    pop := PopupMenu(menu!.title,ents);
+    res := Query(pop);
+  else
+    res := false;
+  fi;
+  
+  if res <> false then
+    pos := Position(menu!.entries,res);
+    if pos <> fail then
+      CallFuncList(menu!.functions[pos],[menu!.sheet,menu,menu!.entries[pos]]);
+    fi;
+  fi;
+end );
 
 
 #############################################################################
