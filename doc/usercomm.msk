@@ -1,3 +1,39 @@
+\Chapter{User Communication}
+
+{\XGAP} has two main means to communicate with the user. The first is the
+normal command processing: The user types commands, they are transmitted to 
+{\GAP}, are executed, and produce output, which is displayed in the command
+window. The second is the mouse and the other parts of the graphical user
+interface. This latter part can be divided into menus, mouse events,
+dialogs, and popups.
+
+\beginitems
+Menus & Most of the windows of {\XGAP} have menus. The user can select
+entries in them and this information is transformed to a function call in
+{\GAP}. Menu entries can be checked or not, so menus can also display
+information. 
+
+Mouse Events & A mouse event is the pressing or releasing of a mouse
+button, together with the position where the mouse pointer is in the exact
+moment this happens and the state of certain keyboard keys (mainly shift
+and control). Such events also trigger {\GAP} function calls and the
+corresponding functions can react on these events and for example wait for
+others. 
+
+Dialogs & Dialogs are windows which display information and into which
+the user can enter information for example in form of text fields.
+
+Popups & Popups are special dialogs where the user can not type text but
+can only click on certain buttons. {\XGAP} has so called ``text selectors'' 
+which are a convenient construct to display textual information and let the
+user select parts of it.
+\enditems
+
+Most of those graphical objects have corresponding {\GAP} objects, which
+are created by constructors and can be used later on by operations.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Menus in Graphic Sheets}
 
 \Declaration{Menu}[menu]
@@ -8,6 +44,7 @@ See the explanation of `GraphicSheet' ("CloseCallback") for the ``Close''
 event, which occurs when the user selects the menu entry ``Close'' in the
 ``GAP'' menu.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Mouse Events}
 
 When a mouse event occurs, this is communicated to {\GAP} via a function
@@ -26,6 +63,7 @@ This function is used in
 
 \Declaration{Drag}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Dialogs}
 
 \Declaration{Dialog}
@@ -36,6 +74,7 @@ This function is used in
 %a string value or filename, if the user clicks ``OK'', depending on the
 %type of dialog. <default> is an optional initialization value for the string.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Popups}
 
 \Declaration{PopupMenu}

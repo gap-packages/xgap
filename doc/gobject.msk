@@ -1,4 +1,11 @@
+\Chapter{Graphic Sheets - Basic graphic operations}
 
+This chapter describes how graphics are accessed in {\XGAP} via the lowest
+library functions for graphic sheets. These functions are used in all other 
+parts of {\XGAP} and you normally only need to know them if you want to
+display other things than graphic posets and subgroup lattices.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Graphic Sheet Objects}
 
 \FileHeader[1]{sheet}
@@ -25,6 +32,7 @@ The following operations apply to graphic sheets:
 \Declaration{SaveAsPS}
 \Declaration{FastUpdate}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Graphic Objects in Sheets}
 
 \FileHeader[1]{gobject}
@@ -73,6 +81,7 @@ graphic objects. Returns a boolean value.
 \Declaration{SetWidth}[gobject]
 \Declaration{Highlight}[gobject]
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Colors in XGAP}
 
 \label{Color Models}
@@ -82,6 +91,7 @@ graphic objects. Returns a boolean value.
 \Declaration{COLORS}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations for Graphic Objects}
 
 The following table gives an overview over the supported graphic objects and 
@@ -100,6 +110,7 @@ In addition, the operation `Relabel' applies to objects of types `Line',
 `Line' and `Highlight' for a `Vertex'.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Global Information}
 
 There are some global data structures which can and should be consulted if 
