@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.5 1998/12/06 22:16:14 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.6 1998/12/18 18:57:22 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.5 1998/12/06 22:16:14 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.6 1998/12/18 18:57:22 gap Exp $";
 
 
 #############################################################################
@@ -1470,6 +1470,67 @@ function( G )
           false,        # we don't want the trivial subgroup
           GGLMenuOpsForFpGroups,
           GGLInfoDisplaysForFpGroups];
+end);
+
+
+############################################################################
+##
+##  Operations to switch between graphics and GAP calculations:
+##
+############################################################################
+
+
+############################################################################
+##
+#M  SelectedGroups( <sheet> ) . . . . . . .  returns list of selected groups
+##
+##  Uses the `Selected' operation to get a list of vertices and returns the
+##  corresponding list of subgroups.
+##
+InstallMethod( SelectedGroups,
+    "for a graphic subgroup lattice",
+    true,
+    [ IsGraphicSheet and IsGraphicPosetRep and IsGraphicSubgroupLattice ],
+    0,
+function( sheet )
+  return List(Selected(sheet),v->v!.data.group);
+end);
+
+
+############################################################################
+##
+#M  SelectGroups( <sheet>, <list> ) . . . . . . . . select subgroups in list
+##
+##  Uses the `Select' operation to select exactly those vertices to which
+##  the subgroups in the supplied list belong. Be careful: We use
+##  `IsIdenticalObj' here because comparison must be fast. If a subgroup is
+##  not yet as vertex in the lattice, only a warning is printed. If two
+##  or more vertices have the subgroup as associated group, only one of them
+##  is selected.
+##
+InstallMethod( SelectGroups,
+    "for a graphic subgroup lattice",
+    true,
+    [ IsGraphicSheet and IsGraphicPosetRep and IsGraphicSubgroupLattice,
+      IsList ],
+    0,
+function( sheet, li )
+  local   g,  v;
+  DeselectAll(sheet);
+  for g in li do
+    if not IsGroup(g) then
+      Info(GraphicLattice,"Warning: This is no subgroup: ",g);
+    else
+      v := WhichVertex(sheet,g,function(a,b) 
+                                 return IsIdenticalObj(a,b.group);
+                               end );
+      if v = fail then
+        Info(GraphicLattice,"Warnung: Subgroup not in lattice: ",g);
+      else
+        Select(sheet,v,true);
+      fi;
+    fi;
+  od;
 end);
 
 

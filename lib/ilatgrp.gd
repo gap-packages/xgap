@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.4 1998/12/06 22:16:14 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.5 1998/12/18 18:57:22 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.4 1998/12/06 22:16:14 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.5 1998/12/18 18:57:22 gap Exp $";
 
 
 #############################################################################
@@ -251,3 +251,32 @@ DeclareOperation( "GGLRightClickPopup",
                   [ IsGraphicSheet, IsGraphicObject, IsInt, IsInt ] );
 
 
+############################################################################
+##
+##  Operations to switch between graphics and GAP calculations:
+##
+############################################################################
+
+
+############################################################################
+##
+#O  SelectedGroups(<sheet>) . . . . . . . .  returns list of selected groups
+##
+##  Uses the `Selected' operation to get a list of vertices and returns the
+##  corresponding list of subgroups.
+##
+DeclareOperation( "SelectedGroups", [ IsGraphicSheet ] );
+
+
+############################################################################
+##
+#O  SelectGroups( <sheet>, <list> ) . . . . . . . . select subgroups in list
+##
+##  Uses the `Select' operation to select exactly those vertices to which
+##  the subgroups in the supplied list belong. Be careful: We use
+##  `IsIdenticalObj' here because comparison must be fast. If a subgroup is
+##  not yet as vertex in the lattice, only a warning is printed. If two
+##  or more vertices have the subgroup as associated group, only one of them
+##  is selected.
+##
+DeclareOperation( "SelectGroups", [ IsGraphicSheet, IsList ] );
