@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.13 1999/02/25 23:16:04 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.14 1999/03/03 01:09:15 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.13 1999/02/25 23:16:04 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.14 1999/03/03 01:09:15 gap Exp $";
 
 
 #############################################################################
@@ -1723,6 +1723,12 @@ function(G,def)
             if poset!.selector <> false then
               Close(poset!.selector);
               poset!.selector := false;
+            fi;
+            
+            # get rid of an old text selectors for Epis:
+            if GGLEpiTextsel <> false then
+              Close(GGLEpiTextsel);
+              GGLEpiTextsel := false;
             fi;
           end);
           
