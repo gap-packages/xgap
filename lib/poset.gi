@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.3 1998/11/27 20:31:10 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.4 1998/12/02 00:26:30 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.3 1998/11/27 20:31:10 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.4 1998/12/02 00:26:30 gap Exp $";
 
 
 
@@ -1018,7 +1018,7 @@ end);
 
 #############################################################################
 ##
-#M  Move(<poset>,<levelparam>,<position>) .  move a level to another position
+#M  MoveLevel(<poset>,<levelparam>,<position>) move level to another position
 ##
 ##  Moves a level to another position. <position> is an absolute index in
 ##  the list of levels. The level with parameter <levelparam> will be at the
@@ -1030,7 +1030,7 @@ end);
 ##  the new position. If there is a contradiction nothing happens and the
 ##  method returns fail. If everything works the operation returns true.
 ##  This operation already exists in xgap for graphic objects.
-InstallOtherMethod( Move,
+InstallOtherMethod( MoveLevel,
     "for a graphic poset, an object, and an integer",
     true,
     [ IsGraphicPosetRep, IsObject, IsInt ],
@@ -2740,7 +2740,7 @@ function(poset,x,y)
             # the new y coordinate:
             pos := First([levellen,levellen-1..1],
                          i->box!.y >= poset!.levels[i]!.top);
-            Move(poset,poset!.levelparams[lno],pos);
+            MoveLevel(poset,poset!.levelparams[lno],pos);
           fi;
           Delete(poset,box);
           return;

@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.2 1998/11/27 18:39:33 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.3 1998/12/02 00:26:30 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.2 1998/11/27 18:39:33 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.3 1998/12/02 00:26:30 gap Exp $";
 
 
 #############################################################################
@@ -48,6 +48,7 @@ if not IsBound(IsGraphicSubgroupLattice) then
       "infodisplays",     # list of records for info displays, see below
       "largestlabel",     # largest used number for label
       "lastresult",       # list of vertices which are "green"
+      "largestinflevel",  # largest used number for infinity-level
       "selector"],        # the current text selector or "false"
     IsGraphicSheet );
 fi;
@@ -140,6 +141,11 @@ BindGlobal( "GGLrelsUp", 4 );
 ##  of the results. <op> just returns a list of groups. If <rels>=GGLrelsDown
 ##  then the returned list is a descending chain and if <rels>=GGLrelsUp then
 ##  the returned list is an ascending chain.
+##  If the record component "givesconjugates" is bound to true, then all
+##  new vertices are put in the same class as the input vertex, so this
+##  only makes sense for <from>=GGLfrom1. It is also only necessary for
+##  those group types, where we don't have CanCompareSubgroups.
+
 
 ##  we have two cases up to now:
 BindGlobal( "GGLMenuOpsForFiniteGroups",
@@ -224,7 +230,8 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                        return AsList(ConjugacyClassSubgroups(G,H)); 
                      end,
                parent := true, from := GGLfrom1, to := GGLtoSet, 
-               where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo,
+               givesconjugates := true ),
           rec( name := "Cores", op := Core,
                parent := true, from := GGLfrom1, to := GGLto1, 
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
@@ -351,7 +358,8 @@ function(sheet,v,x,y)
     tid  := sel!.selected;
     current := sheet!.infodisplays[tid];
     text := ShallowCopy(sel!.labels);
-    str  := String( current.name, -14 );
+    # FIXME: If String behaves properly
+    str  := ShallowCopy(String( current.name, -14 ));
     if IsBound(current.attrib) then
       value := current.attrib( grp );
     else
@@ -385,7 +393,8 @@ function(sheet,v,x,y)
   # construct the string in the first place:
   text := [];
   for i in sheet!.infodisplays  do
-    str := String( i.name, -14 );
+    # FIXME: if behaviour of String is OK
+    str := ShallowCopy(String( i.name, -14 ));
     # do we know the value?
     if IsBound(i.attrib) then
       if Tester(i.attrib)(grp) then
@@ -449,6 +458,7 @@ end);
 ##
 BindGlobal( "GGLPrimeDialog", Dialog( "OKcancel", "Prime" ) );
 BindGlobal( "GGLGoOnDialog", Dialog( "OKcancel", "Go on?" ) );
+
 
 #############################################################################
 ##
@@ -580,7 +590,13 @@ function(sheet, menu, entry)
       for grp in [1..len] do
         # we want no lines to vanish:
         FastUpdate(sheet,false);
-        res := InsertVertex( sheet, result.subgroups[grp], hints );
+        if IsBound(menuop.givesconjugates) and
+           menuop.givesconjugates then
+          res := InsertVertex( sheet, result.subgroups[grp], 
+                               todolist[todo][1],hints );
+        else
+          res := InsertVertex( sheet, result.subgroups[grp], false, hints );
+        fi;
         FastUpdate(sheet,true);
         
         vertices[grp] := res[1];
@@ -702,7 +718,7 @@ end);
 
 #############################################################################
 ##
-#M  InsertVertex( <sheet>, <grp>, <hints> ) . . . . . . . . insert new vertex
+#M  InsertVertex( <sheet>, <grp>, <conj>, <hints> ) . . . . insert new vertex
 ##
 ##  Insert the group <grp> as a new vertex into the sheet. If 
 ##  CanCompareSubgroups is set for the lattice, we check, if the group is
@@ -719,20 +735,24 @@ end);
 ##  choice of the new x coordinate. It can for example be the x coordinates
 ##  of those groups which were parameter for the operation which calculated
 ##  the group. <hints> can be empty but must always be a list!
+##  If the lattice does not have CanCompareSubgroups and <conj> is a vertex
+##  we put the new vertex into the class of this vertex. Otherwise <conj>
+##  should either be false or fail.
 ##
 InstallMethod( InsertVertex,
     "for a graphic subgroup lattice, a group, and an list",
     true,
-    [ IsGraphicSubgroupLattice, IsGroup, IsList ],
+    [ IsGraphicSubgroupLattice, IsGroup, IsObject, IsList ],
     0,
         
-function( sheet, grp, hints )
+function( sheet, grp, conjugclass, hints )
   local   index,  data,  isClassRep,  info,  vertex,  v,  vers,  lev,  
           cl,  conj,  classparam,  label,  Walkup,  Walkdown,  
-          containerlist,  containedlist;
+          containerlist,  containedlist,  newlevel;
   
   ## FIXME: what if this index calculation crashes?
   ## so we never get infinite indices!??
+  ## we have to add code to determine Size if that is possible!
   
   index := Index(sheet!.group,grp);
   data := rec(group := grp,
@@ -742,8 +762,15 @@ function( sheet, grp, hints )
   
   # do we have this level yet?
   # FIXME: what if index is infinite?
-  if Position(Levels(sheet),index) = fail then
-    CreateLevel(sheet,index);
+  if index = infinity then
+    sheet!.largestinflevel := sheet!.largestinflevel + 1;
+    newlevel := [infinity,sheet!.largestinflevel];
+  else
+    newlevel := index;
+  fi;
+  
+  if Position(Levels(sheet),newlevel) = fail then
+    CreateLevel(sheet,newlevel);
   fi;
   
   vertex := false;   # will become the new vertex
@@ -758,8 +785,7 @@ function( sheet, grp, hints )
     
     # perhaps we have a conjugate group?
     vers := [];
-    # the index is the level parameter:
-    lev := Position( Levels(sheet), index );
+    lev := Position( Levels(sheet), newlevel );
     lev := sheet!.levels[lev];
     # we walk through all classes and search the class representative:
     for cl in lev!.classes do
@@ -779,7 +805,7 @@ function( sheet, grp, hints )
       sheet!.largestlabel := sheet!.largestlabel+1;
       data.classRep := vers[conj]!.data;
       data.class := vers[conj]!.data.class;
-      vertex := Vertex(sheet,data,rec(levelparam := index,
+      vertex := Vertex(sheet,data,rec(levelparam := newlevel,
                                       classparam := lev!.classparams[conj],
                                       label := String(sheet!.largestlabel)));
     fi;
@@ -791,8 +817,14 @@ function( sheet, grp, hints )
     data.classRep := data;
     data.class := [data];
     sheet!.largestlabel := sheet!.largestlabel + 1;
-    vertex := Vertex(sheet,data,rec(levelparam := index,
-                                    label := String(sheet!.largestlabel)));
+    if IsGPVertex(conjugclass) then
+      vertex := Vertex(sheet,data,rec(levelparam := conjugclass!.levelparam,
+                                      classparam := conjugclass!.classparam,
+                                      label := String(sheet!.largestlabel)));
+    else
+      vertex := Vertex(sheet,data,rec(levelparam := newlevel,
+                                      label := String(sheet!.largestlabel)));
+    fi;
   fi;
   
   if not HasseProperty(sheet) then
@@ -836,7 +868,7 @@ function( sheet, grp, hints )
       
   containerlist := [];
   # all higher levels:
-  lev := Position(Levels(sheet),index)-1;
+  lev := Position(Levels(sheet),newlevel)-1;
   while lev > 0 do
     # all classes:
     for cl in sheet!.levels[lev]!.classes do
@@ -860,7 +892,7 @@ function( sheet, grp, hints )
   # between contained subgroups and overgroups.
   containedlist := [];
   # all lower levels:
-  lev := Position(Levels(sheet),index)+1;
+  lev := Position(Levels(sheet),newlevel)+1;
   while lev <= Length(Levels(sheet)) do
     # all classes:
     for cl in sheet!.levels[lev]!.classes do
@@ -880,6 +912,296 @@ function( sheet, grp, hints )
   # now at last we are done.
   return [vertex,true];
   
+end);
+
+
+#############################################################################
+##
+#M  NewInclusionInfo( <sheet>, <v1>, <v2> ) . . . . . . . . . . v1 lies in v2
+##
+##  For graphic group lattices without the HasseProperty we cannot calculate
+##  all inclusion information for each new vertex. This operation is the
+##  proposed method to enter an inclusion information which normally comes
+##  out of the process of subgroup calculation into the poset. It should
+##  normally only be called if one conjectures or knows that v1 is a
+##  maximal subobject with respect to the current poset, but the methods
+##  for this operation first check, if there is already a way from v1 up
+##  to v2. If this is the case, nothing is done. Otherwise we have to check,
+##  if this new connection can be established: If v2 lies in a lower level
+##  than v1 (of course those two levels are not comparable, so by definition
+##  both subgroups must lie in a level of their own!) then, we try
+##  to move the level of v1 into a new level right below that of v2. If 
+##  that does not work we try to move the level of v2 right over the level
+##  of v1. If that does not work check if we know that v2 is contained in v1
+##  In this case we call MergeVertices. Otherwise we finally give up and 
+##  display an info!
+##  Now we draw the connection but have to make sure, that this new connection
+##  does not close a circle such that there is an edge in the poset which
+##  connects a vertex "below" v1 to a vertex "over" v2. Therefore we 
+##  calculate all vertices lying "below" v1 and "over" v2 and disconnect
+##  them pairwise. This is all done by means of posets and not by means
+##  of groups. There are no group inclusion checks performed!
+InstallMethod( NewInclusionInfo,
+    "for a graphic subgroup lattice, and two vertices",
+    true,
+    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsGPVertex, IsGPVertex ],
+    0,
+
+function( sheet, v1, v2 )
+  local   p1,  p2,  over,  Walkup,  under,  Walkdown,  v,  w;
+  
+  # first make sure that there is no "way" from v2 down to v1 on the 
+  # connections which are already in the poset. We use the function
+  # GPSearchWay in poset.gi. Documentation there says:
+  #   The following function is only internal:
+  #   Use it on your own risk and only if you know what you are doing!
+  # So I (Max) say:
+  #  *I know what I am doing!*
+  if GPSearchWay(sheet, v2, v1, 
+                 Position(sheet!.levelparams,v1!.levelparam)) then
+    # note the order of the vertices in the calling convention!
+    # see: I really know what I am doing!
+    return;
+  fi;
+  # note: this works also, if v1 is in a higher level than v2 and is very
+  #       fast in this case!
+  
+  # now check if the level of v1 is lower than that of v2:
+  p1 := Position(sheet!.levelparams,v1!.levelparam);
+  p2 := Position(sheet!.levelparams,v2!.levelparam);
+  if p1 < p2 then
+    # we have a problem, first we try to move p1 down:
+    if MoveLevel(sheet,v1!.levelparam,p2) = fail then
+      # that was no solution, we try to move p2 up:
+      if MoveLevel(sheet,v2!.levelparam,p1) = fail then
+        # that did not work either, so the last idea:
+        if GPSearchWay(sheet,v1,v2,p2) then
+          MergeVertices(sheet,v1,v2);
+          return;   # we are done with this inclusion!
+        else
+          Info(GraphicLattice,0,"Cannot use inclusion ",v1!.label," in ",
+               v2!.label," because of levels!");
+          return;   # nothing to do!
+        fi;
+      else
+        p2 := p1;
+        p1 := p1 + 1;
+      fi;
+    else
+      p1 := p2;
+      p2 := p2 - 1;
+    fi;   
+    # if we reach this point, the levels are ok, p1 > p2
+  elif p1 = p2 then   # equal levels, that is easy:
+    # we can do this because we put vertices with infinite index in separate
+    # levels each, so they must be equal if they are in some equal (finite)
+    # index. FIXME
+    MergeVertices(sheet,v1,v2);
+    return;
+  fi;
+  
+  # now we can begin our work. we don't have a way between the vertex v1 and
+  # the vertex v2, which lies higher in the poset.
+  # we collect now all vertices "over" v2 and all vertices "under" v1:
+  over := [];
+  Walkup := function(v)
+    local   w;
+    for w in v!.maximalin do
+      if PositionSet(over,w) = fail then
+        Walkup(w);
+        AddSet(over,w);
+      fi;
+    od;
+  end;
+  
+  Walkup(v2);
+  
+  under := [];
+  Walkdown := function(v)
+    local   w;
+    for w in v!.maximals do
+      if PositionSet(under,w) = fail then
+        Walkdown(w);
+        AddSet(under,w);
+      fi;
+    od;
+  end;
+  
+  Walkdown(v1);
+  
+  # now we consider all pairs:
+  for v in over do
+    for w in under do
+      if w in v!.maximals then
+        Delete(sheet,v,w);   # we delete the edge
+      fi;
+    od;
+  od;
+  
+  # a new edge:
+  Edge(sheet,v1,v2);
+  return;
+end);
+
+
+#############################################################################
+##
+#M  MergeVertices( <sheet>, <v1>, <v2> ) . . . . . . . . . . . merge vertices
+##
+##  For graphic group lattices without the HasseProperty we cannot calculate
+##  all inclusion information for each new vertex. If we don't have
+##  CanCompareSubgroups either, we have to think of the case where we have two
+##  vertices to which belongs the same group respectively. If we come to
+##  know this, then we have to fix this situation by merging vertices.
+##  This operation does exactly this *without* further checks. The vertex
+##  residing in a higher level or having a lower x-coordinate survives and
+##  inherits all inclusion information the other has. The second one is
+##  deleted.
+InstallMethod( MergeVertices,
+    "for a graphic subgroup lattice, and two vertices",
+    true,
+    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsGPVertex, IsGPVertex],
+    0,
+
+function( sheet, v1, v2 )
+  local   p1,  p2,  dummy,  v2maximalin,  v2maximals,  v,  lev,  cls;
+  
+  # we compare the levels:
+  p1 := Position(sheet!.levelparams,v1!.levelparam);
+  if p1 = fail then
+    return fail;
+  fi;
+  p2 := Position(sheet!.levelparams,v2!.levelparam);
+  if p2 = fail then
+    return fail;
+  fi;
+  if p1 > p2 then
+    dummy := v1;
+    v1 := v2;
+    v2 := dummy;
+  fi;
+  # now v1 is "higher", this is the one that survives
+  
+  # we remember the connections of v2:
+  v2maximalin := ShallowCopy(v2!.maximalin);
+  v2maximals := ShallowCopy(v2!.maximals);
+  
+  Delete(sheet,v2);  # now v2 is gone with all connections!
+  
+  # we use the inclusions of v2 as new inclusion information for v1:
+  # note that it is possible that this can move around levels and even
+  # call MergeVertices recursively! So we have to ensure that the vertices
+  # in these lists (and v1) are still in the poset if we come to the new 
+  # connections: 
+  for v in v2maximalin do
+    p1 := Position(sheet!.levelparams,v!.levelparam);
+    if p1 <> fail then
+      lev := sheet!.levels[p1];
+      p2 := Position(lev!.classparams,v!.classparam);
+      if p2 <> fail then
+        cls := lev!.classes[p2];
+        if Position(cls,v) <> fail then
+          p1 := Position(sheet!.levelparams,v1!.levelparam);
+          if p1 <> fail then
+            lev := sheet!.levels[p1];
+            p2 := Position(lev!.classparams,v1!.classparam);
+            if p2 <> fail then
+              cls := lev!.classes[p2];
+              if Position(cls,v1) <> fail then
+                # we have both!
+                NewInclusionInfo(sheet,v1,v);
+              fi;
+            fi;
+          fi;
+        fi;
+      fi;
+    fi;
+  od;
+  for v in v2maximals do
+    p1 := Position(sheet!.levelparams,v!.levelparam);
+    if p1 <> fail then
+      lev := sheet!.levels[p1];
+      p2 := Position(lev!.classparams,v!.classparam);
+      if p2 <> fail then
+        cls := lev!.classes[p2];
+        if Position(cls,v) <> fail then
+          p1 := Position(sheet!.levelparams,v1!.levelparam);
+          if p1 <> fail then
+            lev := sheet!.levels[p1];
+            p2 := Position(lev!.classparams,v1!.classparam);
+            if p2 <> fail then
+              cls := lev!.classes[p2];
+              if Position(cls,v1) <> fail then
+                # we have both!
+                NewInclusionInfo(sheet,v,v1);
+              fi;
+            fi;
+          fi;
+        fi;
+      fi;
+    fi;
+  od;
+  return;
+end);
+
+  
+#############################################################################
+##
+#M  CompareLevels(<poset>,<levelp1>,<levelp2>) . . . compares two levelparams
+##
+##  Compare two levelparams. -1 means that levelp1 is "higher", 1 means
+##  that levelp2 is "higher", 0 means that they are equal. fail means that
+##  they are not comparable. This method is for the case of subgroup lattices
+##  parameters are integers or a list with first entry infinity. All those
+##  "infinities" are not comparable. Negative values are Sizes instead of 
+##  indices. They are lower than infinity and than all finite indices.
+##  One has to make sure that the index is used if the whole group is finite,
+##  because this method can not decide, if G is finite.
+##
+InstallMethod( CompareLevels,
+    "for a graphic subgroup lattice, and two integers",
+    true,
+    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsInt, IsInt ],
+    0,
+
+function( poset, l1, l2 )
+  if IsList(l1) then          # infinity!
+    if l2 > 0 then            # infinity lower than number
+      return 1;
+    elif IsList(l2)    then   # two infinities not comparable
+      return fail;
+    else                      # infinity higher than size
+      return -1;
+    fi;      
+  elif l1 > 0 then
+    if l2 > 0 then            # two indices, smaller index is higher
+      if l1 < l2 then
+        return -1;
+      elif l1 > l2 then
+        return 1;
+      else
+        return 0;             # they are equal
+      fi;
+    elif IsList(l2) then      # index higher than infinity
+      return -1;
+    else      # l2 < 0        # indices higher than sizes
+      return -1;
+    fi;
+  else   # l1 < 0
+    if l2 > 0 then            # indices higher than sizes
+      return 1;
+    elif IsList(l2) then      # infinite higher than sizes
+      return 1;
+    else                      # two indices, bigger size is higher
+      if l1 < l2 then
+        return 1;
+      elif l1 = l2 then
+        return 0;
+      else    # l1 > l2
+        return -1;
+      fi;
+    fi;
+  fi;
 end);
 
 
@@ -1037,6 +1359,8 @@ function(G,def)
   
   # we keep track of largest label:
   poset!.largestlabel := 1;
+  # we keep track of largest number of infinity label
+  poset!.largestinflevel := 0;
   
   if latticetype[4] then
     vmath := rec(group := TrivialSubgroup(G),

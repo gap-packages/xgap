@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.2 1998/11/27 16:35:23 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.3 1998/12/02 00:26:30 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.2 1998/11/27 16:35:23 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.3 1998/12/02 00:26:30 gap Exp $";
 
 
 #############################################################################
@@ -147,7 +147,7 @@ DeclareOperation( "DecideSubgroupLatticeType", [ IsGroup ] );
 
 #############################################################################
 ##
-#O  InsertVertex( <sheet>, <grp>, <hint> )  . . . . . . . . insert new vertex
+#O  InsertVertex( <sheet>, <grp>, <conj>, <hint> )  . . . . insert new vertex
 ##
 ##  Insert the group <grp> as a new vertex into the sheet. If 
 ##  CanCompareSubgroups is set for the lattice, we check, if the group is
@@ -164,8 +164,11 @@ DeclareOperation( "DecideSubgroupLatticeType", [ IsGroup ] );
 ##  choice of the new x coordinate. It can for example be the x coordinates
 ##  of those groups which were parameter for the operation which calculated
 ##  the group. <hints> can be empty but must always be a list!
+##  If the lattice does not have CanCompareSubgroups and <conj> is a vertex
+##  we put the new vertex into the class of this vertex. Otherwise <conj>
+##  should either be false or fail.
 ##
-DeclareOperation( "InsertVertex", [IsGraphicSheet, IsGroup, IsList] );
+DeclareOperation( "InsertVertex", [IsGraphicSheet, IsGroup, IsObject, IsList]);
 
 
 #############################################################################

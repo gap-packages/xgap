@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.2 1998/11/27 18:39:33 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.3 1998/12/02 00:26:30 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.2 1998/11/27 18:39:33 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.3 1998/12/02 00:26:30 gap Exp $";
 
 
 #############################################################################
@@ -216,7 +216,7 @@ fi;
 
 #############################################################################
 ##
-#O  Move(<poset>,<levelparam>,<position>) .  move a level to another position
+#O  MoveLevel(<poset>,<levelparam>,<position>) move level to another position
 ##
 ##  Moves a level to another position. <position> is an absolute index in
 ##  the list of levels. The level with parameter <levelparam> will be at the
@@ -228,10 +228,10 @@ fi;
 ##  the new position. If there is a contradiction nothing happens and the
 ##  method returns fail. If everything works the operation returns true.
 ##  This operation already exists in xgap for graphic objects.
-if IsBound(Move) then if not IsOperation(Move) then
-  Error("Identifier Move already in use!"); fi;
+if IsBound(MoveLevel) then if not IsOperation(MoveLevel) then
+  Error("Identifier MoveLevel already in use!"); fi;
 else
-  DeclareOperation("Move",[IsGraphicSheet,IsObject,IsInt]);
+  DeclareOperation("MoveLevel",[IsGraphicSheet,IsObject,IsInt]);
 fi;
 
 #############################################################################
