@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.43 1999/12/01 10:44:53 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.44 1999/12/01 11:47:17 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.43 1999/12/01 10:44:53 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.44 1999/12/01 11:47:17 gap Exp $";
 
 
 #############################################################################
@@ -1875,13 +1875,13 @@ if not IsBound(IsSpaceGroup) then
   IsSpaceGroup := function(arg) return false; end;
   definedIsSpaceGroup := true;
 else
-  definedHasIsSpaceGroup := false;
+  definedIsSpaceGroup := false;
 fi;
 if not IsBound(TranslationBasis) then
   TranslationBasis := function(arg) return []; end;
   definedTranslationBasis := true;
 else
-  definedHasIsSpaceGroup := false;
+  definedTranslationBasis := false;
 fi;
 
 
