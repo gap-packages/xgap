@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.14 1999/03/03 01:09:15 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.15 1999/03/07 22:10:10 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.14 1999/03/03 01:09:15 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.15 1999/03/07 22:10:10 gap Exp $";
 
 
 #############################################################################
@@ -102,6 +102,152 @@ BindGlobal( "GGLClosureGroup",
   end );
   
   
+#############################################################################
+##
+#F  GGLStringGroup( <G> ) . . . . . . . generates string that describes group  
+##
+##  This function generates a string that represents a group. It is mainly
+##  intended for fp groups and is actually ``stolen'' from some of the 
+##  `ViewObj' methods for fp groups. It covers also the case of free groups.
+##
+BindGlobal( "GGLStringGroup", 
+        
+function(G)
+  
+  local st;   # used to build up the string
+  
+  if IsFreeGroup(G) then 
+    st := "<free group";
+    if IsGroupOfFamily( G )  then
+      if Length( GeneratorsOfGroup( G ) ) > 6  then
+        Append(st," with ");
+        Append(st,String(Length( GeneratorsOfGroup( G ) ) ));
+        Append(st," generators>" );
+      else
+        Append(st," on the generators ");
+        Append(st,String(List(GeneratorsOfGroup( G ),UnderlyingElement)));
+        Append(st,">" );
+      fi;
+    else
+      st := "Group(";
+      if HasGeneratorsOfGroup( G )  then
+        if not IsBound( G!.gensWordLengthSum )  then
+          G!.gensWordLengthSum 
+            := Sum( List( GeneratorsOfGroup( G ), Length ) );
+        fi;
+        if G!.gensWordLengthSum <= 20  then
+          Append(st,String(List(GeneratorsOfGroup( G ),UnderlyingElement)));
+        else
+          Append(st,"<");
+          Append(st,String(Length( GeneratorsOfGroup( G ) )));
+          Append(st," generators>");
+        fi;
+      else
+        Append(st,", no generators known>" );
+      fi;
+      Append(st,")");
+    fi;
+  else  # no free group
+    if IsGroupOfFamily(G) then
+      st := "<fp group";
+      if HasSize(G) then
+        Append(st," of size ");
+        Append(st,String(Size(G)));
+      fi;
+      if Length(GeneratorsOfGroup(G)) > 6 then
+        Append(st," with ");
+        Append(st,String(Length(GeneratorsOfGroup(G))));
+        Append(st," generators>");
+      else
+        Append(st," on the generators ");
+        Append(st,String(List(GeneratorsOfGroup(G),UnderlyingElement)));
+        Append(st,">");
+      fi;
+    else
+      st := "Group(";
+      if HasGeneratorsOfGroup(G) then
+        if not IsBound(G!.gensWordLengthSum) then
+          G!.gensWordLengthSum:=Sum(List(GeneratorsOfGroup(G),
+                                        i->Length(UnderlyingElement(i))));
+        fi;
+        if G!.gensWordLengthSum <= 20 then                                  
+          Append(st,String(List(GeneratorsOfGroup(G),UnderlyingElement)));
+        else
+          Append(st,"<");
+          Append(st,String(Length(GeneratorsOfGroup(G))));
+          Append(st," generators>");
+        fi;
+      else
+        Append(st,"<fp, no generators known>");
+      fi;
+      Append(st,")");
+    fi;
+  fi;   # no free group
+  return st;
+end);
+
+  
+#############################################################################
+##
+#F  GGLStringCosetTable( <G> ). generates string that describes a coset table
+##
+##  This function generates a string that represents a coset table. If the
+##  table is small enough it is converted to a string. Otherwise some info
+##  is generated.
+##
+BindGlobal( "GGLStringCosetTable", 
+        
+function(CT)
+  local st;
+  if Length(CT) * Length(CT[1]) < 20 then
+    return String(CT);
+  else
+    st := "<";
+    Append(st,String(Length(CT)/2));
+    Append(st," generators, ");
+    Append(st,String(Length(CT[1])));
+    Append(st," cosets>");
+    return st;
+  fi;
+end );
+
+
+#############################################################################
+##
+#F  GGLStringAbInvs( <invs> ). generates string that describes ab. invariants
+##
+##  This function generates a string that describes the abelian invariants.
+##
+BindGlobal( "GGLStringAbInvs", 
+        
+function(invs)
+  if invs = [] then
+    return "perfect";
+  else
+    return String(invs);
+  fi;
+end );
+
+
+#############################################################################
+##
+#F  GGLStringEpimorphism( <G> )  . generates string describing an epimorphism
+##
+##  This function generates a string that represents an epimorphism. 
+##  It just displays an arrow and the image.
+##
+BindGlobal( "GGLStringEpimorphism", 
+        
+function(epi)
+  local st;
+
+  st := "<epi ->> ";
+  Append(st,GGLStringGroup(Image(epi)));
+  Append(st,">");
+  return st;
+end );
+
+
 ##
 ##  The configuration of the menu operations works as follows:
 ##  Every menu operation gets a record with the following entries, which
@@ -195,7 +341,6 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
                parent := false, from := GGLfrom2, to := GGLto1, 
                where := GGLwhereAny, plural := true, rels := GGLrelsNo ),
           rec( name := "Conjugate Subgroups", 
-#FIXME: again use ConjugateSubgroups???
                op := function(G,H) 
                        return AsList(ConjugacyClassSubgroups(G,H)); 
                      end,
@@ -245,7 +390,6 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                parent := true, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereUp, plural := false, rels := GGLrelsMax ),
           rec( name := "Conjugacy Class", 
-#FIXME: again use ConjugateSubgroups???
                op := function(G,H) 
                        return AsList(ConjugacyClassSubgroups(G,H)); 
                      end,
@@ -258,10 +402,13 @@ BindGlobal( "GGLMenuOpsForFpGroups",
           rec( name := "DerivedSubgroups", op := DerivedSubgroup,
                parent := false, from := GGLfrom1, to := GGLto1, 
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
-          rec( name := "Epimorphisms", op := GGLEpimorphisms,
+          rec( name := "Epimorphisms (GQuotients)", op := GGLEpimorphisms,
                parent := false, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereDown, plural := false, rels := GGLrelsNo,
                sheet := true ),
+          rec( name := "Intersection", op := Intersection,
+               parent := false, from := GGLfromSet, to := GGLto1, 
+               where := GGLwhereDown, plural := false, rels := GGLrelsNo ),
           rec( name := "Intersections", op := Intersection,
                parent := false, from := GGLfrom2, to := GGLto1, 
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
@@ -277,7 +424,6 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                where := GGLwhereAny, plural := false, rels := GGLrelsNo,
                sheet := true )
         ] );
-# FIXME: ... to be continued
 
 
 ##
@@ -319,10 +465,19 @@ BindGlobal( "GGLInfoDisplaysForFiniteGroups",
 BindGlobal( "GGLInfoDisplaysForFpGroups",
         [ rec( name := "Index", func := Index, parent := true ),
           rec( name := "IsNormal", func := IsNormal, parent := true ),
-          rec( name := "AbelianInvariants", attrib := AbelianInvariants ),
-          rec( name := "Presentation", func := GGLPresentation, sheet := true) 
+          rec( name := "IsFpGroup", func := IsFpGroup, parent := false ),
+# FIXME: could that be of any help: (?)
+#          rec( name := "IsSubgroupFpGroup", func := IsSubgroupFpGroup, 
+#               parent := false ),
+          rec( name := "Abelian Invariants", attrib := AbelianInvariants,
+               tostr := GGLStringAbInvs ),
+          rec( name := "CosetTable", attrib := CosetTableInWholeGroup,
+               tostr := GGLStringCosetTable ),
+          rec( name := "IsomorphismFpGroup", func := IsomorphismFpGroup,
+               parent := false, tostr := GGLStringEpimorphism ),
+          rec( name := "FactorGroup", func := FactorGroup, parent := true,
+               tostr := GGLStringGroup )
         ] );
-# FIXME: ... to be continued
 
 
 #############################################################################
@@ -337,6 +492,9 @@ BindGlobal( "GGLInfoDisplaysForFpGroups",
 ##  Menu entries and Popups:
 ##
 #############################################################################
+
+
+LastResultOfInfoDisplay := "no info display calculated yet";
 
 
 ############################################################################
@@ -355,7 +513,8 @@ InstallMethod( GGLRightClickPopup,
     0,
 
 function(sheet,v,x,y)
-  local   grp,  textselectfunc,  text,  i,  ii,  str,  funcclose,  funcall;
+  local   grp,  textselectfunc,  text,  i,  ii,  str,  funcclose,  funcall,
+          maxlengthofname;
   
   # did we get a vertex?
   if v = fail then
@@ -370,7 +529,10 @@ function(sheet,v,x,y)
   
   # get the group of <obj>
   grp := v!.data.group;
-
+  
+  # how long are the names of the info displays?
+  maxlengthofname := Maximum(List(sheet!.infodisplays,i->Length(i.name)));
+  
   # text select function
   textselectfunc := function( sel, name )
     local   tid,  current,  text,  str,  value,  parameters;
@@ -378,8 +540,7 @@ function(sheet,v,x,y)
     tid  := sel!.selected;
     current := sheet!.infodisplays[tid];
     text := ShallowCopy(sel!.labels);
-    # FIXME: If String behaves properly
-    str  := ShallowCopy(String( current.name, -14 ));
+    str  := ShallowCopy(String( current.name, -(maxlengthofname+1) ));
     if IsBound(current.attrib) then
       value := current.attrib( grp );
     else
@@ -407,6 +568,7 @@ function(sheet,v,x,y)
     fi;
     text[tid] := str;
     Relabel( sel, text );
+    LastResultOfInfoDisplay := value;
     
     # Perhaps the calculation of one attribute triggered the calculation
     # of another one! So we have to look through all infos, if new information
@@ -414,9 +576,10 @@ function(sheet,v,x,y)
     for i in [1..Length(sheet!.infodisplays)] do
       ii := sheet!.infodisplays[i];
       if IsBound(ii.attrib) and Tester(ii.attrib)(grp) and
-         text[i]{[15..21]} = "Unknown" then
+         Length(text[i]) >= maxlengthofname+8 and
+         text[i]{[maxlengthofname+2..maxlengthofname+8]} = "unknown" then
         # in fact: new information!
-        text[i] := text[i]{[1..14]};
+        text[i] := text[i]{[1..maxlengthofname+1]};
         if IsBound(ii.tostr) then
           Append(text[i],ii.tostr(ii.attrib(grp)));
         else
@@ -432,8 +595,7 @@ function(sheet,v,x,y)
   # construct the string in the first place:
   text := [];
   for i in sheet!.infodisplays  do
-    # FIXME: if behaviour of String is OK
-    str := ShallowCopy(String( i.name, -14 ));
+    str := String( i.name, -(maxlengthofname+1) );
     # do we know the value?
     if IsBound(i.attrib) then
       if Tester(i.attrib)(grp) then
@@ -443,17 +605,17 @@ function(sheet,v,x,y)
           Append(str,String(i.attrib(grp)));
         fi;
       else
-        Append(str,"Unknown");
+        Append(str,"unknown");
       fi;
     else   #  its determined by a function and perhaps cached:
       if IsBound(v!.data.info.(i.name)) then
         if IsBound(i.tostr) then
-          Append( str, i.tostrv(v!.data.info.(i.name)));
+          Append( str, i.tostr(v!.data.info.(i.name)));
         else
           Append( str, String(v!.data.info.(i.name)));
         fi;
       else
-        Append( str, "Unknown" );
+        Append( str, "unknown" );
       fi;
     fi;
     Add( text, str );
@@ -637,7 +799,6 @@ function(sheet, menu, entry)
       hints := List(todolist[todo],v->v!.x);
       for grp in [1..len] do
         # we want no lines to vanish:
-        FastUpdate(sheet,false);
         if IsBound(menuop.givesconjugates) and
            menuop.givesconjugates then
           res := InsertVertex( sheet, result.subgroups[grp], 
@@ -645,7 +806,6 @@ function(sheet, menu, entry)
         else
           res := InsertVertex( sheet, result.subgroups[grp], false, hints );
         fi;
-        FastUpdate(sheet,true);
         
         vertices[grp] := res[1];
         newflag[grp] := res[2];
@@ -730,6 +890,10 @@ function(sheet, menu, entry)
 end);
 
 
+# We remember the last prime the user wanted:
+GGLSylowLastPrime := fail;
+
+
 #############################################################################
 ##
 #M  GGLSylowSubgroup(<grp>)  . . . . . .  asks for prime, calls SylowSubgroup
@@ -745,14 +909,26 @@ InstallMethod( GGLSylowSubgroup,
 
 function(grp)
   local   res,  p;
-  res := Query( GGLPrimeDialog );
+  if IsInt(GGLSylowLastPrime) then
+    res := Query(GGLPrimeDialog,String(GGLSylowLastPrime));
+  else
+    res := Query( GGLPrimeDialog );
+  fi;
   if res = false then
     return fail;
   fi;
-  p := Int(res);
+  if IsInt(GGLSylowLastPrime) and res = "" then
+    p := GGLSylowLastPrime;
+  else
+    p := Int(res);
+    if p <> GGLSylowLastPrime then
+      Info(GraphicLattice,1,"Sylow prime: ",p);
+    fi;
+  fi;
   if not IsInt(p) or not IsPrime(p) then
     return fail;
   fi;
+  GGLSylowLastPrime := p;
   return SylowSubgroup( grp, p );
 end);
 
@@ -780,7 +956,8 @@ function(sheet,grp)
   if not IsInt(p) or not IsPrime(p) then
     return fail;
   fi;
-  qs := PQuotient( grp, p );
+  qs := PQuotient( grp, p, 1 );
+  return Kernel(qs);
 end);
 
 
@@ -809,8 +986,8 @@ InstallMethod( GGLEpimorphisms,
     0,
 
 function(sheet,grp)
-  local   GGLEpi,  GGLEpiShowResult,  info,  width,  text,  
-          i,  closefunc,  name,  GGLEpiResults;
+  local   GGLEpiResults,  GGLEpi,  GGLEpiShowResult,  GGLEpiShowStab,  
+          info,  width,  text,  i,  closefunc,  name;
   
   GGLEpiResults := [];   # no results yet
   
@@ -844,7 +1021,6 @@ function(sheet,grp)
       # FIXME: Do we have to go through this???
       vec := [1]; for i in [2..dim] do Add(vec,0); od;
       vec := vec * Z(fis)^0;
-      Print(vec,"\n");
       epigrp := Operation(epigrp,Orbit(epigrp,vec,OnLines),OnLines);
       txt[tid] := String(Concatenation("PSL(",String(dim),",",
                                        String(fis),")"),-len);
@@ -853,6 +1029,9 @@ function(sheet,grp)
       path := ShallowCopy(GAP_ROOT_PATHS[1]);
       Append(path,"pkg/xgap/pmg/");
       res := Query(Dialog("Filename","Which group?"),path);
+      if res = false then
+        return fail;
+      fi;
       IMAGE_GROUP := 0;
       if not READ(res) then
         Info(GraphicLattice,1,Concatenation( "cannot read file ", res ));
@@ -886,14 +1065,16 @@ function(sheet,grp)
     
     # now the function has either returned (with "fail" as return value) or
     # epigrp is correctly initialized with a group
-    txt[tid]{[len-13..len]} := "computing ... ";
+    txt[tid]{[len-14..len]} := " computing ... ";
     Relabel(sel,txt);
     GGLEpiResults := GQuotients(GGLEpiVertex!.data.group,epigrp);
     str := Concatenation("       ",String(Length(GGLEpiResults))," found");
     txt[tid]{[len-Length(str)+1..len]} := str;
     Relabel(sel,txt);
     Enable(sel,"display",true);
-    
+    if IsPermGroup(epigrp) then
+      Enable(sel,"display point stabilizers",true);
+    fi;
     return true;
   end;
   
@@ -913,8 +1094,29 @@ function(sheet,grp)
         NewInclusionInfo(sheet,v[1],GGLEpiVertex);
       fi;
     od;
-    GGLEpiResults := false;
     Enable(sel,"display",false);
+    txt := sel!.labels;
+    tid := sel!.selected;
+    len := Length(txt[tid]);
+    txt[tid]{[len-13..len]} := "              ";
+    Relabel(sel,txt);
+    return true;
+  end;
+  
+  GGLEpiShowStab := function(sel,entry)
+    local   groups,  g,  v,  txt,  tid,  len;
+    groups := List(GGLEpiResults,e -> PreImage(e,Stabilizer(Image(e),1)));
+    for g in groups do
+      v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
+      Select(sheet,v[1]);
+      if sheet!.color.result <> false  then
+        Recolor( sheet, v[1], sheet!.color.result );
+      fi;
+      if v[2] then
+        NewInclusionInfo(sheet,v[1],GGLEpiVertex);
+      fi;
+    od;
+    Enable(sel,"display point stabilizers",false);
     txt := sel!.labels;
     tid := sel!.selected;
     len := Length(txt[tid]);
@@ -966,9 +1168,11 @@ function(sheet,grp)
   GGLEpiTextsel :=
     TextSelector(Concatenation(
             "          Epimorphisms from ", name, "           " ),
-            info, [ "display", GGLEpiShowResult, "close", closefunc ]
+            info, [ "display", GGLEpiShowResult, "close", closefunc,
+                    "display point stabilizers", GGLEpiShowStab ]
             );
   Enable( GGLEpiTextsel, "display", false );
+  Enable( GGLEpiTextsel, "display point stabilizers", false );
   return [];
 end );
 
@@ -1035,10 +1239,10 @@ function( sheet, grp1, grp2 )
     # note the order of the vertices in the calling convention!
     # see: I really know what I am doing!
     if IsSubgroup(vert[2]!.data.group,vert[1]!.data.group) then
-      Info(GraphicLattice,1,vert[1]!.label," contains ",vert[2]!.label);
+      Info(GraphicLattice,1,vert[2]!.label," contains ",vert[1]!.label);
       NewInclusionInfo(sheet,vert[1],vert[2]);
     elif IsSubgroup(vert[1]!.data.group,vert[2]!.data.group) then
-      Info(GraphicLattice,1,vert[2]!.label," contains ",vert[1]!.label);
+      Info(GraphicLattice,1,vert[1]!.label," contains ",vert[2]!.label);
       NewInclusionInfo(sheet,vert[2],vert[1]);
     fi;
     vert := Selected(sheet);
@@ -1095,18 +1299,21 @@ function( sheet, grp, conjugclass, hints )
           conj,  Walkup,  Walkdown,  containerlist,  containedlist, size;
   
   # FIXME: Activate this when the time for it has come...
-  # The following code can be activated once CanComputeSize and CanComputeIndex
+  # Did it, does it work?
+  # The following code is activated since CanComputeSize and CanComputeIndex
   # work:
-  #if CanComputeSize(grp) then
-  #  size := Size(grp);
-  #else
+  if CanComputeSize(grp) then
+    size := Size(grp);
+  else
     size := fail;
-  #fi;
-  #if CanComputeIndex(sheet!.group,grp) then
+  fi;
+  # FIXME: The following test substitutes a missing method in the library:
+  if ApplicableMethod(CanComputeIndex,[sheet!.group,grp]) = fail
+     or CanComputeIndex(sheet!.group,grp) then
     index := Index(sheet!.group,grp);
-  #else
-  #  index := fail;
-  #fi;
+  else
+    index := fail;
+  fi;
   
   data := rec(group := grp,
               info := rec(Index := index));
@@ -1396,7 +1603,7 @@ function( sheet, v1, v2 )
   # now we can begin our work. we don't have a way between the vertex v1 and
   # the vertex v2, which lies higher in the poset.
   # we collect now all vertices "over" v2 and all vertices "under" v1:
-  over := [];
+  over := [v2];
   Walkup := function(v)
     local   w;
     for w in v!.maximalin do
@@ -1409,7 +1616,7 @@ function( sheet, v1, v2 )
   
   Walkup(v2);
   
-  under := [];
+  under := [v1];
   Walkdown := function(v)
     local   w;
     for w in v!.maximals do
@@ -1425,7 +1632,7 @@ function( sheet, v1, v2 )
   # now we consider all pairs:
   for v in over do
     for w in under do
-      if w in v!.maximals then
+      if w in v!.maximals and (v <> v2 or w <> v1) then
         Delete(sheet,v,w);   # we delete the edge
       fi;
     od;
@@ -1758,7 +1965,7 @@ function(G,def)
   # create one or two initial vertices (G itself and trivial subgroup):
   # we seperate the mathematical data and the graphical data:
   vmath := rec(group := G,
-               info := rec(Index := 1));
+               info := rec(Index := 1, IsNormal := true));
   vmath.class := [vmath];
   v2 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index, label := "G",
                                shape := "diamond"));

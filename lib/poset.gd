@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.10 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.11 1999/03/07 22:10:10 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.10 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.11 1999/03/07 22:10:10 gap Exp $";
 
 
 #############################################################################
@@ -730,6 +730,18 @@ DeclareOperation( "UserDeleteVerticesOp", [IsGraphicSheet, IsMenu, IsString] );
 ##  The generic method deletes the edge with no further warning!
 ##
 DeclareOperation( "UserDeleteEdgeOp", [IsGraphicSheet, IsMenu, IsString] );
+
+
+#############################################################################
+##
+#O  UserMergeClassesOp (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . .
+##  . . . . . . . . . . . . . .  is called if the user wants to merge classes
+##
+##  This operation is called when the user selects `Merge Classes'.
+##  The generic method walks through all levels and merges all classes that
+##  contain a selected vertex. Afterwards `UserRearrangeClasses' is called.
+##
+DeclareOperation( "UserMergeClassesOp", [IsGraphicSheet, IsMenu, IsString] );
 
 
 #############################################################################

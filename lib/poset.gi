@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.11 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.12 1999/03/07 22:10:10 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.11 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.12 1999/03/07 22:10:10 gap Exp $";
 
 
 
@@ -163,19 +163,19 @@ end;
 ##  Our menu which goes in all poset sheets:
 PosetMenuEntries :=
   ["Redraw","Show Levels","Show Level Parameters",,
-   "Delete Vertices","Delete Edge",,
+   "Delete Vertices","Delete Edge","Merge Classes",,
    "Magnify Lattice", "Shrink Lattice", "Resize Lattice", "Resize Sheet",
    "Move Lattice",,
    "Change Labels","Average Y Positions","Average X Positions",
    "Rearrange Classes"];
 PosetMenuTypes :=
   ["forany","forany","forany",,
-   "forsubset","foredge",,
+   "forsubset","foredge","forsubset",,
    "forany","forany","forany","forany","forany",,
    "forsubset","forany","forsubset","forsubset"];
 PosetMenuFunctions :=
   [ PosetDoRedraw,PosetShowLevels,PosetShowLevelparams,,
-    UserDeleteVerticesOp, UserDeleteEdgeOp,,
+    UserDeleteVerticesOp, UserDeleteEdgeOp, UserMergeClassesOp,,
     UserMagnifyLattice,UserShrinkLattice,UserResizeLattice,UserResizeSheet,
     UserMoveLattice,,
     UserChangeLabels,UserAverageY,UserAverageX,UserRearrangeClasses];
@@ -3032,7 +3032,7 @@ function(graph,x,y)
   
   # is this a click on a vertex?
   v := WhichVertex(graph,x,y);
-  if graph!.rightclickfunction <> false then
+  if graph!.rightclickfunction <> false and v <> fail then
     graph!.rightclickfunction(graph,v,x,y);
   fi;
   return;
@@ -3084,6 +3084,84 @@ end);
 
 #############################################################################
 ##
+#M  UserMergeClassesOp (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . .
+##  . . . . . . . . . . . . . .  is called if the user wants to merge classes
+##
+##  This operation is called when the user selects `Merge Classes'.
+##  The generic method walks through all levels and merges all classes that
+##  contain a selected vertex. Afterwards `UserRearrangeClasses' is called.
+##
+InstallMethod( UserMergeClassesOp,
+    "for a graphic poset, a menu, and a menu entry",
+    true,
+    [ IsGraphicGraphRep and IsGraphicPosetRep, IsMenu, IsString ],
+    0,
+        
+function( poset, menu, entry )
+  local   lps,  verts,  v,  pos,  i,  level,  cps,  cpos,  cls,  j;
+  
+  # it is guaranteed, that at least one vertex is selected!
+  # we walk through the selected vertices and sort them according to their
+  # level parameter:
+  lps := [];
+  verts := [];
+  for v in Selected(poset) do
+    pos := Position(lps,v!.levelparam);
+    if pos = fail then
+      Add(lps,v!.levelparam);
+      Add(verts,[v]);
+    else
+      Add(verts[pos],v);
+    fi;
+  od;
+  
+  # All levels:
+  for i in [1..Length(lps)] do
+    # the current level:
+    level := poset!.levels[Position(poset!.levelparams,lps[i])];
+    
+    # Now we collect all classes occuring:
+    cps := [];
+    cpos := [];
+    cls := [];
+    for v in verts[i] do
+      pos := Position(cps,v!.classparam);
+      if pos = fail then
+        Add(cps,v!.classparam);
+        pos := Position(level!.classparams,v!.classparam);
+        Add(cpos,pos);
+        Add(cls,level!.classes[pos]);
+      fi;
+    od;
+    
+    # now we have a list of classes that should be merged:
+    # let's move all vertices into the first class:
+    for j in [2..Length(cls)] do
+      for v in cls[j] do
+        v!.classparam := cps[1];
+        Add(cls[1],v);
+      od;
+    od;
+    
+    # now we have to delete the other classes (but not their vertices!):
+    cpos := cpos{[2..Length(cps)]};
+    Sort(cpos);
+    for j in [Length(cpos),Length(cpos)-1..1] do
+      level!.classes[cpos[j]] := level!.classes[Length(level!.classes)];
+      Unbind(level!.classes[Length(level!.classes)]);
+      level!.classparams[cpos[j]] := 
+        level!.classparams[Length(level!.classparams)];
+      Unbind(level!.classparams[Length(level!.classparams)]);
+    od;
+  od;
+  
+  # At last we rearrange those classes:
+  UserRearrangeClasses( poset, menu, "Rearrange Classes" );    
+end);
+
+
+#############################################################################
+##
 ## This is used by the following three methods:
 ##
 BindGlobal("PosetScaleLattice",function(poset,factorx,factory)
@@ -3107,6 +3185,7 @@ BindGlobal("PosetScaleLattice",function(poset,factorx,factory)
       fi;
     od;
   od;
+  FastUpdate(poset,false);
 end);
 
 
@@ -3360,13 +3439,11 @@ function( poset, menu, string )
     od;
     if n > 0 then
       av := QuoInt(av,n);
-      FastUpdate(poset,false);
       for cl in lev!.classes do
         for v in cl do
           Move(poset,v,v!.x,av);
         od;
       od;
-      FastUpdate(poset,true);
     fi;
   od;
 end);
@@ -3399,7 +3476,7 @@ function( poset, menu, string )
   od;
   av := QuoInt(av,Length(sel));
   
-  FastUpdate(poset,false);
+  FastUpdate(poset,true);
   for pair in list do
     vertices := Vertices(poset,pair[1],pair[2]);
     if vertices <> fail then
@@ -3412,7 +3489,7 @@ function( poset, menu, string )
       fi;
     fi;
   od;
-  FastUpdate(poset,true);
+  FastUpdate(poset,false);
 end);
 
   
@@ -3442,7 +3519,7 @@ function( poset, menu, string )
     AddSet(list,[v!.levelparam,v!.classparam]);
   od;
   
-  FastUpdate(poset,false);
+  FastUpdate(poset,true);
   for pair in list do
     # get the vertices in class:
     vlist := Vertices(poset,pair[1],pair[2]);
@@ -3456,7 +3533,7 @@ function( poset, menu, string )
       od;
     fi;
   od;
-  FastUpdate(poset,true);
+  FastUpdate(poset,false);
 end);
 
 
