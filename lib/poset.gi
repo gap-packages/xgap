@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.6 1998/12/06 22:16:14 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.7 1998/12/18 17:03:42 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.6 1998/12/06 22:16:14 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.7 1998/12/18 17:03:42 gap Exp $";
 
 
 
@@ -669,8 +669,16 @@ function( poset, data, info )
     else
       position := ChoosePosition(poset,data,level,class,[]);
     fi;
-    vertex!.x := position[1];
-    vertex!.y := position[2];
+    if IsBound(info.x) then   # this takes precedence!
+      vertex!.x := info.x;
+    else
+      vertex!.x := position[1];
+    fi;
+    if IsBound(info.y) then   # this takes precedence!
+      vertex!.y := info.y;
+    else
+      vertex!.y := position[2];
+    fi;
   else
     vertex!.x := info.x;
     vertex!.y := info.y;
