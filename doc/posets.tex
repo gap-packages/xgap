@@ -177,5 +177,12 @@ Another nice little example is in the `examples' subdirectory in the
 demonstrate the features of {\XGAP}. The user gets a small window with a
 puzzle and can solve it using the mouse. You can test this example by
 starting {\XGAP} and `Read'ing the file `pkg/xgap/examples/puzzle.g'.
-%FIXME: Is that true?
+You can do this by using
+
+\begintt
+gap> ReadPkg("xgap","examples/puzzle.g");
+gap> p := Puzzle(4,4);
+\endtt
+
+
 
