@@ -2,14 +2,14 @@
 ##
 #W  meataxe.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: meataxe.gi,v 1.2 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: meataxe.gi,v 1.3 1999/05/26 16:59:22 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code for MeatAxe posets
 ##
 Revision.pkg_xgap_lib_meataxe_gi :=
-    "@(#)$Id: meataxe.gi,v 1.2 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: meataxe.gi,v 1.3 1999/05/26 16:59:22 gap Exp $";
 
 
 #############################################################################
@@ -51,7 +51,7 @@ InstallMethod( CompareLevels,
     "for a graphic MeatAxe lattice, and two integers",
     true,
     [ IsGraphicPosetRep and IsMeatAxeLattice, IsInt, IsInt ],
-    0,
+    1,   # to make it better than the ilatgrp-Method!
 
 function( poset, l1, l2 )
   if l1 < l2 then

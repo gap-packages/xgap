@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.32 1999/05/25 10:50:54 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.33 1999/05/26 16:59:22 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.32 1999/05/25 10:50:54 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.33 1999/05/26 16:59:22 gap Exp $";
 
 
 #############################################################################
@@ -1848,7 +1848,7 @@ function( sheet, grp, conjugclass, hints )
               info := rec(Index := index));
   
   # What will be the level parameter?
-  if index <> fail then
+  if index <> fail and index <> infinity then
     newlevel := index;
   elif size <> fail then
     newlevel := -size;
@@ -1857,11 +1857,9 @@ function( sheet, grp, conjugclass, hints )
   fi;
   
   # do we have this level yet?
-  if index = infinity then
+  if newlevel = infinity then
     sheet!.largestinflevel := sheet!.largestinflevel + 1;
     newlevel := [infinity,sheet!.largestinflevel];
-  else
-    newlevel := index;
   fi;
   
   if Position(Levels(sheet),newlevel) = fail then
@@ -2316,19 +2314,21 @@ InstallOtherMethod( CompareLevels,
     "for a graphic subgroup lattice, and two integers",
     true,
     [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsObject, IsObject ],
-    0,
+    34,   # this is necessary because of IsObject, IsObject
 
 function( poset, l1, l2 )
   if IsList(l1) then          # infinity!
-    if l2 > 0 then            # infinity lower than number
-      return 1;
-    elif IsList(l2)    then   # two infinities not comparable
+    if IsList(l2) then        # two infinities not comparable
       return fail;
+    elif l2 > 0 then          # infinity lower than number
+      return 1;
     else                      # infinity higher than size
       return -1;
     fi;      
   elif l1 > 0 then
-    if l2 > 0 then            # two indices, smaller index is higher
+    if IsList(l2) then        # index higher than infinity
+      return -1;
+    elif l2 > 0 then          # two indices, smaller index is higher
       if l1 < l2 then
         return -1;
       elif l1 > l2 then
@@ -2336,23 +2336,21 @@ function( poset, l1, l2 )
       else
         return 0;             # they are equal
       fi;
-    elif IsList(l2) then      # index higher than infinity
-      return -1;
     else      # l2 < 0        # indices higher than sizes
       return -1;
     fi;
   else   # l1 < 0
-    if l2 > 0 then            # indices higher than sizes
+    if IsList(l2) then        # infinite higher than sizes
       return 1;
-    elif IsList(l2) then      # infinite higher than sizes
+    elif l2 > 0 then          # indices higher than sizes
       return 1;
-    else                      # two indices, bigger size is higher
+    else                      # two sizes, bigger size is higher
       if l1 < l2 then
-        return 1;
+        return -1;
       elif l1 = l2 then
         return 0;
       else    # l1 > l2
-        return -1;
+        return 1;
       fi;
     fi;
   fi;
