@@ -75,7 +75,7 @@ link to the C MeatAxe.
 
 This is the declaration part:
 
-\beginexample
+\begintt
 #############################################################################
 ##
 #W  meataxe.gd                  XGAP library                  Max Neunhoeffer
@@ -95,14 +95,14 @@ DeclareFilter("IsMeatAxeLattice");
 ##  graphic poset. Those posets have a new filter for method selection.
 ##
 DeclareOperation("GraphicMeatAxeLattice",[IsString, IsInt, IsInt]);
-\endexample
+\endtt
 
 The code only declares a new filter and declares a constructor operation
 for posets that lie in this new filter.
 
 The implementation:
 
-\beginexample
+\begintt
 #############################################################################
 ##
 #W  meataxe.gi                  XGAP library                  Max Neunhoeffer
@@ -160,7 +160,7 @@ function( poset, l1, l2 )
     return 0;
   fi;
 end);
-\endexample
+\endtt
 
 Besides the new constructor (which only adds a new filter) we only have to
 supply a new method for comparison of level parameters for such posets. The 

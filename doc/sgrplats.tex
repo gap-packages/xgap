@@ -206,10 +206,17 @@ gap> l := LowerCentralSeries(d8);
 gap> SelectGroups(s,l);
 \endtt
 
-This lower central series corresponds to the vertices $D8$, $2$ and $1$
-which will now be selected.  To summarize the above: the function
-`SelectedGroups' can be used to transfer information from the diagram to
-{\GAP}, the function `SelectGroups' can be used to transfer information
+This lower central series corresponds   to the vertices $D8$, $2$  and
+$1$ which  will now be  selected.  If, as is  is not the case  in this
+example, the subgroups are not yet depicted in  the lattice, a warning
+appears in the  {\GAP} command window. You  have to use `InsertVertex'
+to insert  a new vertex  into the  lattice (see section "InsertVertex"
+for  the     complete  description of    this  function    or  section
+"xgapgap" for an example).
+
+To  summarize the above: the  function `SelectedGroups' can be used to
+transfer information  from   the  diagram  to  {\GAP}, the   functions
+`SelectGroups' and `InsertVertex' can  be used to transfer information
 from {\GAP} to the diagram.
 
 In order to finish this example, close the window by selecting ``close
@@ -277,8 +284,9 @@ gap> s60 := List(c60,Representative);
 [ Group([ (1,2)(3,4), (1,3,5) ]), Group([ (1,2)(3,4), (1,2,3)(4,5,6) ]) ]
 \endtt
 
-We now use the  function `InsertVertex'  to  add  these two subgroups  to your
-partial lattice.  
+\label{xgapgap}
+We now use the function `InsertVertex' (see "InsertVertex") to add
+these two subgroups to your partial lattice.
 
 \begintt
 gap> for g in s60 do InsertVertex(s,g); od;
@@ -548,18 +556,21 @@ permutation representation of the factor group $$C_2 / Core(u_i).$$ Using
 gap> p := List( u, x -> FactorCosetOperation( c2, x ) );;
 gap> l := List( p, Image );;
 gap> for x  in l  do DisplayCompositionSeries(x);  Print("\n");  od;
-Group
+G (2 gens, size 95040)
  | M(12)
-Group
+1 (0 gens, size 1)
 
-Group
+G (2 gens, size 660)
  | A(1,11) = L(2,11) ~ B(1,11) = O(3,11) ~ C(1,11) = S(2,11) ~ 2A(1,11) = U(2,11)
-Group
+1 (0 gens, size 1)
 
-Group
+G (2 gens, size 239500800)
  | A(12)
-Group
+1 (0 gens, size 1)
 \endtt
+
+(This display can look a little different according to  the {\GAP} version you
+use.)
 
 So $C_2$ contains the Mathieu group $M_{12}$, the alternating group on
 $12$  symbols and $PSL(2,11)$   as factor groups.   Therefore it would
@@ -858,8 +869,38 @@ the *left*  mouse button.  Again  you see a rubber  band, however, now as
 soon as you release  the mouse button,  all vertices inside the rectangle
 are selected in addition to any other selected vertices.
 
-Call the function `SelectGroups' with a subgroup or list of subgroups to
-select.
+To select vertices from the {\GAP} command window call the function
+`SelectGroups' with a subgroup or a list of subgroups to select.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{GraphicSubgroupLattice, Inserting Vertices}
+
+To insert new vertices into a graphic sheet one has to use the
+following operation:
+
+\>`InsertVertex( <sheet>, <grp>, <conj>, <hint> )'{InsertVertex}@{`InsertVertex'} 
+\>`InsertVertex( <sheet>, <grp> )'{InsertVertex}@{`InsertVertex'} 
+
+Inserts the group <grp> as a new vertex into the sheet. If the lattice
+is *not*  the   subgroup lattice  of a  finitely  presented  group, it
+checks, if the group is already in the lattice  or if there is already
+a conjugate  subgroup.  Further,  the new  vertex is  sorted into  the
+poset. So  `InsertVertex'  checks for  all vertices  on higher levels,
+whether the new vertex  is contained,  and  for all vertices on  lower
+levels, whether they are contained in the new vertex. It then tries to
+add edges to the appropriate vertices.  If  the lattice is the lattice
+of a  finitely presented group,  nothing is  done with respect  to the
+connections of any vertex.  `InsertVertex' returns a list with the new
+vertex as first entry and  a flag as  second, which says, whether this
+vertex was inserted right now or has already  been there.  <hint> is a
+list of $x$ coordinates which should give  some hint for the choice of
+the new $x$  coordinate. It can for example  be the $x$ coordinates of
+those groups which  were parameter for  the operation which calculated
+the group. <hints> can be empty but must always be  a list!  If <conj>
+is a vertex we  put  the new vertex  into the  class  of this vertex.  
+Otherwise <conj> should either be `false' or `fail'.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, GAP Menu}
@@ -1141,12 +1182,16 @@ reference manual.
 
 \bigskip
 
-These menu entries represent only a small selection of the functions of
-{\GAP} which the authors of {\XGAP} considered most frequently used. You
-can calculate other subgroups like for example prefrattini subgroups from
-the {\GAP} command window. See section "gapxgap" for an example how to
-transfer information from the graphical lattice of {\XGAP} to {\GAP} (via
-`Selected') and vice versa (via `InsertVertex').
+These menu entries represent only a small selection of the functions
+of {\GAP} which the authors of {\XGAP} considered most frequently
+used. You can calculate other subgroups like for example prefrattini
+subgroups from the {\GAP} command window. See sections "gapxgap" and
+"xgapgap" for examples how to transfer information from the graphical
+lattice of {\XGAP} to {\GAP} (via `SelectedGroups', see
+"GraphicSubgroupLattice, Selecting Vertices") and vice versa (via
+`SelectGroups', see "GraphicSubgroupLattice, Selecting Vertices", and
+`InsertVertex', see "GraphicSubgroupLattice, Inserting Vertices").
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Information Menu}
@@ -1240,7 +1285,7 @@ can access this easily from the {\GAP} command prompt.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{GraphicSubgroupLattice, Vertex Shapes}
+\Section{Vertex Shapes}
 
 The following vertex shapes can appear in an interactive lattice:
 
@@ -1395,9 +1440,12 @@ a   modified  Todd-Coxeter algorithm.   It    then calls `PrimeQuotient'.
 These menu entries represent only a small selection of the functions of
 {\GAP} which the authors of {\XGAP} considered most frequently used. You
 can calculate other subgroups from
-the {\GAP} command window. See section "gapxgap" for an example how to
-transfer information from the graphical lattice of {\XGAP} to {\GAP} (via
-`Selected') and vice versa (via `InsertVertex').
+the {\GAP} command window. See sections "gapxgap" and
+"xgapgap" for examples how to transfer information from the graphical
+lattice of {\XGAP} to {\GAP} (via `SelectedGroups', see
+"GraphicSubgroupLattice, Selecting Vertices") and vice versa (via
+`SelectGroups', see "GraphicSubgroupLattice, Selecting Vertices", and
+`InsertVertex', see "GraphicSubgroupLattice, Inserting Vertices").
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

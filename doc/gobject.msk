@@ -82,7 +82,7 @@ graphic objects. Returns a boolean value.
 \Declaration{COLORS}
 
 
-\Section{Table of Operations for Graphic Objects}
+\Section{Operations for Graphic Objects}
 
 The following table gives an overview over the supported graphic objects and 
 the functions which are applicable respectively:
