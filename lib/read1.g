@@ -9,6 +9,7 @@ ReadPkg( "xgap", "lib/gobject.gd" );
 ReadPkg( "xgap", "lib/menu.gd"    );
 ReadPkg( "xgap", "lib/poset.gd"   );
 ReadPkg( "xgap", "lib/ilatgrp.gd" );
+ReadPkg( "xgap", "lib/meataxe.gd" );
 
 #############################################################################
 ##
@@ -27,6 +28,7 @@ ReadPkg( "xgap", "lib/gobject.gi" );
 ReadPkg( "xgap", "lib/menu.gi"    );
 ReadPkg( "xgap", "lib/poset.gi"   );
 ReadPkg( "xgap", "lib/ilatgrp.gi" );
+ReadPkg( "xgap", "lib/meataxe.gi" );
 
 #############################################################################
 ##
