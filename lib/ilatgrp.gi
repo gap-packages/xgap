@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.44 1999/12/01 11:47:17 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.45 2002/11/28 16:46:33 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.44 1999/12/01 11:47:17 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.45 2002/11/28 16:46:33 gap Exp $";
 
 
 #############################################################################
@@ -1479,7 +1479,7 @@ function(sheet,grp)
       # FIXME: Do we have to go through this???
       vec := [1]; for i in [2..dim] do Add(vec,0); od;
       vec := vec * Z(fis)^0;
-      epigrp := Operation(epigrp,Orbit(epigrp,vec,OnLines),OnLines);
+      epigrp := Action(epigrp,Orbit(epigrp,vec,OnLines),OnLines);
       txt[tid] := String(Concatenation("PSL(",String(dim),",",
                                        String(fis),")"),-len);
     elif st{[1..3]} = "Lib" then
