@@ -13,18 +13,18 @@ PackageName := "XGAP",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "4.17",
+Version := "4.18",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 # 
-Date := "17/05/2003",
+Date := "20/05/2003",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name *must be changed* with each version of the archive
 ##  (and probably somehow contain the package name and version).
 # 
-ArchiveURL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/xgap4r17",
+ArchiveURL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/xgap4r18",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
@@ -195,7 +195,7 @@ PackageDoc := rec(
   BookName  := "XGap",
   # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
   Archive := 
-      "http://www.math.rwth-aachen.de/~Greg.Gamble/xgap4/xgapdoc4r17.zoo",
+      "http://www.math.rwth-aachen.de/~Greg.Gamble/xgap4/xgapdoc4r18.zoo",
   HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
   # the path to the .six file used by GAP's help system
