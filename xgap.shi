@@ -3,11 +3,14 @@
 ##
 #A  xgap                        XGAP source                      Frank Celler
 ##
-#H  @(#)$Id: xgap.sh,v 1.3 1999/01/14 20:12:19 gap Exp $
+#H  @(#)$Id: xgap.shi,v 1.1 1999/07/01 14:07:28 ahulpke Exp $
 ##
 #Y  Copyright (C) 1998,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
-#H  $Log: xgap.sh,v $
+#H  $Log: xgap.shi,v $
+#H  Revision 1.1  1999/07/01 14:07:28  ahulpke
+#H  `xgap.sh' is now built by `configure/make'.
+#H
 #H  Revision 1.3  1999/01/14 20:12:19  gap
 #H  Made the last change REALLY work. Some shell programming issue...
 #H
@@ -36,11 +39,12 @@
 ##
 ##  Set 'GAP_DIR' to the name of the directory where you have installed  GAP,
 ##  i.e., the directory with the subdirectories  'lib',  'grp',  'doc',  etc.
-##  The default is '/usr/local/lib/gap4',  which is a  standard location.
-##  You have to change this unless you have installed  GAP in this  location.
+##  The default is '@gapdir@',  which is the root directory if you install
+##  XGAP in the default `pkg' directory.
+##  If you install XGAP in a private directory you have to change this.
 ##
 if [ "x$GAP_DIR" = "x" ];  then
-GAP_DIR=/usr/local/lib/gap4
+GAP_DIR=@gapdir@
 fi
 
 #############################################################################
@@ -71,7 +75,7 @@ fi
 ##  want to set this value close to the  amount of memory your  computer has.
 ##
 if [ "x$GAP_MEM" = "x" ];  then
-GAP_MEM=8m
+GAP_MEM=12m
 fi
 
 #############################################################################
@@ -85,7 +89,7 @@ fi
 ##  the 'bin' directory.
 ##
 if [ "x$GAP_PRG" = "x" ];  then
-GAP_PRG=`hostname`/gap
+GAP_PRG=@target@-@CC@/gap
 fi
 
 #############################################################################
@@ -99,7 +103,7 @@ fi
 ##  the 'bin' directory.
 ##
 if [ "x$XGAP_PRG" = "x" ];  then
-XGAP_PRG=`hostname`/xgap
+XGAP_PRG=@target@-@CC@/xgap
 fi
 
 #############################################################################
