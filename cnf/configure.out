@@ -2629,52 +2629,24 @@ fi
 
 fi
 
-echo $ac_n "checking for XtVaAppInitialize in -lXt""... $ac_c" 1>&6
-echo "configure:2634: checking for XtVaAppInitialize in -lXt" >&5
-ac_lib_var=`echo Xt'_'XtVaAppInitialize | sed 'y%./+-%__p_%'`
-if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  ac_save_LIBS="$LIBS"
-LIBS="-lXt -lX11 -L$x_libraries  $LIBS"
-cat > conftest.$ac_ext <<EOF
-#line 2642 "configure"
-#include "confdefs.h"
-/* Override any gcc2 internal prototype to avoid an error.  */
-/* We use char because int might match the return type of a gcc2
-    builtin and then its argument prototype would still apply.  */
-char XtVaAppInitialize();
 
-int main() {
-XtVaAppInitialize()
-; return 0; }
-EOF
-if { (eval echo configure:2653: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
-  rm -rf conftest*
-  eval "ac_cv_lib_$ac_lib_var=yes"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  eval "ac_cv_lib_$ac_lib_var=no"
+if test "$have_x" != yes;  then
+  { echo "configure: error: XGAP needs XWindows X11R5 or better" 1>&2; exit 1; }
 fi
-rm -f conftest*
-LIBS="$ac_save_LIBS"
 
-fi
-if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
-  echo "$ac_t""yes" 1>&6
-    ac_tr_lib=HAVE_LIB`echo Xt | sed -e 's/[^a-zA-Z0-9_]/_/g' \
-    -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
-  cat >> confdefs.h <<EOF
-#define $ac_tr_lib 1
-EOF
+case "$target" in
 
-  LIBS="-lXt $LIBS"
+  *-*-sunos*)
+    case "$x_libraries" in
+      *openwin*)
+        { echo "configure: error: XGAP needs XWindows X11R5 or better, it will not work with OpenWindows" 1>&2; exit 1; }
+        ;;
 
-else
-  echo "$ac_t""no" 1>&6
-fi
+    esac
+    ;;
+
+esac
+
 
 
 

@@ -101,7 +101,25 @@ dnl ## checks where the X11 libraries
 dnl ##
 
 AC_PATH_XTRA
-AC_CHECK_LIB( Xt, XtVaAppInitialize, , , -lX11 -L$x_libraries )
+
+if test "$have_x" != yes;  then
+  AC_MSG_ERROR([XGAP needs XWindows X11R5 or better])
+fi
+
+case "$target" in
+
+  *-*-sunos*)
+    case "$x_libraries" in
+      *openwin*)
+        AC_MSG_ERROR([XGAP needs XWindows X11R5 or better, it will not work with OpenWindows])
+        ;;
+
+    esac
+    ;;
+
+esac
+
+
 
 
 dnl #########################################################################
