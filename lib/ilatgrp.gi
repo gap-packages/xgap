@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.26 1999/05/04 22:46:45 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.27 1999/05/05 21:44:47 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.26 1999/05/04 22:46:45 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.27 1999/05/05 21:44:47 gap Exp $";
 
 
 #############################################################################
@@ -980,6 +980,14 @@ function(sheet, menu, entry)
           od;
         fi;
         # we cannot say anything if menuop.where = GGLwhereAny
+        # except: all subgroups are in the whole group:
+        for i in [1..len] do
+          if vertices[i] <> fail then
+            # FIXME: Is this correct to access vertex "G"?
+            NewInclusionInfo( sheet, vertices[i], sheet!.levels[1]!.classes[1][1] );
+          fi;
+        od;
+        
       fi;     # not HasseProperty
     fi;  # operation produced something
   od;  # all done
