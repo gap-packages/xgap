@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.1 1998/11/27 14:50:55 ahulpke Exp $
+#H  @(#)$Id: poset.gi,v 1.2 1998/11/27 18:39:33 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.1 1998/11/27 14:50:55 ahulpke Exp $";
+    "@(#)$Id: poset.gi,v 1.2 1998/11/27 18:39:33 gap Exp $";
 
 
 
@@ -161,11 +161,14 @@ end;
 
 ##  Our menu which goes in all poset sheets:
 PosetMenuEntries :=
-  ["Redraw","Show Levels",,"Delete Vertices","Delete Edge"];  
+  ["Redraw","Show Levels",,"Delete Vertices","Delete Edge",,
+   "Magnify Lattice", "Shrink Lattice", "Resize Lattice", "Resize Sheet"];  
 PosetMenuTypes :=
-  ["forany","forany",,"forsubset","foredge"];
+  ["forany","forany",,"forsubset","foredge",,
+   "forany","forany","forany","forany"];
 PosetMenuFunctions :=
-  [ PosetDoRedraw,PosetShowLevels,,UserDeleteVerticesOp, UserDeleteEdgeOp];
+  [ PosetDoRedraw,PosetShowLevels,,UserDeleteVerticesOp, UserDeleteEdgeOp,,
+    UserMagnifyLattice,UserShrinkLattice,UserResizeLattice,UserResizeSheet];
 
 
 #############################################################################
@@ -1518,6 +1521,13 @@ end);
 
 #############################################################################
 ##
+##  Set this variable temporarily to false if you change many selections!
+##
+GGSelectModifiesMenu := true;
+
+
+#############################################################################
+##
 #M  Select(<graph>,<vertex>,<flag>) . . . . . . . . . . (de-)selects a vertex
 #M  Select(<graph>,<vertex>)  . . . . . . . . . . . . . . .  selects a vertex
 ##
@@ -1547,6 +1557,9 @@ function(graph,vertex,flag)
     fi;
     Recolor(graph,vertex,graph!.color.unselected);
     RemoveSet(graph!.selectedvertices,vertex);
+  fi;
+  if GGSelectModifiesMenu then
+    ModifyEnabled(graph,1,Length(graph!.menus));
   fi;
   return;
 end);
@@ -2551,7 +2564,6 @@ function(poset,x,y)
     else
       DeselectAll(poset);
       Select(poset,v,true);
-      ModifyEnabled(poset,1,Length(poset!.menus));
     fi;
   else  # no click on a vertex, so we drag a box:
     # if this is a poset then we check if somebody clicked on a level box:
@@ -2615,6 +2627,7 @@ function(poset,x,y)
       # the box had at one time at least a certain size
       if box!.w > 0 and box!.h > 0 then
         DeselectAll(poset);
+        GGSelectModifiesMenu := false;
         for lev in poset!.levels do
           if lev!.top < box!.y+box!.h and 
              lev!.top + lev!.height >= box!.y then
@@ -2627,6 +2640,7 @@ function(poset,x,y)
             od;
           fi;
         od;
+        GGSelectModifiesMenu := true;
         ModifyEnabled(poset,1,Length(poset!.menus));
       fi;
       Delete(poset,box);
@@ -2694,7 +2708,6 @@ function(poset,x,y)
 	      Move(poset,v,x,y-lev!.top); 
             end) then
       Select(poset,v,PositionSet(poset!.selectedvertices,v) = fail);
-      ModifyEnabled(poset,1,Length(poset!.menus));
     else
       # better we redraw:
       DoRedraw(poset);
@@ -2764,6 +2777,7 @@ function(poset,x,y)
       Delete(poset,box);
       # the box had at one time at least a certain size
       if box!.w > 0 and box!.h > 0 then
+        GGSelectModifiesMenu := false;
         for lev in poset!.levels do
           if lev!.top < box!.y+box!.h and 
              lev!.top + lev!.height >= box!.y then
@@ -2778,6 +2792,7 @@ function(poset,x,y)
         od;
         # better we redraw:
         DoRedraw(poset);
+        GGSelectModifiesMenu := true;
         ModifyEnabled(poset,1,Length(poset!.menus));
       fi;
       # Drag(...) --> true    
@@ -2856,6 +2871,36 @@ function( graph, menu, entry )
   Delete(graph,graph!.selectedvertices[1],graph!.selectedvertices[2]);
 end);
     
+
+#############################################################################
+##
+#M  UserMagnifyLattice . . . . . .  lets the user magnify the graphic lattice
+##
+##  This operation is called when the user selects "Magnify Lattice". 
+##  The generic method scales everything by 144/100 including the sheet,
+##  all heights of levels and positions of vertices.
+##
+InstallMethod( UserMagnifyLattice,
+    "for a graphic graph, a menu, and a string",
+    true,
+    [ IsGraphicPosetRep, IsMenu, IsString ],
+    0,
+    
+function(poset, menu, entry)
+  local   l,  pos,  cl,  v;
+  FastUpdate(poset,true);  
+  Resize(poset, Int(poset!.width*144/100), Int(poset!.height*144/100));
+  for l in [1..Length(poset!.levelparams)] do
+    pos := PositionLevel(poset,poset!.levelparams[l]);
+    ResizeLevel(poset,poset!.levelparams[l],Int(pos[2]*144/100));
+    for cl in poset!.levels[l]!.classes do
+      for v in cl do
+        Move(poset,v,Int(v!.x*144/100),Int(v!.y*144/100));
+      od;
+    od;
+  od;
+end);
+
 
 #############################################################################
 ##

@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.1 1998/11/27 14:50:55 ahulpke Exp $
+#H  @(#)$Id: poset.gd,v 1.2 1998/11/27 18:39:33 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.1 1998/11/27 14:50:55 ahulpke Exp $";
+    "@(#)$Id: poset.gd,v 1.2 1998/11/27 18:39:33 gap Exp $";
 
 
 #############################################################################
@@ -864,6 +864,68 @@ if IsBound(UserDeleteEdgeOp) then if not IsOperation(UserDeleteEdgeOp) then
   Error("Identifier UserDeleteEdgeOp already in use!"); fi;
 else
   DeclareOperation( "UserDeleteEdgeOp", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserMagnifyLattice . . . . . .  lets the user magnify the graphic lattice
+##
+##  This operation is called when the user selects "Magnify Lattice". 
+##  The generic method scales everything by 144/100 including the sheet,
+##  all heights of levels and positions of vertices.
+##
+if IsBound(UserMagnifyLattice) then if not IsOperation(UserMagnifyLattice) then
+  Error("Identifier UserMagnifyLattice already in use!"); fi;
+else
+  DeclareOperation( "UserMagnifyLattice", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserShrinkLattice . . . . . . .  lets the user shrink the graphic lattice
+##
+##  This operation is called when the user selects "Shrink Lattice". 
+##  The generic method scales everything by 100/144 including the sheet,
+##  all heights of levels and positions of vertices.
+##
+if IsBound(UserShrinkLattice) then if not IsOperation(UserShrinkLattice) then
+  Error("Identifier UserShrinkLattice already in use!"); fi;
+else
+  DeclareOperation( "UserShrinkLattice", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserResizeLattice . . . . . . .  lets the user resize the graphic lattice
+##
+##  This operation is called when the user selects "Resize Lattice". 
+##  The generic method asks the user for a x and a y factor and scales
+##  everything including the sheet, all heights of levels and positions of 
+##  vertices.
+##
+if IsBound(UserResizeLattice) then if not IsOperation(UserResizeLattice) then
+  Error("Identifier UserResizeLattice already in use!"); fi;
+else
+  DeclareOperation( "UserResizeLattice", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserResizeSheet . . . . . . . . .  lets the user resize the graphic sheet
+##
+##  This operation is called when the user selects "Resize Sheet". 
+##  The generic method asks the user for a x and a y pixel number and
+##  changes the width and height of the sheet. No positions of levels and
+##  vertices are changed. If the user asks for trouble he gets it!
+##
+if IsBound(UserResizeSheet) then if not IsOperation(UserResizeSheet) then
+  Error("Identifier UserResizeSheet already in use!"); fi;
+else
+  DeclareOperation( "UserResizeSheet", [IsGraphicSheet, IsMenu, IsString] );
 fi;
 
 

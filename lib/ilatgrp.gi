@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.1 1998/11/27 14:50:53 ahulpke Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.2 1998/11/27 18:39:33 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.1 1998/11/27 14:50:53 ahulpke Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.2 1998/11/27 18:39:33 gap Exp $";
 
 
 #############################################################################
@@ -444,6 +444,12 @@ end);
 #############################################################################
 
 
+##
+## we need some dialogs:
+##
+BindGlobal( "GGLPrimeDialog", Dialog( "OKcancel", "Prime" ) );
+BindGlobal( "GGLGoOnDialog", Dialog( "OKcancel", "Go on?" ) );
+
 #############################################################################
 ##
 #M  GGLMenuOperation . . . . . . . . . . . . . . . .  is called from the menu
@@ -541,11 +547,19 @@ function(sheet, menu, entry)
     # now we have either nothing or a group or a list of groups or a record 
     # with components "subgroups" and "inclusions".
     if result = fail then
-      Append(infostr,"fail");
-    fi;
-    if menuop.to = GGLto0 or result = fail then
+      Append(infostr," --> fail");
       Info(GraphicLattice,1,infostr);
       infostr := "";
+      if Query( GGLGoOnDialog ) = false then
+        Info(GraphicLattice,1,"...Aborted.");
+        return;
+      fi;
+    fi;
+    if menuop.to = GGLto0 or result = fail then
+      if result <> fail then
+        Info(GraphicLattice,1,infostr);
+        infostr := "";
+      fi;
     else
       
       Append(infostr," --> (");
@@ -651,10 +665,6 @@ function(sheet, menu, entry)
   od;  # all done
 end);
 
-##
-## we need a dialog:
-##
-BindGlobal( "GGLPrimeDialog", Dialog( "OKcancel", "Prime" ) );
 
 #############################################################################
 ##
@@ -713,7 +723,7 @@ end);
 InstallMethod( InsertVertex,
     "for a graphic subgroup lattice, a group, and an list",
     true,
-    [ IsGraphicSubgroupLattice and HasseProperty, IsGroup, IsList ],
+    [ IsGraphicSubgroupLattice, IsGroup, IsList ],
     0,
         
 function( sheet, grp, hints )
@@ -722,13 +732,19 @@ function( sheet, grp, hints )
           containerlist,  containedlist;
   
   ## FIXME: what if this index calculation crashes?
-  ## so we never get infinite indices!
+  ## so we never get infinite indices!??
   
   index := Index(sheet!.group,grp);
   data := rec(group := grp,
               isClassRep := false,
               info := rec(Index := index));
   # missing: class and classrep, isClassRep could be changed!
+  
+  # do we have this level yet?
+  # FIXME: what if index is infinite?
+  if Position(Levels(sheet),index) = fail then
+    CreateLevel(sheet,index);
+  fi;
   
   vertex := false;   # will become the new vertex
   if CanCompareSubgroups(sheet) then
@@ -780,7 +796,7 @@ function( sheet, grp, hints )
   fi;
   
   if not HasseProperty(sheet) then
-    return [v,true];
+    return [vertex,true];
   fi;
   
   # now coming to the connections, we first search all higher levels
