@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.45 2002/11/28 16:46:33 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.46 2003/12/08 09:33:39 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.45 2002/11/28 16:46:33 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.46 2003/12/08 09:33:39 gap Exp $";
 
 
 #############################################################################
@@ -29,6 +29,10 @@ if not IsBound(EpimorphismPGroup) then
   end;
 fi;
 
+# prevent an error message when the small groups library is not there:
+if not IsBound(HasIdGroup) then
+    HasIdGroup := ReturnFalse;
+fi;
 
 #############################################################################
 ##
@@ -652,9 +656,15 @@ BindGlobal( "GGLInfoDisplaysForFiniteGroups",
           rec( name := "IsPerfect", attrib := IsPerfectGroup ),
           rec( name := "IsSimple", attrib := IsSimpleGroup ),
           rec( name := "IsSolvable", attrib := IsSolvableGroup ),
-          rec( name := "Isomorphism", attrib := IdGroup ) 
         ] );
                  
+# Fix the problem with missing small groups library:
+if HasIdGroup <> ReturnFalse then
+    Add(GGLInfoDisplaysForFiniteGroups,
+        rec( name := "Isomorphism", attrib := IdGroup ));
+fi; 
+
+    
 BindGlobal( "GGLInfoDisplaysForFpGroups",
         [ rec( name := "Index", func := Index, parent := true ),
           rec( name := "IsNormal", func := IsNormal, parent := true ),
