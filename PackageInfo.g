@@ -196,10 +196,10 @@ PackageDoc := rec(
   # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
   Archive := 
       "http://www.math.rwth-aachen.de/~Greg.Gamble/xgap4/xgapdoc4r17.zoo",
-  HTMLStart := "xgap/htm/chapters.htm",
-  PDFFile   := "xgap/doc/manual.pdf",
+  HTMLStart := "htm/chapters.htm",
+  PDFFile   := "doc/manual.pdf",
   # the path to the .six file used by GAP's help system
-  SixFile   := "xgap/doc/manual.six",
+  SixFile   := "doc/manual.six",
   # a longer title of the book, this together with the book name should
   # fit on a single text line (appears with the '?books' command in GAP)
   # LongTitle := "Elementary Divisors of Integer Matrices",
