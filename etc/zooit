@@ -6,7 +6,7 @@
 
 # Change this for the latest revision:
 # (Last digit is patchlevel) 
-ZOOFILE=xgap4r01
+ZOOFILE=xgap4r02
 
 rm -f TEXTCOM BINCOM
 echo '!TEXT!' > TEXTCOM
