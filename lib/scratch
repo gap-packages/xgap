@@ -1,3 +1,96 @@
+#############################################################################
+##
+#V  FONTS . . . . . . . . . . . . . . . . . . . . . . . . . . font dimensions
+##
+FONTS        := rec();
+FONTS.tiny   := WindowCmd([ "XFI", 1 ]);
+FONTS.small  := WindowCmd([ "XFI", 2 ]);
+FONTS.normal := WindowCmd([ "XFI", 3 ]);
+FONTS.large  := WindowCmd([ "XFI", 4 ]);
+FONTS.huge   := WindowCmd([ "XFI", 5 ]);
+FONTS.fonts  := [FONTS.tiny,FONTS.small,FONTS.normal,FONTS.large,FONTS.huge];
+
+
+#############################################################################
+##
+#V  BUTTONS . . . . . . . . . . . . . . . . . . . . left/right pointer button
+##
+BUTTONS       := rec();
+BUTTONS.left  := 1;
+BUTTONS.right := 2;
+BUTTONS.shift := 1;
+BUTTONS.ctrl  := 2;
+
+
+#############################################################################
+##
+#V  COLORS  . . . . . . . . . . . . . . . . . . . .  list of available colors
+##
+COLORS           := rec();
+COLORS.model     := WindowCmd(["XCN"])[1];
+COLORS.black     := 0;
+COLORS.white     := 1;
+COLORS.lightGray := false;
+COLORS.dimGray   := false;
+COLORS.red       := false;
+COLORS.blue      := false;
+COLORS.green     := false;
+
+if COLORS.model = 1  then
+    COLORS.model     := "monochrome";
+elif COLORS.model = 2  then
+    COLORS.model     := "gray";
+    COLORS.lightGray := 2;
+    COLORS.dimGray   := 3;
+elif COLORS.model = 3  then
+    COLORS.model     := "color3";
+    COLORS.red       := 4;
+    COLORS.blue      := 5;
+    COLORS.green     := 6;
+elif COLORS.model = 4  then
+    COLORS.model     := "color5";
+    COLORS.lightGray := 2;
+    COLORS.dimGray   := 3;
+    COLORS.red       := 4;
+    COLORS.blue      := 5;
+    COLORS.green     := 6;
+fi;
+COLORS.lightGrey := COLORS.lightGray;
+COLORS.dimGrey   := COLORS.dimGray;
+
+
+#############################################################################
+##
+
+#F  ButtonSelected( <sid>, <bid> )  . . . . . . . . button selected, internal
+##
+ButtonSelected := function( sid, bid )
+    local   sel;
+    
+    sel := SELECTORS[sid+1];
+    return sel.operations.ButtonPressed( sel, bid );
+end;
+
+
+=============================================================================
+
+
+#############################################################################
+##
+#V  WINDOWS . . . . . . . . . . . . . .  list of gap garphic sheets, internal
+##
+#if not IsBound(WINDOWS)  then WINDOWS := [];  fi;
+
+
+#############################################################################
+##
+#V  SELECTORS . . . . . . . . . . . . . . .  list of text selectors, internal
+##
+#if not IsBound(SELECTORS)  then SELECTORS := [];  fi;
+
+
+=============================================================================
+
 The following functions are applicable to graphic sheets.
 
 'Close( <sheet> )'
