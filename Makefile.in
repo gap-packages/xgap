@@ -2,7 +2,7 @@
 ##
 #W  Makefile                    GAP source                       Frank Celler
 ##
-#H  @(#)$Id: Makefile.in,v 1.1 1997/11/25 15:52:24 frank Exp $
+#H  @(#)$Id: Makefile.in,v 1.2 1997/11/25 17:42:03 frank Exp $
 ##
 #Y  Copyright (C)  1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 ##
@@ -42,7 +42,7 @@ bin/@target@-@CC@/configure: cnf/configure.out
 	cp cnf/configure.out bin/@target@-@CC@/configure
 
 bin/@target@-@CC@/Makefile: bin/@target@-@CC@/configure cnf/config.hin
-	( cd bin/@target@-@CC@ ; CC=$(CC) ./configure --target=@target@ )
+	( cd bin/@target@-@CC@ ; CC=$(CC) ./configure --target=@target@ @gp_configure_options@ )
 
 compile:
 	( cd bin/@target@-@CC@ ; $(MAKE) CC=$(CC) )

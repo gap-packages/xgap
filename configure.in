@@ -1,4 +1,6 @@
 AC_INIT(configure)
+gp_configure_options=$*
+AC_SUBST(gp_configure_options)
 AC_CONFIG_AUX_DIR(../../cnf)
 AC_CANONICAL_SYSTEM
 AC_PROG_CC
