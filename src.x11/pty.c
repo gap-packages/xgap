@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.6 1997/12/05 17:31:01 frank Exp $
+*H  @(#)$Id: pty.c,v 1.7 1998/01/15 10:23:17 sal Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1227,11 +1227,11 @@ static Boolean GetMasterPty ( pty )
         return False;
 
 #   else
-#   ifdef HAVE_GETPSEUDOTTY
+#   if HAVE_GETPSEUDOTTY
         return (*pty = getpseudotty( &ttydev, &ptydev )) >= 0 ? False : True;
 
 #   else
-#   ifdef HAVE__GETPTY
+#   if HAVE__GETPTY
     char  * line;
 
 	line = _getpty(pty, O_RDWR|O_NDELAY, 0600, 0) ;
@@ -1323,7 +1323,7 @@ int StartGapProcess ( name, argv )
     int             master;  /* pipe to GAP                     */
     int             n;       /* return value of 'select'        */
     int             slave;   /* pipe from GAP                   */
-    struct fd_set   fds;     /* for 'select'                    */
+    /* struct */ fd_set   fds;     /* for 'select'                    */
     struct timeval  timeout; /* time to wait for aknowledgement */
 
 #   if HAVE_TERMIO_H
