@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.9 1999/01/18 22:48:22 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.10 1999/02/01 23:28:59 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.9 1999/01/18 22:48:22 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.10 1999/02/01 23:28:59 gap Exp $";
 
 
 #############################################################################
@@ -67,11 +67,11 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 ##
 ##  It is  possible to  change the  default behaviour of   a graphic sheet by
 ##  installing methods (or   sometimes  called callbacks) for   the following
-##  events.  In order to  avoid  confusion with  the GAP term  \"method\" the
-##  term \"callback\" will be used in the following.  For example, to install
+##  events.  In order to  avoid  confusion with  the GAP term  ``method'' the
+##  term ``callback'' will be used in the following.  For example, to install
 ##  the function `MyLeftPBDownCallback' as callback for the left mouse button
-##  down  event of a graphic <sheet>,  you have  to call `InstallCallback' as
-##  follows.
+##  down  event of a graphic sheet <sheet>,  you have  to call
+##  `InstallCallback' as follows.
 ##
 ##  \begintt
 ##      gap> InstallCallback( sheet, "LeftPBDown", MyLeftPBDownCallback );
@@ -89,16 +89,16 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 ##
 ##  \>`Close( <sheet> )'{CloseCallback}
 ##
-##    the function will be called as soon as the user selects \"close graphic
-##    sheet\",  the installed  function gets  the graphic <sheet> to close as
-##    argument.
+##    the function will be called as soon as the user selects ``close graphic
+##    sheet'',  the installed  function gets  the graphic sheet <sheet> to
+##    close as argument.
 ##
 ##  \> LeftPBDown( <sheet>, <x>, <y> )
 ##
 ##    the function will be called as soon as  the user presses the left mouse
 ##    button inside  the   graphic sheet, the  installed   function  gets the
-##    graphic <sheet>,  the <x> coordinate and  <y> coordinate of the pointer
-##    as arguments.
+##    graphic sheet <sheet>,  the <x> coordinate and  <y> coordinate of the
+##    pointer as arguments.
 ##
 ##  \> RightPBDown( <sheet>, <x>, <y> )
 ##
@@ -118,12 +118,12 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 ##  \> CtrlLeftPBDown( <sheet>, <x>, <y> )
 ##
 ##    same  as `LeftPBDown' except that the  user has pressed  the left mouse
-##    button together with the $CTR$ key on the keyboard.
+##    button together with the $CTRL$ key on the keyboard.
 ##
 ##  \> CtrlRightPBDown( <sheet>, <x>, <y> )
 ##
 ##    same as `LeftPBDown'  except that the  user has pressed the right mouse
-##    button together with the $CTR$ key on the keyboard.
+##    button together with the $CTRL$ key on the keyboard.
 ##
 DeclareOperation( "GraphicSheet", [ IsString, IsInt, IsInt ] );
 
@@ -160,8 +160,8 @@ DeclareOperation( "Callback", [ IsGraphicSheet, IsObject, IsList ] );
 ##
 #O  Close( <sheet> )  . . . . . . . . . . . . . . . . . close a graphic sheet
 ##
-##  The graphic sheet is closed which means that the corresponding window is
-##  closed and the sheet becomes <not alive>.
+##  The graphic sheet <sheet> is closed which means that the corresponding
+##  window is closed and the sheet becomes <not alive>.
 ##
 DeclareOperation( "Close", [ IsGraphicSheet ] );
 
@@ -200,7 +200,7 @@ DeclareOperation( "MakeGAPMenu", [ IsGraphicSheet ] );
 ##
 #O  Resize( <sheet>, <width>, <height> ) . . . . . . . . . . . . resize sheet
 ##
-##  The <width> and <height> of the sheet are changed. That does *not* 
+##  The <width> and <height> of the sheet <sheet> are changed. That does *not* 
 ##  automatically mean that the window size is changed. It may also happen
 ##  that only the scrollbars are changed.
 ##

@@ -2,19 +2,19 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.7 1999/01/18 22:48:22 gap Exp $
+#H  @(#)$Id: gobject.gd,v 1.8 1999/02/01 23:28:59 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.7 1999/01/18 22:48:22 gap Exp $";
+    "@(#)$Id: gobject.gd,v 1.8 1999/02/01 23:28:59 gap Exp $";
 
 #############################################################################
 #1
 ##  All graphics within graphic sheets are so called graphic objects. They 
-##  are {\GAP} objects in the category `IsGraphicObject'. These object are
+##  are {\GAP} objects in the category `IsGraphicObject'. These objects are
 ##  linked internally to the actual graphics within the window. You can 
 ##  modify these objects via certain operations which leads to the
 ##  corresponding change of the real graphics on the screen. The types of
@@ -117,7 +117,7 @@ DeclareOperation( "Move", [ IsGraphicObject, IsInt, IsInt ] );
 ##
 #O  MoveDelta( <object>, <dx>, <dy> ) . . . . . . . . . . . . . .  delta move
 ##
-##  Changes the position of a graphic object relatively It must be <alive>
+##  Changes the position of a graphic object relatively. It must be <alive>
 ##  and will be moved at once on the screen.
 ##
 DeclareOperation( "MoveDelta", [ IsGraphicObject, IsInt, IsInt ] );
@@ -372,9 +372,10 @@ DeclareOperation( "Line",
 #O  Text( <sheet>, <font>, <x>, <y>, <str> )  . . . . write a text in a sheet
 #O  Text( <sheet>, <font>, <x>, <y>, <str>, <defaults> )
 ##
-##  creates a new graphic object,  namely a black  text, in the graphic
-##  sheet <sheet> and  returns a {\GAP} record describing  this  object.  The
-##  text has the baseline of the first character at $(x,y)$.
+##  creates a new graphic object, namely the string <str> as a black text,
+##  in the graphic sheet <sheet> and returns a {\GAP} record describing
+##  this object.  The text has the baseline of the first character at
+##  $(x,y)$.
 ##
 ##  If a record <defaults> is given and contains a component `color' of value
 ##  <color>, the  function works like the first version  of  `Text', except 

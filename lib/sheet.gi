@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.8 1999/01/17 23:45:50 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.9 1999/02/01 23:28:59 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -15,7 +15,7 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.8 1999/01/17 23:45:50 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.9 1999/02/01 23:28:59 gap Exp $";
 
 
 #############################################################################
@@ -449,7 +449,7 @@ end );
 ##
 #M  Delete( <sheet>, <obj> )  . . . . . . . . . . . . delete <obj> in <sheet>
 ##
-InstallMethod( Delete,
+InstallOtherMethod( Delete,
     "for graphic sheet, and object",
     true,
     [ IsGraphicSheet and IsGraphicSheetRep, IsGraphicObject ],

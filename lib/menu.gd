@@ -2,7 +2,7 @@
 ##
 #W  menu.gd                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gd,v 1.4 1999/01/17 23:45:50 gap Exp $
+#H  @(#)$Id: menu.gd,v 1.5 1999/02/01 23:28:59 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,10 +11,10 @@
 ##
 ##  This files contains the menu and text selector  functions.  The low level
 ##  window functions are  in "window.g", the high  level window  functions in
-##  "sheet.g".
+##  "sheet.gi".
 ##
 Revision.pkg_xgap_lib_menu_gd :=
-    "@(#)$Id: menu.gd,v 1.4 1999/01/17 23:45:50 gap Exp $";
+    "@(#)$Id: menu.gd,v 1.5 1999/02/01 23:28:59 gap Exp $";
 
 
 #############################################################################
@@ -47,7 +47,7 @@ BindGlobal( "MenuFamily", NewFamily( "MenuFamily", IsMenu ) );
 #O  Menu( <sheet>, <title>, <ents>, <fncs> ) .  add a menu to a graphic sheet
 #O  Menu( <sheet>, <title>, <zipped> ) . . . .  add a menu to a graphic sheet
 ##
-##  `Menu' returns a pulldown menu. It is as attached to the sheet <sheet>
+##  `Menu' returns a pulldown menu. It is attached to the sheet <sheet>
 ##  under the title <title>. In the first form <ents> is a list of strings
 ##  consisting of the names of the menu entries. <fncs> is a list of
 ##  functions. They are called when the corresponding menu entry is selected
@@ -71,7 +71,7 @@ DeclareOperation( "Menu", [ IsGraphicSheet, IsString, IsList, IsList ] );
 #O  Check( <menu>, <entry>, <flag> )  . . . . . . . . . . .  check menu entry
 ## 
 ##  Modifies the ``checked'' state of a menu entry. This is visualized by a 
-##  small checked mark behind the menu entry. <menu> must be a menu object,
+##  small check mark behind the menu entry. <menu> must be a menu object,
 ##  <entry> the string exactly as in the definition of the menu, and <flag>
 ##  a boolean value.
 ##
@@ -128,17 +128,18 @@ DeclareOperation( "Query", [ IsObject ] );
 ##
 ##  creates a new text selector and returns a {\GAP} object describing it.
 ##  <name> is a title. <list> is an alternating list of strings and
-##  functions. The strings are displayed and can be selected by the user. 
-##  If this happens the corresponding function is called with two parameters.
-##  The first is the text selector object itself, the second the that is
-##  selected. <buttons> is an analogous list for the buttons that are 
+##  functions. The strings are displayed and can be selected by the user.
+##  If this happens the corresponding function is called with two
+##  parameters.  The first is the text selector object itself, the second
+##  the string that is selected. A selected string is highlighted and all
+##  other strings are reset at the same time. Use `Reset' to reset all
+##  entries.
+##
+##  <buttons> is an analogous list for the buttons that are 
 ##  displayed at the bottom of the text selector. The text selector is 
 ##  displayed immediately and stays on screen until it is closed (use the
 ##  `Close' operation). Buttons can be enabled and disabled by the `Enable'
 ##  operation and the string of a text can be changed via `Relabel'.
-##
-##  A selected string is highlighted and all other strings are reset at the
-##  same time. Use `Reset' to reset all entries.
 ##
 DeclareOperation( "TextSelector", [ IsString, IsList, IsList ] );
 

@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.8 1999/01/14 19:53:29 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.9 1999/02/01 23:28:59 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.8 1999/01/14 19:53:29 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.9 1999/02/01 23:28:59 gap Exp $";
 
 
 
@@ -162,7 +162,7 @@ end;
 
 ##  Our menu which goes in all poset sheets:
 PosetMenuEntries :=
-  ["Redraw","Show Levels","Show Levelparameters",,
+  ["Redraw","Show Levels","Show Level Parameters",,
    "Delete Vertices","Delete Edge",,
    "Magnify Lattice", "Shrink Lattice", "Resize Lattice", "Resize Sheet",
    "Move Lattice",,
@@ -992,12 +992,13 @@ end);
 
 #############################################################################
 ##
-#M  DeleteLevel(<poset>,<obj>)  . . . . . . . . . . . . remove level in poset
+#M  DeleteLevel(<poset>,<levelparam>) . . . . . . . . . remove level in poset
 ##
-##  The following method applies to a level. It returns fail if the level
-##  is not in the poset. The level is deleted and all classes within it
-##  are also deleted! Returns true if the level is successfully deleted.
-##  The parameter is a level parameter.
+##  The following method applies to a level. It returns `fail' if no level
+##  with level parameter <levelparam> is in the poset. Otherwise the level
+##  is deleted and all classes within it are also deleted! `DeleteLevel'
+##  returns `true' if the level is successfully deleted.
+##
 InstallOtherMethod( DeleteLevel,
     "for a graphic poset, and an object",
     true,
@@ -1164,6 +1165,7 @@ end);
 ##  the new position. If there is a contradiction nothing happens and the
 ##  method returns fail. If everything works the operation returns true.
 ##  This operation already exists in xgap for graphic objects.
+##
 InstallOtherMethod( MoveLevel,
     "for a graphic poset, an object, and an integer",
     true,
@@ -1340,14 +1342,15 @@ end);
 ##
 #M  Relabel(<graph>,<vertex>,<label>)  . . . . . . . . change label of vertex
 #M  Relabel(<graph>,<vertex>)  . . . . . . . . . . . . change label of vertex
-#M  Relabel(<poset>,<vertex>,<vertex>,<label>) . . . . . change label of edge
-#M  Relabel(<poset>,<vertex>,<vertex>) . . . . . . . . . change label of edge
+#M  Relabel(<poset>,<vertex1>,<vertex2>,<label>) . . . . change label of edge
+#M  Relabel(<poset>,<vertex1>,<vertex2>) . . . . . . . . change label of edge
 ##
-##  Changes the label of a vertex or edge. This must be a short string. In the
-##  method where no label is specified the new label is chosen
-##  functionally: the method ChooseLabel is called. Returns fail if an
-##  error occurs and true otherwise.  This operations already exists in
-##  xgap for graphic objects.
+##  Changes the label of the vertex <vertex> or the edge between <vertex1>
+##  and <vertex2>. This must be a short string. In the method where no
+##  label is specified the new label is chosen functionally: the operation
+##  `ChooseLabel' is called. `Relabel' returns `fail' if an error occurs
+##  and `true' otherwise.  This operations already exists in {\XGAP} for
+##  graphic objects.
 ##
 InstallOtherMethod( Relabel,
     "for a graphic graph, a vertex, and a string",
@@ -1431,11 +1434,11 @@ end);
 #M  Move(<graph>,<vertex>,<x>,<y>) . . . . . . . . . . . . . . .  move vertex
 #M  Move(<graph>,<vertex>) . . . . . . . . . . . . . . . . . . .  move vertex
 ##
-##  Moves <vertex>. For posets coordinates are relative to the level of the
-##  vertex. <vertex> must be a vertex object in <graph>. If no coordinates
-##  are specified the method ChoosePosition is called. Returns fail if an
-##  error occurs and true otherwise.  This operations already exists in
-##  xgap for graphic objects.
+##  Moves vertex <vertex>. For posets coordinates are relative to the level
+##  of the vertex. <vertex> must be a vertex object in <graph>. If no
+##  coordinates are specified the operation `ChoosePosition' is
+##  called. Returns `fail' if an error occurs and `true' otherwise.  This
+##  operations already exists in {\XGAP} for graphic objects.
 ##
 InstallOtherMethod( Move,
     "for a graphic poset, a vertex, and two integers",
@@ -1486,11 +1489,12 @@ end);
 #M  Reshape(<graph>,<vertex>,<shape>)  . . . . . . . . change shape of vertex
 #M  Reshape(<graph>,<vertex>)  . . . . . . . . . . . . change shape of vertex
 ##
-##  Changes the shape of a vertex. <vertex> must be a vertex object in
-##  graph. For the method where no shape is specified the new shape is
-##  chosen functionally: ChooseShape is called for the corresponding data.
-##  Returns fail if an error occurs and true otherwise.  This operations
-##  already exists in xgap for graphic objects.
+##  Changes the shape of the vertex <vertex>. <vertex> must be a vertex
+##  object in the graph or poset <graph>. For the method where no shape is
+##  specified the new shape is chosen functionally: `ChooseShape` is called
+##  for the corresponding data.  `Reshape' returns `fail' if an error
+##  occurs and `true' otherwise.  This operations already exists in {\XGAP}
+##  for graphic objects.
 ##
 InstallOtherMethod( Reshape,
     "for a graphic graph, a vertex, and a string",
@@ -1531,11 +1535,12 @@ end);
 #M  Recolor(<poset>,<vertex1>,<vertex2>,<color>) . .  change color of an edge
 #M  Recolor(<poset>,<vertex1>,<vertex2>) . . . . . .  change color of an edge
 ##
-##  Changes the color of a vertex or an edge. <vertex> must be a vertex 
-##  object in <graph>. For the method where no color is specified the new 
-##  color is chosen functionally: ChooseColor is called for the corresponding 
-##  data. Returns fail if an error occurs and true otherwise. This operation
-##  already exists in xgap for graphic objects.
+##  Changes the color of the vertex <vertex> or the edge between <vertex1>
+##  and <vertex2>. <vertex> must be a vertex object in <graph>. For the
+##  method where no color is specified the new color is chosen
+##  functionally: `ChooseColor' is called for the corresponding
+##  data. `Recolor' returns `fail' if an error occurs and `true'
+##  otherwise. This operation already exists in {\XGAP} for graphic objects.
 ##
 InstallOtherMethod( Recolor,
     "for a graphic graph, a vertex, and a color",
@@ -1604,9 +1609,10 @@ end);
 ##
 ##  Changes the line width of an edge. <vertex1> and <vertex2> must be
 ##  vertices in the graph <graph>. For the method where no line width is
-##  specified the width is chosen functionally: ChooseWidth is called for
-##  the corresponding data pair. Returns fail if an error occurs and true
-##  otherwise. This operation already exists in xgap for graphic objects.
+##  specified the width is chosen functionally: `ChooseWidth' is called for
+##  the corresponding data pair. Returns `fail' if an error occurs and
+##  `true' otherwise. This operation already exists in {\XGAP} for graphic
+##  objects.
 ##
 InstallOtherMethod( SetWidth,
     "for a graphic poset, two vertices, and an integer",
@@ -1648,11 +1654,12 @@ end);
 #M  Highlight(<graph>,<vertex>)  . . . . . . . change highlightning of vertex
 #M  Highlight(<graph>,<vertex>,<flag>) . . . . change highlightning of vertex
 ##
-##  Changes the highlightning status of a vertex. <vertex> must be a vertex
-##  object in graph. For the method where no flag is specified the new status
-##  is chosen functionally: ChooseHighlight is called for the corresponding 
-##  data. Returns fail if an error occurs and true otherwise. This operation
-##  already exists in xgap for graphic objects.
+##  Changes the highlighting status of the vertex <vertex>. <vertex> must
+##  be a vertex object in <graph>. For the method where no flag is
+##  specified the new status is chosen functionally: `ChooseHighlight' is
+##  called for the corresponding data. Returns `fail' if an error occurs
+##  and `true' otherwise. This operation already exists in {\XGAP} for
+##  graphic objects.
 ##
 InstallOtherMethod( Highlight,
     "for a graphic graph, a vertex, and a flag",
@@ -1692,10 +1699,10 @@ GGSelectModifiesMenu := true;
 #M  Select(<graph>,<vertex>,<flag>) . . . . . . . . . . (de-)selects a vertex
 #M  Select(<graph>,<vertex>)  . . . . . . . . . . . . . . .  selects a vertex
 ##
-##  Changes the selection state of a vertex. <vertex> must be a vertex object
-##  in <graph>. The flags determines whether the vertex should be selected or
-##  deselected. This operation already exists in xgap for graphic objects.
-##  The method without flags assumes "true".
+##  Changes the selection state of the vertex <vertex>. <vertex> must be a
+##  vertex object in <graph>. The flag determines whether the vertex
+##  should be selected or deselected. This operation already exists in
+##  {\XGAP} for graphic objects.  The method without flags assumes `true'.
 ##
 InstallOtherMethod( Select,
     "for a graphic graph, a vertex, and a flag",
