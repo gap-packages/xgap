@@ -2,14 +2,14 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.11 1999/03/07 22:04:49 gap Exp $
+#H  @(#)$Id: gobject.gi,v 1.12 1999/11/23 19:32:00 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.11 1999/03/07 22:04:49 gap Exp $";
+    "@(#)$Id: gobject.gi,v 1.12 1999/11/23 19:32:00 gap Exp $";
 
 
 #############################################################################
@@ -2531,7 +2531,7 @@ end );
 InstallOtherMethod( Relabel,
     "for a text, and a string",
     true,
-    [ IsGraphicObject and IsTextObjectRep and IsAlive, IsFont ],
+    [ IsGraphicObject and IsTextObjectRep and IsAlive, IsString ],
     0,
 
 function( text, str )
