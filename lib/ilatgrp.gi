@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.34 1999/05/28 14:42:04 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.35 1999/05/30 21:03:57 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.34 1999/05/28 14:42:04 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.35 1999/05/30 21:03:57 gap Exp $";
 
 
 #############################################################################
@@ -90,7 +90,9 @@ if not IsBound(IsGraphicSubgroupLattice) then
       "largestlabel",     # largest used number for label
       "lastresult",       # list of vertices which are "green"
       "largestinflevel",  # largest used number for infinity-level
-      "selector"],        # the current text selector or "false"
+      "selector",         # the current text selector or "false"
+      "WholeGroupVert",   # Vertex of the whole group
+      "TrivialGroupVert"],# Vertex of the trivial subgroup
     IsGraphicSheet );
 fi;
 
@@ -775,7 +777,7 @@ function(sheet,v,x,y)
     od;
     
     # We check, if we have new knowledge about IsNormal:
-    if HasIsNormalInParent(v!.data.group) and 
+    if IsBound(current.func) and current.func = IsNormal and
        v!.obj!.shape = VERTEX.rectangle then
       if IsNormal(sheet!.group,v!.data.group) then
         Reshape(v!.obj,VERTEX.diamond);
@@ -1152,14 +1154,22 @@ function(sheet, menu, entry)
             fi;
           od;
         fi;
+        
         # we cannot say anything if menuop.where = GGLwhereAny
-        # except: all subgroups are in the whole group:
+        # except: all subgroups are in the whole group and
+        #         all subgroups contain the trivial subgroup
         for i in [1..len] do
           if vertices[i] <> fail then
-            # FIXME: Is this correct to access vertex "G"?
-            NewInclusionInfo( sheet, vertices[i], sheet!.levels[1]!.classes[1][1] );
             if not(IsAlive(vertices[i]!.obj)) then
               vertices[i] := fail;
+            else
+              if IsAlive(sheet!.WholeGroupVert!.obj) then
+                NewInclusionInfo( sheet, vertices[i], sheet!.WholeGroupVert );
+              fi;
+              if sheet!.TrivialGroupVert <> false and
+                 IsAlive(sheet!.TrivialGroupVert!.obj) then
+                NewInclusionInfo( sheet, sheet!.TrivialGroupVert, vertices[i]);
+              fi;
             fi;
           fi;
         od;
@@ -1862,8 +1872,6 @@ function( sheet, grp, conjugclass, hints )
     newlevel := [infinity,sheet!.largestinflevel];
   fi;
   
-  Print("Newlevel: ",newlevel,"\n");
-  
   if Position(Levels(sheet),newlevel) = fail then
     if IsInt(newlevel) then
       if newlevel < 0 then
@@ -2506,7 +2514,7 @@ function(G,def)
     # we just create one or two levels:
     CreateLevel(poset,1,"Index 1");  # for the whole group
     if latticetype[4] then
-      if Size(G) <> infinity then
+      if CanComputeSize(G) and Size(G) <> infinity then
         str := "Index ";
         Append(str,String(Size(G)));
         CreateLevel(poset,Size(G),str);
@@ -2523,6 +2531,7 @@ function(G,def)
   vmath.class := [vmath];
   v2 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index, label := "G",
                                shape := "diamond"));
+  poset!.WholeGroupVert := v2;
   
   # we keep track of largest label:
   poset!.largestlabel := 1;
@@ -2530,10 +2539,14 @@ function(G,def)
   poset!.largestinflevel := 0;
   
   if latticetype[4] then
-    vmath := rec(group := TrivialSubgroup(G),
-                 info := rec(Index := Size(G)));
+    vmath := rec(group := TrivialSubgroup(G));
+    if CanComputeSize(G) then
+      vmath.info := rec(Index := Size(G));
+    else
+      vmath.info := rec();
+    fi;
     vmath.class := [vmath];
-    if Size(G) <> infinity then
+    if CanComputeSize(G) and Size(G) <> infinity then
       v1 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index,label := "1",
                     shape := "diamond"));
     else
@@ -2543,6 +2556,9 @@ function(G,def)
     
     # connect the two vertices
     Edge(poset,v1,v2);
+    poset!.TrivialGroupVert := v1;
+  else
+    poset!.TrivialGroupVert := false;
   fi;
   
   # <G> is selected at first
