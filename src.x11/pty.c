@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.12 2004/02/20 08:14:47 gap Exp $
+*H  @(#)$Id: pty.c,v 1.13 2004/05/02 14:16:19 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1221,6 +1221,16 @@ static String ttydev = 0;
 static Boolean GetMasterPty ( pty )
     int   * pty;
 {
+#if HAVE_GETPT && HAVE_PTSNAME_R
+  if ((*pty = getpt()) > 0 )
+    {
+      if (grantpt(*pty) || unlockpt(*pty))
+        return True;
+      ptsname_r(*pty, ttydev, 80); 
+      return False;
+    }
+  return True;
+#else
 #   ifdef att
         if ( (*pty = open( "/dev/ptmx", O_RDWR )) < 0 )
             return True;
@@ -1305,6 +1315,7 @@ static Boolean GetMasterPty ( pty )
 #   endif
 #   endif
 #   endif
+#endif
 }
 
 
@@ -1353,8 +1364,12 @@ int StartGapProcess ( name, argv )
 #   endif
 
     /* construct the name of the pseudo terminal */
-    ttydev = XtMalloc(strlen(SYS_TTYDEV)+1);  strcpy( ttydev, SYS_TTYDEV );
-    ptydev = XtMalloc(strlen(SYS_PTYDEV)+1);  strcpy( ptydev, SYS_PTYDEV );
+    /* was:
+      ttydev = XtMalloc(strlen(SYS_TTYDEV)+1);  strcpy( ttydev, SYS_TTYDEV );
+      ptydev = XtMalloc(strlen(SYS_PTYDEV)+1);  strcpy( ptydev, SYS_PTYDEV );
+      changed by Max 2.5.2004 because this might be too short! */
+    ttydev = XtMalloc(81);  strcpy( ttydev, SYS_TTYDEV );
+    ptydev = XtMalloc(81);  strcpy( ptydev, SYS_PTYDEV );
 
     /* open pseudo terminal for communication with gap */
     if ( GetMasterPty(&master) )

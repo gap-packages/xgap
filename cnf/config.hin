@@ -103,6 +103,8 @@
 /* define as 1 if you have `_getpty'                                       */
 #define HAVE__GETPTY		0
 
+#define HAVE_GETPT              0
+#define HAVE_PTSNAME_R         0
 
 /****************************************************************************
 **

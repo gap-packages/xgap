@@ -2,7 +2,7 @@
 ##
 #W  init.g                      XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: init.g,v 1.12 2004/02/20 08:21:18 gap Exp $
+#H  @(#)$Id: init.g,v 1.13 2004/05/02 14:16:19 gap Exp $
 ##
 #Y  Copyright (C) 1993,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
@@ -10,7 +10,7 @@
 last := 0;    # to make GAP happy when this package is autoloaded
 
 # We leave the following until everybody has GAP >=4.4
-DeclarePackage("xgap","4.20",ReturnTrue);
+DeclarePackage("xgap","4.21",ReturnTrue);
 DeclarePackageAutoDocumentation( "xgap", "doc" );
 
 

@@ -1,4 +1,4 @@
-$Id: Changelog.r20,v 1.2 2004/02/20 08:17:17 gap Exp $
+$Id: Changelog.r20,v 1.3 2004/05/02 14:16:19 gap Exp $
 
 This file describes the changes from xgap4r19 to xgap4r20:
 
@@ -10,4 +10,3 @@ This file describes the changes from xgap4r19 to xgap4r20:
  * Two changes with respect to pseudo terminals for the Windows/CYGWIN
    environment, suggested by Gary Zablackis. This is not tested.
 
-(not yet released!)
