@@ -39,9 +39,9 @@ The following operations apply to graphic sheets:
 
 \Declaration{IsGraphicObject}
 
-\bigskip
+\bigskip%
 
-{\bf Constructors:}
+*Constructors:*
 
 \Declaration{Box}
 \Declaration{Circle}
@@ -50,11 +50,11 @@ The following operations apply to graphic sheets:
 \Declaration{Rectangle}
 \Declaration{Line}
 \Declaration{Text}
-\Declaration{Vertex}[gobject]
 
-\bigskip
 
-{\bf Operations for graphic objects:}
+\bigskip%
+
+*Operations for graphic objects:*
 
 \Declaration{Connection}
 \Declaration{Disconnect}
@@ -69,7 +69,7 @@ The following operations apply to graphic sheets:
 \Declaration{PrintInfo}
 \Declaration{Recolor}[gobject]
 \Declaration{Reshape}[gobject]
-\>`\\in'{in for graphic objects}
+\>`\\in'{in!for graphic objects}@{`in'!for graphic objects}
 
 This infix operation needs a vector of two integers to its left and a graphic
 object to its right (``vector of two integers'' means a list of two
@@ -117,7 +117,7 @@ There are some global data structures which can and should be consulted if
 certain information is needed. The first (about color handling) was already 
 described in section "Color Models". The second is for vertices:
 
-\>`VERTEX'{VERTEXREC}@{VERTEX}
+\>`VERTEX'{VERTEX!record}@{`VERTEX'!record} V
 
   This globally bound record contains the following components:
 
@@ -133,11 +133,11 @@ described in section "Color Models". The second is for vertices:
 `diameter' & diameter in pixels of a vertex on the screen
 \enditems
 
-\bigskip
+\bigskip%
 
 The third structure is about the available fonts. 
 
-\>`FONTS'{FONTS} 
+\>`FONTS' V
 
 This globally bound record has the following components: `tiny', `small', 
 `normal', `large', `huge' and `fonts'. The first 5 are itself records each
@@ -150,17 +150,17 @@ fonts are non-proportional.
 
 \Declaration{FontInfo}
 
-\bigskip
+\bigskip%
 
 There is another global structure:
 
-\>`BUTTONS'{BUTTONS}
+\>`BUTTONS' V
 
 This record contains the following components: `left' and `right' contain a
 number for the left resp. right mouse button. `shift' and `ctrl' contain
 codes for the respective keys on the keyboard.
 
-\bigskip
+\bigskip%
 
 You should always use these global data instead of hardwiring any integers into
 your code.

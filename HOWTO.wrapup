@@ -1,14 +1,14 @@
-$Id: HOWTO.wrapup,v 1.2 2000/02/25 00:45:46 gap Exp $
+$Id: HOWTO.wrapup,v 1.3 2002/04/23 10:45:18 gap Exp $
 
 This file describes, how an XGAP release is wrapped up:
 
  0) You need a GAP installation, especially some things in the "doc" directory.
  1) Check everything out of the CVS repository (it will go into "pkg/xgap").
- 2) Run "make_doc" in the pkg/xgap directory to make the manual
-    (this generates dvi, ps, and htm version)
-    Be sure to use version 4.30 and *nothing newer* of "gapmacro.tex"
-    in the doc directory of your GAP installation because otherwise
-    the table of contents, bibliography, and index will be broken!
+ 2) Run "make" in the pkg/xgap directory to make the manual
+    (this generates dvi, pdf, and htm versions; make manual.ps gives
+    PostScript version)
+    Everything now compiles correctly with the latest buildman.pe, convert.pl
+    and gapmacro.tex.
  3) Edit version numbers in "init.g" and "etc/zooit".
     Note that due to some errors, the 4r10 and 4r11 version had "4.00" and
     the 4r12 version had "4.02" in "init.g". In later versions "init.g" should
@@ -16,6 +16,7 @@ This file describes, how an XGAP release is wrapped up:
  4) Change to the "pkg" directory and call "xgap/etc/zooit".
     You get a zoo file in the "pkg" directory.
 
-    February, 2000
-    Max Neunhoeffer
+    February 2000,   April, 2002
+    Max Neunhoeffer, GG
+    
 

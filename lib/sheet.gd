@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.15 1999/11/25 18:06:58 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.16 2002/04/23 10:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.15 1999/11/25 18:06:58 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.16 2002/04/23 10:45:18 gap Exp $";
 
 
 #############################################################################
@@ -33,7 +33,7 @@ Revision.pkg_xgap_lib_sheet_gd :=
 
 #############################################################################
 ##
-#F  IsAlive . . . . . . . . . . . . . . . filter for living displayed objects
+#F  IsAlive( <gobj> ) . . . . . . . . . . filter for living displayed objects
 ##
 ##  This filter controls if a graphic object is <alive>, meaning that it can
 ##  be used for further graphic operations.
@@ -50,7 +50,7 @@ BindGlobal( "GraphicSheetFamily", NewFamily( "GraphicSheetFamily" ) );
 
 #############################################################################
 ##
-#C  IsGraphicSheet  . . . . . . . . . . . . . . .  category of graphic sheets
+#C  IsGraphicSheet( <gobj> ) . . . . . . . . . . . category of graphic sheets
 ##
 DeclareCategory( "IsGraphicSheet", IsObject );
 
@@ -74,7 +74,7 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 ##  `InstallCallback' as follows.
 ##
 ##  \begintt
-##      gap> InstallCallback( sheet, "LeftPBDown", MyLeftPBDownCallback );
+##  gap> InstallCallback( sheet, "LeftPBDown", MyLeftPBDownCallback );
 ##  \endtt
 ##
 ##  {\XGAP} stores for each graphic sheet a list of callback keys and a list
@@ -87,40 +87,40 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 ##  All of these keys are strings. You can install your own callback 
 ##  functions for new keys, however they will not be triggered automatically.
 ##
-##  \>`Close( <sheet> )'{CloseCallback}
+##  \>Close( <sheet> )!{Callback}
 ##
 ##    the function will be called as soon as the user selects ``close graphic
 ##    sheet'',  the installed  function gets  the graphic sheet <sheet> to
 ##    close as argument.
 ##
-##  \> LeftPBDown( <sheet>, <x>, <y> )
+##  \>LeftPBDown( <sheet>, <x>, <y> )
 ##
 ##    the function will be called as soon as  the user presses the left mouse
 ##    button inside  the   graphic sheet, the  installed   function  gets the
 ##    graphic sheet <sheet>,  the <x> coordinate and  <y> coordinate of the
 ##    pointer as arguments.
 ##
-##  \> RightPBDown( <sheet>, <x>, <y> )
+##  \>RightPBDown( <sheet>, <x>, <y> )
 ##
 ##    same  as `LeftPBDown' except that the  user has pressed the right mouse
 ##    button.
 ##
-##  \> ShiftLeftPBDown( <sheet>, <x>, <y> )
+##  \>ShiftLeftPBDown( <sheet>, <x>, <y> )
 ##
 ##    same  as `LeftPBDown' except that the  user has  pressed the left mouse
 ##    button together with the $SHIFT$ key on the keyboard.
 ##
-##  \> ShiftRightPBDown( <sheet>, <x>, <y> )
+##  \>ShiftRightPBDown( <sheet>, <x>, <y> )
 ##
 ##    same as  `LeftPBDown' except that the  user has pressed the right mouse
 ##    button together with the $SHIFT$ key on the keyboard.
 ##
-##  \> CtrlLeftPBDown( <sheet>, <x>, <y> )
+##  \>CtrlLeftPBDown( <sheet>, <x>, <y> )
 ##
 ##    same  as `LeftPBDown' except that the  user has pressed  the left mouse
 ##    button together with the $CTRL$ key on the keyboard.
 ##
-##  \> CtrlRightPBDown( <sheet>, <x>, <y> )
+##  \>CtrlRightPBDown( <sheet>, <x>, <y> )
 ##
 ##    same as `LeftPBDown'  except that the  user has pressed the right mouse
 ##    button together with the $CTRL$ key on the keyboard.

@@ -2,14 +2,14 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.10 1999/03/10 16:45:18 gap Exp $
+#H  @(#)$Id: gobject.gd,v 1.11 2002/04/23 10:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.10 1999/03/10 16:45:18 gap Exp $";
+    "@(#)$Id: gobject.gd,v 1.11 2002/04/23 10:45:18 gap Exp $";
 
 #############################################################################
 #1
@@ -31,7 +31,7 @@ Revision.pkg_xgap_lib_gobject_gd :=
 
 #############################################################################
 ##
-#C  IsGraphicObject . . . . . . . . . . . . . . . category of graphic objects
+#C  IsGraphicObject( <gobj> ) . . . . . . . . . . category of graphic objects
 ##
 ##  This is the category in which all graphic objects are.
 ##

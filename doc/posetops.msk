@@ -67,30 +67,30 @@ in "An Example".
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Operations}
 
-{\bf Constructors:}
+*Constructors:*
 
-\medskip
+\medskip%
 \Declaration{GraphicPoset}
 \Declaration{CreateLevel}
 \Declaration{CreateClass}
 \Declaration{Vertex}[poset]
 \Declaration{Edge}
 
-{\bf Destructors:}
+*Destructors:*
 
-\medskip
-\>`Delete( <poset>, <vertex1>, <vertex2> )'{Delete for edge in poset}
-\>`Delete( <poset>, <vertex1>)'{Delete for vertex in poset}
-\>`Delete( <poset>, <levelparam>, <classparam> )'{Delete for class in poset}
+\medskip%
+\>Delete( <poset>, <vertex1>, <vertex2> )!{for edge in poset}
+\>Delete( <poset>, <vertex1>)!{for vertex in poset}
+\>Delete( <poset>, <levelparam>, <classparam> )!{for class in poset}
 
 These three variants of the `Delete' operation delete an edge, a vertex and 
 a class respectively.
 
 \Declaration{DeleteLevel}
 
-\medskip
-{\bf Operations to change a poset:}
-\medskip
+\medskip%
+*Operations to change a poset:*
+\medskip%
 \Declaration{ResizeLevel}
 \Declaration{MoveLevel}
 \Declaration{Relabel}[poset]
@@ -103,9 +103,9 @@ a class respectively.
 \Declaration{DeselectAll}
 \Declaration{Selected}
 
-\medskip
-{\bf Operations for decisions:}
-\medskip
+\medskip%
+*Operations for decisions:*
+\medskip%
 \Declaration{ChooseLabel}
 \Declaration{ChooseLevel}
 \Declaration{ChooseClass}
@@ -116,9 +116,9 @@ a class respectively.
 \Declaration{ChooseWidth}
 \Declaration{CompareLevels}
 
-\medskip
-{\bf Operations to get information:}
-\medskip
+\medskip%
+*Operations to get information:*
+\medskip%
 \Declaration{WhichLevel}
 \Declaration{WhichClass}
 \Declaration{WhichVertex}
@@ -130,9 +130,9 @@ a class respectively.
 \Declaration{MaximalIn}
 \Declaration{PositionLevel}
 
-\medskip
-{\bf Operations for user communication:}
-\medskip
+\medskip%
+*Operations for user communication:*
+\medskip%
 \Declaration{Menu}[poset]
 \Declaration{ModifyEnabled}
 \Declaration{InstallPopup}
@@ -140,9 +140,9 @@ a class respectively.
 \Declaration{PosetCtrlLeftClick}
 \Declaration{PosetRightClick}
 
-\medskip
-{\bf Operations for user actions:}
-\medskip
+\medskip%
+*Operations for user actions:*
+\medskip%
 \Declaration{UserDeleteVerticesOp}
 \Declaration{UserDeleteEdgeOp}
 \Declaration{UserMergeClassesOp}
