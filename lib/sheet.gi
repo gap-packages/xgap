@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.9 1999/02/01 23:28:59 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.10 1999/03/07 22:06:47 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -15,7 +15,7 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.9 1999/02/01 23:28:59 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.10 1999/03/07 22:06:47 gap Exp $";
 
 
 #############################################################################
@@ -474,6 +474,13 @@ end );
 ##
 #M  FastUpdate( <sheet>, <flag> ) . . . . . . . . . . . . . switch fastupdate
 ##
+##  Switches the `UseFastUpdate' filter for the sheet <sheet> to the
+##  boolean value of <flag>. If this filter is set for a sheet, the screen
+##  is no longer updated completely if a graphic object is moved or
+##  deleted.  You should call `FastUpdate( <sheet>, true )' before you
+##  start large rearrangements of the graphic objects and 
+##  `FastUpdate( <sheet>, false )' at the end.
+##
 InstallMethod( FastUpdate,
     "for a graphic sheet, and a flag",
     true,
@@ -508,8 +515,8 @@ InstallOtherMethod( FastUpdate,
 function ( sheet )
     if not UseFastUpdate(sheet) then
         WcFastUpdate( WindowId(sheet), true );
+        SetFilterObj( sheet, UseFastUpdate );
     fi;
-    SetFilterObj( sheet, UseFastUpdate );
 end );
 
     
@@ -664,7 +671,10 @@ function( sheet, x, y, bt, func )
     FastUpdate(sheet,true);
     while true  do
         tmp := WcQueryPointer( WindowId(sheet) );
-        if tmp[3] <> bt  then return true;  fi;
+        if tmp[3] <> bt  then 
+            FastUpdate(sheet,false);
+            return true;
+        fi;
         if tmp[1] = -1  then tmp[1] := x;  fi;
         if tmp[2] = -1  then tmp[2] := y;  fi;
         if tmp[1] <> x or tmp[2] <> y  then

@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.11 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.12 1999/03/07 22:06:47 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.11 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.12 1999/03/07 22:06:47 gap Exp $";
 
 
 #############################################################################
@@ -277,6 +277,13 @@ DeclareOperation( "SetTitle", [ IsGraphicSheet, IsString ] );
 #############################################################################
 ##
 #O  FastUpdate( <sheet>, <flag> ) . . . . . . . . . . . . . switch fastupdate
+##
+##  Switches the `UseFastUpdate' filter for the sheet <sheet> to the
+##  boolean value of <flag>. If this filter is set for a sheet, the screen
+##  is no longer updated completely if a graphic object is moved or
+##  deleted.  You should call `FastUpdate( <sheet>, true )' before you
+##  start large rearrangements of the graphic objects and 
+##  `FastUpdate( <sheet>, false )' at the end.
 ##
 DeclareOperation( "FastUpdate", [ IsGraphicSheet, IsBool ] );
 
