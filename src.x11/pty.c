@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.3 1997/11/27 15:14:35 frank Exp $
+*H  @(#)$Id: pty.c,v 1.4 1997/12/01 22:10:36 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
@@ -12,7 +12,7 @@
 **  GAP is started in a special mode that will mask special characters.  The
 **  following '@' sequences produced by GAP are recoginzed:
 **
-**    'pX.Y.'          		package mode version X.Y
+**    'pX.'          		package mode version X
 **    '@'			a single '@'
 **    'A'..'Z'			a control character
 **    '1','2','3','4','5','6'	full garbage collection information
@@ -93,7 +93,11 @@ char ScreenSizeBuffer[128] = { 0 };
 Boolean ExecRunning = False;
 
 
-/* * * * * * * * * * * * *  communication with GAP * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F * * * * * * * * * * * *  communication with GAP * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -282,7 +286,7 @@ static Int LastLine;
 /****************************************************************************
 **
 
-*D  CURRENT(<buf>)  . . . . . . . . . . . . . . . . . . . . .  current symbol
+*D  CURRENT( <buf> )  . . . . . . . . . . . . . . . . . . . .  current symbol
 */
 #define	CURRENT(buf)	    ((buf).buffer[(buf).pos])
 
@@ -444,11 +448,14 @@ void StoreInput ( str, len )
 **
 *F  ProcessStoredInput( <state> ) . . . . . . . . .  feed stored input to gap
 */
+static Char InputCookie = 'A';
+
 void ProcessStoredInput ( state )
     Int             state;
 {
     String          ptr;
     String          free;
+    Char            ch;
     Int             len;
     static Boolean  inProgress = False;
 
@@ -466,13 +473,15 @@ void ProcessStoredInput ( state )
 
     /* otherwise make sure that gap does not want to tell use something */
 again:
-    if ( HAS_INPUT(InBuffer) || HAS_INPUT(InBuffer) )
+    if ( HAS_INPUT(InBuffer) )
 	GapOutput( 0, 0, 0 );
     if ( GapState != GAP_INPUT && GapState != GAP_ERROR )
 	return;
 
-    /* send '@y' and wait for ACK '@s' */
+    /* send '@yN' and wait for ACK '@sN' */
+    if ( InputCookie++ == 'Z' )  InputCookie = 'A';
     WriteGap( "@y", 2 );
+    WriteGap( &InputCookie, 1 );
     WaitInput(&InBuffer);
     if ( CURRENT(InBuffer) != '@' )
 	goto again;
@@ -481,6 +490,9 @@ again:
 	goto again;
     (void)READ_CURRENT(InBuffer);
     (void)READ_CURRENT(InBuffer);
+    WaitInput(&InBuffer);
+    if ( READ_CURRENT(InBuffer) != InputCookie )
+	goto again;
 
     /* if the screen was resized,  process resize command first */
     if ( *ScreenSizeBuffer != 0 )
@@ -641,8 +653,10 @@ void KeyboardInput ( str, len )
 	    return;
 	}
 
-	/* send '@y' and wait for ACK '@s' */
+	/* send '@yN' and wait for ACK '@sN' */
+	if ( InputCookie++ == 'Z' )  InputCookie = 'A';
 	WriteGap( "@y", 2 );
+	WriteGap( &InputCookie, 1 );
 	WaitInput(&InBuffer);
 	if ( CURRENT(InBuffer) != '@' )
 	{
@@ -659,6 +673,11 @@ void KeyboardInput ( str, len )
 	}
 	(void)READ_CURRENT(InBuffer);
 	(void)READ_CURRENT(InBuffer);
+	if ( READ_CURRENT(InBuffer) != InputCookie ) {
+	    GapOutput( 0, 0, 0 );
+	    KeyboardInput( str, len );
+	    return;
+	}
 
 	/* write a character and start again */
 	WriteGap( str, 1 );
@@ -925,13 +944,18 @@ end_exec_loop:
 	if ( special )
 	{
 
-	    /* '1' to '4' are garbage */
-	    if ( 1 <= ch && ch <= '4' )
+	    /* '1' to '6' are garbage */
+	    if ( '1' <= ch && ch <= '6' )
 	    {
 		Int	size;
-
 		ParseInt( &InBuffer, &size );
 		UpdateMemoryInfo( (int) (ch-'0'), size );
+	    }
+
+	    /* '!','"','#','$','%','&' are garbage */
+	    else if ( '!' <= ch && ch <= '&' ) {
+		Int	size;
+		ParseInt( &InBuffer, &size );
 	    }
 
 	    /* 'i' means gap is waiting for input */
@@ -1039,8 +1063,11 @@ end_exec_loop:
 		ch = 'f';
 
 	    /* ignore 's',  see 'SimulateInput' */
-	    else if ( ch == 's' )
+	    else if ( ch == 's' ) {
+		WaitInput(&InBuffer);
+		(void)READ_CURRENT(InBuffer);
 		continue;
+	    }
 	}
 
 	/* collect normal characters and display them */
@@ -1115,7 +1142,11 @@ end_exec_loop:
 }
 
 
-/* * * * * * * * * * * * * starting/stopping gap + * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F * * * * * * * * * * * * starting/stopping gap + * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -1392,7 +1423,7 @@ int StartGapProcess ( name, argv )
 
     /* wait for an aknowledgement (@p) from the gap subprocess */
     j = 0;
-    while ( j < 2 )
+    while ( j < 10 && c[j-1] != '.' )
     {
 
         /* set <FromGap> port for listen */
@@ -1428,7 +1459,7 @@ int StartGapProcess ( name, argv )
     }
 
     /* check if we got "@p" */
-    if ( strncmp( c, "@p", 2 ) )
+    if ( c[j-1] != '.' || strncmp( c, "@p", 2 ) )
     {
         if ( ! strncmp( c, "@-", 2 ) )
         {
@@ -1451,3 +1482,10 @@ int StartGapProcess ( name, argv )
     InBuffer.pos = InBuffer.len = 0;
     return FromGap;
 }
+
+
+/****************************************************************************
+**
+
+*E  pty.c . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/

@@ -2,11 +2,15 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.2 1997/11/27 10:59:20 frank Exp $
+*H  @(#)$Id: xgap.c,v 1.3 1997/12/01 22:10:38 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
 *H  $Log: xgap.c,v $
+*H  Revision 1.3  1997/12/01 22:10:38  frank
+*H  adjusted communication with GAP (more garbage info, serial number
+*H  with '@y')
+*H
 *H  Revision 1.2  1997/11/27 10:59:20  frank
 *H  possible fix for OpenWindows problem
 *H
@@ -597,10 +601,9 @@ void UpdateMenus ( state )
 
 *F  UpdateMemoryInfo( <type>, <val> )	. . . . . . . . . update memory usage
 */
-static Widget LabelBytesFree;
-static Widget LabelBytesTotal;
-static Widget LabelHandleUsed;
-static Widget LabelHandleDead;
+static Widget LabelLiveObjects;
+static Widget LabelLiveKB;
+static Widget LabelTotalKBytes;
 
 void UpdateMemoryInfo ( type, val )
     Int		type;
@@ -612,20 +615,16 @@ void UpdateMemoryInfo ( type, val )
     switch ( type )
     {
 	case 1:
-	    sprintf( tmp, "Handle used: %-5d ", val );
-  	    XtVaSetValues( LabelHandleUsed, XtNlabel, tmp, NULL );
+	    sprintf( tmp, "Objects: %-5d ", val );
+  	    XtVaSetValues( LabelLiveObjects, XtNlabel, tmp, NULL );
 	    break;
 	case 2:
-            sprintf( tmp, "Handle dead: %-5d ", val );
-            XtVaSetValues( LabelHandleDead, XtNlabel, tmp, NULL );
+            sprintf( tmp, "KB used: %-5d ", val );
+            XtVaSetValues( LabelLiveKB, XtNlabel, tmp, NULL );
 	    break;
-	case 3:
-            sprintf( tmp, "KBytes free: %-4d ", val/1024 );
-            XtVaSetValues( LabelBytesFree, XtNlabel, tmp, NULL );
-	    break;
-	case 4:
+	case 6:
             sprintf( tmp, "KBytes total: %-4d ", val/1024 );
-            XtVaSetValues( LabelBytesTotal, XtNlabel, tmp, NULL );
+            XtVaSetValues( LabelTotalKBytes, XtNlabel, tmp, NULL );
 	    break;
     }
 }
@@ -798,26 +797,21 @@ static void CreateGapWindow ( void )
 	      XtNskipAdjust,            True,
 	      XtNresizeToPreferred, 	True,
 	      NULL );
-    LabelBytesFree = XtVaCreateManagedWidget( "bytesFree",
-			 labelWidgetClass, box,
-			 XtNborderWidth, 0,
-			 NULL );
-    LabelBytesTotal = XtVaCreateManagedWidget( "bytesTotal",
+    LabelLiveObjects = XtVaCreateManagedWidget( "liveObjects",
+		          labelWidgetClass, box,
+			  XtNborderWidth, 0,
+			  NULL );
+    LabelLiveKB = XtVaCreateManagedWidget( "liveBytes",
 		          labelWidgetClass, box,
  			  XtNborderWidth, 0,
 			  NULL );
-    LabelHandleUsed = XtVaCreateManagedWidget( "handleUsed",
-		          labelWidgetClass, box,
-			  XtNborderWidth, 0,
-			  NULL );
-    LabelHandleDead = XtVaCreateManagedWidget( "handleDead",
-			  labelWidgetClass, box,
-			  XtNborderWidth, 0,
-			  NULL );
+    LabelTotalKBytes = XtVaCreateManagedWidget( "totalBytes",
+			 labelWidgetClass, box,
+			 XtNborderWidth, 0,
+			 NULL );
     UpdateMemoryInfo( 1, 0 );
     UpdateMemoryInfo( 2, 0 );
-    UpdateMemoryInfo( 3, 0 );
-    UpdateMemoryInfo( 4, 0 );
+    UpdateMemoryInfo( 6, 0 );
 }
 
 
