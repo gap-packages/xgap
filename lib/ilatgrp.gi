@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.22 1999/04/01 16:06:19 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.23 1999/04/23 22:14:43 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.22 1999/04/01 16:06:19 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.23 1999/04/23 22:14:43 gap Exp $";
 
 
 #############################################################################
@@ -126,12 +126,19 @@ BindGlobal( "GGLClosureGroup",
 ##  This function generates a string that represents a group. It is mainly
 ##  intended for fp groups and is actually ``stolen'' from some of the 
 ##  `ViewObj' methods for fp groups. It covers also the case of free groups.
+##  Note that the special case of G being a string, which is handled
+##  first comes in handy, if functions return a warning instead of a group.
 ##
 BindGlobal( "GGLStringGroup", 
         
 function(G)
   
   local st;   # used to build up the string
+  
+  # Is this already a string?
+  if IsString(G) then
+    return G;
+  fi;
   
   if IsFreeGroup(G) then 
     st := "<free group";
@@ -262,6 +269,25 @@ function(epi)
   Append(st,GGLStringGroup(Image(epi)));
   Append(st,">");
   return st;
+end );
+
+
+#############################################################################
+##
+#F  GGLFactorGroup( <G>, <N> ) . . . . . . computes factor group, if possible
+##
+##  This function checks, if <N> is a normal subgroup in <G>. If not, a
+##  warning message is returned as a string. Otherwise, the operation
+##  FactorGroup is called and the result is returned.
+##
+BindGlobal( "GGLFactorGroup", 
+
+function(G,N);
+  if IsNormal(G,N) then
+    return FactorGroup(G,N);
+  else
+    return "subgroup is not normal";
+  fi;
 end );
 
 
@@ -496,7 +522,7 @@ BindGlobal( "GGLInfoDisplaysForFpGroups",
                tostr := GGLStringCosetTable ),
           rec( name := "IsomorphismFpGroup", func := IsomorphismFpGroup,
                parent := false, tostr := GGLStringEpimorphism ),
-          rec( name := "FactorGroup", func := FactorGroup, parent := true,
+          rec( name := "FactorGroup", func := GGLFactorGroup, parent := true,
                tostr := GGLStringGroup )
         ] );
 
@@ -611,7 +637,7 @@ function(sheet,v,x,y)
       fi;
     od;
     
-    return true;
+    return LastResultOfInfoDisplay;
   end;
 
   # construct the string in the first place:
