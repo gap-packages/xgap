@@ -164,14 +164,13 @@ label of vertex $10$ will now be changed to ``$D8$''. Note that in the
 X Window System you have to move the pointer on  the text field if you
 want to edit the label.
 
-In  order to find   out which vertex  represents the  centre of $D_8$,
-first select vertex $D8$ and then the menu  entry ``Centres'' from the
-``Subgroups'' menu.  In  case of a color  screen, vertex  $D8$ will be
-selected and colored red, and vertex  $2$ will be selected and colored
-green.  The color  green indicates that vertex $2$  is the result of a
-computation.  There will also be a message in the {\GAP} window saying
-that vertex $2$ represents the centre of the group belonging to vertex
-$D8$.
+In  order to find  out which  vertex represents the  centre  of $D_8$,
+first select vertex $D8$ and then the  menu entry ``Centres'' from the
+``Subgroups'' menu.  In case of  a color screen,  vertex $D8$ will  be
+selected and colored  red, and vertex $2$  will be colored green.  The
+color green indicates that vertex $2$ is the result  of a computation. 
+There will also be a message  in the {\GAP}  window saying that vertex
+$2$ represents the centre of the group belonging to vertex $D8$.
 
 \begintt
 #I  Centres (D8) --> (2)
@@ -181,16 +180,17 @@ Most of  the menu entries  in ``Subgroups'' should be self-explanatory, for
 details and  the   difference   between  ``Closure''  and    ``Closures'' see
 "GraphicSubgroupLattice, Subgroups Menu".
 
-If you have selected some vertices (in the example $D8$ and $2$ are now
-selected), and you want to investigate the subgroups corresponding to these
-vertices further in {\GAP}, the function `SelectedGroups' will return a
-list of these subgroups (note that you can also achieve calling this
-function by selecting ``SelectedGroups to GAP'' in the ``Subgroups'' menu):
+If you  have  selected  some  vertices (in  the   example $D8$ is  now
+selected), and you want to investigate  the subgroups corresponding to
+these vertices further  in {\GAP}, the function  `SelectedGroups' will
+return a list of  these  subgroups (note  that  you can also   achieve
+calling this function by  selecting  ``SelectedGroups to GAP'' in  the
+``Subgroups'' menu):
 
 \label{gapxgap}
 \begintt
 gap> SelectedGroups(s);
-[ d8, Group([ f3 ]) ]
+[ d8 ]
 \endtt
 
 On the other hand, the functions supplied via the ``Subgroups'' menu are by
@@ -295,16 +295,21 @@ these two subgroups to your partial lattice.
 gap> for g in s60 do InsertVertex(s,g); od;
 \endtt
 
-The Hasse diagram now contains four vertices.
-The new vertices are selected automatically.  Selecting ``Conjugate
-Subgroups'' from the ``Subgroups'' menu adds the complete conjugacy classes.
-In order to find out what type of subgroups we  are looking at, use another
-kind of menu not  discussed so far,  namely the <Information>  menu.  Place
-the pointer inside  vertex $3$, press the  *right* mouse button and release
-it immediately.  This  will  pop  up a new   window,  containing some  text
-describing vertex $3$  (as mentioned above,  depending on the window system
-and  window manager, placing this  window on the  screen might require some
-interaction with the mouse).
+The Hasse  diagram now contains  four vertices.   The new vertices are
+*not* selected  automatically. You can do  this as mentioned  above by
+clicking  with the *left* mouse  button on them. Selecting ``Conjugate
+Subgroups'' from the  ``Subgroups'' menu  adds the complete  conjugacy
+classes.  Please do this first for vertex $2$  and then for vertex $3$
+such that the  numbering of vertices  in the following description  is
+correct! 
+
+In order  to find out  what type of subgroups  we  are looking at, use
+another  kind of menu not  discussed  so far, namely the <Information>
+menu.  Place the pointer inside  vertex $3$,  press the *right*  mouse
+button and release  it immediately.  This  will  pop up a  new window,
+containing some text    describing  vertex $3$ (as   mentioned  above,
+depending on the window system and window manager, placing this window
+on the screen might require some interaction with the mouse).
 
 \begintt
 Size        60
@@ -355,7 +360,7 @@ vertices $3$ and $9$ to $13$ are all inside this rectangle, release the
 mouse button.  Now these vertices are selected.  Select <Normalizers> from
 the <Subgroups> menu to compute and display the normalizers.
 
-Now select vertex $3$ and $8$ and compute the intersection.  The
+Now select vertex $3$ and $4$ and compute the intersection.  The
 intersection is of size $10$.  Select this intersection and use
 `SelectedGroups' to get a {\GAP} record describing the subgroup.
 
@@ -487,7 +492,7 @@ This  example will show  you how to prove that  $C_2$ is infinite.  First
 look at the abelian invariants in order to see what the commutator factor
 group is.   In  order  to  compute the abelian    invariants pop  up  the
 <Information> menu.   This is done in exactly  the same manner  as in the
-previous section.  Place the pointer inside vertex $1$, press the *right*
+previous section.  Place the pointer inside vertex $G$, press the *right*
 mouse button and release   it  immediately.  This <Information> menu   is
 described  in   detail in  "GraphicSubgroupLattice  for FpGroups, Information
 Menu".
