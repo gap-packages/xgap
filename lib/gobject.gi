@@ -2,14 +2,14 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.10 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: gobject.gi,v 1.11 1999/03/07 22:04:49 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.10 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: gobject.gi,v 1.11 1999/03/07 22:04:49 gap Exp $";
 
 
 #############################################################################
@@ -2004,7 +2004,6 @@ function (line)
         String(line!.sheet!.height-line!.y-line!.h), " lineto\n",
         String(line!.width), " setlinewidth\n",
         "stroke\n" );
-#FIXME: Label anzeigen???
 end );
 
 
@@ -2965,7 +2964,6 @@ end );
 #############################################################################
 ##
 #M  PSString( <vertex> )  . . . . . . . . . . . . . . . . . . . .  do nothing
-##FIXME???
 ##
 InstallMethod( PSString,
     "for a vertex",
@@ -3107,7 +3105,6 @@ function( vertex, str )
         vertex!.label := false;
         return;
     fi;
-    #FIXME: "" is no string in method selection???
 
     # update line dimensions
     col := rec( color := vertex!.color );

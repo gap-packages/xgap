@@ -2,14 +2,14 @@
 ##
 #W  menu.gi                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gi,v 1.3 1998/11/27 14:50:54 ahulpke Exp $
+#H  @(#)$Id: menu.gi,v 1.4 1999/03/07 22:03:55 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_menu_gi :=
-    "@(#)$Id: menu.gi,v 1.3 1998/11/27 14:50:54 ahulpke Exp $";
+    "@(#)$Id: menu.gi,v 1.4 1999/03/07 22:03:55 gap Exp $";
 
 
 #############################################################################
@@ -448,7 +448,6 @@ end );
 #M  Destroy( <sel> )  . . . . . . . . . . . . . . . . destroy a text selector
 ##
 ## same functionality than "Close"!
-## FIXME: Necessary?
 ##
 InstallOtherMethod( Destroy,
     "for a text selector",
