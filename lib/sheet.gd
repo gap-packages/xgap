@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.14 1999/05/19 23:14:52 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.15 1999/11/25 18:06:58 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.14 1999/05/19 23:14:52 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.15 1999/11/25 18:06:58 gap Exp $";
 
 
 #############################################################################
@@ -67,7 +67,7 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 ##
 ##  It is  possible to  change the  default behaviour of   a graphic sheet by
 ##  installing methods (or   sometimes  called callbacks) for   the following
-##  events.  In order to  avoid  confusion with  the GAP term  ``method'' the
+##  events.  In order to  avoid  confusion with  the {\GAP} term  ``method'' the
 ##  term ``callback'' will be used in the following.  For example, to install
 ##  the function `MyLeftPBDownCallback' as callback for the left mouse button
 ##  down  event of a graphic sheet <sheet>,  you have  to call

@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.13 1999/04/01 16:06:54 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.14 1999/11/25 18:06:57 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.13 1999/04/01 16:06:54 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.14 1999/11/25 18:06:57 gap Exp $";
 
 
 #############################################################################
@@ -53,9 +53,9 @@ DeclareOperation("GraphicPoset",[IsString, IsInt, IsInt]);
 ##  coordinate. No two vertices which are included in each other are in the
 ##  same level. A vertex containing another one is always ``higher'' on the
 ##  screen, meaning in a ``higher'' level.  Every level has a unique level
-##  parameter, which can be any gap object. The user is responsible for all
+##  parameter, which can be any {\GAP} object. The user is responsible for all
 ##  methods where a level parameter occurs as parameter and is not just an
-##  integer. There is NO gap object representing a level which is visible
+##  integer. There is NO {\GAP} object representing a level which is visible
 ##  for the user of posets. All communication about levels goes via the
 ##  level parameter. `CreateLevel' creates a new level with level parameter
 ##  <levelparam> in the graphic poset <poset>. It returns `fail' if there
@@ -77,9 +77,9 @@ DeclareOperation("CreateLevel",[IsGraphicSheet,IsObject,IsString]);
 ##  A class in a graphic poset is a collection of vertices within a level
 ##  which belong together in some sense.  Every vertex in a graphic poset
 ##  is in a class, which in turn belongs to a level. Every class in a level
-##  has a unique class parameter, which can be any gap object. The user is
+##  has a unique class parameter, which can be any {\GAP} object. The user is
 ##  responsible for all methods where a class parameter occurs as parameter
-##  and is not just an integer. There is NO gap object representing a class
+##  and is not just an integer. There is NO {\GAP} object representing a class
 ##  which is visible to the user of posets. All communication about classes
 ##  goes via the class parameter.  `CreateClass' creates a new class in the
 ##  level with level parameter <levelparam> in the graphic poset
@@ -151,7 +151,7 @@ DeclareOperation("Edge",[IsGraphicSheet,IsGraphicObject,IsGraphicObject]);
 ##
 #O  Delete(<graph>,<obj>) . . . . . . . . . . . . . remove something in graph
 ##
-##  This operation already exists in xgap for the graphic objects!
+##  This operation already exists in {\XGAP} for the graphic objects!
 ##  Applicable for edges, vertices, classes.
 ##
 DeclareOperation("Delete",[IsGraphicSheet,IsObject]);

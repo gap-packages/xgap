@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.12 1999/05/19 23:14:52 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.13 1999/11/25 18:06:58 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -15,7 +15,7 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.12 1999/05/19 23:14:52 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.13 1999/11/25 18:06:58 gap Exp $";
 
 
 #############################################################################
@@ -41,7 +41,7 @@ DeclareRepresentation( "IsGraphicSheetRep",
 ##
 ##  It is  possible to  change the  default behaviour of   a graphic sheet by
 ##  installing methods (or   sometimes  called callbacks) for   the following
-##  events.  In order to  avoid  confusion with  the GAP term  \"method\" the
+##  events.  In order to  avoid  confusion with  the {\GAP} term  \"method\" the
 ##  term \"callback\" will be used in the following.  For example, to install
 ##  the function `MyLeftPBDownCallback' as callback for the left mouse button
 ##  down  event of a graphic <sheet>,  you have  to call `InstallCallback' as
@@ -395,7 +395,7 @@ InstallMethod( MakeGAPMenu,
     0,
 
 function( sheet )
-  sheet!.gapMenu := Menu( sheet, "GAP", DefaultGAPMenu );
+  sheet!.gapMenu := Menu( sheet, "Sheet", DefaultGAPMenu );
   ##FIXME: see earlier: do we have ideas for that?
         #Enable( sheet!.gapMenu, "save", false );
         #Enable( sheet!.gapMenu, "save as", false );

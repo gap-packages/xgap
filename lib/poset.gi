@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.18 1999/06/04 10:59:34 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.19 1999/11/25 18:06:57 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.18 1999/06/04 10:59:34 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.19 1999/11/25 18:06:57 gap Exp $";
 
 
 
@@ -315,9 +315,9 @@ end);
 ##  coordinate. No two vertices which are included in each other are in the
 ##  same level. A vertex containing another one is always "higher" on the
 ##  screen, meaning in a "higher" level.  Every level has a unique
-##  levelparam, which can be any gap object. The user is responsible for
+##  levelparam, which can be any {\GAP} object. The user is responsible for
 ##  all methods where a levelparam occurs as parameter and is not just an
-##  integer. There is NO gap object representing a level which is visible
+##  integer. There is NO {\GAP} object representing a level which is visible
 ##  for the user of posets. All communication about levels goes via the
 ##  levelparam.  Returns fail if there is already a level with a level
 ##  parameter which is considered "equal" by CompareLevels or levelparam if
@@ -521,9 +521,9 @@ end);
 ##  A class in a graphic poset is a collection of vertices within a level
 ##  which belong together in some sense.  Every vertex in a graphic poset
 ##  is in a class, which in turn belongs to a level. Every class in a level
-##  has a unique classparam, which can be any gap object. The user is
+##  has a unique classparam, which can be any {\GAP} object. The user is
 ##  responsible for all methods where a classparam occurs as parameter and
-##  is not just an integer. There is NO gap object representing a class
+##  is not just an integer. There is NO {\GAP} object representing a class
 ##  which is visible to the user of posets. All communication about classes
 ##  goes via the classparam.  Returns fail if there is no level with
 ##  parameter levelparam or there is already a class in this level with
@@ -840,7 +840,7 @@ GGDeleteModifiesMenu := true;
 ##
 #M  Delete(<graph>,<obj>) . . . . . . . . . . . . . remove something in graph
 ##
-##  This operation already exists in xgap for the graphic objects!
+##  This operation already exists in {\XGAP} for the graphic objects!
 ##  Applicable for edges, vertices, classes.
 ##
 ##  The following method applies to an edge, given by two vertices. It returns
@@ -1220,7 +1220,7 @@ end);
 ##  So <levelparam> is compared with all levelparams between the old and
 ##  the new position. If there is a contradiction nothing happens and the
 ##  method returns fail. If everything works the operation returns true.
-##  This operation already exists in xgap for graphic objects.
+##  This operation already exists in {\XGAP} for graphic objects.
 ##
 InstallOtherMethod( MoveLevel,
     "for a graphic poset, an object, and an integer",
@@ -2583,7 +2583,7 @@ end);
 ##
 #M  Menu(<graph>,<title>,<entrylist>,<typelist>,<functionslist>) . . new menu
 ##
-##  This operation already exists in xgap for GraphicSheets.
+##  This operation already exists in {\XGAP} for GraphicSheets.
 ##  Builts a new Menu but with information about the type of the menu entry.
 ##  This information describes the relation between the selection state of
 ##  the vertices and the parameters supplied to the functions. The following 

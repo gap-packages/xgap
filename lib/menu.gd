@@ -2,7 +2,7 @@
 ##
 #W  menu.gd                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gd,v 1.8 1999/06/25 16:48:23 gap Exp $
+#H  @(#)$Id: menu.gd,v 1.9 1999/11/25 18:06:57 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -14,7 +14,7 @@
 ##  "sheet.gi".
 ##
 Revision.pkg_xgap_lib_menu_gd :=
-    "@(#)$Id: menu.gd,v 1.8 1999/06/25 16:48:23 gap Exp $";
+    "@(#)$Id: menu.gd,v 1.9 1999/11/25 18:06:57 gap Exp $";
 
 
 #############################################################################
@@ -56,7 +56,7 @@ BindGlobal( "MenuFamily", NewFamily( "MenuFamily", IsMenu ) );
 ##  as third parameter. In the second form the entry names and functions are
 ##  all in one list <zipped> in alternating order, meaning first a menu entry,
 ##  then the corresponding function and so on.
-##  Note that you can delete Menus but it is not possible to modify them,
+##  Note that you can delete menus but it is not possible to modify them,
 ##  once they are attached to the sheet.
 ##  If a name of a menu entry begins with a minus sign or the list entry
 ##  in <ents> is not bound, a dummy menu entry is generated, which can sort

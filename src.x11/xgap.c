@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.9 1999/03/22 10:13:08 gap Exp $
+*H  @(#)$Id: xgap.c,v 1.10 1999/11/25 18:06:58 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -192,7 +192,7 @@ static char *FallbackResources[] =
     "*xgapTalk.pasteGapPrompt:                True",
 
     /* gap menu */
-    "*xgapMenu.gapButton.label:               Gap",
+    "*xgapMenu.gapButton.label:               GAP",
     "*xgapMenu.gapButton*pastePrompt.label:   Paste 'gap>'",
     "*xgapMenu.gapButton*quitGapCTRD.label:   Quit on CTR-D",
     "*xgapMenu.gapButton*editFile.label:      Edit File ...",
@@ -201,8 +201,8 @@ static char *FallbackResources[] =
 #ifdef DEBUG_ON
     "*xgapMenu.gapButton*resyncGap.label:     Resync with GAP",
 #endif
-    "*xgapMenu.gapButton*quit.label:          Quit Gap",
-    "*xgapMenu.gapButton*kill.label:          Kill Gap",
+    "*xgapMenu.gapButton*quit.label:          Quit GAP",
+    "*xgapMenu.gapButton*kill.label:          Kill GAP",
 
     /* run menu */
     "*xgapMenu.runButton.label:               Run",
@@ -254,7 +254,7 @@ static char *FallbackResources[] =
 /****************************************************************************
 **
 
-*V  GapMenu . . . . . . . . . . . . . . . . . . . . . . . . xgap's "Gap" menu
+*V  GapMenu . . . . . . . . . . . . . . . . . . . . . . . . xgap's "GAP" menu
 **
 */
 static void MenuQuitGap ()   { KeyboardInput( "@C@A@Kquit;\nquit;\n", 18 ); }
