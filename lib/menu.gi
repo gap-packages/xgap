@@ -2,14 +2,14 @@
 ##
 #W  menu.gi                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gi,v 1.8 1999/06/25 16:48:23 gap Exp $
+#H  @(#)$Id: menu.gi,v 1.9 1999/07/01 15:02:29 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_menu_gi :=
-    "@(#)$Id: menu.gi,v 1.8 1999/06/25 16:48:23 gap Exp $";
+    "@(#)$Id: menu.gi,v 1.9 1999/07/01 15:02:29 gap Exp $";
 
 
 #############################################################################
@@ -249,8 +249,19 @@ function( menu, entry, flag )
 
 end );
 
+InstallOtherMethod( Enable,
+    "for a menu, and a menu entry",
+    true,
+    [ IsMenu and IsPulldownMenuRep,
+      IsString ],
+    0,
+        
+function( menu, entry )
+    Enable(menu, entry, true);
+end );
+
 InstallMethod( Enable,
-    "for menu",
+    "for a menu, an integer, and a boolean",
     true,
     [ IsMenu and IsPulldownMenuRep,
       IsInt,
@@ -272,6 +283,16 @@ function( menu, entry, flag )
 
 end );
 
+InstallOtherMethod( Enable,
+    "for a menu, and a menu entry index",
+    true,
+    [ IsMenu and IsPulldownMenuRep,
+      IsInt ],
+    0,
+        
+function( menu, entry )
+    Enable(menu, entry, true);
+end );
 
 #############################################################################
 ##
