@@ -50,25 +50,36 @@ which is in the subdirectory for the share packages.
 When you installed {\GAP} you used the utility <unzoo> to unpack the
 distribution. You will need this here again. See the {\GAP}-manual for
 instructions on how to get and compile this.
-You now change your current directory to the location where you installed
+You now change your current directory to the `pkg' subdirectory of the 
+location where you installed
 {\GAP} (you typed an <unzoo>-command, then a new directory called
-``gap4'' or something like that was created, this directory is the right
-place). The standard location would be:
+``gap4'' or something like that was created, this directory contains
+the `pkg' subdirectory). The standard location would be:
 
 \begintt
-# cd /usr/local/lib/gap4
+# cd /usr/local/lib/gap4/pkg
 \endtt
 
 Now you extract the sources for the {\XGAP} share package:
 
 \begintt
 # unzoo -x xgap4r00.zoo
-pkg/xgap/README         -- extracted as text
-pkg/xgap/Makefile.in    -- extracted as text
-pkg/xgap/configure      -- extracted as text
-pkg/xgap/configure.in   -- extracted as text
-pkg/xgap/init.g         -- extracted as text
-/bin/mkdir: Erzeugen des Verzeichnisses `pkg' nicht möglich: File exists
+xgap/README     -- extracted as text
+xgap/Makefile.in        -- extracted as text
+xgap/configure  -- extracted as text
+xgap/configure.in       -- extracted as text
+xgap/init.g     -- extracted as text
+xgap/bin/xgap   -- extracted as text
+xgap/bin/xgap.sh        -- extracted as text
+xgap/cnf/Makefile       -- extracted as text
+xgap/cnf/Makegap.in     -- extracted as text
+xgap/cnf/Makegap.top    -- extracted as text
+xgap/cnf/config.hin     -- extracted as text
+xgap/cnf/configure.in   -- extracted as text
+xgap/cnf/configure.out  -- extracted as text
+xgap/doc/answers.tex    -- extracted as text
+xgap/doc/diffgap3.tex   -- extracted as text
+/bin/mkdir: cannot make directory `xgap': File exists
 ...
 \endtt
 
@@ -89,7 +100,7 @@ You have to change your current working directory to the ``xgap''
 subdirectory. You do this by
 
 \begintt
-# cd pkg/xgap
+# cd xgap
 \endtt
 
 if your current working directory is the one, where you used
@@ -203,23 +214,23 @@ on.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Installing in a different than the standard location}
 
-It could happen that you do not want to install {\XGAP} in its standard
-location, perhaps because you do not want to bother your system
-administrator and have no access to the {\GAP} directory. In this case you
-can unpack {\XGAP} in any other location with the <unzoo> command as
-described above. Let us call this directory ``{\XGAP} directory'' for the
-moment. You get a ``pkg'' directory and in there a ``xgap''
+It could happen that you do not want to install {\XGAP} in its
+standard location, perhaps because you do not want to bother your
+system administrator and have no access to the {\GAP} directory. In
+this case you can unpack {\XGAP} in any other location within a
+``pkg'' directory with the <unzoo> command as described above. Let us
+call this directory ``pkg'' for the moment. You get an ``xgap''
 subdirectory with all the files of {\XGAP} in it. You follow the
 standard procedure with two exceptions:
 
 Before you can configure and compile {\XGAP} you need a symbolic link
-``cnf'' which is in the {\XGAP} directory and points to the ``cnf''
+``cnf'' which is in the directory where ``pkg'' is and points to the ``cnf''
 directory in the main {\GAP} directory.
 
-When editing the startup script you enter the name of the {\XGAP} directory 
-for the variable ``XGAP_DIR''. The script will automatically launch {\GAP}
-with two directories as library path such that all {\GAP} and {\XGAP}
-libraries will be found.
+When editing the startup script you enter the name of the directory
+that contains ``pkg'' for the variable ``XGAP_DIR''. The script will
+automatically launch {\GAP} with two directories as library path such
+that all {\GAP} and {\XGAP} libraries will be found.
 
 %%% Local Variables: 
 %%% mode: latex
