@@ -2,7 +2,7 @@
 ##
 #W  puzzle.g                    GAP library                     Thomas Breuer
 ##
-#H  @(#)$Id: puzzle.g,v 1.3 1999/03/30 08:43:36 gap Exp $
+#H  @(#)$Id: puzzle.g,v 1.4 2000/09/26 17:34:34 gap Exp $
 ##
 #Y  Copyright (C)  1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  (C) 1998 School Math and Comp. Sci., University of St.  Andrews, Scotland
@@ -85,7 +85,7 @@ BindGlobal( "Puzzle", function( arg )
       n:= arg[2];
       options:= arg[3];
     else
-      Error( "usage: Puzzle( <m>, <n>, <options>" );
+      Error( "usage: Puzzle( <m>, <n>[, <options>] )" );
     fi;
 
     b    := options.b;
