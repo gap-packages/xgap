@@ -643,41 +643,48 @@ gap> s := GraphicSubgroupLattice(k3);
 <graphic subgroup lattice "GraphicSubgroupLattice">
 \endtt
 
-If you compute the   Abelian invariants of  $K_3$  you will see  that the
-commutator factor group  is isomorphic to the  infinite cyclic group.  If
-you try  to compute the   derived subgroups  {\GAP}  will run into an
-error:
+If you compute the Abelian invariants of $K_3$ you will see that the
+commutator factor group is isomorphic to the infinite cyclic group.
+If you try to compute the derived subgroups it works! Just click on
+<Derived Subgroups> in the ``Subgroups'' menu. A vertex appears in a
+level marked with `[ infinity, 1 ]'. However, there are not too many
+things you can do with such infinite index subgroups up to now. If you
+for example first produce some more subgroups by <Low Index Subgroups>
+(for example with index limit 5) and try to compare one of the new
+subgroups to the derived subgroup, {\GAP} will run into an error:
 
 \begintt
-Error the coset enumeration has defined more than 64000 cosets:
-type 'return;' if you want to continue with a new limit of 128000 cosets,
+Error the coset enumeration has defined more than 256000 cosets:
+type 'return;' if you want to continue with a new limit of 512000 cosets,
 type 'quit;' if you want to quit the coset enumeration,
 type 'maxlimit := 0; return;' in order to continue without a limit,
- at
 ...   (a few lines follow)
 \endtt
 
-This can happen if the coset enumeration algorithm tries to enumerate the
-cosets of a subgroup with infinite index. Even if, like in this case, it is 
-known that the derived subgroup has infinite index, {\XGAP} does not know
-that this means, that the derived subgroup cannot be calculated via coset
-enumeration. This situation can also occur with other operations. You can
-leave this break loop by entering the command `quit;' or by clicking `Leave 
-Break Loop' in the <Run> menu of the main {\XGAP} window.
+This can happen if the coset enumeration algorithm tries to enumerate
+the cosets of a subgroup with infinite index.  This situation can also
+occur with other operations. Actually at the time of this writing you
+cannot apply any operation from the subgroups menu to an infinite
+index subgroup!
 
-In order to investigate $K_3$, compute the  subgroups of index at
-most $4$.  There is one normal subgroup of  index $2$ belonging to vertex
-$5$ and one of index $4$ belonging to vertex $7$. There is *no* line
-between those two vertices. Select both and click on <Compare Subgroups> in 
-the <Subgroups> menu. A line appears and the line between vertices $7$ and
-$G$ vanishes. The reason for this is, that the `LowIndexSubgroupsFpGroup'
-call did not deliver the complete inclusion info. This can always happen
-for finitely presented groups in {\XGAP}. In this case you have to compare
-the subgroups manually by <Compare Subgroups>. Note that this can mean
-large computations, especially if the indices are huge. 
+You can leave this break loop by entering the command `quit;' or by
+clicking `Leave Break Loop' in the <Run> menu of the main {\XGAP}
+window.
 
-This is  now   the end  of the investigation   of  the (partial) subgroup
-lattice of $K_3$,  close the graphic  sheet  by selecting <close  graphic
+Earlier you have computed the subgroups of index at most $5$.  There
+is one normal subgroup of index $2$ belonging to vertex $6$ and one of
+index $4$ belonging to vertex $8$. There is *no* line between those
+two vertices. Select both and click on <Compare Subgroups> in the
+<Subgroups> menu. A line appears and the line between vertices $8$ and
+$G$ vanishes. The reason for this is, that the
+`LowIndexSubgroupsFpGroup' call did not deliver the complete inclusion
+info. This can always happen for finitely presented groups in {\XGAP}.
+In this case you have to compare the subgroups manually by <Compare
+Subgroups>. Note that this can mean large computations, especially if
+the indices are huge.
+
+This is now the end of the investigation of the (partial) subgroup
+lattice of $K_3$, close the graphic sheet by selecting <close graphic
 sheet> from the <GAP> menu.
 
 

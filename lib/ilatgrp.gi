@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.30 1999/05/19 22:05:56 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.31 1999/05/21 16:35:57 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.30 1999/05/19 22:05:56 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.31 1999/05/21 16:35:57 gap Exp $";
 
 
 #############################################################################
@@ -110,6 +110,7 @@ fi;
 BindGlobal( "GGLfrom1", 1 );
 BindGlobal( "GGLfrom2", 2 );
 BindGlobal( "GGLfromSet", 3 );
+BindGlobal( "GGLfromAny", 4 );
 BindGlobal( "GGLto0", 0 );
 BindGlobal( "GGLto1", 1 );
 BindGlobal( "GGLtoSet", 2 );
@@ -342,7 +343,7 @@ end );
 ##   op       : a GAP-Operation for group(s)
 ##   sheet    : true, false
 ##   parent   : true, false
-##   from     : GGLfrom1, GGLfrom2, GGLfromSet
+##   from     : GGLfrom1, GGLfrom2, GGLfromSet, GGLfromAny
 ##   to       : GGLto0, GGLto1, GGLtoSet
 ##   where    : GGLwhereUp, GGLwhereDown, GGLwhereAny, GGLwhereBetween
 ##   plural   : true, false
@@ -356,7 +357,8 @@ end );
 ##  <name> is the name appearing in the menu and info messages.
 ##  <op> is called to do the real work. The usage of <op> is however configured
 ##  by the other entries. <from> says, how many groups <op> gets as parameters.
-##  It can be one group, exactly two or a list (GGLfromSet) of groups.
+##  It can be one group, exactly two, a list (GGLfromSet) of groups, or
+##  a possibly empty list (GGLfromAny).
 ##  <sheet> says, if the graphic sheet is supplied as first parameter.
 ##  <parent> says, if the parent group is supplied as first/second parameter of
 ##  the call of the operation or not.
@@ -496,15 +498,15 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
                  fi;
                end,
                parent := false, sheet := false,
-               from := GGLfromSet, to := GGLtoSet,
+               from := GGLfromAny, to := GGLtoSet,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
           rec( name := "Start Logging", op := GGLChooseLog,
                parent := false, sheet := false, retsel := false,
-               from := GGLfromSet, to := GGLto0,
+               from := GGLfromAny, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
           rec( name := "Stop Logging", op := GGLStopLog,
                parent := false, sheet := false, retsel := false,
-               from := GGLfromSet, to := GGLto0,
+               from := GGLfromAny, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo )
 ] );
                                              
@@ -525,7 +527,9 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                sheet := true ),
           rec( name := "Conjugacy Class", 
                op := function(G,H) 
-                       return AsList(ConjugacyClassSubgroups(G,H)); 
+                       local l;
+                       l := AsList(ConjugacyClassSubgroups(G,H));
+                       return Filtered(l,h->h <> H);
                      end,
                parent := true, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereAny, plural := false, rels := GGLrelsNo,
@@ -593,15 +597,15 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                  fi;
                end,
                parent := false, sheet := false,
-               from := GGLfromSet, to := GGLtoSet,
+               from := GGLfromAny, to := GGLtoSet,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
           rec( name := "Start Logging", op := GGLChooseLog,
                parent := false, sheet := false, retsel := false,
-               from := GGLfromSet, to := GGLto0,
+               from := GGLfromAny, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
           rec( name := "Stop Logging", op := GGLStopLog,
                parent := false, sheet := false, retsel := false,
-               from := GGLfromSet, to := GGLto0,
+               from := GGLfromAny, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo )
         ] );
 
@@ -770,6 +774,16 @@ function(sheet,v,x,y)
       fi;
     od;
     
+    # We check, if we have new knowledge about IsNormal:
+    if HasIsNormalInParent(v!.data.group) and 
+       v!.obj!.shape = VERTEX.rectangle then
+      if IsNormal(sheet!.group,v!.data.group) then
+        Reshape(v!.obj,VERTEX.diamond);
+      else
+        Reshape(v!.obj,VERTEX.circle);
+      fi;
+    fi;
+    
     return LastResultOfInfoDisplay;
   end;
 
@@ -914,7 +928,7 @@ function(sheet, menu, entry)
       od;
     od;
     
-  else  # menuop.from = GGLfromSet then
+  else   # menuop.from = GGLfromSet or menuop.from = GGLfromAny then
     # we do *not* have to look for menuop.plural because it is forbidden
     # for this case!
     todolist := [selected];
@@ -932,7 +946,7 @@ function(sheet, menu, entry)
       fi;
     fi;
     
-    if menuop.from = GGLfromSet then
+    if menuop.from = GGLfromSet or menuop.from = GGLfromAny then
       Add(currentparameters,List(todolist[todo],v->v!.data.group));
     else
       Append(currentparameters,List(todolist[todo],v->v!.data.group));
@@ -2298,10 +2312,10 @@ end);
 ##  One has to make sure that the index is used if the whole group is finite,
 ##  because this method can not decide, if G is finite.
 ##
-InstallMethod( CompareLevels,
+InstallOtherMethod( CompareLevels,
     "for a graphic subgroup lattice, and two integers",
     true,
-    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsInt, IsInt ],
+    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsObject, IsObject ],
     0,
 
 function( poset, l1, l2 )
@@ -2385,7 +2399,7 @@ InstallGlobalFunction( GGLMakeSubgroupsMenu,
         fi;
       elif c.from = GGLfromSet then
         types[i] := "forsubset";
-      else
+      else  # c.from = GGLfromAny
         types[i] := "forany";
       fi;
     fi;
