@@ -1113,7 +1113,7 @@ can access this easily from the {\GAP} command prompt.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Vertex Shapes}
 
-The following vertex shapes can appear in an interactive lattice.
+The following vertex shapes can appear in an interactive lattice:
 
 \beginitems
 `circle' &
@@ -1121,7 +1121,18 @@ The following vertex shapes can appear in an interactive lattice.
 
 `diamond' &
   Subgroup is normal in whole group.
+
+`rectangle' &
+  Subgroup has an index that is too big for automatic calculation of
+  normality. So it is not yet known whether this group is normal.
 \enditems
+
+Automatic calculation is controlled by the following variable:
+
+\>`GGLLimitForIsNormalCalc'{GGLLimitForIsNormalCalc}@{`GGLLimitForIsNormalCalc'} V
+
+  Only for subgroups with index smaller than this number an automatic
+  `IsNormal' test is performed when the vertex is added to the sheet.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
