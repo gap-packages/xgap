@@ -2,7 +2,7 @@
 **
 *W  utils.h                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: utils.h,v 1.1 1997/11/25 15:52:52 frank Exp $
+*H  @(#)$Id: utils.h,v 1.2 1997/11/25 16:43:05 frank Exp $
 **
 *Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
@@ -110,10 +110,6 @@
 #endif
 
 #include    <sys/param.h>
-
-#if HAVE_SYS_IOCTL_H
-# include   <sys/ioctl.h>
-#endif
 
 #if HAVE_TERMIO_H
 # include   <termio.h>
