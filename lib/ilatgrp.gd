@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.11 1999/03/11 17:26:59 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.12 1999/04/01 16:06:19 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.11 1999/03/11 17:26:59 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.12 1999/04/01 16:06:19 gap Exp $";
 
 
 #############################################################################
@@ -297,7 +297,7 @@ DeclareOperation( "GGLMenuOperation", [ IsGraphicSheet, IsMenu, IsString ]);
 ##  configuration section in "ilatgrp.gi" for an explanation.
 ##
 DeclareOperation( "GGLRightClickPopup", 
-                  [ IsGraphicSheet, IsGraphicObject, IsInt, IsInt ] );
+                  [ IsGraphicSheet, IsObject, IsInt, IsInt ] );
 
 
 ############################################################################

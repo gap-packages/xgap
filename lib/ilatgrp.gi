@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.21 1999/03/24 09:45:04 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.22 1999/04/01 16:06:19 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.21 1999/03/24 09:45:04 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.22 1999/04/01 16:06:19 gap Exp $";
 
 
 #############################################################################
@@ -97,13 +97,19 @@ BindGlobal( "GGLrelsUp", 4 );
 #############################################################################
 ##
 #F  GGLClosureGroup( <grp1>, <grp2>, ... ) . . . . . . calculates the Closure
+#F  GGLClosureGroup( <grplist> ) . . . . . . . . . . . calculates the Closure
 ##
 ##  This function calculates the closure of a number of groups. It uses
-##  ClosureGroup inductively.
+##  ClosureGroup inductively. The groups can be specified as multiple 
+##  or as one list of groups.
 ##
 BindGlobal( "GGLClosureGroup",
   function(arg)
     local grp,  i;
+    if Length(arg) = 1 and IsList(arg[1]) then
+      arg := arg[1];
+    fi;
+
     # the number of arguments will always be at least 1!
     grp := arg[1];
     for i in [2..Length(arg)] do
@@ -522,9 +528,9 @@ LastResultOfInfoDisplay := "no info display calculated yet";
 ##  configuration section in "ilatgrp.gi" for an explanation.
 ##
 InstallMethod( GGLRightClickPopup,
-    "for a graphic subgroup lattice, a vertex, and two integers",
+    "for a graphic subgroup lattice, a vertex or `fail', and two integers",
     true,
-    [ IsGraphicSheet and IsGraphicSubgroupLattice, IsGPVertex, IsInt, IsInt ],
+    [ IsGraphicSheet and IsGraphicSubgroupLattice, IsObject, IsInt, IsInt ],
     0,
 
 function(sheet,v,x,y)
@@ -533,6 +539,7 @@ function(sheet,v,x,y)
   
   # did we get a vertex?
   if v = fail then
+    PopupFromMenu(sheet!.menus[3]);
     return;
   fi;
   
@@ -764,7 +771,11 @@ function(sheet, menu, entry)
       fi;
     fi;
     
-    Append(currentparameters,List(todolist[todo],v->v!.data.group));
+    if menuop.from = GGLfromSet then
+      Add(currentparameters,List(todolist[todo],v->v!.data.group));
+    else
+      Append(currentparameters,List(todolist[todo],v->v!.data.group));
+    fi;
     if menuop.to = GGLto0 then
       CallFuncList(menuop.op,currentparameters);
       result := false;
@@ -834,8 +845,9 @@ function(sheet, menu, entry)
           vertices[grp] := res[1];
           newflag[grp] := res[2];
         
-            # we mark the vertex:
-          Select(sheet,res[1],true);
+          # we mark the vertex:
+          # Select(sheet,res[1],true);
+          # as of 1.4.1999 we do no longer select results
           if sheet!.color.result <> false  then
             Recolor( sheet, res[1], sheet!.color.result );
           fi;
@@ -1192,7 +1204,8 @@ function(sheet,grp)
     for g in groups do
       v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
       if v <> fail then
-        Select(sheet,v[1]);
+        # as of 1.4.1999 we do no longer select results:
+        # Select(sheet,v[1]);
         if sheet!.color.result <> false  then
           Recolor( sheet, v[1], sheet!.color.result );
         fi;
@@ -1216,7 +1229,8 @@ function(sheet,grp)
     for g in groups do
       v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
       if v <> fail then
-        Select(sheet,v[1]);
+        # as of 1.4.1999 we do no longer select results:
+        # Select(sheet,v[1]);
         if sheet!.color.result <> false  then
           Recolor( sheet, v[1], sheet!.color.result );
         fi;
@@ -1440,7 +1454,7 @@ function( sheet, grp, conjugclass, hints )
     d := Dialog("OKcancel",
                 Concatenation("GAP claims not to be able to calculate the ",
                  "index of a subgroup in the whole group. Proceed anyway?"));
-    if Query(d,GroupString(grp)) = false then
+    if Query(d,GroupString(grp,"Group")) = false then
       return fail;
     fi;
     # We do it anyway:
@@ -1644,6 +1658,7 @@ end);
 ##
 ##  Another method for convenience:
 ##  Note that here the vertex is automatically selected!
+##  no longer true since 1.4.1999
 ##
 InstallOtherMethod( InsertVertex,
     "for a graphic subgroup lattice, and a subgroup",
@@ -1654,7 +1669,8 @@ InstallOtherMethod( InsertVertex,
 function(sheet,group)
   local l;
   l := InsertVertex(sheet,group,fail,[]);
-  Select(sheet,l[1],true);
+  # as of 1.4.1999 we do no longer select new vertices
+  # Select(sheet,l[1],true);
 end);
 
     
