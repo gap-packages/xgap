@@ -42,14 +42,11 @@ ftp://ftp.ccs.neu.edu/pub/mirrors/ftp-gap.dcs.st-and.ac.uk/pub/gap/gap4/
 ftp://pell.anu.edu.au/pub/algebra/gap4/
 \endtt
 
-You need only one file with the name ``xgap4.zoo''
-%FIXME: Filename
+You need only one file with the name ``xgap4r00.zoo''
 which is in the subdirectory for the share packages.
-%FIXME: Is that so?
 When you installed {\GAP} you used the utility <unzoo> to unpack the
 distribution. You will need this here again. See the {\GAP}-manual for
 instructions on how to get and compile this.
-%FIXME: Reference
 You now change your current directory to the location where you installed
 {\GAP} (you typed an <unzoo>-command, then a new directory called
 ``gap4'' or something like that was created, this directory is the right
@@ -62,10 +59,17 @@ place). The standard location would be:
 Now you extract the sources for the {\XGAP} share package:
 
 \begintt
-# unzoo -x xgap4.zoo
+# unzoo -x xgap4r00.zoo
+pkg/xgap/README         -- extracted as text
+pkg/xgap/Makefile.in    -- extracted as text
+pkg/xgap/configure      -- extracted as text
+pkg/xgap/configure.in   -- extracted as text
+pkg/xgap/init.g         -- extracted as text
+/bin/mkdir: Erzeugen des Verzeichnisses `pkg' nicht möglich: File exists
 ...
 \endtt
-%FIXME: Place some output here, FILENAME?
+
+Note that the warning is *not* serious.
 
 The <unzoo> utility unpacks the files and stores them into the apropriate
 subdirectories. {\XGAP} resides completely in the following subdirectory
