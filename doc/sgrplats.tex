@@ -713,8 +713,9 @@ groups are treated differently because other algorithms apply in this case
 and some of the standard ones are not feasible to be carried out. 
 
 In contrast to the {\GAP3} version of {\XGAP} all graphic subgroup lattices 
-are interactive so you can always remove vertices. You can still get the
-full lattice by choosing ``All Subgroups'' for the whole group.
+are interactive so you can always remove vertices. For a finite group you 
+can still get the full lattice by choosing ``All Subgroups'' for the whole 
+group.
 
 %`GraphicSubgroupLattice( <g>, \"prime\"\ )'
 %
@@ -748,10 +749,10 @@ In order to move a vertex, place the  pointer inside the vertex using the
 mouse, and press the *left* mouse button.  Hold the mouse button pressed,
 and start moving  the pointer by moving  the mouse.  The  vertex will now
 follow the pointer, but it is not possible to move the vertex higher than
-a vertex  of bigger size  
+a vertex  of a group of bigger size  
 %(or number of prime  factors, if \"prime\"\ was
 %given as parameter to `GraphicSubgroupLattice') 
-or lower than a vertex of smaller
+or lower than a vertex of a group of smaller
 size.
 %(or number of prime factors).  
 As soon as you release the left mouse
@@ -1212,6 +1213,11 @@ Sym(3)        3 found
 
 After one or more quotients were found click <display> to display them.
 
+Note that in {\XGAP4} in fact the kernel of the epimorphism is marked whereas 
+in {\XGAP3} this was not the case, even though the {\XGAP3} manual stated this. 
+In fact in {\XGAP3} a stabilizer of a permutation action on an orbit was
+put into the lattice.
+
 `Intersections' &
 computes and   displays   the pairwise   intersections  of  the  selected
 vertices.  Requires at least two selected vertices.
@@ -1236,6 +1242,13 @@ associated to the vertex is known a  presentation is first computed using
 a   modified  Todd-Coxeter algorithm.   It    then calls `PrimeQuotient'.
 Requires exactly one selected vertex.
 \enditems
+
+These menu entries represent only a small selection of the functions of
+{\GAP} which the authors of {\XGAP} considered most frequently used. You
+can calculate other subgroups from
+the {\GAP} command window. See section "gapxgap" for an example how to
+transfer information from the graphical lattice of {\XGAP} to {\GAP} (via
+`Selected') and vice versa (via `InsertVertex').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\Section{GraphicSubgroupLattice for FpGroups, CleanUp Menu}

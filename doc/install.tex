@@ -114,10 +114,10 @@ used to compile the code. You do this by typing
 \begintt
 # make
 if test ! -d bin;  then mkdir bin;  fi
-if test ! -d bin/i686-unknown-linux2.0.34-gcc; \ line broken for this manual!
+if test ! -d bin/i686-unknown-linux2.0.34-gcc; \ # line broken for this manual!
                 then mkdir bin/i686-unknown-linux2.0.34-gcc;  fi
 cp cnf/configure.out bin/i686-unknown-linux2.0.34-gcc/configure
-( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc \ line broken for this manual!
+( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc \ # line broken for this manual!
                 ./configure --target=i686-unknown-linux2.0.34  )
 creating cache ./config.cache
 checking for gcc... gcc
@@ -128,12 +128,12 @@ checking whether we are using GNU C... yes
 creating ./config.status
 creating Makefile
 creating config.h
-make[1]: Entering directory \                    line broken for this manual!
+make[1]: Entering directory \                   # line broken for this manual!
      `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
 gcc -I. -g -O2 -I/usr/X11R6/include  -o xcmds.o -c ../../src.x11/xcmds.c
 gcc -I. -g -O2 -I/usr/X11R6/include  -o utils.o -c ../../src.x11/utils.c
 ...
-make[1]: Leaving directory \                     line broken for this manual!
+make[1]: Leaving directory \                    # line broken for this manual!
      `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
 \endtt
 
