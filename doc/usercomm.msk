@@ -24,7 +24,7 @@ easy way to find out about the state of the mouse buttons after the event:
 
 <id> must be a `WindowId' of a {\XGAP} sheet. This function returns a
 vector of four integers. The first two are the coordinates of the mouse
-pointer relativ to the {\XGAP} sheet. Values outside the window are
+pointer relative to the {\XGAP} sheet. Values outside the window are
 represented by $-1$. The third element is a number where the pressed
 buttons are coded. If no mouse button is pressed, the value is zero. 
 `BUTTONS.left' is added to the value, if the left mouse button is pressed

@@ -116,7 +116,7 @@ Revive		 +N	 +N	 +N	 +N	 +N	 +N	 +N	 +N
 Move		 +	 +	 +	 +	 +	 +	 +	 +
 MoveDelta	 +	 +	 +	 +	 +	 +	 +	 +
 PSString 	 +	 +	 +	 +	 +	 +	 +	 +
-Print		 +	 +	 +	 +	 +	 +	 +	 +
+PrintInfo	 +	 +	 +	 +	 +	 +	 +	 +
 ViewObj		 +N	 +N	 +N	 +N	 +N	 +N	 +N	 +N
 Recolor		 +	 +	 +	 +	 +	 +	 +	 +
 Reshape		 +	 +	 +	 +	 +	 +	 +	 +

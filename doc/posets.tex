@@ -80,14 +80,14 @@ This is the declaration part:
 ##
 #W  meataxe.gd                  XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: posets.tex,v 1.2 1999/01/17 23:44:15 gap Exp $
+#H  @(#)$Id: posets.tex,v 1.3 1999/01/18 22:47:20 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-##  This file contains declarations for meataxe posets
+##  This file contains declarations for MeatAxe posets
 ##
 Revision.pkg_xgap_lib_meataxe_gd :=
-    "@(#)$Id: posets.tex,v 1.2 1999/01/17 23:44:15 gap Exp $";
+    "@(#)$Id: posets.tex,v 1.3 1999/01/18 22:47:20 gap Exp $";
 
 DeclareFilter("IsMeatAxeLattice");
 
@@ -95,7 +95,7 @@ DeclareFilter("IsMeatAxeLattice");
 ##
 #O  GraphicMeatAxeLattice(<name>, <width>, <height>)  . creates graphic poset
 ##
-##  creates a new graphic meataxe lattice which is a specialization of a
+##  creates a new graphic MeatAxe lattice which is a specialization of a
 ##  graphic poset. Those posets have a new filter for method selection.
 ##
 DeclareOperation("GraphicMeatAxeLattice",[IsString, IsInt, IsInt]);
@@ -111,20 +111,20 @@ The implementation:
 ##
 #W  meataxe.gi                  XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: posets.tex,v 1.2 1999/01/17 23:44:15 gap Exp $
+#H  @(#)$Id: posets.tex,v 1.3 1999/01/18 22:47:20 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-##  This file contains code for meataxe posets
+##  This file contains code for MeatAxe posets
 ##
 Revision.pkg_xgap_lib_meataxe_gi :=
-    "@(#)$Id: posets.tex,v 1.2 1999/01/17 23:44:15 gap Exp $";
+    "@(#)$Id: posets.tex,v 1.3 1999/01/18 22:47:20 gap Exp $";
 
 #############################################################################
 ##
 #M  GraphicMeatAxeLattice(<name>, <width>, <height>)  . creates graphic poset
 ##
-##  creates a new graphic meataxe lattice which is a specialization of a
+##  creates a new graphic MeatAxe lattice which is a specialization of a
 ##  graphic poset. Those posets have a new filter for method selection.
 ##
 InstallMethod( GraphicMeatAxeLattice,
@@ -151,10 +151,10 @@ end);
 ##  that levelp2 is "higher", 0 means that they are equal. fail means that
 ##  they are not comparable. This method is for the case if level
 ##  parameters are integers and lower values mean lower levels like in the
-##  case of meataxe lattices of Michael Ringe.
+##  case of MeatAxe lattices of Michael Ringe.
 ##
 InstallMethod( CompareLevels,
-    "for a graphic meataxe lattice, and two integers",
+    "for a graphic MeatAxe lattice, and two integers",
     true,
     [ IsGraphicPosetRep and IsMeatAxeLattice, IsInt, IsInt ],
     0,
@@ -169,7 +169,7 @@ function( poset, l1, l2 )
 end);
 \endexample
 
-Besides the new contructor (which only adds a new filter) we only have to
+Besides the new constructor (which only adds a new filter) we only have to
 supply a new method for comparison of level parameters for such posets. The 
 levels are numbered with integer numbers such that lower numbers are lower
 in the lattice.
