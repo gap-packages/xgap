@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.12 1999/02/25 18:44:04 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.13 1999/02/25 23:16:04 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.12 1999/02/25 18:44:04 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.13 1999/02/25 23:16:04 gap Exp $";
 
 
 #############################################################################
@@ -905,12 +905,12 @@ function(sheet,grp)
     groups := List(GGLEpiResults,Kernel);
     for g in groups do
       v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
-      if v[2] then
-        NewInclusionInfo(sheet,v[1],GGLEpiVertex);
-      fi;
       Select(sheet,v[1]);
       if sheet!.color.result <> false  then
         Recolor( sheet, v[1], sheet!.color.result );
+      fi;
+      if v[2] then
+        NewInclusionInfo(sheet,v[1],GGLEpiVertex);
       fi;
     od;
     GGLEpiResults := false;
