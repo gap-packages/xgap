@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.7 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.8 1999/02/25 18:44:04 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.7 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.8 1999/02/25 18:44:04 gap Exp $";
 
 
 #############################################################################
@@ -92,6 +92,18 @@ DeclareOperation( "GGLPresentation", [ IsGraphicSheet, IsGroup ] );
 ##  to calculate abelian prime quotients.
 ##
 DeclareOperation( "GGLAbelianPQuotient", [ IsGraphicSheet, IsGroup ] );
+
+
+#############################################################################
+##
+#O  GGLCompareSubgroups(<sheet>,<grp1>,<grp2>) . . . . compares two subgroups
+##
+##  This operation lets the GAP library compare the two selected subgroups.
+##  The new information about equality or inclusion of one in the other resp.
+##  is included into the graphic lattice. This can lead to the merging of
+##  vertices. No new vertices are included into the lattice.
+##
+DeclareOperation( "GGLCompareSubgroups", [IsGraphicSheet, IsGroup, IsGroup]);
 
 
 #############################################################################

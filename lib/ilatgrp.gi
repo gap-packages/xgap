@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.11 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.12 1999/02/25 18:44:04 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.11 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.12 1999/02/25 18:44:04 gap Exp $";
 
 
 #############################################################################
@@ -271,7 +271,11 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                sheet := true ),
           rec( name := "Normalizers", op := Normalizer,
                parent := true, from := GGLfrom1, to := GGLto1,
-               where := GGLwhereUp, plural := true, rels := GGLrelsNo )
+               where := GGLwhereUp, plural := true, rels := GGLrelsNo ),
+          rec( name := "Compare Subgroups", op := GGLCompareSubgroups,
+               parent := false, from := GGLfrom2, to := GGLto0,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo,
+               sheet := true )
         ] );
 # FIXME: ... to be continued
 
@@ -316,7 +320,7 @@ BindGlobal( "GGLInfoDisplaysForFpGroups",
         [ rec( name := "Index", func := Index, parent := true ),
           rec( name := "IsNormal", func := IsNormal, parent := true ),
           rec( name := "AbelianInvariants", attrib := AbelianInvariants ),
-          rec( name := "Presentation", func := GGLPresentation,sheet := true) 
+          rec( name := "Presentation", func := GGLPresentation, sheet := true) 
         ] );
 # FIXME: ... to be continued
 
@@ -583,7 +587,12 @@ function(sheet, menu, entry)
     fi;
     
     Append(currentparameters,List(todolist[todo],v->v!.data.group));
-    result := CallFuncList(menuop.op,currentparameters);
+    if menuop.to = GGLto0 then
+      CallFuncList(menuop.op,currentparameters);
+      result := false;
+    else
+      result := CallFuncList(menuop.op,currentparameters);
+    fi;
     
     # we give some information:
     infostr := Concatenation(menuop.name," (",todolist[todo][1]!.label);
@@ -991,6 +1000,60 @@ function(sheet,grp)
 end);
 
 
+#############################################################################
+##
+#M  GGLCompareSubgroups(<sheet>,<grp1>,<grp2>) . . . . compares two subgroups
+##
+##  This operation lets the GAP library compare the two selected subgroups.
+##  The new information about equality or inclusion of one in the other resp.
+##  is included into the graphic lattice. This can lead to the merging of
+##  vertices. No new vertices are included into the lattice.
+##
+InstallMethod( GGLCompareSubgroups,
+    "for a graphic subgroup lattice sheet, and two fp groups",
+    true,
+    [ IsGraphicSubgroupLattice, IsGroup, IsGroup ],
+    0,
+        
+function( sheet, grp1, grp2 )
+  local   vert,  pos;
+  # we ignore grp1 and grp2 and look at the selected vertices:
+  vert := Selected(sheet);   # we know that exactly two vertices are selected
+  pos := List(vert,v->Position(sheet!.levelparams,v!.levelparam));
+  if pos[1] < pos[2] then
+    vert := vert{[2,1]};
+    pos := pos{[2,1]};
+  fi;
+  # first make sure that there is no "way" from v[2] down to v[1] on the 
+  # connections which are already in the poset. We use the function
+  # GPSearchWay in poset.gi. Documentation there says:
+  #   The following function is only internal:
+  #   Use it on your own risk and only if you know what you are doing!
+  # So I (Max) say:
+  #  *I know what I am doing!*
+  if not GPSearchWay(sheet, vert[2], vert[1], pos[1]) then 
+    # note the order of the vertices in the calling convention!
+    # see: I really know what I am doing!
+    if IsSubgroup(vert[2]!.data.group,vert[1]!.data.group) then
+      Info(GraphicLattice,1,vert[1]!.label," contains ",vert[2]!.label);
+      NewInclusionInfo(sheet,vert[1],vert[2]);
+    elif IsSubgroup(vert[1]!.data.group,vert[2]!.data.group) then
+      Info(GraphicLattice,1,vert[2]!.label," contains ",vert[1]!.label);
+      NewInclusionInfo(sheet,vert[2],vert[1]);
+    fi;
+    vert := Selected(sheet);
+    if Length(vert) < 2 then
+      return;   # vertices already merged!
+    fi;
+  fi;    
+  if vert[1]!.data.group = vert[2]!.data.group then
+    # groups are the same!
+    MergeVertices(sheet,vert[1],vert[2]);
+  fi;
+  return;
+end );
+
+      
 #############################################################################
 ##
 ##  Methods for inserting new vertices:
