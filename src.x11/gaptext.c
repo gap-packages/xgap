@@ -2,7 +2,7 @@
 **
 *W  gaptext.c                 	XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: gaptext.c,v 1.3 1997/12/05 17:30:54 frank Exp $
+*H  @(#)$Id: gaptext.c,v 1.4 1999/03/22 20:54:58 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -261,20 +261,22 @@ static void GapTextInsertChar (
     {
         len = 1;
         str[len] = 0;
+        /* Switched Arrow Up and PageUp behaviour, and
+           Arrow Down and PageDown behaviour resp., 22.3.1999 Max */
         if ( keysym == XK_Left )
             str[0] = CTR('B');
-        else if ( keysym == XK_Prior )
+        else if ( keysym == XK_Up )
             str[0] = CTR('P');
         else if ( keysym == XK_Right )
             str[0] = CTR('F');
-        else if ( keysym == XK_Next )
+        else if ( keysym == XK_Down )
             str[0] = CTR('N');
-        else if ( keysym == XK_Up )
+        else if ( keysym == XK_Prior )
         {
             len = 2;
 	    strcpy( str, "\001\020" );
         }
-        else if ( keysym == XK_Down )
+        else if ( keysym == XK_Next )
         {
             len = 2;
 	    strcpy( str, "\001\016" );
