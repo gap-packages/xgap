@@ -3,7 +3,7 @@
 *W  selfile.c                   XGAP Source              Erik M. van der Poel
 *W                                                   modified by Frank Celler
 **
-*H  @(#)$Id: selfile.c,v 1.3 1997/12/05 17:31:05 frank Exp $
+*H  @(#)$Id: selfile.c,v 1.4 1999/03/03 01:12:40 gap Exp $
 **
 **  This file is based on the file selector  distributed with  ghostview,  it
 **  contained the following notice:
@@ -2544,7 +2544,7 @@ Boolean XsraSelFile ( toplevel, prompt, init_path, show_entry, name_return )
     XtMapWidget(selFile);
 
     /* get current directory */
-#   if defined(SVR4) || defined(SYSV) || defined(USG)
+#   if defined(SVR4) || defined(SYSV) || defined(USG) || defined(__GLIBC__)
 	if ( !getcwd(SFstartDir, MAXPATHLEN) ) {
 	    *SFstartDir = 0;
 	    XtAppWarning( SFapp, "XsraSelFile: can't get current directory" );
