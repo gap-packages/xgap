@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.8 1999/02/08 14:42:18 gap Exp $
+*H  @(#)$Id: pty.c,v 1.9 1999/03/07 22:08:43 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1402,6 +1402,9 @@ int StartGapProcess ( name, argv )
     {
         dup2( slave, 0 );
         dup2( slave, 1 );
+        /* The following is necessary because otherwise the GAP process
+           will ignore the SIGINT signal: */
+        signal( SIGINT, SIG_DFL );
 #       ifdef SYS_HAS_EXECV_CCHARPP
             execv( name, (const char**) argv );
 #       else
