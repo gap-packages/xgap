@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.40 1999/08/04 23:59:51 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.41 1999/11/25 18:52:21 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.40 1999/08/04 23:59:51 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.41 1999/11/25 18:52:21 gap Exp $";
 
 
 #############################################################################
@@ -1952,6 +1952,59 @@ function( sheet, grp, conjugclass, hints )
   else
     newlevel := infinity;
   fi;
+  # note that in case of an infinity level only one vertex per level is
+  # allowed, so it is no bug, that we change the level parameter
+  # only later to its correct value [infinity, <n>]!
+  
+  # Is this vertex already in the sheet?
+  # Note that we check this *before* we create a level because of the
+  # infinity levels: We would produce an empty level, if we created
+  # one and noticed afterwards, that we already have the vertex!
+  vertex := false;   # will become the new vertex
+  if CanCompareSubgroups(sheet) then
+    # we search for this group:
+    v := WhichVertex(sheet,grp,function(data,vdata) 
+                                 return data=vdata.group; 
+                               end);
+    if v <> fail then      
+      return( [v,false] );
+    fi;
+    
+    # perhaps we have a conjugate group?
+    vers := [];
+    lev := Position( Levels(sheet), newlevel );
+    if lev <> fail then
+      # Note: this can happen if there is not yet a level for the new vertex!
+      #       (for example in the "infinity" case!)
+      lev := sheet!.levels[lev];
+        # we walk through all classes and search the class representative:
+      for cl in lev!.classes do
+        if Length(cl) <> 0 then
+          Add(vers,cl[1]);
+        else          # This is the case of an empty class!
+          Add(vers,false);
+        fi;
+      od;
+      
+      if Length(vers) = 0 then 
+        conj := fail;
+      else
+        conj := First([1..Length(vers)],
+                      v->(vers[v] <> false and
+                          IsConjugate(sheet!.group,grp,vers[v]!.data.group)));
+      fi;
+      
+      if conj <> fail then
+        # we insert into that class
+        
+        sheet!.largestlabel := sheet!.largestlabel+1;
+        data.class := vers[conj]!.data.class;
+        vertex := Vertex(sheet,data,rec(levelparam := newlevel,
+                          classparam := lev!.classparams[conj],
+                          label := String(sheet!.largestlabel)));
+      fi;
+    fi;
+  fi;
   
   # do we have this level yet?
   if newlevel = infinity then
@@ -1982,48 +2035,6 @@ function( sheet, grp, conjugclass, hints )
       str := String(newlevel);
     fi;
     CreateLevel(sheet,newlevel,str);
-  fi;
-  
-  vertex := false;   # will become the new vertex
-  if CanCompareSubgroups(sheet) then
-    # we search for this group:
-    v := WhichVertex(sheet,grp,function(data,vdata) 
-                                 return data=vdata.group; 
-                               end);
-    if v <> fail then      
-      return( [v,false] );
-    fi;
-    
-    # perhaps we have a conjugate group?
-    vers := [];
-    lev := Position( Levels(sheet), newlevel );
-    lev := sheet!.levels[lev];
-    # we walk through all classes and search the class representative:
-    for cl in lev!.classes do
-      if Length(cl) <> 0 then
-        Add(vers,cl[1]);
-      else      # This is the case of an empty class!
-        Add(vers,false);
-      fi;
-    od;
-    
-    if Length(vers) = 0 then 
-      conj := fail;
-    else
-      conj := First([1..Length(vers)],
-                    v->(vers[v] <> false and
-                        IsConjugate(sheet!.group,grp,vers[v]!.data.group)));
-    fi;
-    
-    if conj <> fail then
-      # we insert into that class
-      
-      sheet!.largestlabel := sheet!.largestlabel+1;
-      data.class := vers[conj]!.data.class;
-      vertex := Vertex(sheet,data,rec(levelparam := newlevel,
-                                      classparam := lev!.classparams[conj],
-                                      label := String(sheet!.largestlabel)));
-    fi;
   fi;
   
   # if not yet done we create a new vertex in a new class:
