@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.6 1998/12/18 18:57:22 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.7 1999/01/14 19:53:29 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.6 1998/12/18 18:57:22 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.7 1999/01/14 19:53:29 gap Exp $";
 
 
 #############################################################################
@@ -185,7 +185,7 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
           rec( name := "Cores", op := Core,
                parent := true, from := GGLfrom1, to := GGLto1, 
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
-          rec( name := "DerivedSeries", op := DerivedSeries,
+          rec( name := "DerivedSeries", op := DerivedSeriesOfGroup,
                parent := false, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereDown, plural := true, rels := GGLrelsDown ),
           rec( name := "DerivedSubgroups", op := DerivedSubgroup,
@@ -728,7 +728,7 @@ end);
 ##  should either be false or fail.
 ##
 InstallMethod( InsertVertex,
-    "for a graphic subgroup lattice, a group, and an list",
+    "for a graphic subgroup lattice, a group, and a list",
     true,
     [ IsGraphicSubgroupLattice, IsGroup, IsObject, IsList ],
     0,
@@ -912,7 +912,23 @@ function( sheet, grp, conjugclass, hints )
   
 end);
 
+##
+##  Another method for convenience:
+##  Note that here the vertex is automatically selected!
+##
+InstallOtherMethod( InsertVertex,
+    "for a graphic subgroup lattice, and a subgroup",
+    true,
+    [ IsGraphicSheet and IsGraphicPosetRep and IsGraphicSubgroupLattice,
+      IsGroup ],
+    0,
+function(sheet,group)
+  local l;
+  l := InsertVertex(sheet,group,fail,[]);
+  Select(sheet,l[1],true);
+end);
 
+    
 #############################################################################
 ##
 #M  NewInclusionInfo( <sheet>, <v1>, <v2> ) . . . . . . . . . . v1 lies in v2
@@ -977,7 +993,7 @@ function( sheet, v1, v2 )
           MergeVertices(sheet,v1,v2);
           return;   # we are done with this inclusion!
         else
-          Info(GraphicLattice,0,"Cannot use inclusion ",v1!.label," in ",
+          Info(GraphicLattice,1,"Cannot use inclusion ",v1!.label," in ",
                v2!.label," because of levels!");
           return;   # nothing to do!
         fi;
@@ -1519,13 +1535,13 @@ function( sheet, li )
   DeselectAll(sheet);
   for g in li do
     if not IsGroup(g) then
-      Info(GraphicLattice,"Warning: This is no subgroup: ",g);
+      Info(GraphicLattice,1,"Warning: This is no subgroup: ",g);
     else
       v := WhichVertex(sheet,g,function(a,b) 
-                                 return IsIdenticalObj(a,b.group);
+                                 return a = b.group;
                                end );
       if v = fail then
-        Info(GraphicLattice,"Warnung: Subgroup not in lattice: ",g);
+        Info(GraphicLattice,1,"Warning: Subgroup not in lattice: ",g);
       else
         Select(sheet,v,true);
       fi;

@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.7 1998/12/18 17:03:42 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.8 1999/01/14 19:53:29 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.7 1998/12/18 17:03:42 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.8 1999/01/14 19:53:29 gap Exp $";
 
 
 
@@ -2938,7 +2938,6 @@ function(poset,x,y)
                 Reshape(box,bw,bh);
               fi;
             end) then
-      Delete(poset,box);
       # the box had at one time at least a certain size
       if box!.w > 0 and box!.h > 0 then
         GGSelectModifiesMenu := false;
@@ -2955,9 +2954,12 @@ function(poset,x,y)
           fi;
         od;
         # better we redraw:
+        Delete(poset,box);
         DoRedraw(poset);
         GGSelectModifiesMenu := true;
         ModifyEnabled(poset,1,Length(poset!.menus));
+      else
+        Delete(poset,box);
       fi;
       # Drag(...) --> true    
     else
@@ -3103,7 +3105,26 @@ function(poset, menu, entry)
   PosetScaleLattice(poset,100/144,100/144);
 end);
 
-
+##
+## Make a rational number from a string, accept fraction:
+##
+BindGlobal("PosetRatString",
+  function( st )
+    local n,d,p;
+    p := Position( st, '/' );
+    if p = fail then
+      return Int(st);
+    else
+      n := Int(st{[1..p-1]});
+      d := Int(st{[p+1..Length(st)]});
+      if d <> 0 then
+        return n/d;
+      else
+        return infinity;
+      fi;
+    fi;
+  end);
+  
 ##
 ## Extracts two factors out of a string:
 ##
@@ -3114,17 +3135,17 @@ BindGlobal("PosetFactorsString",
     # find ","
     p := Position( factor, ',' );
     if p = fail  then
-        x := Int(factor);
+        x := PosetRatString(factor);
         y := x;
     elif p = 1  then
         x := 1;
-        y := Int(factor{[2..Length(factor)]});
+        y := PosetRatString(factor{[2..Length(factor)]});
     elif p = Length(factor)  then
-        x := Int(factor{[1..p-1]});
+        x := PosetRatString(factor{[1..p-1]});
         y := 1;
     else
-        x := Int(factor{[1..p-1]});
-        y := Int(factor{[p+1..Length(factor)]});
+        x := PosetRatString(factor{[1..p-1]});
+        y := PosetRatString(factor{[p+1..Length(factor)]});
     fi;
     if x <= 0  then x := 1;  fi;
     if y <= 0  then y := 1;  fi;

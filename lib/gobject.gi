@@ -2,14 +2,14 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.5 1998/11/27 14:50:50 ahulpke Exp $
+#H  @(#)$Id: gobject.gi,v 1.6 1999/01/14 19:53:29 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.5 1998/11/27 14:50:50 ahulpke Exp $";
+    "@(#)$Id: gobject.gi,v 1.6 1999/01/14 19:53:29 gap Exp $";
 
 
 #############################################################################
@@ -3025,7 +3025,7 @@ end );
 InstallOtherMethod( Reshape,
     "for a vertex, and an integer",
     true,
-    [ IsGraphicObject and IsVertexObjectRep and IsAlive, IsFont ],
+    [ IsGraphicObject and IsVertexObjectRep and IsAlive, IsInt ],
     0,
 
 function( vertex, shape )
