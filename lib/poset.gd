@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.5 1998/12/06 22:16:14 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.6 1999/01/17 23:45:50 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.5 1998/12/06 22:16:14 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.6 1999/01/17 23:45:50 gap Exp $";
 
 
 #############################################################################
@@ -38,9 +38,9 @@ fi;
 #O  GraphicPoset(<name>, <width>, <height>) . . . . . . creates graphic poset
 ##
 ##  creates a new graphic poset which is a specialization of a graphic graph
-##  mainly because per definition a poset comes in "layers" or "levels". This
-##  leads to some algorithms that are more efficient than the general ones
-##  for graphs.
+##  mainly because per definition a poset comes in ``levels'' or ``layers''. 
+##  This leads to some algorithms that are more efficient than the general 
+##  ones for graphs.
 ##
 if IsBound(GraphicPoset) then if not IsOperation(GraphicPoset) then
   Error("Identifier GraphicPoset already in use!"); fi;
@@ -59,14 +59,14 @@ fi;
 ##  the graphic sheet and a height. Every class of vertices in a graphic
 ##  poset is in a level. The levels are totally ordered by their y
 ##  coordinate. No two vertices which are included in each other are in the
-##  same level. A vertex containing another one is always "higher" on the
-##  screen, meaning in a "higher" level.  Every level has a unique
+##  same level. A vertex containing another one is always ``higher'' on the
+##  screen, meaning in a ``higher'' level.  Every level has a unique
 ##  levelparam, which can be any gap object. The user is responsible for
 ##  all methods where a levelparam occurs as parameter and is not just an
 ##  integer. There is NO gap object representing a level which is visible
 ##  for the user of posets. All communication about levels goes via the
 ##  levelparam.  Returns fail if there is already a level with a level
-##  parameter which is considered "equal" by CompareLevels or levelparam if
+##  parameter which is considered ``equal'' by CompareLevels or levelparam if
 ##  everything went well.
 ##  The second method allows to specify which text appears for the level at
 ##  the right edge of the sheet.
@@ -107,12 +107,12 @@ fi;
 ##
 ##  Creates a new vertex. <inf> is a record in which additional info can be
 ##  supplied for the new vertex. For general graphic graphs only the
-##  "label", "color", "shape", "x" and "y" components are applicable, they
+##  `label', `color', `shape', `x' and `y' components are applicable, they
 ##  contain a short label which will be attached to the vertex, the color,
-##  the shape ("circle", "diamond", or "rectangle") and the coordinates
+##  the shape (`circle', `diamond', or `rectangle') and the coordinates
 ##  relative to the graphic sheet respectively. For graphic posets also the 
-##  components "levelparam" and "classparam" are evaluated. If the component
-##  "hints" is bound it must be a list of x coordinates which will be
+##  components `levelparam' and `classparam' are evaluated. If the component
+##  `hints' is bound it must be a list of x coordinates which will be
 ##  delivered to ChoosePosition to help placement. Those x coordinates will
 ##  be the coordinates of other vertices related to the new one. All values of
 ##  record components which are not specified will be determined by calling 
@@ -143,8 +143,8 @@ fi;
 ##
 ##  Adds a new edge from <vertex1> to <vertex2>. For posets this puts one
 ##  of the vertices into the other as a maximal subvertex. So either
-##  <vertex1> must lie in a "higher" level than <vertex2> or the other way
-##  round. There must be no vertex "between" <vertex1> and <vertex2>. If
+##  <vertex1> must lie in a ``higher'' level than <vertex2> or the other way
+##  round. There must be no vertex ``between'' <vertex1> and <vertex2>. If
 ##  the two vertices are in the same level or one is already indirectly
 ##  included in the other fail is returned, otherwise true. That means,
 ##  that in the case where one of the two vertices is already a maximal
@@ -362,7 +362,7 @@ fi;
 ##  Changes the selection state of a vertex. <vertex> must be a vertex object
 ##  in <graph>. The flags determines whether the vertex should be selected or
 ##  deselected. This operation already exists in xgap for graphic objects.
-##  The method without flags assumes "true".
+##  The method without flags assumes `true'.
 ##
 if IsBound(Select) then if not IsOperation(Select) then
   Error("Identifier Select already in use!"); fi;
@@ -515,7 +515,7 @@ fi;
 ##
 ##  This operation is called while vertex creation.
 ##  It has to return a string out of the following list:
-##  "circle", "diamond", "rectangle"
+##  `circle', `diamond', `rectangle'
 ##  If it returns fail the new vertex is not generated!
 ##
 if IsBound(ChooseShape) then if not IsOperation(ChooseShape) then
@@ -546,8 +546,8 @@ fi;
 ##
 #O  CompareLevels(<poset>,<levelp1>,<levelp2>) . . . compares two levelparams
 ##
-##  Compare two levelparams. -1 means that levelp1 is "higher", 1 means that
-##  levelp2 is "higher", 0 means that they are equal. fail means that they
+##  Compare two levelparams. -1 means that levelp1 is ``higher'', 1 means that
+##  levelp2 is ``higher'', 0 means that they are equal. fail means that they
 ##  are not comparable.
 ##
 if IsBound(CompareLevels) then if not IsOperation(CompareLevels) then
@@ -599,7 +599,7 @@ fi;
 #O  WhichVertex(<graph>,<data>,<func>)   . . .  determine vertex functionally
 ##
 ##  Determines a vertex which contains the position.  Returns vertex.
-##  In the third form the function func must take two parameters "data" and
+##  In the third form the function func must take two parameters <data> and
 ##  the data entry of a vertex in question. It must return true or false, 
 ##  according to the right vertex being found or not.
 ##  The function can for example consider just one record component of
@@ -622,7 +622,7 @@ fi;
 #O  WhichVertices(<graph>,<data>,<func>) . .  determine vertices functionally
 ##
 ##  Determines the list of vertices which contain the position. Returns list.
-##  In the third form the function func must take two parameters "data" and
+##  In the third form the function func must take two parameters <data> and
 ##  the data entry of a vertex in question. It must return true or false, 
 ##  according to the vertex belonging into the result or not.
 ##  The function can for example consider just one record component of
@@ -740,15 +740,25 @@ fi;
 ##  This information describes the relation between the selection state of
 ##  the vertices and the parameters supplied to the functions. The following 
 ##  types are supported:
-##    "forany"    : always enabled, generic routines don't change anything
-##    "forone"    : enabled iff exactly one vertex is selected
-##    "fortwo"    : enabled iff exactly two vertices are selected
-##    "forthree"  : enabled iff exactly three vertices are selected
-##    "forsubset" : enabled iff at least one vertex is selected
-##    "foredge"   : enabled iff a connected pair of two vertices is selected
-##    "formin2"   : enabled iff at least two vertices are selected
-##    "formin3"   : enabled iff at least three vertices are selected
-##  The IsMenu object is returned. It is also stored in the sheet.
+##  \beginitems
+##    `forany' &  always enabled, generic routines don't change anything
+##
+##    `forone' &  enabled iff exactly one vertex is selected
+##
+##    `fortwo' &  enabled iff exactly two vertices are selected
+##
+##    `forthree'& enabled iff exactly three vertices are selected
+##
+##    `forsubset'&enabled iff at least one vertex is selected
+##
+##    `foredge' & enabled iff a connected pair of two vertices is selected
+##
+##    `formin2' & enabled iff at least two vertices are selected
+##
+##    `formin3' & enabled iff at least three vertices are selected
+##
+##  \enditems
+##  The `IsMenu' object is returned. It is also stored in the sheet.
 ##
 if IsBound(Menu) then if not IsOperation(Menu) then
   Error("Identifier Menu already in use!"); fi;
@@ -761,7 +771,7 @@ fi;
 ##
 #O  ModifyEnabled(<graph>,<from>,<to>) , . .  modifies enablednes of entries
 ##
-##  Modifies the "Enabledness" of menu entries according to their type and
+##  Modifies the ``Enabledness'' of menu entries according to their type and
 ##  number of selected vertices. <from> is the first menu to work on and
 ##  <to> the last one (indices). Only IsAlive menus are considered. Returns 
 ##  nothing.
@@ -832,9 +842,9 @@ fi;
 ##
 #O  PosetRightClick(poset,x,y) . . . method which is called after right click
 ##
-##  This operation is called when the user does a right click in a poset. It 
-##  finds out on which vertex the user clicked and calls the supplied
-##  which the "user" supplied.
+##  This operation is called when the user does a right click in a graph. 
+##  The generic method just finds the vertex under the mouse pointer and
+##  calls the rightclickfunction of the poset.
 ##
 if IsBound(PosetRightClick) then if not IsOperation(PosetRightClick) then
   Error("Identifier PosetRightClick already in use!"); fi;
@@ -847,7 +857,7 @@ fi;
 ##
 #O  UserDeleteVerticesOp . . . is called if the user wants to delete vertices
 ##
-##  This operation is called when the user selects "Delete vertices". 
+##  This operation is called when the user selects ``Delete vertices''.
 ##  The generic method actually deletes the selected vertices including all
 ##  their edges.
 ##
@@ -861,7 +871,7 @@ fi;
 ##
 #O  UserDeleteEdgeOp  . . . . . is called if the user wants to delete an edge
 ##
-##  This operation is called when the user selects "Delete edge". 
+##  This operation is called when the user selects ``Delete edge''.
 ##  The generic method deletes the edge with no further warning!
 ##
 if IsBound(UserDeleteEdgeOp) then if not IsOperation(UserDeleteEdgeOp) then
@@ -875,8 +885,8 @@ fi;
 ##
 #O  UserMagnifyLattice . . . . . .  lets the user magnify the graphic lattice
 ##
-##  This operation is called when the user selects "Magnify Lattice". 
-##  The generic method scales everything by 144/100 including the sheet,
+##  This operation is called when the user selects ``Magnify Lattice''. 
+##  The generic method scales everything by $144/100$ including the sheet,
 ##  all heights of levels and positions of vertices.
 ##
 if IsBound(UserMagnifyLattice) then if not IsOperation(UserMagnifyLattice) then
@@ -890,7 +900,7 @@ fi;
 ##
 #O  UserShrinkLattice . . . . . . .  lets the user shrink the graphic lattice
 ##
-##  This operation is called when the user selects "Shrink Lattice". 
+##  This operation is called when the user selects ``Shrink Lattice''. 
 ##  The generic method scales everything by 100/144 including the sheet,
 ##  all heights of levels and positions of vertices.
 ##
@@ -905,7 +915,7 @@ fi;
 ##
 #O  UserResizeLattice . . . . . . .  lets the user resize the graphic lattice
 ##
-##  This operation is called when the user selects "Resize Lattice". 
+##  This operation is called when the user selects ``Resize Lattice''. 
 ##  The generic method asks the user for a x and a y factor and scales
 ##  everything including the sheet, all heights of levels and positions of 
 ##  vertices.
@@ -921,7 +931,7 @@ fi;
 ##
 #O  UserResizeSheet . . . . . . . . .  lets the user resize the graphic sheet
 ##
-##  This operation is called when the user selects "Resize Sheet". 
+##  This operation is called when the user selects ``Resize Sheet''. 
 ##  The generic method asks the user for a x and a y pixel number and
 ##  changes the width and height of the sheet. No positions of levels and
 ##  vertices are changed. If the user asks for trouble he gets it!
@@ -937,7 +947,7 @@ fi;
 ##
 #O  UserMoveLattice . . . . . . . . . . . . . lets the user move all vertices
 ##
-##  This operation is called when the user selects "Move Lattice". 
+##  This operation is called when the user selects ``Move Lattice''. 
 ##  The generic method asks the user for a pixel number and
 ##  changes the position of all vertices horizontally. No positions of 
 ##  levels are changed. 
@@ -953,7 +963,7 @@ fi;
 ##
 #O  UserChangeLabels . . . . . . . .  lets the user change labels of vertices
 ##
-##  This operation is called when the user selects "Change Labels". 
+##  This operation is called when the user selects ``Change Labels''. 
 ##  The user is prompted for every selected vertex, which label it should
 ##  have.
 ##
@@ -997,7 +1007,7 @@ fi;
 
 #############################################################################
 ##
-#O  UserRearrangesClasses . . . . . . . . . . rearrange vertices within class
+#O  UserRearrangeClasses  . . . . . . . . . . rearrange vertices within class
 ##
 ##  This operation is called when the user selects ``Rearrange Classes''.
 ##  All classes with a selected vertex are rearranged: The vertices are
@@ -1010,7 +1020,7 @@ if IsBound(UserRearrangeClasses) then
 else
   DeclareOperation( "UserRearrangeClasses", 
           [IsGraphicSheet, IsMenu, IsString] );
-fi;
+#fi;
 
 
 ############################################################################
@@ -1026,7 +1036,7 @@ DeclareOperation( "UserUseBlackWhite", [ IsGraphicSheet, IsMenu, IsString ] );
 ##
 #O  PosetShowLevels  . . . . . . . . . . . . . . . . switch display of levels
 ##
-##  This operation is called when the user selects "Show Levels" in the menu.
+##  This operation is called when the user selects ``Show Levels'' in the menu.
 ##  Switches the display of the little boxes for level handling on and off.
 ##
 if IsBound(PosetShowLevels) then if not IsOperation(PosetShowLevels) then
@@ -1040,7 +1050,7 @@ fi;
 ##
 #O  PosetShowLevelparams . . . . . . . . .  switch display of levelparameters
 ##
-##  This operation is called when the user selects "Show Levelparameters" in 
+##  This operation is called when the user selects ``Show Levelparameters'' in 
 ##  the menu. Switches the display of the level parameters at the right of
 ##  the screen on and off.
 ##

@@ -2,14 +2,14 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.6 1999/01/14 19:53:29 gap Exp $
+#H  @(#)$Id: gobject.gi,v 1.7 1999/01/17 23:45:50 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.6 1999/01/14 19:53:29 gap Exp $";
+    "@(#)$Id: gobject.gi,v 1.7 1999/01/17 23:45:50 gap Exp $";
 
 
 #############################################################################
@@ -149,6 +149,21 @@ DeclareRepresentation( "IsBoxObjectRep",
 ##
 #M  Box( <sheet>, <x>, <y>, <w>, <h> )  . . . . . . . . draw a box in a sheet
 #M  Box( <sheet>, <x>, <y>, <w>, <h>, <defaults> )  . . draw a box in a sheet
+##
+##  creates a new graphic object,  namely a filled black  box, on the graphic
+##  sheet <sheet> and  returns a {\GAP} record describing  this  object.  The
+##  four   corners     of  the    box    are   $(<x>,<y>)$,  $(<x>+<w>,<y>)$,
+##  $(<x>+<w>,<y>+<h>)$, and $(<x>,<y>+<h>)$.
+##
+##  Note that the box is $<w>+1$ pixel wide and $<h>+1$ pixels high.
+##
+##  If a record <defaults> is given and contains a component `color' of value
+##  <color>, the  function works like the first version  of  `Box', except 
+##  that the color of the box will be <color>.  See "Color Models" for how 
+##  to select a <color>.
+##
+##  See "table of operations for graphic objects" for a list of operations
+##  that apply to boxes.
 ##
 InstallMethod( Box,
     "for sheet, four integers, and record of defaults",
@@ -2744,6 +2759,7 @@ end );
 #############################################################################
 ##
 #M  Connection( <C>, <D> )  . . . . . . . . . . . . . .  connect two vertices
+#M  Connection( <C>, <D>, <def> ) . . . . . . . . . . .  connect two vertices
 ##
 InstallOtherMethod( Connection,
     "for two vertices",

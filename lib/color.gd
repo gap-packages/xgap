@@ -2,14 +2,23 @@
 ##
 #W  color.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gd,v 1.4 1998/11/27 14:50:47 ahulpke Exp $
+#H  @(#)$Id: color.gd,v 1.5 1999/01/17 23:45:50 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_color_gd :=
-    "@(#)$Id: color.gd,v 1.4 1998/11/27 14:50:47 ahulpke Exp $";
+    "@(#)$Id: color.gd,v 1.5 1999/01/17 23:45:50 gap Exp $";
+
+
+#############################################################################
+#1
+##  Depending on the type of display you are using, there may be more or
+##  less colors available. You should write your programs always such that
+##  they work even on monochrome displays. In {\XGAP} these differences can
+##  be read off from the so called ``color model''. The global variable
+##  `COLORS' contains all available information.
 
 
 #############################################################################
@@ -61,6 +70,11 @@ DeclareSynonym( "ColourFamily", ColorFamily );
 ##      gap> Recolor( box, COLORS.dimGrey );
 ##      gap> Close(sheet);
 ##  \endexample
+##
+##  The component `model' is always a string. It is `monochrome', if the 
+##  display does not support colors. It is `gray' if we only have gray shades
+##  and `colorX' if we have colors. The ``X'' can be either 3 or 5, depending
+##  on how many colors are available.
 ##
 DeclareGlobalFunction( "CreateColors" );
 DeclareGlobalVariable( "COLORS" );

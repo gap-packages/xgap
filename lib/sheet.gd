@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.7 1998/12/06 22:16:14 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.8 1999/01/17 23:45:50 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,12 +11,32 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.7 1998/12/06 22:16:14 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.8 1999/01/17 23:45:50 gap Exp $";
+
+
+#############################################################################
+#1
+##  To access any graphics in {\XGAP} you first have to create a *graphic*
+##  *sheet* object. Such objects are linked internally to windows on the
+##  screen. You do *not* have to think about redrawing, resizing and other
+##  other organizing stuff. The graphic sheet object is a {\GAP} object
+##  in the category `IsGraphicSheet' and should be saved because it is needed
+##  later on for all graphic operations.
+
+#2
+##  Every graphic object in {\XGAP} can be <alive> or not. This is controlled
+##  by the filter `IsAlive'. Being <alive> means that the object can be used
+##  for further operations. If for example the user closes a window by a 
+##  mouse operation the corresponding graphic sheet object is no longer 
+##  <alive>.
 
 
 #############################################################################
 ##
 #F  IsAlive . . . . . . . . . . . . . . . filter for living displayed objects
+##
+##  This filter controls if a graphic object is <alive>, meaning that it can
+##  be used for further graphic operations.
 ##
 DeclareFilter( "IsAlive" );
 
@@ -54,10 +74,20 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 ##  follows.
 ##
 ##  \begintt
-##      gap> InstallCallback( sheet, LeftPBDown, MyLeftPBDownCallback );
+##      gap> InstallCallback( sheet, "LeftPBDown", MyLeftPBDownCallback );
 ##  \endtt
 ##
-##  \> Close( <sheet> )
+##  {\XGAP} stores for each graphic sheet a list of callback keys and a list
+##  of callback functions for each key. That means that when a certain 
+##  callback key is triggered for a graphic sheet then the corresponding
+##  list of callback functions is called one function after the other. The
+##  following keys have predefined meanings which are explained below:
+##    `Close', `LeftPBDown', `RightPBDown', `ShiftLeftPBDown', 
+##    `ShiftRightPBDown', `CtrlLeftPBDown', `CtrlRightPBDown'.
+##  All of these keys are strings. You can install your own callback 
+##  functions for new keys, however they will not be triggered automatically.
+##
+##  \>`Close( <sheet> )'{CloseCallback}
 ##
 ##    the function will be called as soon as the user selects \"close graphic
 ##    sheet\",  the installed  function gets  the graphic <sheet> to close as
@@ -110,12 +140,18 @@ DeclareGlobalVariable( "DefaultGAPMenu",
 ##
 #A  WindowId( <sheet> ) . . . . . . . . . . . . . . . .  window id of <sheet>
 ##
+##  Every graphic sheet has a unique number, its <window id>. This is mainly
+##  used internally.
+##
 DeclareAttribute( "WindowId", IsGraphicSheet );
 
 
 #############################################################################
 ##
-#O  Callback( <sheet>, <func>, <args> )  . . . .  execute a callback function
+#O  Callback( <sheet>, <key>, <args> ) . . . . .  execute a callback function
+##
+##  Executes all callback functions of the sheet <sheet> that are stored under
+##  the key <func> with the argument list <args>.
 ##
 DeclareOperation( "Callback", [ IsGraphicSheet, IsObject, IsList ] );
 
@@ -124,12 +160,18 @@ DeclareOperation( "Callback", [ IsGraphicSheet, IsObject, IsList ] );
 ##
 #O  Close( <sheet> )  . . . . . . . . . . . . . . . . . close a graphic sheet
 ##
+##  The graphic sheet is closed which means that the corresponding window is
+##  closed and the sheet becomes <not alive>.
+##
 DeclareOperation( "Close", [ IsGraphicSheet ] );
 
 
 #############################################################################
 ##
-#O  InstallCallback( <sheet>, <func>, <call> ) . . . . . install new callback
+#O  InstallCallback( <sheet>, <key>, <func> )  . . . . . install new callback
+##
+##  Installs a new callback function for the sheet <sheet> for the key <key>.
+##  Note that the old functions for this key are *not* deleted.
 ##
 DeclareOperation( "InstallCallback",
     [ IsGraphicSheet, IsObject, IsFunction ] );
@@ -138,6 +180,10 @@ DeclareOperation( "InstallCallback",
 #############################################################################
 ##
 #O  RemoveCallback( <sheet>, <func>, <call> ) . . . . . . remove old callback
+##
+##  Removes an old callback. Note that you have to specify not only the 
+##  <key> but also explicitly the <func> which should be removed from the 
+##  list!
 ##
 DeclareOperation( "RemoveCallback",
     [ IsGraphicSheet, IsObject, IsFunction ] );
@@ -153,6 +199,10 @@ DeclareOperation( "MakeGAPMenu", [ IsGraphicSheet ] );
 #############################################################################
 ##
 #O  Resize( <sheet>, <width>, <height> ) . . . . . . . . . . . . resize sheet
+##
+##  The <width> and <height> of the sheet are changed. That does *not* 
+##  automatically mean that the window size is changed. It may also happen
+##  that only the scrollbars are changed.
 ##
 DeclareOperation( "Resize", [ IsGraphicSheet, IsInt, IsInt ] );
 
@@ -217,6 +267,10 @@ DeclareFilter( "UseFastUpdate" );
 ##
 #O  SetTitle( <sheet>, <title> )  . . . . . . . . . . . . . . . . add a title
 ##
+##  Every graphic sheet has a title which appears somewhere on the window.
+##  It is initially set via the call to the constructor `GraphicSheet' and
+##  can be changed later with this operation.
+##
 DeclareOperation( "SetTitle", [ IsGraphicSheet, IsString ] );
 
 
@@ -236,7 +290,7 @@ DeclareGlobalVariable( "BUTTONS" );
 
 #############################################################################
 ##
-#O  PointerButtonDown( <sheet>, <x>, <y>, <btn>, <state> . . reaction on user
+#O  PointerButtonDown( <sheet>, <x>, <y>, <btn>, <state> ) . reaction on user
 ##
 DeclareOperation( "PointerButtonDown", 
         [ IsGraphicSheet, IsInt, IsInt, IsInt, IsInt ] );
@@ -245,6 +299,50 @@ DeclareOperation( "PointerButtonDown",
 #############################################################################
 ##
 #O  Drag( <sheet>, <x>, <y>, <bt>, <func> ) . . . . . . . . .  drag something
+##
+##  Call this function when a button event has occured, so the button <bt>
+##  is still pressed. It waits until the user releases the mouse button and
+##  calls <func> for every change of the mouse position with the new x and
+##  y position as two integer parameters. You can implement a dragging
+##  procedure in this way as in the following example: (we assume that a
+##  `LeftPBDown' event just occured and x and y contain the current mouse
+##  pointer position):
+##
+##  \beginexample
+##    storex := x;
+##    storey := y;
+##    box := Rectangle(sheet,x,y,0,0);
+##    if Drag(sheet,x,y,BUTTONS.left,
+##            function(x,y)
+##              local bx,by,bw,bh;
+##              if x < storex then
+##                bx := x;
+##                bw := storex - x;
+##              else
+##                bx := storex;
+##                bw := x - storex;
+##              fi;
+##              if y < storey then
+##                by := y;
+##                bh := storey - y;
+##              else
+##                by := storey;
+##                bh := y - storey;
+##              fi;
+##              if bx <> box!.x or by <> box!.y then
+##                Move(box,bx,by);
+##              fi;
+##              if bw <> box!.w or bh <> box!.h then
+##                Reshape(box,bw,bh);
+##              fi;
+##            end) then
+##      the box had at one time at least a certain size
+##      ... work with box ...
+##    else
+##      the box was never big enough, we do nothing
+##    fi;
+##    Delete(box);
+## \endexample
 ##
 DeclareOperation( "Drag",
         [ IsGraphicSheet, IsInt, IsInt, IsInt, IsFunction ] );
