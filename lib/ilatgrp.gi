@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.37 1999/05/31 13:25:26 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.38 1999/06/04 10:59:34 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.37 1999/05/31 13:25:26 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.38 1999/06/04 10:59:34 gap Exp $";
 
 
 #############################################################################
@@ -722,7 +722,8 @@ function(sheet,v,x,y)
   
   # text select function
   textselectfunc := function( sel, name )
-    local   tid,  current,  text,  str,  value,  parameters;
+    local   tid,  current,  text,  str,  value,  parameters,  
+            newlevel,  savemaximals,  savemaximalin,  newv,  w;
     
     tid  := sel!.selected;
     current := sheet!.infodisplays[tid];
@@ -786,6 +787,45 @@ function(sheet,v,x,y)
       fi;
     fi;
     
+    newlevel := false;
+    # We check, if we have new knowledge about Index or Size:
+    if IsBound(v!.data.info.Index) and v!.data.info.Index <> infinity then
+      # if we are not in a finite index level, we take measures:
+      if not IsInt(v!.levelparam) or v!.levelparam < 0 then
+        newlevel := true;
+      fi;
+    elif HasSize(v!.data.group) and Size(v!.data.group) <> infinity then
+      # if we are not in a finite size level, we take measures:
+      if not IsInt(v!.levelparam) then
+        newlevel := true;
+      fi;
+    fi;
+    if newlevel then
+      # We delete the vertex and reinsert it with all its connections:
+      savemaximals := ShallowCopy(v!.maximals);
+      savemaximalin := ShallowCopy(v!.maximalin);
+      Query(Dialog("OKcancel",
+       "Recent results make it necessary to delete vertex and reinsert it!"));
+      Delete(sheet,v);
+      if IsList(v!.levelparam) then
+        DeleteLevel(sheet,v!.levelparam);
+      fi;
+      
+      newv := InsertVertex(sheet,v!.data.group);
+      if newv = fail then
+        return fail;
+      fi;
+      # we preserve our knowledge:
+      newv[1]!.data.info := v!.data.info;
+      v := newv[1];
+      for w in savemaximals do
+        NewInclusionInfo(sheet,w,v);
+      od;
+      for w in savemaximalin do
+        NewInclusionInfo(sheet,v,w);
+      od;
+    fi;
+      
     return LastResultOfInfoDisplay;
   end;
 
@@ -961,7 +1001,12 @@ function(sheet, menu, entry)
     fi;
     
     # we give some information:
-    infostr := Concatenation(menuop.name," (",todolist[todo][1]!.label);
+    if Length(todolist[todo]) >= 1 then
+      infostr := Concatenation(menuop.name," (",todolist[todo][1]!.label);
+    else
+      infostr := Concatenation(menuop.name," (");
+    fi;
+    
     for i in [2..Length(todolist[todo])] do
       Append(infostr,",");
       Append(infostr,todolist[todo][i]!.label);
@@ -1845,8 +1890,8 @@ function( sheet, grp, conjugclass, hints )
           vers,  lev,  cl,  conj,  Walkup,  Walkdown,  containerlist,  
           containedlist;
   
-  # FIXME: Activate this when the time for it has come...
-  # Did it, does it work?
+  data := rec(group := grp, info := rec());
+  
   # The following code is activated since CanComputeSize and CanComputeIndex
   # work:
   if CanComputeSize(grp) then
@@ -1857,6 +1902,7 @@ function( sheet, grp, conjugclass, hints )
 
   if CanComputeIndex(sheet!.group,grp) then
     index := Index(sheet!.group,grp);
+    data.info.Index := index;
   else
     index := fail;
   fi;
@@ -1869,18 +1915,16 @@ function( sheet, grp, conjugclass, hints )
       return fail;
     fi;
     # We do it anyway:
-    index := Index(sheet!.group,grp);  
+    index := Index(sheet!.group,grp);
+    data.info.Index := index;
   fi;
-  
-  data := rec(group := grp,
-              info := rec(Index := index));
   
   # What will be the level parameter?
   if index <> fail and index <> infinity then
     newlevel := index;
-  elif size <> fail then
+  elif size <> fail and size <> infinity then
     newlevel := -size;
-  else 
+  else
     newlevel := infinity;
   fi;
   
@@ -2080,6 +2124,7 @@ function(sheet,group)
   l := InsertVertex(sheet,group,fail,[]);
   # as of 1.4.1999 we do no longer select new vertices
   # Select(sheet,l[1],true);
+  return l;
 end);
 
     

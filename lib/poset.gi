@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.17 1999/04/26 21:58:47 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.18 1999/06/04 10:59:34 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.17 1999/04/26 21:58:47 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.18 1999/06/04 10:59:34 gap Exp $";
 
 
 
@@ -1048,7 +1048,7 @@ function( poset, levelparam )
   noerror := true;
   store := GGDeleteModifiesMenu;
   GGDeleteModifiesMenu := false;
-  for cl in poset!.levels[lp] do
+  for cl in poset!.levels[lp]!.classes do
     while cl <> [] do
       if Delete(poset,cl[1]) = fail then
         noerror := fail;
@@ -1068,16 +1068,26 @@ function( poset, levelparam )
         Move(poset,v,v!.x,v!.y);
       od;
     od;
+    if IsAlive(poset!.levelboxes[lev]) then
+      MoveDelta(poset!.levelboxes[lev],0,-poset!.levels[lp]!.height);
+    fi;
+    if IsAlive(poset!.lptexts[lev]) then
+      MoveDelta(poset!.lptexts[lev],0,-poset!.levels[lp]!.height);
+    fi;
   od;
   FastUpdate(poset,false);
   poset!.levels{[lp..l-1]} := poset!.levels{[lp+1..l]};
   Unbind(poset!.levels[l]);
   poset!.levelparams{[lp..l-1]} := poset!.levelparams{[lp+1..l]};
   Unbind(poset!.levelparams[l]);
-  Delete(poset,poset!.levelboxes[lp]);
+  if IsAlive(poset!.levelboxes[lp]) then
+    Delete(poset,poset!.levelboxes[lp]);
+  fi;
   poset!.levelboxes{[lp..l-1]} := poset!.levelboxes{[lp+1..l]};
   Unbind(poset!.levelboxes[l]);
-  Delete(poset,poset!.lptexts[lp]);
+  if IsAlive(poset!.lptexts[lp]) then
+    Delete(poset,poset!.lptexts[lp]);
+  fi;
   poset!.lptexts{[lp..l-1]} := poset!.lptexts{[lp+1..l]};
   Unbind(poset!.lptexts[l]);
   
