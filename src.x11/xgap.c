@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.7 1998/11/27 14:51:01 ahulpke Exp $
+*H  @(#)$Id: xgap.c,v 1.8 1999/03/03 01:13:46 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -197,7 +197,6 @@ static char *FallbackResources[] =
     "*xgapMenu.gapButton*quitGapCTRD.label:   Quit on CTR-D",
     "*xgapMenu.gapButton*editFile.label:      Edit File ...",
     "*xgapMenu.gapButton*readFile.label:      Read File ...",
-    "*xgapMenu.gapButton*reloadLib.label:     Reload Library",
     "*xgapMenu.gapButton*changeLib.label:     Change Library ...",
 #ifdef DEBUG_ON
     "*xgapMenu.gapButton*resyncGap.label:     Resync with GAP",
@@ -218,18 +217,15 @@ static char *FallbackResources[] =
     "*xgapMenu.helpButton.label:              Help",
     "*xgapMenu.helpButton*copyHelp.label:     Copyright",
     "*xgapMenu.helpButton*helpHelp.label:     Helpsystem",
-    "*xgapMenu.helpButton*abotHelp.label:     About GAP",
     "*xgapMenu.helpButton*chpsHelp.label:     Chapters",
     "*xgapMenu.helpButton*secsHelp.label:     Sections",
     "*xgapMenu.helpButton*nchpHelp.label:     Next Chapter",
     "*xgapMenu.helpButton*pchpHelp.label:     Previous Chapter",
     "*xgapMenu.helpButton*nextHelp.label:     Next Help Section",
     "*xgapMenu.helpButton*prevHelp.label:     Previous Help Section",
-    "*xgapMenu.helpButton*contHelp.label:     Continue Help",
-    "*xgapMenu.helpButton*quitHelp.label:     Quit Help",
 
     /* gap graphic window */
-    "*xgapWindowViewport.width:               400",
+    "*xgapWindowViewport.width:               800",
     "*xgapWindowViewport.height:              600",
 
     /* query a input file name */
@@ -263,7 +259,6 @@ static char *FallbackResources[] =
 */
 static void MenuQuitGap ()   { KeyboardInput( "@C@A@Kquit;\nquit;\n", 18 ); }
 static void MenuKillGap ()   { KillGap();                                   }
-static void MenuReloadLib () { SimulateInput( "ReadLib( \"init\" );\n" );   }
 
 #ifdef DEBUG_ON
 static void MenuResyncGap ()
@@ -326,7 +321,6 @@ static TypeMenuItem GapMenu[] =
     { "pastePrompt",    MenuPastePrompt,        S_ALWAYS,	0 },
     { "quitGapCTRD",    MenuQuitGapCTRD,        S_ALWAYS,       0 },
     { "-----------",    0,                      0,              0 },
-    { "reloadLib",  	MenuReloadLib, 		S_NORMAL_ONLY,	0 },
 #ifndef NO_FILE_SELECTOR
     { "readFile",       MenuReadFile,		S_NORMAL_ONLY,  0 },
 #endif
@@ -348,21 +342,17 @@ static TypeMenuItem GapMenu[] =
 static void MenuChapters ()     { SimulateInput( "?Chapters\n" ); }
 static void MenuSections ()     { SimulateInput( "?Sections\n" ); }
 static void MenuCopyright ()    { SimulateInput( "?Copyright\n" );}
-static void MenuAboutGAP ()     { SimulateInput( "?About GAP\n" );}
 static void MenuHelp ()         { SimulateInput( "?Help\n" );     }
 static void MenuNextHelp ()     { SimulateInput( "?>\n" );        }
 static void MenuNextChapter ()  { SimulateInput( "?>>\n" );       }
 static void MenuPrevChapter ()  { SimulateInput( "?<<\n" );       }
 static void MenuPrevHelp ()     { SimulateInput( "?<\n" );        }
-static void MenuContHelp ()     { KeyboardInput( " ", 1 );        }
-static void MenuQuitHelp ()     { KeyboardInput( "q", 1 );        }
 
 
 static TypeMenuItem HelpMenu[] =
 {
     { "copyHelp",       MenuCopyright,          S_INPUT_ONLY,   0 },
     { "helpHelp",       MenuHelp,               S_INPUT_ONLY,   0 },
-    { "abotHelp",       MenuAboutGAP,           S_INPUT_ONLY,   0 },
     { "---------",      0,                      0,              0 },
     { "chpsHelp",       MenuChapters,           S_INPUT_ONLY,   0 },
     { "secsHelp",       MenuSections,           S_INPUT_ONLY,   0 },
@@ -371,8 +361,6 @@ static TypeMenuItem HelpMenu[] =
     { "pchpHelp",       MenuPrevChapter,        S_INPUT_ONLY,   0 },
     { "nextHelp",       MenuNextHelp,           S_INPUT_ONLY,   0 },
     { "prevHelp",       MenuPrevHelp,           S_INPUT_ONLY,   0 },
-    { "contHelp",       MenuContHelp,           S_HELP_ONLY,    0 },
-    { "quitHelp",       MenuQuitHelp,           S_HELP_ONLY,    0 },
     { 0,              	0,               	0,              0 }
 };
 
