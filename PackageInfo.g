@@ -10,7 +10,7 @@ SetPackageInfo( rec(
 ##  This is case sensitive, use your preferred spelling.
 #
 PackageName := "XGAP",
-
+Subtitle := "a graphical user interface for GAP",
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
 Version := "4.18",
@@ -194,8 +194,7 @@ PackageDoc := rec(
   # use same as in GAP            
   BookName  := "XGap",
   # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
-  Archive := 
-      "http://www.math.rwth-aachen.de/~Greg.Gamble/xgap4/xgapdoc4r18.zoo",
+  ArchiveURLSubset := ["htm","doc"],
   HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
   # the path to the .six file used by GAP's help system
