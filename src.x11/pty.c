@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.4 1997/12/01 22:10:36 frank Exp $
+*H  @(#)$Id: pty.c,v 1.5 1997/12/04 21:59:15 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
@@ -151,7 +151,7 @@ Int READ_GAP ( file, where, line, len )
 	if ( Debug & D_COMM )
 	{
 	    fprintf( stdout, "%d: '", old );
-	    fwrite( line, 1, old, stdout );
+	    fwrite( line-old, 1, old, stdout );
 	    fprintf( stdout, "'\n" );
 	    fflush( stdout );
 	}
@@ -1033,10 +1033,12 @@ end_exec_loop:
 		char  * cmd;
 
 		len = 0;
-		for ( len = 0, i = 9, m = 1;  1 < i;  i--, m*= 10 )
-		{
+		WaitInput(&InBuffer);
+		ch = READ_CURRENT(InBuffer);
+		for ( len = 0, m = 1;  '0' <= ch && ch <= '9';  m *= 10 ) {
+		    len += (ch-'0') * m;
 		    WaitInput(&InBuffer);
-		    len += m * (READ_CURRENT(InBuffer)-'0');
+		    ch = READ_CURRENT(InBuffer);
 		}
 		ptr = cmd = XtMalloc(len+1);
 		i   = len;

@@ -2,54 +2,9 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.3 1997/12/01 22:10:38 frank Exp $
+*H  @(#)$Id: xgap.c,v 1.4 1997/12/04 21:59:19 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
-**
-*H  $Log: xgap.c,v $
-*H  Revision 1.3  1997/12/01 22:10:38  frank
-*H  adjusted communication with GAP (more garbage info, serial number
-*H  with '@y')
-*H
-*H  Revision 1.2  1997/11/27 10:59:20  frank
-*H  possible fix for OpenWindows problem
-*H
-*H  Revision 1.1  1997/11/25 15:52:55  frank
-*H  first attempt at XGAP for GAP 4
-*H
-*H  Revision 1.10  1995/08/16  11:16:18  fceller
-*H  verbose signal handler if DEBUG_ON is set
-*H
-*H  Revision 1.9  1995/07/24  09:28:30  fceller
-*H  reworked most parts to use nice typedefs
-*H
-*H  Revision 1.8  1994/06/11  12:41:43  fceller
-*H  added 'SYS_HAS_TIME_PROTO'
-*H
-*H  Revision 1.7  1994/06/06  08:56:07  fceller
-*H  updated database
-*H
-*H  Revision 1.6  1994/06/03  10:50:09  fceller
-*H  fixed exec problem (again)
-*H
-*H  Revision 1.5  1993/12/23  08:45:16  fceller
-*H  added "gap drop prompt"
-*H  renamed 'SignalHandler' to 'MySignalHandler' to avoid linux conflict
-*H
-*H  Revision 1.4  1993/10/18  11:04:47  fceller
-*H  added fast updated,  fixed timing problem
-*H
-*H  Revision 1.3  1993/10/06  16:17:09  fceller
-*H  new gap package mode
-*H
-*H  Revision 1.2  1993/08/12  13:48:06  fceller
-*H  added help menu
-*H
-*H  Revision 1.1  1993/07/29  07:02:30  fceller
-*H  added 'Exec' hack
-*H
-*H  Revision 1.0  1993/04/05  11:42:18  fceller
-*H  Initial revision
 */
 #include    "utils.h"			/* utility functions */
 
@@ -64,7 +19,11 @@
 #include    "xgap.h"
 
 
-/* * * * * * * * * * * * * * * global variables  * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * global variables  * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -137,7 +96,11 @@ Atom WmDeleteWindowAtom;
 Widget XGap;
 
 
-/* * * * * * * * * * * * * * * various symbols * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * various symbols * * * * * * * * * * * * * * *
+*/
 
 
 
@@ -177,7 +140,11 @@ Pixmap ExMarkSymbol;
 Pixmap MenuSymbol;
 
 
-/* * * * * * * * * * * * * * * local variables * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * local variables * * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -280,7 +247,11 @@ static char *FallbackResources[] =
 
 
 
-/* * * * * * * * * * * * * gap talk window menus * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * gap talk window menus * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -502,8 +473,6 @@ static void CreateMenu (
 		    AddList( ListRunningOnly, items->entry );
 		    XtVaSetValues( items->entry, XtNsensitive, False, 0 );
 		    break;
-
-
 		case S_HELP_ONLY:
 		    AddList( ListHelpOnly, items->entry );
 		    XtVaSetValues( items->entry, XtNsensitive, False, 0 );
@@ -593,7 +562,11 @@ void UpdateMenus ( state )
 }
 
 
-/* * * * * * * * * * * * * * * gap talk window * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * gap talk window * * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -815,7 +788,11 @@ static void CreateGapWindow ( void )
 }
 
 
-/* * * * * * * * * * * * * * * error handler * * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * error handler * * * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -930,7 +907,11 @@ static void MySignalHandler ()
 #endif
 
 
-/* * * * * * * * * * * * * * * * main program  * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * * main program  * * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -953,36 +934,48 @@ static void ParseArgs ( argc, argv )
     nargv[nargc++] = "gap";
     nargv[nargc++] = "-p";
 
-    /* parse arguments, collect arguments for gap in <nargv> */
-    for ( argv++, argc--;  0 < argc;  argv++, argc-- )
-    {
-	if ( *argv[0] == '-' )
-	{
+    /* parse XGAP arguments till we see '--' */
+    for ( argv++, argc--;  0 < argc;  argv++, argc-- ) {
+
+	/* start of an argument */
+	if ( *argv[0] == '-' ) {
 
 	    /* don't group any options */
-	    if ( strlen(*argv) != 2 )
-	    {
-		fputs("Gap: sorry options must not be grouped '", stderr);
+	    if ( strlen(*argv) != 2 )  {
+		fputs("XGAP: sorry options must not be grouped '", stderr);
 		fputs(*argv, stderr);
 		fputs("'.\n", stderr);
-		exit(1);
+		goto usage;
 	    }
-	    switch( argv[0][1] )
-	    {
+	    switch( argv[0][1] )  {
+
+		/* catch unknown arguments */
+  	        default:
+		    fputs("XGAP: unknown option '", stderr);
+		    fputs(*argv, stderr);
+		    fputs("'.\n", stderr);
+		    goto usage;
+
+		/* start of GAP options */
+	        case '-':
+		    argv++;
+		    argc--;
+		    goto gap;
 
 		/* toggle debug */
 		case 'D':
-#ifdef DEBUG_ON
-		    if ( argc-- < 0 )
-		    {
-			fputs( "XGAP: option '-D' must have an argument.\n",
+#                   ifdef DEBUG_ON
+		        if ( argc-- < 2 )  {
+			    fputs( "XGAP: option '-D' must have an argument.\n",
+			           stderr );
+			    goto usage;
+		        }
+		        Debug = atoi(*++argv);
+#                   else
+		        fputs( "XGAP: compile XGAP using 'COPTS=-DDEBUG_ON'.\n",
 			       stderr );
-		    }
-		    Debug = atoi(*++argv);
-#else
-		    fputs( "XGAP: compile XGAP using 'COPTS=-DDEBUG_ON'.\n",
-			   stderr );
-#endif
+			goto usage;
+#                   endif
 		    break;
 
                 /* broken window manager */
@@ -997,25 +990,22 @@ static void ParseArgs ( argc, argv )
 
 		/* get name of gap subprocess */
 		case 'G':
-		    if ( argc-- < 2 )
-		    {
+		    if ( argc-- < 2 )  {
 			fputs( "XGAP: option '-G' must have an argument.\n",
 			       stderr );
-			exit(1);
+			goto usage;
 		    }
 		    p = *++argv;
 		    nargv[0] = p;
 		    j = 0;
-		    while ( *++p )
-		    {
+		    while ( *++p )  {
 			if ( *p == ' ' )
 			{
 			    *p = '\0';
 			    j  = j + 1;
 			}
 		    }
-		    if ( 0 < j )
-		    {
+		    if ( 0 < j )  {
 			for ( i = nargc-1;  0 < i;  i-- )
 			    nargv[i+j] = nargv[i];
 			nargc = nargc + j;
@@ -1026,22 +1016,29 @@ static void ParseArgs ( argc, argv )
 			}
 		    }
 		    break;
-
-		/* let GAP handle this argument */
-		default:
-		    nargv[nargc++] = *argv;
-		    break;
 	    }
 	}
-	else
-	    break;
+
+	/* non-arguments are not allowed here */
+	else {
+	    goto usage;
+	}
     }
 
     /* copy any remaining arguments */
+gap:
     for ( ; 0 < argc;  argv++, argc-- )
 	nargv[nargc++] = *argv;
     nargv[nargc] = 0;
     return;
+
+    /* print a usage message */
+usage:
+    fputs("usage: xgap [OPTIONS] -- [GAP OPTIONS]\n",stderr);
+    fputs("       run the X-Windows front-end for GAP,\n",stderr);
+    fputs("       use '-h' option to get help.\n",stderr);
+    fputs("\n",stderr);
+    exit(1);
 }
 
 
@@ -1063,15 +1060,31 @@ int main ( argc,  argv )
     int         fromGap;
     Int         mod = -1;
     Int         len;
+    Int         i;
+    Int         j;
 
+
+    /* options after '--' are for gap */
+    for ( i = 0;  i < argc;  i++ )
+	if ( ! strcmp( argv[i], "--" ) )
+	    break;
+    len = i;
 
     /* create a new top level shell and an applictation context */
     XGap = XtVaAppInitialize( &AppContext, "XGap",
 			      CommandOptions, XtNumber(CommandOptions),
-			      &argc, argv, FallbackResources, 0 );
+			      &i, argv, FallbackResources, 0 );
+    for ( j = len;  j <= argc;  j++ ) {
+	argv[i+(j-len)] = argv[j];
+    }
+    argc = argc + (i-len);
     GapDisplay   = XtDisplay(XGap);
     GapScreen    = DefaultScreen(GapDisplay);
     MyRootWindow = RootWindow( GapDisplay, GapScreen );
+
+    /* parse remaining arguments */
+    ParseArgs( argc, argv );
+    fromGap = StartGapProcess( nargv[0], nargv );
 
     /* create top left arrow cusor */
     CursorTL = XCreateFontCursor( XtDisplay(XGap), XC_top_left_arrow );
@@ -1146,19 +1159,15 @@ int main ( argc,  argv )
 	mod = -1;
     else
     {
-	fputs( "Gap: unkown color model '", stderr );
+	fputs( "XGAP: unkown color model '", stderr );
 	fputs( color, stderr );
 	fputs( "'\n", stderr );
-	exit(1);
+	mod = -1;
     }
     if ( mod != -1 ) {
 	XtVaGetValues( GapTalk, XtNcolors, &colors, 0 );
 	GCSetColorModel( GapDisplay, mod, colors );
     }
-
-    /* parse remaining arguments */
-    ParseArgs( argc, argv );
-    fromGap = StartGapProcess( nargv[0], nargv );
 
     /* add callback for output from gap*/
     XtAppAddInput( AppContext,  fromGap,  (XtPointer) XtInputReadMask,
@@ -1180,3 +1189,8 @@ int main ( argc,  argv )
     return 0;
 }
 
+/****************************************************************************
+**
+
+*E  xgap.c  . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/

@@ -2,7 +2,7 @@
 **
 *W  xcmds.c                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xcmds.c,v 1.2 1997/11/25 16:29:22 frank Exp $
+*H  @(#)$Id: xcmds.c,v 1.3 1997/12/04 21:59:17 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 */
@@ -133,6 +133,7 @@ static Boolean AnswerGap (
     String       qtr;
     String       str;
     String       wtr;
+    Char         hdr[14];
 
     /* give debug information */
     DEBUG( D_COMM, ( "AnswerGap( \"%s\", ... )\n", format ) );
@@ -164,7 +165,7 @@ static Boolean AnswerGap (
 
     /* parse arguments again */
     arg = 0;
-    qtr = str + 10;
+    qtr = str;
     for ( ptr = format;  *ptr;  ptr++ )
     {
 	switch ( *ptr )
@@ -194,25 +195,29 @@ static Boolean AnswerGap (
 	    case 's':
 		*qtr++ = 'S';
 		wtr = (String)(args[arg++]);
-		for ( n = 7,  m = strlen(wtr);  0 <= n;  n--, m /= 10 )
-		    *qtr++ = m%10 + '0';
+		for ( m = strlen(wtr);  0 < m;  m /= 10 )
+		    *qtr++ = '0' + (m%10);
+		*qtr++ = '+';
 		while ( *wtr )
 		    *qtr++ = *wtr++;
 		break;
 	}
     }
     *qtr = '\0';
-    len = qtr - str - 10;
 
-    /* add header */
-    qtr = str;
-    *qtr++ = '@';
-    *qtr++ = 'a';
-    for ( n = 7,  m = len;  0 <= n;  n--,  m /= 10 )
-	*qtr++ = m%10 + '0';
+    /* write header */
+    hdr[0] = '@';
+    hdr[1] = 'a';
+    qtr = hdr+2;
+    for ( m = strlen(str);  0 < m;  m/= 10 ) {
+	*qtr++ = '0' + (m%10);
+    }
+    *qtr++ = '+';
+    *qtr = '\0';
+    WriteGap( hdr, strlen(hdr) );
 
     /* write result back to gap process */
-    WriteGap( str, len+10 );
+    WriteGap( str, strlen(str) );
     XtFree(str);
     return True;
 }
@@ -269,8 +274,10 @@ static Boolean ParseString (
 
      if ( (*buf)[0] != 'S' )
          return False;
-     for ( i = 0, *len = 0, (*buf)++, m = 1; i < 8; i++, (*buf)++, m *= 10 )
-         *len += (**buf -'0') * m;
+     ptr = (*buf)+1;
+     for ( m=1,*len=0;  '0' <= *ptr && *ptr <= '9';  ptr++,m *= 10 )
+	 *len += ( *ptr - '0' ) * m;
+     *buf = ptr+1;
      *str = XtMalloc( (*len)+1 );
      for ( ptr = *str, i = *len;  0 < i;  i--, ptr++, (*buf)++ )
 	 if ( **buf == '@' )

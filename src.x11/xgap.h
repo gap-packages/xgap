@@ -2,7 +2,7 @@
 **
 *W  xgap.h                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.h,v 1.1 1997/11/25 15:52:56 frank Exp $
+*H  @(#)$Id: xgap.h,v 1.2 1997/12/04 21:59:20 frank Exp $
 **
 *Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 */
@@ -30,6 +30,13 @@ typedef struct _menu_item
   Widget    entry;
 }
 TypeMenuItem;
+
+
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * global variables  * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -105,6 +112,14 @@ extern Widget XGap;
 /****************************************************************************
 **
 
+*F  * * * * * * * * * * * * * * various symbols * * * * * * * * * * * * * * *
+*/
+
+
+
+/****************************************************************************
+**
+
 *V  CheckMarkSymbol . . . . . . . . . . . . . symbol for checked menu entries
 */
 extern Pixmap CheckMarkSymbol;
@@ -146,7 +161,6 @@ extern Pixmap ExMarkSymbol;
 extern void SimulateInput( String );
 extern void UpdateMenus( Int );
 extern void UpdateMemoryInfo( Int, Int );
-
 
 #endif
 
