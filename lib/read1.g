@@ -8,13 +8,13 @@ ReadPkg( "xgap", "lib/sheet.gd"   );
 ReadPkg( "xgap", "lib/gobject.gd" );
 ReadPkg( "xgap", "lib/menu.gd"    );
 ReadPkg( "xgap", "lib/poset.gd"   );
+ReadPkg( "xgap", "lib/ilatgrp.gd" );
 
 #############################################################################
 ##
 #X  interface to `WindowCmd'
 ##
 ReadPkg( "xgap", "lib/window.g"   );
-
 
 #############################################################################
 ##
@@ -26,6 +26,7 @@ ReadPkg( "xgap", "lib/sheet.gi"   );
 ReadPkg( "xgap", "lib/gobject.gi" );
 ReadPkg( "xgap", "lib/menu.gi"    );
 ReadPkg( "xgap", "lib/poset.gi"   );
+ReadPkg( "xgap", "lib/ilatgrp.gi" );
 
 #############################################################################
 ##

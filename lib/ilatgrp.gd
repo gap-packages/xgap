@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.1 1998/11/27 14:50:53 ahulpke Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.2 1998/11/27 16:35:23 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.1 1998/11/27 14:50:53 ahulpke Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.2 1998/11/27 16:35:23 gap Exp $";
 
 
 #############################################################################
@@ -195,7 +195,7 @@ DeclareOperation( "InsertVertex", [IsGraphicSheet, IsGroup, IsList] );
 ##  them pairwise. This is all done by means of posets and not by means
 ##  of groups. There are no group inclusion checks performed!
 DeclareOperation( "NewInclusionInfo", 
-                  [ IsGraphicSheet, IsGPVertex, IsGPVertex ] );
+                  [ IsGraphicSheet, IsGraphicObject, IsGraphicObject ] );
 
 
 #############################################################################
@@ -212,7 +212,7 @@ DeclareOperation( "NewInclusionInfo",
 ##  inherits all inclusion information the other has. The second one is
 ##  deleted.
 DeclareOperation( "MergeVertices",
-                  [ IsGraphicSheet, IsGPVertex, IsGPVertex ] );
+                  [ IsGraphicSheet, IsGraphicObject, IsGraphicObject ] );
 
 
 #############################################################################
@@ -254,6 +254,6 @@ DeclareOperation( "GGLUseBlackWhite", [ IsGraphicSheet, IsMenu, IsString ] );
 ##  configuration section in "ilatgrp.gi" for an explanation.
 ##
 DeclareOperation( "GGLRightClickPopup", 
-                  [ IsGraphicSheet, IsGPVertex, IsInt, IsInt ] );
+                  [ IsGraphicSheet, IsGraphicObject, IsInt, IsInt ] );
 
 
