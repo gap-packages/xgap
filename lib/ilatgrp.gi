@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.25 1999/04/26 21:58:46 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.26 1999/05/04 22:46:45 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.25 1999/04/26 21:58:46 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.26 1999/05/04 22:46:45 gap Exp $";
 
 
 #############################################################################
@@ -129,86 +129,98 @@ BindGlobal( "GGLClosureGroup",
 ##  Note that the special case of G being a string, which is handled
 ##  first comes in handy, if functions return a warning instead of a group.
 ##
-BindGlobal( "GGLStringGroup", 
-        
+BindGlobal( "GGLStringGroup",
+
 function(G)
-  
-  local st;   # used to build up the string
-  
-  # Is this already a string?
-  if IsString(G) then
-    return G;
-  fi;
-  
-  if IsFreeGroup(G) then 
-    st := "<free group";
-    if IsGroupOfFamily( G )  then
-      if Length( GeneratorsOfGroup( G ) ) > 6  then
-        Append(st," with ");
-        Append(st,String(Length( GeneratorsOfGroup( G ) ) ));
-        Append(st," generators>" );
-      else
-        Append(st," on the generators ");
-        Append(st,String(List(GeneratorsOfGroup( G ),UnderlyingElement)));
-        Append(st,">" );
-      fi;
-    else
-      st := "Group(";
-      if HasGeneratorsOfGroup( G )  then
-        if not IsBound( G!.gensWordLengthSum )  then
-          G!.gensWordLengthSum 
-            := Sum( List( GeneratorsOfGroup( G ), Length ) );
-        fi;
-        if G!.gensWordLengthSum <= 20  then
-          Append(st,String(List(GeneratorsOfGroup( G ),UnderlyingElement)));
-        else
-          Append(st,"<");
-          Append(st,String(Length( GeneratorsOfGroup( G ) )));
-          Append(st," generators>");
-        fi;
-      else
-        Append(st,", no generators known>" );
-      fi;
-      Append(st,")");
-    fi;
-  else  # no free group
-    if IsGroupOfFamily(G) then
-      st := "<fp group";
-      if HasSize(G) then
-        Append(st," of size ");
-        Append(st,String(Size(G)));
-      fi;
-      if Length(GeneratorsOfGroup(G)) > 6 then
-        Append(st," with ");
-        Append(st,String(Length(GeneratorsOfGroup(G))));
-        Append(st," generators>");
-      else
-        Append(st," on the generators ");
-        Append(st,String(List(GeneratorsOfGroup(G),UnderlyingElement)));
-        Append(st,">");
-      fi;
-    else
-      st := "Group(";
-      if HasGeneratorsOfGroup(G) then
-        if not IsBound(G!.gensWordLengthSum) then
-          G!.gensWordLengthSum:=Sum(List(GeneratorsOfGroup(G),
-                                        i->Length(UnderlyingElement(i))));
-        fi;
-        if G!.gensWordLengthSum <= 20 then                                  
-          Append(st,String(List(GeneratorsOfGroup(G),UnderlyingElement)));
-        else
-          Append(st,"<");
-          Append(st,String(Length(GeneratorsOfGroup(G))));
-          Append(st," generators>");
-        fi;
-      else
-        Append(st,"<fp, no generators known>");
-      fi;
-      Append(st,")");
-    fi;
-  fi;   # no free group
+  local st,stream;
+
+  st := "";
+  stream := OutputTextString(st,false);
+  PrintTo(stream,G);
+  CloseStream(stream);
   return st;
-end);
+end );
+
+#BindGlobal( "GGLStringGroup", 
+#        
+#function(G)
+#  
+#  local st;   # used to build up the string
+#  
+#  # Is this already a string?
+#  if IsString(G) then
+#    return G;
+#  fi;
+#  
+#  if IsFreeGroup(G) then 
+#    st := "<free group";
+#    if IsGroupOfFamily( G )  then
+#      if Length( GeneratorsOfGroup( G ) ) > 6  then
+#        Append(st," with ");
+#        Append(st,String(Length( GeneratorsOfGroup( G ) ) ));
+#        Append(st," generators>" );
+#      else
+#        Append(st," on the generators ");
+#        Append(st,String(List(GeneratorsOfGroup( G ),UnderlyingElement)));
+#        Append(st,">" );
+#      fi;
+#    else
+#      st := "Group(";
+#      if HasGeneratorsOfGroup( G )  then
+#        if not IsBound( G!.gensWordLengthSum )  then
+#          G!.gensWordLengthSum 
+#            := Sum( List( GeneratorsOfGroup( G ), Length ) );
+#        fi;
+#        if G!.gensWordLengthSum <= 20  then
+#          Append(st,String(List(GeneratorsOfGroup( G ),UnderlyingElement)));
+#        else
+#          Append(st,"<");
+#          Append(st,String(Length( GeneratorsOfGroup( G ) )));
+#          Append(st," generators>");
+#        fi;
+#      else
+#        Append(st,", no generators known>" );
+#      fi;
+#      Append(st,")");
+#    fi;
+#  else  # no free group
+#    if IsGroupOfFamily(G) then
+#      st := "<fp group";
+#      if HasSize(G) then
+#        Append(st," of size ");
+#        Append(st,String(Size(G)));
+#      fi;
+#      if Length(GeneratorsOfGroup(G)) > 6 then
+#        Append(st," with ");
+#        Append(st,String(Length(GeneratorsOfGroup(G))));
+#        Append(st," generators>");
+#      else
+#        Append(st," on the generators ");
+#        Append(st,String(List(GeneratorsOfGroup(G),UnderlyingElement)));
+#        Append(st,">");
+#      fi;
+#    else
+#      st := "Group(";
+#      if HasGeneratorsOfGroup(G) then
+#        if not IsBound(G!.gensWordLengthSum) then
+#          G!.gensWordLengthSum:=Sum(List(GeneratorsOfGroup(G),
+#                                        i->Length(UnderlyingElement(i))));
+#        fi;
+#        if G!.gensWordLengthSum <= 20 then                                  
+#          Append(st,String(List(GeneratorsOfGroup(G),UnderlyingElement)));
+#        else
+#          Append(st,"<");
+#          Append(st,String(Length(GeneratorsOfGroup(G))));
+#          Append(st," generators>");
+#        fi;
+#      else
+#        Append(st,"<fp, no generators known>");
+#      fi;
+#      Append(st,")");
+#    fi;
+#  fi;   # no free group
+#  return st;
+#end);
 
   
 #############################################################################
