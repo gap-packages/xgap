@@ -78,7 +78,7 @@ dnl ##
 dnl ## check for tty and pseudo tty functions
 dnl ##
 
-AC_CHECK_HEADERS( fcntl.h sgtty.h termio.h sys/ioctl.h sys/select.h )
+AC_CHECK_HEADERS( fcntl.h sgtty.h termios.h termio.h sys/ioctl.h sys/select.h )
 AC_CHECK_FUNCS( select getpseudotty _getpty )
 
 

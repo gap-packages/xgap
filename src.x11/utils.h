@@ -2,7 +2,7 @@
 **
 *W  utils.h                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: utils.h,v 1.3 1997/12/05 17:31:09 frank Exp $
+*H  @(#)$Id: utils.h,v 1.4 1999/07/09 00:02:41 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -105,10 +105,14 @@
 
 #include    <sys/param.h>
 
+#if HAVE_TERMIOS_H
+# include   <termios.h>
+#else
 #if HAVE_TERMIO_H
 # include   <termio.h>
 #else
 # include   <sgtty.h>
+#endif
 #endif
 
 #if HAVE_SIGNAL_H

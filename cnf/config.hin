@@ -76,6 +76,9 @@
 *D  check for tty and pseudo tty functions
 */
 
+/* define as 1 if you have the include file "termios.h"                    */
+#define HAVE_TERMIOS_H           0
+
 /* define as 1 if you have the include file "termio.h"                     */
 #define HAVE_TERMIO_H           0
 

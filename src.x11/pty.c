@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.9 1999/03/07 22:08:43 gap Exp $
+*H  @(#)$Id: pty.c,v 1.10 1999/07/09 00:02:41 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1327,10 +1327,14 @@ int StartGapProcess ( name, argv )
     /* struct */ fd_set   fds;     /* for 'select'                    */
     struct timeval  timeout; /* time to wait for aknowledgement */
 
-#   if HAVE_TERMIO_H
-        struct termio   tst; /* old and new terminal state      */
+#   if HAVE_TERMIOS_H
+        struct termios  tst; /* old and new terminal state      */
 #   else
+#     if HAVE_TERMIO_H
+        struct termio   tst; /* old and new terminal state      */
+#     else
         struct sgttyb   tst; /* old and new terminal state      */
+#     endif
 #   endif
 
     /* construct the name of the pseudo terminal */
@@ -1353,7 +1357,25 @@ int StartGapProcess ( name, argv )
 		ptydev ? ptydev : "unknown",
 		ttydev ? ttydev : "unkown") );
 #   endif
-#   ifdef HAVE_TERMIO_H
+#   if HAVE_TERMIOS_H
+        if ( tcgetattr( slave, &tst ) == -1 )
+        {
+            fputs( "tcgetattr on slave pty failed\n", stderr );
+            exit(1);
+        }
+        tst.c_cc[VINTR] = 0377;
+        tst.c_cc[VQUIT] = 0377;
+        tst.c_iflag    &= ~(INLCR|ICRNL);
+        tst.c_cc[VMIN]  = 1;
+        tst.c_cc[VTIME] = 0;
+        tst.c_lflag    &= ~(ECHO|ICANON);
+        if ( tcsetattr( slave, &tst ) == -1 )
+        {
+            fputs( "tcsetattr on slave pty failed\n", stderr );
+            exit(1);
+        }
+#   else
+#     if HAVE_TERMIO_H
         if ( ioctl( slave, TCGETA, &tst ) == -1 )
 	{
 	    fputs( "ioctl TCGETA on slave pty failed\n", stderr );
@@ -1363,14 +1385,17 @@ int StartGapProcess ( name, argv )
         tst.c_cc[VQUIT] = 0377;
         tst.c_iflag    &= ~(INLCR|ICRNL);
         tst.c_cc[VMIN]  = 1;
-        tst.c_cc[VTIME] = 0;
+        tst.c_cc[VTIME] = 0;   
+        /* Note that this is at least on Linux dangerous! 
+           Therefore, we now have the HAVE_TERMIOS_H section for POSIX
+           Terminal control. */
         tst.c_lflag    &= ~(ECHO|ICANON);
         if ( ioctl( slave, TCSETAW, &tst ) == -1 )
         {
 	    fputs( "ioctl TCSETAW on slave pty failed\n", stderr );
 	    exit(1);
 	}
-#   else
+#     else
         if ( ioctl( slave, TIOCGETP, (char*)&tst ) == -1 )
         {
 	    if ( ttydev )
@@ -1387,6 +1412,7 @@ int StartGapProcess ( name, argv )
             fputs( "ioctl on TIOCSETN slave pty failed\n", stderr );
 	    exit(1);
 	}
+#endif
 #endif
 
     /* set input to non blocking operation */
