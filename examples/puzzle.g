@@ -2,7 +2,7 @@
 ##
 #W  puzzle.g                    GAP library                     Thomas Breuer
 ##
-#H  @(#)$Id: puzzle.g,v 1.2 1999/03/07 22:02:46 gap Exp $
+#H  @(#)$Id: puzzle.g,v 1.3 1999/03/30 08:43:36 gap Exp $
 ##
 #Y  Copyright (C)  1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  (C) 1998 School Math and Comp. Sci., University of St.  Andrews, Scotland
@@ -13,8 +13,15 @@
 ##
 #F  Puzzle( <m>, <n>[, <options>] )
 ##
-##  `Puzzle' returns a puzzle with <m> rows and <n> columns;
-##  if the optional argument <options> is present then it must be a record
+##  `Puzzle' returns a sheet that shows a $<m> \times <n>$ rectangle
+##  with $<m><n> - 1$ numbered squares and one free square indicated by
+##  a red box in the lower right corner.
+##  Clicking on a numbered square in the same row or column as the red box
+##  will move the squares between the red box and the pointer towards the
+##  place of the red box, and put the red box under the pointer.
+##  The aim is to rearrange the numbered squares such that they are ordered.
+##
+##  If the optional argument <options> is present then it must be a record
 ##  with the following components.
 ##  \beginitems
 ##  `b' (default 30) &
@@ -29,6 +36,19 @@
 ##  `color' (default `COLORS.red') &
 ##     the color chosen for the free square).
 ##  \enditems
+##
+##  The puzzle provides also an example for the effects caused by 
+##  `FastUpdate' (see~"FastUpdate").
+##  For a sheet <sheet> returned by `Puzzle',
+##  call `FastUpdate( <sheet>, true )', move the red box in <sheet>,
+##  and you will notice that you can make moved numbers disappear;
+##  this is due to the fact that after the text has been moved to the
+##  place of the red box, this box is moved away, and the system thinks
+##  that nothings needs to be drawn in this place.
+##  (Note that {\XGAP} does not support the idea that a graphic object
+##  lies (partially) above or under another graphic object.)
+##  The correct status of <sheet> can be recovered by calling
+##  `FastUpdate( <sheet>, false )'.
 ##
 BindGlobal( "Puzzle", function( arg )
 
@@ -130,9 +150,6 @@ BindGlobal( "Puzzle", function( arg )
 
           k:= boxpos[2];
 
-          # Put the free square under the cursor.
-          MoveDelta( free, bl * ( j - k ), 0 );
-
           # The free square is in the same row as the cursor.
           # Move the texts between the two towards the cursor.
           if j < k then
@@ -151,15 +168,14 @@ BindGlobal( "Puzzle", function( arg )
 
           fi;
 
+          # Put the free square under the cursor.
+          MoveDelta( free, bl * ( j - k ), 0 );
           Unbind( matrix[i][j] );
           boxpos[2]:= j;
 
         elif j = boxpos[2] then
 
           k:= boxpos[1];
-
-          # Put the free square under the cursor.
-          MoveDelta( free, 0, bl * ( i - k ) );
 
           # The free square is in the same column as the cursor.
           # Move the texts between the two towards the cursor.
@@ -179,6 +195,8 @@ BindGlobal( "Puzzle", function( arg )
 
           fi;
 
+          # Put the free square under the cursor.
+          MoveDelta( free, 0, bl * ( i - k ) );
           Unbind( matrix[i][j] );
           boxpos[1]:= i;
 
