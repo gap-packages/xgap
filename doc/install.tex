@@ -63,7 +63,7 @@ the `pkg' subdirectory). The standard location would be:
 Now you extract the sources for the {\XGAP} share package:
 
 \begintt
-# unzoo -x xgap4r00.zoo
+# unzoo -x xgap4.zoo
 xgap/README     -- extracted as text
 xgap/Makefile.in        -- extracted as text
 xgap/configure  -- extracted as text
@@ -217,10 +217,12 @@ Before you can configure and compile {\XGAP} you need a symbolic link
 ``cnf'' which is in the directory where ``pkg'' is and points to the ``cnf''
 directory in the main {\GAP} directory.
 
-When editing the startup script you enter the name of the directory
-that contains ``pkg'' for the variable ``XGAP_DIR''. The script will
-automatically launch {\GAP} with two directories as library path such
-that all {\GAP} and {\XGAP} libraries will be found.
+Note that you have to edit the startup script ``bin/xgap.sh'' to
+adjust the paths for ``XGAP_DIR'' and ``GAP_DIR''.  Enter your {\GAP}
+installation directory for the variable ``GAP_DIR'' and the name of
+the directory that contains ``pkg'' for the variable ``XGAP_DIR''. The
+script will automatically launch {\GAP} with two directories as
+library path such that all {\GAP} and {\XGAP} libraries will be found.
 
 %%% Local Variables: 
 %%% mode: latex
