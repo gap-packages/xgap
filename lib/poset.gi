@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.5 1998/12/04 00:03:30 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.6 1998/12/06 22:16:14 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.5 1998/12/04 00:03:30 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.6 1998/12/06 22:16:14 gap Exp $";
 
 
 
@@ -60,6 +60,7 @@ if not IsBound(IsGraphicPosetRep) then
                                # user clicks right button
       "color",            # some color infos for the case of different models
       "levelboxes",       # little graphic boxes for the user to handle levels
+      "showlevelparams",  # flag, if level parameters are shown
       "showlevels"],      # flag, if levelboxes are shown
     IsGraphicSheet );
 fi;
@@ -161,19 +162,23 @@ end;
 
 ##  Our menu which goes in all poset sheets:
 PosetMenuEntries :=
-  ["Redraw","Show Levels",,"Delete Vertices","Delete Edge",,
+  ["Redraw","Show Levels","Show Levelparameters",,
+   "Delete Vertices","Delete Edge",,
    "Magnify Lattice", "Shrink Lattice", "Resize Lattice", "Resize Sheet",
    "Move Lattice",,
-   "Change Labels"];
+   "Change Labels","Average Y Positions","Average X Positions",
+   "Rearrange Classes"];
 PosetMenuTypes :=
-  ["forany","forany",,"forsubset","foredge",,
+  ["forany","forany","forany",,
+   "forsubset","foredge",,
    "forany","forany","forany","forany","forany",,
-   "forsubset"];
+   "forsubset","forany","forsubset","forsubset"];
 PosetMenuFunctions :=
-  [ PosetDoRedraw,PosetShowLevels,,UserDeleteVerticesOp, UserDeleteEdgeOp,,
+  [ PosetDoRedraw,PosetShowLevels,PosetShowLevelparams,,
+    UserDeleteVerticesOp, UserDeleteEdgeOp,,
     UserMagnifyLattice,UserShrinkLattice,UserResizeLattice,UserResizeSheet,
     UserMoveLattice,,
-    UserChangeLabels];
+    UserChangeLabels,UserAverageY,UserAverageX,UserRearrangeClasses];
 
 
 #############################################################################
@@ -183,6 +188,33 @@ PosetMenuFunctions :=
 #############################################################################
 
 
+## we need this to set up the colors in a sheet:
+
+BindGlobal( "GPMakeColors",
+        function( sheet )
+  
+  # set up color information:
+  if sheet!.color.model = "color"  then
+    if COLORS.red <> false  then
+      sheet!.color.unselected := COLORS.black;
+      sheet!.color.selected   := COLORS.red;
+    else
+      sheet!.color.unselected := COLORS.dimGray;
+      sheet!.color.selected   := COLORS.black;
+    fi;
+    if COLORS.green <> false  then
+      sheet!.color.result := COLORS.green;
+    else
+      sheet!.color.result := COLORS.black; # COLORS.lightGray;
+    fi;
+  else
+    sheet!.color.selected   := COLORS.black;
+    sheet!.color.unselected := COLORS.black;
+    sheet!.color.result     := false;
+  fi;
+end);
+
+  
 #############################################################################
 ##
 #M  GraphicGraph( <name>, <width>, <height> ) . . . . . . a new graphic graph
@@ -223,7 +255,7 @@ InstallMethod( GraphicPoset,
     0,
 
 function( name, width, height )
-  local poset;
+  local   poset,  tmpEntries,  tmpTypes,  tmpFuncs,  m;
   
   poset := GraphicSheet(name,width,height);
   SetFilterObj(poset,IsGraphicGraphRep);
@@ -240,36 +272,32 @@ function( name, width, height )
   poset!.color := rec();
   if COLORS.red <> false or COLORS.lightGray <> false  then
     poset!.color.model := "color";
+    # note: if you rename this, think of the "use black&white" below!  
   else
     poset!.color.model := "monochrome";
   fi;
-  if poset!.color.model = "color"  then
-    if COLORS.red <> false  then
-      poset!.color.unselected := COLORS.black;
-      poset!.color.selected   := COLORS.red;
-    else
-      poset!.color.unselected := COLORS.dimGray;
-      poset!.color.selected   := COLORS.black;
-    fi;
-    if COLORS.green <> false  then
-      poset!.color.result := COLORS.green;
-    else
-      poset!.color.result := COLORS.black; # COLORS.lightGray;
-    fi;
-  else
-    poset!.color.selected   := COLORS.black;
-    poset!.color.unselected := COLORS.black;
-    poset!.color.result     := false;
-  fi;
+  GPMakeColors(poset);
   
   poset!.levelboxes := [];
   poset!.showlevels := false;
+  poset!.lptexts := [];
+  poset!.showlevelparams := true;
   
   InstallCallback(poset,"LeftPBDown",PosetLeftClickCallback);
   InstallCallback(poset,"ShiftLeftPBDown",PosetCtrlLeftClickCallback);
   InstallCallback(poset,"CtrlLeftPBDown",PosetCtrlLeftClickCallback);
   InstallCallback(poset,"RightPBDown",PosetRightClickCallback);
-  Menu(poset,"Poset",PosetMenuEntries,PosetMenuTypes,PosetMenuFunctions);
+  
+  tmpEntries := ShallowCopy(PosetMenuEntries);
+  tmpTypes := ShallowCopy(PosetMenuTypes);
+  tmpFuncs := ShallowCopy(PosetMenuFunctions);
+  if poset!.color.model = "color" then
+    Append(tmpEntries,["-","Use Black&White"]);
+    Append(tmpTypes,["-","forany"]);
+    Append(tmpFuncs,["-",UserUseBlackWhite]);
+  fi;
+  m := Menu(poset,"Poset",tmpEntries,tmpTypes,tmpFuncs);
+  Check(m,"Show Levelparameters",true);
   
   return poset;
 end);
@@ -278,6 +306,7 @@ end);
 #############################################################################
 ##
 #M  CreateLevel(<poset>, <levelparam>) . . . . . . creates new level in poset
+#M  CreateLevel(<poset>, <levelparam>, <lptext>) . creates new level in poset
 ##
 ##  A level in a graphic poset can be thought of as a horizontal slice of
 ##  the poset. It has a y coordinate of the top of the level relatively to
@@ -293,15 +322,18 @@ end);
 ##  levelparam.  Returns fail if there is already a level with a level
 ##  parameter which is considered "equal" by CompareLevels or levelparam if
 ##  everything went well.
+##  The second method allows to specify which text appears for the level at
+##  the right edge of the sheet.
 ##
 InstallMethod( CreateLevel,
-    "for a graphic poset, and a level parameter",
+    "for a graphic poset, a level parameter, and a string",
     true,
-    [ IsGraphicPosetRep, IsObject ],
+    [ IsGraphicPosetRep, IsObject, IsString ],
     0,
 
-function( poset, levelparam )
-  local   level,  l,  firstpos,  before,  look,  compare,  i,  cl,  v, box;
+function( poset, levelparam, lpstr )
+  local   level,  box,  str,  strlen,  text,  l,  firstpos,  before,  look,  
+          compare,  i,  cl,  v;
       
   # does this level parameter exist already?
   if Position(poset!.levelparams,levelparam) <> fail then
@@ -320,6 +352,8 @@ function( poset, levelparam )
     poset!.levels := [level];
     level!.top := 0;
     level!.height := 2 * VERTEX.diameter;
+    
+    # make a level box:
     box := Box(poset,0,level!.top+level!.height-8,8,8);
     if COLORS.blue <> false then
       Recolor(box,COLORS.blue);
@@ -329,7 +363,26 @@ function( poset, levelparam )
     fi;
     
     poset!.levelboxes := [ box ];
-                                     
+    
+    # make a text for level parameter:
+    if lpstr <> "" then
+      str := lpstr;
+    else
+      str := String(levelparam);
+    fi;
+    strlen := Length(str);
+    text := Text(poset,FONTS.normal,
+                 poset!.width - 8 - strlen*FontInfo(FONTS.normal)[3],
+                 level!.top + QuoInt(level!.height,2),str);
+    if COLORS.blue <> false then
+      Recolor(text,COLORS.blue);
+    fi;
+    if not poset!.showlevelparams then
+      Destroy(text);
+    fi;
+    
+    poset!.lptexts := [ text ];
+    
     return levelparam;
   fi;
   
@@ -384,6 +437,7 @@ function( poset, levelparam )
   poset!.levels{[firstpos+1..l+1]} := poset!.levels{[firstpos..l]};
   poset!.levels[firstpos] := level;
   poset!.levelboxes{[firstpos+1..l+1]} := poset!.levelboxes{[firstpos..l]};
+  poset!.lptexts{[firstpos+1..l+1]} := poset!.lptexts{[firstpos..l]};
   
   if firstpos = 1 then
     level!.top := 0;
@@ -401,6 +455,12 @@ function( poset, levelparam )
         MoveDelta(v!.obj,0,level!.height);
       od;
     od;
+    if poset!.showlevels then
+      MoveDelta(poset!.levelboxes[i],0,level!.height);
+    fi;
+    if poset!.showlevelparams then
+      MoveDelta(poset!.lptexts[i],0,level!.height);
+    fi;
   od;
   
   # has the graphic sheet become higher?
@@ -410,6 +470,7 @@ function( poset, levelparam )
     Resize(poset,poset!.width,i);
   fi;
   
+  # create a level box:
   box := Box(poset,0,level!.top+level!.height-8,8,8);
   if COLORS.blue <> false then
     Recolor(box,COLORS.blue);
@@ -418,8 +479,36 @@ function( poset, levelparam )
     Destroy(box);
   fi;
   poset!.levelboxes[firstpos] := box;
-    
+  
+  # create a level parameter text:
+  if lpstr <> "" then
+    str := lpstr;
+  else
+    str := String(levelparam);
+  fi;
+  strlen := Length(str);
+  text := Text(poset,FONTS.normal,
+               poset!.width - 8 - strlen*FontInfo(FONTS.normal)[3],
+               level!.top + QuoInt(level!.height,2),str);
+  if COLORS.blue <> false then
+    Recolor(text,COLORS.blue);
+  fi;
+  if not poset!.showlevelparams then
+    Destroy(text);
+  fi;
+  poset!.lptexts[firstpos] := text;
+  
   return levelparam;
+end);
+
+
+InstallOtherMethod( CreateLevel,
+    "for a graphic poset, and a level parameter",
+    true,
+    [ IsGraphicPosetRep, IsObject ],
+    0,
+function( poset, levelparam )
+  return CreateLevel(poset,levelparam,"");
 end);
 
 
@@ -786,7 +875,8 @@ InstallOtherMethod( Delete,
     0,
 
 function( poset, v )
-  local   lp,  l,  cp,  cl,  p,  noerror,  v2;
+  local   lp,  l,  cp,  cl,  p,  savemaximals,  savemaximalin,  noerror,  
+          v1,  v2;
   
   lp := Position(poset!.levelparams,v!.levelparam);
   if lp = fail then
@@ -804,6 +894,10 @@ function( poset, v )
   if p = fail then
     return fail;
   fi;
+  
+  # Remember all connections:
+  savemaximals := ShallowCopy(v!.maximals);
+  savemaximalin := ShallowCopy(v!.maximalin);
   
   # Delete all connections:
   noerror := true;
@@ -828,6 +922,20 @@ function( poset, v )
   cl[p] := cl[l];
   Unbind(cl[l]);
   
+  # now we have to add new inclusions from the maximal subobjects to those
+  # where our vertex was maximal in. We should not do that however, if there is
+  # already a way. This ensures that the diagram will be again a Hasse diagram
+  # of the remaining vertices with the inclusions induced by the poset
+  # before deletion.
+  for v1 in savemaximals do
+    for v2 in savemaximalin do
+      if not GPSearchWay(poset,v2,v1,
+                         Position(poset!.levelparams,v1!.levelparam)) then
+        Edge(poset,v2,v1);
+      fi;
+    od;
+  od;
+        
   return noerror;
 end);
 
@@ -924,7 +1032,9 @@ function( poset, levelparam )
   Delete(poset,poset!.levelboxes[lp]);
   poset!.levelboxes{[lp..l-1]} := poset!.levelboxes{[lp+1..l]};
   Unbind(poset!.levelboxes[l]);
-  
+  Delete(poset,poset!.lptexts[lp]);
+  poset!.lptexts{[lp..l-1]} := poset!.lptexts{[lp+1..l]};
+  Unbind(poset!.lptexts[l]);
   return noerror;
 end);
 
@@ -982,9 +1092,13 @@ function( poset, levelparam, height )
     dist := height - l!.height;
     l!.height := height;
     
-    # move level box:
+    # move level box and text:
     if poset!.showlevels then
       Move(poset!.levelboxes[lp],0,l!.top + l!.height - 8);
+    fi;
+    if poset!.showlevelparams then
+      Move(poset!.lptexts[lp],poset!.lptexts[lp]!.x,
+           l!.top + QuoInt(l!.height,2));
     fi;
     
   else   # height > l!.height
@@ -1002,6 +1116,10 @@ function( poset, levelparam, height )
     if poset!.showlevels then
       Move(poset!.levelboxes[lp],0,l!.top + l!.height - 8);
     fi;
+    if poset!.showlevelparams then
+      Move(poset!.lptexts[lp],poset!.lptexts[lp]!.x,
+           l!.top + QuoInt(l!.height,2));
+    fi;
     
     # next move down all the levels below the increased level:
   fi;
@@ -1016,6 +1134,9 @@ function( poset, levelparam, height )
     # move level box:
     if poset!.showlevels then
       MoveDelta(poset!.levelboxes[l],0,dist);
+    fi;
+    if poset!.showlevelparams then
+      MoveDelta(poset!.lptexts[l],0,dist);
     fi;
   od;
 end);
@@ -1086,11 +1207,18 @@ function( poset, levelparam, position )
     poset!.levels{[position..lp]} := poset!.levels{list};
     poset!.levelparams{[position..lp]} := poset!.levelparams{list};
     poset!.levelboxes{[position..lp]} := poset!.levelboxes{list};
+    poset!.lptexts{[position..lp]} := poset!.lptexts{list};
     poset!.levels[position]!.top := poset!.levels[position+1]!.top;
     if poset!.showlevels then
       Move(poset!.levelboxes[position],0,poset!.levels[position]!.top 
                                   + poset!.levels[position]!.height - 8);
     fi;
+    if poset!.showlevelparams then
+      Move(poset!.lptexts[position],poset!.lptexts[position]!.x,
+           poset!.levels[position]!.top + 
+           QuoInt(poset!.levels[position]!.height,2));
+    fi;
+    
     for cl in poset!.levels[position]!.classes do
       for v in cl do
         Move(poset,v,v!.x,v!.y);
@@ -1104,6 +1232,10 @@ function( poset, levelparam, position )
         Move(poset!.levelboxes[i],0,poset!.levels[i]!.top
                                     + poset!.levels[i]!.height - 8);
       fi;
+      if poset!.showlevelparams then
+        Move(poset!.lptexts[i],poset!.lptexts[i]!.x,
+             poset!.levels[i]!.top + QuoInt(poset!.levels[i]!.height,2));
+      fi;
       for cl in poset!.levels[i]!.classes do
         for v in cl do
           Move(poset,v,v!.x,v!.y);
@@ -1113,6 +1245,9 @@ function( poset, levelparam, position )
     # in case another one has overwritten our box:
     if poset!.showlevels then
       Draw(poset!.levelboxes[position]);
+    fi;
+    if poset!.showlevelparams then
+      Draw(poset!.lptexts[position]);
     fi;
     
     # we did it.
@@ -1143,12 +1278,18 @@ function( poset, levelparam, position )
     poset!.levels{[lp..position]} := poset!.levels{list};
     poset!.levelparams{[lp..position]} := poset!.levelparams{list};
     poset!.levelboxes{[lp..position]} := poset!.levelboxes{list};
+    poset!.lptexts{[lp..position]} := poset!.lptexts{list};
     poset!.levels[position]!.top := poset!.levels[position-1]!.top
                                   - poset!.levels[position]!.height
                                     + poset!.levels[position-1]!.height;
     if poset!.showlevels then
       Move(poset!.levelboxes[position],0,poset!.levels[position]!.top
                                        + poset!.levels[position]!.height - 8);
+    fi;
+    if poset!.showlevelparams then
+      Move(poset!.lptexts[position],poset!.lptexts[position]!.x,
+           poset!.levels[position]!.top + 
+           QuoInt(poset!.levels[position]!.height,2));
     fi;
     for cl in poset!.levels[position]!.classes do
       for v in cl do
@@ -1162,6 +1303,10 @@ function( poset, levelparam, position )
         Move(poset!.levelboxes[i],0,poset!.levels[i]!.top
                                            + poset!.levels[i]!.height - 8);
       fi;
+      if poset!.showlevelparams then
+        Move(poset!.lptexts[i],poset!.lptexts[i]!.x,
+             poset!.levels[i]!.top + QuoInt(poset!.levels[i]!.height,2));
+      fi;
       for cl in poset!.levels[i]!.classes do
         for v in cl do
           Move(poset,v,v!.x,v!.y);
@@ -1171,6 +1316,9 @@ function( poset, levelparam, position )
     # in case another one has overwritten our box:
     if poset!.showlevels then
       Draw(poset!.levelboxes[position]);
+    fi;
+    if poset!.showlevelparams then
+      Draw(poset!.lptexts[position]);
     fi;
     
     # we did it.
@@ -1554,12 +1702,14 @@ function(graph,vertex,flag)
     if p <> fail then  
       return;
     fi;
+    Highlight(graph,vertex,true);
     Recolor(graph,vertex,graph!.color.selected);
     AddSet(graph!.selectedvertices,vertex);
   else
     if p = fail then
       return;
     fi;
+    Highlight(graph,vertex,false);
     Recolor(graph,vertex,graph!.color.unselected);
     RemoveSet(graph!.selectedvertices,vertex);
   fi;
@@ -1595,6 +1745,7 @@ InstallOtherMethod( DeselectAll,
 function(graph)
   local   v;
   for v in graph!.selectedvertices do
+    Highlight(graph,v,false);
     Recolor(graph,v,graph!.color.unselected);
   od;
   graph!.selectedvertices := [];
@@ -3018,7 +3169,7 @@ InstallMethod( UserResizeSheet,
     0,
     
 function(poset, menu, entry)
-  local   res,  pix;
+  local   res,  pix,  oldwidth,  t;
   res := Query( Dialog( "OKcancel", "New Width,Height" ) );
   if res = false or 0 = Length(res)  then
     return;
@@ -3031,7 +3182,16 @@ function(poset, menu, entry)
     pix[2] := poset!.height;
   fi;
   
+  oldwidth := poset!.width;
+  
   Resize(poset,pix[1],pix[2]);
+  
+  # we now have to move the texts of levelparameters if it is a poset:
+  if IsGraphicPosetRep(poset) and poset!.showlevelparams then
+    for t in [1..Length(poset!.levels)] do
+      MoveDelta(poset!.lptexts[t],poset!.width-oldwidth,0);
+    od;
+  fi;
 end);
 
 
@@ -3102,6 +3262,160 @@ end);
 
 #############################################################################
 ##
+#M  UserAverageY . . . . . . . . .  average all y positions within all levels
+##
+##  This operation is called when the user selects ``Average Y Positions''.
+##  In all level the average y coordinate is calculated and all vertices are
+##  moved to this y position.
+##
+InstallMethod( UserAverageY,
+    "for a graphic poset, a menu, and a string",
+    true,
+    [ IsGraphicSheet and IsGraphicGraphRep and IsGraphicPosetRep,
+      IsMenu, IsString ],
+    0,
+function( poset, menu, string )
+  local   lev,  av,  n,  cl,  v;
+  for lev in poset!.levels do
+    av := 0;
+    n := 0;
+    for cl in lev!.classes do
+      for v in cl do
+        av := av + v!.y;
+        n := n + 1;
+      od;
+    od;
+    if n > 0 then
+      av := QuoInt(av,n);
+      FastUpdate(poset,false);
+      for cl in lev!.classes do
+        for v in cl do
+          Move(poset,v,v!.x,av);
+        od;
+      od;
+      FastUpdate(poset,true);
+    fi;
+  od;
+end);
+
+
+#############################################################################
+##
+#M  UserAverageX . . . . . . . . . . average all x positions of sel. vertices
+##
+##  This operation is called when the user selects ``Average X Positions''.
+##  The average of all x coordinates of the selected vertices is calculated.
+##  Then all classes with a selected vertex are moved such that the first
+##  selected vertex in this class has the calculated position as x position.
+##
+InstallMethod( UserAverageX,
+    "for a graphic poset, a menu, and a string",
+    true,
+    [ IsGraphicSheet and IsGraphicGraphRep and IsGraphicPosetRep,
+      IsMenu, IsString ],
+    0,
+function( poset, menu, string )
+  local   sel,  av,  list,  v,  pair,  vertices,  diff;
+  sel := Selected(poset);
+  # we have at least one selected vertex!
+  av := 0;
+  list := [];   # we store all levelparam/classparam pairs
+  for v in sel do
+    av := av + v!.x;
+    AddSet(list,[v!.levelparam,v!.classparam]);
+  od;
+  av := QuoInt(av,Length(sel));
+  
+  FastUpdate(poset,false);
+  for pair in list do
+    vertices := Vertices(poset,pair[1],pair[2]);
+    if vertices <> fail then
+      v := First(vertices,x->x in sel);
+      if v <> fail then
+        diff := av - v!.x;
+        for v in vertices do
+          Move(poset,v,v!.x + diff,v!.y);
+        od;
+      fi;
+    fi;
+  od;
+  FastUpdate(poset,true);
+end);
+
+  
+#############################################################################
+##
+#M  UserRearrangesClasses . . . . . . . . . . rearrange vertices within class
+##
+##  This operation is called when the user selects ``Rearrange Classes''.
+##  All classes with a selected vertex are rearranged: The vertices are
+##  lined up neatly one after the other, sorted according to their current
+##  x position.
+##
+InstallMethod( UserRearrangeClasses,
+    "for a graphic poset, a menu, and a string",
+    true,
+    [ IsGraphicSheet and IsGraphicGraphRep and IsGraphicPosetRep,
+      IsMenu, IsString ],
+    0,
+function( poset, menu, string )
+  local   sel,  av,  list,  v,  pair,  vlist,  xlist,  perm,  i;
+  
+  sel := Selected(poset);
+  # we have at least one selected vertex!
+  av := 0;
+  list := [];   # we store all levelparam/classparam pairs
+  for v in sel do
+    AddSet(list,[v!.levelparam,v!.classparam]);
+  od;
+  
+  FastUpdate(poset,false);
+  for pair in list do
+    # get the vertices in class:
+    vlist := Vertices(poset,pair[1],pair[2]);
+    if vlist <> fail then
+      xlist := List(vlist,y->y!.x);
+      perm := Sortex(xlist);
+      vlist := Permuted(vlist,perm);
+      for i in [2..Length(vlist)] do
+        Move(poset,vlist[i],vlist[1]!.x + (i-1)*(VERTEX.diameter+2),
+             vlist[1]!.y);
+      od;
+    fi;
+  od;
+  FastUpdate(poset,true);
+end);
+
+
+############################################################################
+##
+#M  UserUseBlackWhite . . . . . . . . . .  called if user selects bw in menu
+##
+##  This is called if the user selects ``Use Black and White'' in the menu.
+##
+InstallMethod( UserUseBlackWhite,
+    "for a graphic graph, a menu, and a string",
+    true,
+    [ IsGraphicSheet and IsGraphicGraphRep, IsMenu, IsString ],
+    0,
+function( sheet, menu, entry )
+  local   v;
+  if sheet!.color.model = "monochrome" then
+    sheet!.color.model := "color";
+    Check(menu,entry,false);  
+  else
+    sheet!.color.model := "monochrome";
+    Check(menu,entry,true);  
+  fi;
+  GPMakeColors(sheet);
+  for v in Selected(sheet) do
+    Recolor(sheet,v,sheet!.color.selected);
+  od;
+end);
+
+
+#############################################################################
+##
 #M  PosetShowLevels  . . . . . . . . . . . . . . . . switch display of levels
 ##
 ##  This operation is called when the user selects "Show Levels" in the menu.
@@ -3128,6 +3442,38 @@ function( poset, menu, entry )
     od;
   fi;
   Check(menu,entry,poset!.showlevels);
+end);
+
+
+#############################################################################
+##
+#M  PosetShowLevelparams . . . . . . . . .  switch display of levelparameters
+##
+##  This operation is called when the user selects "Show Levelparameters" in 
+##  the menu. Switches the display of the level parameters at the right of
+##  the screen on and off.
+##
+InstallMethod( PosetShowLevelparams,
+    "for a graphic poset, a menu, and a menu entry",
+    true,
+    [ IsGraphicPosetRep, IsMenu, IsString ],
+    0,
+        
+function( poset, menu, entry )
+  local   t;
+  poset!.showlevelparams := not(poset!.showlevelparams);
+  if poset!.showlevelparams then
+    for t in [1..Length(poset!.lptexts)] do
+      Revive(poset!.lptexts[t]);
+      Move(poset!.lptexts[t],poset!.lptexts[t]!.x,poset!.levels[t]!.top
+                                  +QuoInt(poset!.levels[t]!.height,2));
+    od;
+  else
+    for t in poset!.lptexts do
+      Destroy(t);
+    od;
+  fi;
+  Check(menu,entry,poset!.showlevelparams);
 end);
 
 

@@ -5,7 +5,7 @@
 %W                                                     & Martin Schoenert
 %W                                                       & Heiko Theissen
 %%
-%H  @(#)$Id: manual.tex,v 1.1 1997/12/09 12:36:55 frank Exp $
+%H  @(#)$Id: manual.tex,v 1.2 1998/12/06 22:16:13 gap Exp $
 %%
 %Y  Copyright 1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,   Germany
 %%
@@ -17,9 +17,9 @@
 %F  BeginningOfBook . . . . . . . . . . . . . . . . . . .  start the book
 %%
 \BeginningOfBook{xgap}
-%\UseReferences{../tut}
-%\UseReferences{../prg}
-%\UseReferences{../ext}
+\UseReferences{../../../doc/tut}
+\UseReferences{../../../doc/prg}
+\UseReferences{../../../doc/ext}
 
 %
 %
@@ -28,9 +28,18 @@
 %F  TitlePage . . . . . . . . . . . . . . . . . . . . . . nice title page
 %%
 \TitlePage{
-  \centerline{\titlefont The XGAP 1.4 Manual}\bigskip
+  \centerline{\titlefont The XGAP 4 Manual}\bigskip
   \centerline{\secfont by}\bigskip
-  \centerline{\secfont Frank Celler}\vfill
+  \centerline{\secfont Frank Celler and Max Neunh\"offer}\vfill
+}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%F  Colophon . . . . . . . . . . . . . . . . . . . . . . acknowledgements
+%%
+\Colophon{
+  follows...
 }
 %
 %
@@ -47,7 +56,7 @@
 %%
 \FrontMatter
 %\immediate\write\citeout{\bs bibdata{mrabbrev,algebra,manual}}
-%\input ../tut/copyrigh
+%\Input ../../../doc/tut/copyrigh
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,7 +64,14 @@
 %F  Chapters  . . . . . . . . . . . . . . . . . . . . . .  GAP 4 Tutorial
 %%
 \Chapters
-\Input{xgap}
+\Input{savetime}
+\Input{whatis}
+\Input{install}
+\Input{sgrplats}
+\Input{sheets}
+\Input{graphs}
+\Input{posets}
+\Input{diffgap3}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

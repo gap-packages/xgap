@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.6 1998/11/27 14:50:57 ahulpke Exp $
+#H  @(#)$Id: sheet.gd,v 1.7 1998/12/06 22:16:14 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.6 1998/11/27 14:50:57 ahulpke Exp $";
+    "@(#)$Id: sheet.gd,v 1.7 1998/12/06 22:16:14 gap Exp $";
 
 
 #############################################################################
@@ -248,6 +248,27 @@ DeclareOperation( "PointerButtonDown",
 ##
 DeclareOperation( "Drag",
         [ IsGraphicSheet, IsInt, IsInt, IsInt, IsFunction ] );
+
+
+#############################################################################
+##
+#O  GMSaveAsPS( <sheet>, <menu>, <entry> )  . . . .  save sheet as postscript
+##
+##  This operation is called from the menu, if the user clicks on ``save as
+##  postscript''. It asks for a filename (defaultname stored in the sheet)
+##  and calls the operation <SaveAsPS>.
+##
+DeclareOperation( "GMSaveAsPS", [ IsGraphicSheet, IsObject, IsString ] );
+
+
+#############################################################################
+##
+#O  SaveAsPS( <sheet>, <filename> ) . . . . . . . .  save sheet as postscript
+##
+##  Saves the graphics in the sheet <sheet> as postscript into the file
+##  <filename>, which is overwritten, if it exists.
+##
+DeclareOperation( "SaveAsPS", [ IsGraphicSheet, IsString ] );
 
 
 #############################################################################

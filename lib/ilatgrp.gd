@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.3 1998/12/02 00:26:30 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.4 1998/12/06 22:16:14 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.3 1998/12/02 00:26:30 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.4 1998/12/06 22:16:14 gap Exp $";
 
 
 #############################################################################
@@ -236,15 +236,6 @@ DeclareOperation( "MergeVertices",
 ##  for an explanation.
 ##
 DeclareOperation( "GGLMenuOperation", [ IsGraphicSheet, IsMenu, IsString ]);
-
-
-############################################################################
-##
-#O  GGLUseBlackWhite . . . . . . . . . . . called if user selects bw in menu
-##
-##  This is called if the user selects "Use Black and White" in the menu.
-##
-DeclareOperation( "GGLUseBlackWhite", [ IsGraphicSheet, IsMenu, IsString ] );
 
 
 ############################################################################

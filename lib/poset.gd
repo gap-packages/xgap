@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.4 1998/12/04 00:03:29 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.5 1998/12/06 22:16:14 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.4 1998/12/04 00:03:29 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.5 1998/12/06 22:16:14 gap Exp $";
 
 
 #############################################################################
@@ -52,6 +52,7 @@ fi;
 #############################################################################
 ##
 #O  CreateLevel(<poset>, <levelparam>) . . . . . . creates new level in poset
+#O  CreateLevel(<poset>, <levelparam>, <lptext>) . creates new level in poset
 ##
 ##  A level in a graphic poset can be thought of as a horizontal slice of
 ##  the poset. It has a y coordinate of the top of the level relatively to
@@ -67,11 +68,14 @@ fi;
 ##  levelparam.  Returns fail if there is already a level with a level
 ##  parameter which is considered "equal" by CompareLevels or levelparam if
 ##  everything went well.
+##  The second method allows to specify which text appears for the level at
+##  the right edge of the sheet.
 ##
 if IsBound(CreateLevel) then if not IsOperation(CreateLevel) then
   Error("Identifier CreateLevel already in use!"); fi;
 else
   DeclareOperation("CreateLevel",[IsGraphicSheet,IsObject]);
+  DeclareOperation("CreateLevel",[IsGraphicSheet,IsObject,IsString]);
 fi;
 
 
@@ -962,6 +966,64 @@ fi;
 
 #############################################################################
 ##
+#O  UserAverageY . . . . . . . . .  average all y positions within all levels
+##
+##  This operation is called when the user selects ``Average Y Positions''.
+##  In all level the average y coordinate is calculated and all vertices are
+##  moved to this y position.
+##
+if IsBound(UserAverageY) then if not IsOperation(UserAverageY) then
+  Error("Identifier UserAverageY already in use!"); fi;
+else
+  DeclareOperation( "UserAverageY", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserAverageX . . . . . . . . . . average all x positions of sel. vertices
+##
+##  This operation is called when the user selects ``Average X Positions''.
+##  The average of all x coordinates of the selected vertices is calculated.
+##  Then all classes with a selected vertex are moved such that the first
+##  selected vertex in this class has the calculated position as x position.
+##
+if IsBound(UserAverageX) then if not IsOperation(UserAverageX) then
+  Error("Identifier UserAverageX already in use!"); fi;
+else
+  DeclareOperation( "UserAverageX", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  UserRearrangesClasses . . . . . . . . . . rearrange vertices within class
+##
+##  This operation is called when the user selects ``Rearrange Classes''.
+##  All classes with a selected vertex are rearranged: The vertices are
+##  lined up neatly one after the other, sorted according to their current
+##  x position.
+##
+if IsBound(UserRearrangeClasses) then 
+  if not IsOperation(UserRearrangeClasses) then
+    Error("Identifier UserRearrangeClasses already in use!"); fi;
+else
+  DeclareOperation( "UserRearrangeClasses", 
+          [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+############################################################################
+##
+#O  UserUseBlackWhite . . . . . . . . . .  called if user selects bw in menu
+##
+##  This is called if the user selects ``Use Black and White'' in the menu.
+##
+DeclareOperation( "UserUseBlackWhite", [ IsGraphicSheet, IsMenu, IsString ] );
+
+
+#############################################################################
+##
 #O  PosetShowLevels  . . . . . . . . . . . . . . . . switch display of levels
 ##
 ##  This operation is called when the user selects "Show Levels" in the menu.
@@ -971,6 +1033,23 @@ if IsBound(PosetShowLevels) then if not IsOperation(PosetShowLevels) then
   Error("Identifier PosetShowLevels already in use!"); fi;
 else
   DeclareOperation( "PosetShowLevels", [IsGraphicSheet, IsMenu, IsString] );
+fi;
+
+
+#############################################################################
+##
+#O  PosetShowLevelparams . . . . . . . . .  switch display of levelparameters
+##
+##  This operation is called when the user selects "Show Levelparameters" in 
+##  the menu. Switches the display of the level parameters at the right of
+##  the screen on and off.
+##
+if IsBound(PosetShowLevelparams) then 
+  if not IsOperation(PosetShowLevelparams) then
+  Error("Identifier PosetShowLevelparams already in use!"); fi;
+else
+  DeclareOperation( "PosetShowLevelparams", 
+          [IsGraphicSheet, IsMenu, IsString] );
 fi;
 
 

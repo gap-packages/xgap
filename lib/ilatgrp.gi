@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.4 1998/12/04 00:03:29 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.5 1998/12/06 22:16:14 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.4 1998/12/04 00:03:29 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.5 1998/12/06 22:16:14 gap Exp $";
 
 
 #############################################################################
@@ -300,18 +300,6 @@ BindGlobal( "GGLInfoDisplaysForFpGroups",
 #############################################################################
   
 
-GGLCleanupMenu :=
-  [ "Not yet implemented", "forany", Ignore ];
-#  [ "Average Y Levels",        "forany",     CMAverageYLevels,
-#    "Average X Levels",        "formin2",    CMAverageXLevels,
-#    "Rotate Conjugates",       "formin2",    CMRotateConjugates,
-#    "-",                       "-",          "-",
-#    "Relabel Vertices",        "forsubset",  CMRelabelVertices,
-#    "Select Representatives",  "forany",     CMSelectReps,
-#    "-",                       "-",          "-",
-#    "Merge Classes",           "formin2",    CMMergeClasses ];
-  
-  
 #############################################################################
 ##
 ##  Menu entries and Popups:
@@ -746,9 +734,8 @@ InstallMethod( InsertVertex,
     0,
         
 function( sheet, grp, conjugclass, hints )
-  local   index,  data,  isClassRep,  info,  vertex,  v,  vers,  lev,  
-          cl,  conj,  classparam,  label,  Walkup,  Walkdown,  
-          containerlist,  containedlist,  newlevel;
+  local   index,  data,  newlevel,  str,  vertex,  v,  vers,  lev,  cl,  
+          conj,  Walkup,  Walkdown,  containerlist,  containedlist;
   
   ## FIXME: what if this index calculation crashes?
   ## so we never get infinite indices!??
@@ -770,7 +757,18 @@ function( sheet, grp, conjugclass, hints )
   fi;
   
   if Position(Levels(sheet),newlevel) = fail then
-    CreateLevel(sheet,newlevel);
+    if IsInt(newlevel) then
+      if newlevel < 0 then
+        str := "Size ";
+        Append(str,String(-newlevel));
+      else
+        str := "Index ";
+        Append(str,String(newlevel));
+      fi;
+    else
+      str := String(newlevel);
+    fi;
+    CreateLevel(sheet,newlevel,str);
   fi;
   
   vertex := false;   # will become the new vertex
@@ -1273,8 +1271,8 @@ InstallMethod( GraphicSubgroupLattice,
     0,
         
 function(G,def)
-  local   latticetype,  defaults,  height,  title,  poset,  indices,  
-          levelheight,  l,  vmath,  isClassRep,  info,  v2,  v1,  tmp;
+  local   latticetype,  defaults,  poset,  indices,  levelheight,  l,  str,  
+          vmath,  v2,  v1;
   
   latticetype := DecideSubgroupLatticeType(G);
   # we do some heuristics to avoid the trivial group:
@@ -1334,17 +1332,21 @@ function(G,def)
   
   if KnowsAllLevels(poset) then
     # create all possible level parameters and levels:
-    indices := Reversed(DivisorsInt(Size(G)));
+    indices := DivisorsInt(Size(G));
     levelheight := QuoInt(poset!.height,Length(indices));
     for l in indices do
-      CreateLevel(poset,l);
+      str := "Index ";
+      Append(str,String(l));
+      CreateLevel(poset,l,str);
       ResizeLevel(poset,l,levelheight);
     od;
   else
     # we just create one or two levels:
-    CreateLevel(poset,1);  # for the whole group
+    CreateLevel(poset,1,"Index 1");  # for the whole group
     if latticetype[4] then
-      CreateLevel(poset,Size(G));
+      str := "Index ";
+      Append(str,String(Size(G)));
+      CreateLevel(poset,Size(G),str);
     fi;
   fi;
   
@@ -1380,15 +1382,6 @@ function(G,def)
   # create menus:
   GGLMakeSubgroupsMenu(poset,latticetype[5]);
   poset!.menuoperations := latticetype[5];
-  
-  tmp := ShallowCopy(GGLCleanupMenu);
-  if poset!.color.model = "color" then
-    Append(tmp,[ "-","-","-","Use Black&White", "forany", GGLUseBlackWhite ]);
-  fi;
-  Menu(poset,"Cleanup",
-       tmp{[1,4..Length(tmp)-2]},
-       tmp{[2,5..Length(tmp)-1]},
-       tmp{[3,6..Length(tmp)]});
   
   # Install the info method:
   poset!.infodisplays := latticetype[6];

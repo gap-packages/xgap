@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.6 1998/11/27 14:50:57 ahulpke Exp $
+#H  @(#)$Id: sheet.gi,v 1.7 1998/12/06 22:16:14 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -15,7 +15,7 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.6 1998/11/27 14:50:57 ahulpke Exp $";
+    "@(#)$Id: sheet.gi,v 1.7 1998/12/06 22:16:14 gap Exp $";
 
 
 #############################################################################
@@ -25,7 +25,7 @@ Revision.pkg_xgap_lib_sheet_gi :=
 DeclareRepresentation( "IsGraphicSheetRep",
     IsComponentObjectRep and IsAttributeStoringRep,
     [ "name", "width", "height", "gapMenu", "callbackName", "callbackFunc",
-      "menus", "objects", "free" ],
+      "menus", "objects", "free", "filenamePS" ],
     IsGraphicSheet );
 
 
@@ -82,7 +82,9 @@ function( name, width, height )
     defaults.shape := 1;
     defaults.label := false;
     SetDefaultsForGraphicObject( s, defaults );
-
+    
+    s!.filenamePS := "";
+    
     # return the graphic sheet <s>
     return s;
 
@@ -97,14 +99,110 @@ GMCloseGS := function( sheet, menu, entry ) Close(sheet); end;
 
 InstallValue( DefaultGAPMenu,
 [
-    "save",                   Ignore,
-    "save as",                Ignore,
-    ,                         ,
-    "save as postscript",     Ignore, #N XXX GMSaveAsPS,
-    "save as LaTeX",          Ignore,
+##FIXME: do we have ideas to save sheets except postscript?
+## "save",                   Ignore,
+##    "save as",                Ignore,
+##   ,                         ,
+    "save as postscript",     GMSaveAsPS,
+##    "save as LaTeX",          Ignore,
     ,                         ,
     "close graphic sheet",    GMCloseGS,
 ] );
+
+
+#############################################################################
+##
+#M  GMSaveAsPS( <sheet>, <menu>, <entry> )  . . . .  save sheet as postscript
+##
+##  This operation is called from the menu, if the user clicks on ``save as
+##  postscript''. It asks for a filename (defaultname stored in the sheet)
+##  and calls the operation <SaveAsPS>.
+##
+InstallMethod( GMSaveAsPS,
+    "for a graphic sheet",
+    true,
+    [ IsGraphicSheet, IsMenu, IsString ],
+    0,
+function( sheet, menu, entry )
+  local   res;
+  res := Query( Dialog("Filename", "Enter a filename"), sheet!.filenamePS );
+  if res = false  then
+    return;
+  fi;
+  sheet!.filenamePS := res;
+  SaveAsPS( sheet, res );
+end);
+
+
+#############################################################################
+##
+#M  SaveAsPS( <sheet>, <filename> ) . . . . . . . .  save sheet as postscript
+##
+##  Saves the graphics in the sheet <sheet> as postscript into the file
+##  <filename>, which is overwritten, if it exists.
+##
+InstallMethod( SaveAsPS,
+    "for a graphic sheet, and a string",
+    true,
+    [ IsGraphicSheet, IsString ],
+    0,
+function( sheet, file )
+  local   str,  a,  b,  obj;
+  
+  # set filename and create file
+  PrintTo( file, "%!PS-Adobe-3.0 EPSF-3.0\n" );
+  
+  # collect string in <str>
+  str := "";
+  
+  # we follow Adobes document conventions:
+  Append( str, "%%Creator: XGAP4\n");
+  Append( str, "%%Pages: 1\n");
+  
+  #FIXME: is that necessary with EPS?
+  # landscape or portrait
+  #
+  #if sheet!.height <= sheet!.width  then
+  #  Append( str, "90 rotate\n" );
+  #  a := QuoInt( sheet!.height*1000, 6 );
+  #  b := QuoInt( sheet!.width*1000,  8 );
+  #  a := Maximum(a,b);
+  #  Append( str, "100000 " );
+  #  Append( str, String(a) );
+  #  Append( str, " div 100000 " );
+  #  Append( str, String(a) );
+  #  Append( str, " div scale\n" );
+  #  Append( str, "0 " );
+  #  Append( str, String(-sheet!.height) );
+  #  Append( str, " translate\n" );
+  #else
+  a := QuoInt( sheet!.height*1000, 8 );
+  b := QuoInt( sheet!.width*1000,  6 );
+  a := Maximum(a,b);
+  Append( str, "%%BoundingBox: 0 0 ");
+  Append( str, String(QuoInt(sheet!.width*100000+QuoInt(a,2),a)));
+  Append( str, " ");
+  Append( str, String(QuoInt(sheet!.height*100000+QuoInt(a,2),a)));
+  Append( str, "\n");
+  Append( str, "100000 " );
+  Append( str, String(a) );
+  Append( str, " div 100000 " );
+  Append( str, String(a) );
+  Append( str, " div scale\n" );
+  #fi;
+  
+  Append( str, "%%Page: 1\n");
+  for obj  in sheet!.objects  do
+    if IsAlive(obj) then
+      Append( str, PSString(obj) );
+    fi;
+  od;
+  Append( str, "showpage\n" );
+  Append( str, "%%EOF\n");
+  
+  AppendTo( file, str );
+  
+end);
 
 
 #############################################################################
@@ -218,10 +316,11 @@ InstallMethod( MakeGAPMenu,
     0,
 
 function( sheet )
-    sheet!.gapMenu := Menu( sheet, "GAP", DefaultGAPMenu );
-    Enable( sheet!.gapMenu, "save", false );
-    Enable( sheet!.gapMenu, "save as", false );
-    Enable( sheet!.gapMenu, "save as LaTeX", false );
+  sheet!.gapMenu := Menu( sheet, "GAP", DefaultGAPMenu );
+  ##FIXME: see earlier: do we have ideas for that?
+        #Enable( sheet!.gapMenu, "save", false );
+        #Enable( sheet!.gapMenu, "save as", false );
+        #Enable( sheet!.gapMenu, "save as LaTeX", false );
 end );
 
 
