@@ -2,14 +2,14 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.8 1999/02/08 14:41:03 gap Exp $
+#H  @(#)$Id: gobject.gi,v 1.9 1999/02/12 00:49:07 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.8 1999/02/08 14:41:03 gap Exp $";
+    "@(#)$Id: gobject.gi,v 1.9 1999/02/12 00:49:07 gap Exp $";
 
 
 #############################################################################
@@ -2635,7 +2635,11 @@ function( sheet, x, y, def )
                           x-QuoInt(28*FontInfo(FONTS.tiny)[3],20),
                           x-QuoInt(18*FontInfo(FONTS.tiny)[3],10) ];
     vertex!.outline  := [ Circle(sheet,x,y,r,rec(color:=vertex!.color)) ];
-    vertex!.shape    := VERTEX.circle;
+    if IsBound(def.shape) then
+      vertex!.shape := def.shape;
+    else
+      vertex!.shape    := VERTEX.circle;
+    fi;
     vertex!.highlight := false;
 
     # add list of connections
@@ -2645,11 +2649,11 @@ function( sheet, x, y, def )
     # clear label first
     vertex!.label := false;
     # now set label if necessary
-    if def.label = false  then
-        label := false;
+    if not IsBound(def.label) or def.label = false  then
+      label := false;
     else
-        label := def.label{[ 1 .. Minimum(4,Length(def.label)) ]};
-        Relabel( vertex, label );
+      label := def.label{[ 1 .. Minimum(4,Length(def.label)) ]};
+      Relabel( vertex, label );
     fi;
     
     # Draw is NOT necessary because everything is in sub-objects

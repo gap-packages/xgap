@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.8 1999/02/08 00:03:30 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.9 1999/02/12 00:49:07 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.8 1999/02/08 00:03:30 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.9 1999/02/12 00:49:07 gap Exp $";
 
 
 #############################################################################
@@ -614,6 +614,11 @@ function(sheet, menu, entry)
         vertices[grp] := res[1];
         newflag[grp] := res[2];
         
+        # Is it a normal subgroup?
+        if IsNormal(sheet!.group,result.subgroups[grp]) then
+          Reshape(sheet,res[1],"diamond");
+        fi;
+        
         # we mark the vertex:
         Select(sheet,res[1],true);
         if sheet!.color.result <> false  then
@@ -735,7 +740,7 @@ InstallMethod( GGLAbelianPQuotient,
     0,
 
 function(sheet,grp)
-  local res, p;
+  local res, p, qs;
   res := Query( GGLPrimeDialog );
   if res = false then
     return fail;
@@ -744,7 +749,7 @@ function(sheet,grp)
   if not IsInt(p) or not IsPrime(p) then
     return fail;
   fi;
-  return PQuotient( grp, p );
+  qs := PQuotient( grp, p );
 end);
 
 
@@ -806,9 +811,10 @@ function(sheet,grp)
       fi;
       epigrp := SL(dim,fis);
       # FIXME: Do we have to go through this???
-      vec := [1]; for i in [2..dim] do Add(0,vec); od;
-      vec := vec * Z(fis);
-      epigrp := Operation(epigrp,Orbit(vec),OnLines);
+      vec := [1]; for i in [2..dim] do Add(vec,0); od;
+      vec := vec * Z(fis)^0;
+      Print(vec,"\n");
+      epigrp := Operation(epigrp,Orbit(epigrp,vec,OnLines),OnLines);
       txt[tid] := String(Concatenation("PSL(",String(dim),",",
                                        String(fis),")"),-len);
     elif st{[1..3]} = "Lib" then
@@ -844,11 +850,11 @@ function(sheet,grp)
       else
         txt[tid] := String("User Defined: Group with no name",-len);
       fi;
+      PERM_GROUP := 0;
     fi;
     
     # now the function has either returned (with "fail" as return value) or
     # epigrp is correctly initialized with a group
-    Print(len," ",Length(txt[tid]),"\n");
     txt[tid]{[len-13..len]} := "computing ... ";
     Relabel(sel,txt);
     GGLEpiResults := GQuotients(GGLEpiVertex!.data.group,epigrp);
@@ -863,19 +869,26 @@ function(sheet,grp)
   # The following function is called when the user selects "display". The
   # calculated results are put into the lattice.
   
-  GGLEpiShowResult := function(list)
-    local   groups,  g,  v;
-    groups := List(list,Kernel);
+  GGLEpiShowResult := function(sel,entry)
+    local   groups,  g,  v,  txt,  tid,  len;
+    groups := List(GGLEpiResults,Kernel);
     for g in groups do
       v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
       if v[2] then
-        NewInclusionInfo(sheet,v[2],GGLEpiVertex);
+        NewInclusionInfo(sheet,v[1],GGLEpiVertex);
       fi;
-      Select(v[1]);
+      Select(sheet,v[1]);
       if sheet!.color.result <> false  then
         Recolor( sheet, v[1], sheet!.color.result );
       fi;
     od;
+    GGLEpiResults := false;
+    Enable(sel,"display",false);
+    txt := sel!.labels;
+    tid := sel!.selected;
+    len := Length(txt[tid]);
+    txt[tid]{[len-13..len]} := "              ";
+    Relabel(sel,txt);
     return true;
   end;
   
@@ -1622,7 +1635,8 @@ function(G,def)
                info := rec(Index := 1));
   vmath.class := [vmath];
   vmath.classrep := vmath;
-  v2 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index, label := "G"));
+  v2 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index, label := "G",
+                               shape := "diamond"));
   
   # we keep track of largest label:
   poset!.largestlabel := 1;
@@ -1635,7 +1649,8 @@ function(G,def)
                  info := rec(Index := Size(G)));
     vmath.class := [vmath];
     vmath.classrep := vmath;
-    v1 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index,label := "1"));
+    v1 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index,label := "1",
+                                 shape := "diamond"));
     
     # connect the two vertices
     Edge(poset,v1,v2);
