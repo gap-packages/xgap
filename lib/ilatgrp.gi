@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.41 1999/11/25 18:52:21 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.42 1999/11/30 22:09:40 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.41 1999/11/25 18:52:21 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.42 1999/11/30 22:09:40 gap Exp $";
 
 
 #############################################################################
@@ -1881,6 +1881,70 @@ fi;
 
 #############################################################################
 ##
+#F  GGLEnsureLevelIsLower( <sheet>, <v1>, <v2> ) . . . . . . . . . . . . . .
+##    . . . . . . . . . . . . . . . . . . . permute levels to allow inclusion
+##
+##  This function is used only internally! It is called, whenever a new
+##  inclusion info that vertex <v1> is contained in vertex <v2> turns up
+##  and the system is in doubt, that the level of <v1> is actually lower
+##  on the screen than that of <v2>. This can happen, if a graphic subgroup
+##  lattice does not have the `HasseProperty' (for example for finitely
+##  presented groups) or if the group is a space group and one of the
+##  vertices is in an "infinity" level. If the level of <v1> is higher
+##  on the screen than that of <v2>, this function first tries to move
+##  the level of <v1> right below the level of <v2>. If this does not
+##  work, it tries, to move the level of <v2> directly over the level of
+##  <v1>. If this does not work either, it tries to find a "way" of known
+##  inclusions from <v2> up to <v1>. If such a way is found, we know
+##  that the vertices represent the same subgroup and we call 
+##  `MergeVertices' to merge them. If no such way is found, `fail' is 
+##  returned. If one of the first movement steps succeeds, the function
+##  returns the string "DOWN" if the level of <v1> is moved under the
+##  level of <v2>, and "UP" if the level of <v2> is moved over <v1>. It
+##  returns `true', if no movement is necessary.
+
+GGLEnsureLevelIsLower := function(sheet,v1,v2)
+  local   p1,  p2;
+  
+  # first check if the level of v1 is lower than that of v2:
+  p1 := Position(sheet!.levelparams,v1!.levelparam);
+  p2 := Position(sheet!.levelparams,v2!.levelparam);
+  if p1 < p2 then
+    # we have a problem, first we try to move p1 down:
+    if MoveLevel(sheet,v1!.levelparam,p2) <> fail then
+      Info(GraphicLattice,1,"Moved level ",v1!.levelparam," down to ",
+           "position ",p2,".");
+      return("DOWN");
+    else
+      # that was no solution, we try to move p2 up:
+      if MoveLevel(sheet,v2!.levelparam,p1) <> fail then
+        Info(GraphicLattice,1,"Moved level ",v2!.levelparam," up to ",
+             "position ",p1,".");
+        return("UP");
+      else
+        # that did not work either, so the last idea:
+        if GPSearchWay(sheet,v1,v2,p2) then
+          MergeVertices(sheet,v1,v2);
+          return true;   # we are done with this inclusion!
+        else
+          return fail;
+        fi;
+      fi;
+    fi;   
+    # if we reach this point, the levels are ok, p1 > p2
+  elif p1 = p2 then   # equal levels, that is easy:
+    # we can do this because we put vertices with infinite index in separate
+    # levels each, so they must be equal if they are in some equal (finite)
+    # index. FIXME
+    MergeVertices(sheet,v1,v2);
+    return true;
+  fi;
+  return true;
+end;
+
+  
+#############################################################################
+##
 #M  InsertVertex( <sheet>, <grp>, <conj>, <hints> ) . . . . insert new vertex
 ##
 ##  Insert the group <grp> as a new vertex into the sheet. If 
@@ -1911,9 +1975,9 @@ InstallMethod( InsertVertex,
     0,
         
 function( sheet, grp, conjugclass, hints )
-  local   size,  index,  d,  data,  newlevel,  str,  vertex,  v,  
-          vers,  lev,  cl,  conj,  Walkup,  Walkdown,  containerlist,  
-          containedlist;
+  local   data,  size,  index,  d,  newlevel,  vertex,  v,  vers,  
+          lev,  cl,  conj,  str,  Walkup,  Walkdown,  containerlist,  
+          res,  containedlist;
   
   data := rec(group := grp, info := rec());
   
@@ -2074,6 +2138,12 @@ function( sheet, grp, conjugclass, hints )
   # even higher in the hierarchy meaning they contain vertices which contain
   # the new vertex, are stored in a list by their serial numbers to shorten
   # the search:
+
+  # Note that for "infinity" levels it is necessary to check against
+  # all groups in the sheet, because the level says nothing at all 
+  # about relative inclusion to other subgroups. As of now, this happens
+  # only for space groups provided by the CRYST share package, but this
+  # will be true for infinite polycyclic presented groups!
   
   Walkup := function(v)
     local   w;
@@ -2106,15 +2176,26 @@ function( sheet, grp, conjugclass, hints )
     od;
   end;
       
-  containerlist := [];
-  # all higher levels:
-  lev := Position(Levels(sheet),newlevel)-1;
+  containerlist := [vertex!.serial];
+  if not IsList(newlevel) then       # no infinity level
+    # all higher levels:
+    lev := Position(Levels(sheet),newlevel)-1;
+  else
+    lev := Length(Levels(sheet));
+  fi;
   while lev > 0 do
     # all classes:
     for cl in sheet!.levels[lev]!.classes do
       for v in cl do
         if PositionSet(containerlist,v!.serial) = fail then
-          if IsSubgroup(v!.data.group,grp) then
+          if IsSubgroup(v!.data.group,grp) then   # for infinity levels!
+            # Check, whether the level of `vertex' is actually lower than
+            # that of `v'. This can fail for infinity levels!
+            res := GGLEnsureLevelIsLower(sheet,vertex,v);
+            if res = fail then
+              Info(GraphicLattice,1,
+                   "This should never have happened! Tell Max!");
+            fi;
             Edge(sheet,vertex,v);
             AddSet(containerlist,v!.serial);
             Walkup(v);
@@ -2130,15 +2211,24 @@ function( sheet, grp, conjugclass, hints )
   # that contain our new vertex.
   # we now do the same downwards but we cancel additionally all connections
   # between contained subgroups and overgroups (see `WalkDown').
-  containedlist := [];
+  containedlist := [vertex!.serial];
   # all lower levels:
-  lev := Position(Levels(sheet),newlevel)+1;
+  if not(IsList(newlevel)) then
+    lev := Position(Levels(sheet),newlevel)+1;
+  else
+    lev := 1;     # this is necessary for infinity levels!
+  fi;
   while lev <= Length(Levels(sheet)) do
     # all classes:
     for cl in sheet!.levels[lev]!.classes do
       for v in cl do
         if PositionSet(containedlist,v!.serial) = fail then
           if IsSubgroup(grp,v!.data.group) then
+            res := GGLEnsureLevelIsLower(sheet,v,vertex);
+            if res = fail then
+              Info(GraphicLattice,1,
+                   "This should never have happened! Tell Max!");
+            fi;
             AddSet(containedlist,v!.serial);
             Walkdown(v);
             Edge(sheet,vertex,v);
@@ -2225,7 +2315,7 @@ InstallMethod( NewInclusionInfo,
     0,
 
 function( sheet, v1, v2 )
-  local   p1,  p2,  over,  Walkup,  under,  Walkdown,  v,  w;
+  local   res,  over,  Walkup,  under,  Walkdown,  v,  w;
   
   # A trivial case:
   if v1 = v2 then
@@ -2249,41 +2339,15 @@ function( sheet, v1, v2 )
   #       fast in this case!
   
   # now check if the level of v1 is lower than that of v2:
-  p1 := Position(sheet!.levelparams,v1!.levelparam);
-  p2 := Position(sheet!.levelparams,v2!.levelparam);
-  if p1 < p2 then
-    # we have a problem, first we try to move p1 down:
-    if MoveLevel(sheet,v1!.levelparam,p2) = fail then
-      # that was no solution, we try to move p2 up:
-      if MoveLevel(sheet,v2!.levelparam,p1) = fail then
-        # that did not work either, so the last idea:
-        if GPSearchWay(sheet,v1,v2,p2) then
-          MergeVertices(sheet,v1,v2);
-          return;   # we are done with this inclusion!
-        else
-          Info(GraphicLattice,1,"Cannot use inclusion ",v1!.label," in ",
-               v2!.label," because of levels!");
-          if GGLLogFile <> false then
-            AppendTo(GGLLogFile,"Cannot use inclusion ",v1!.label," in ",
-                     v2!.label," because of levels!\n");
-          fi;
-          return;       # nothing to do!
-        fi;
-      else
-        p2 := p1;
-        p1 := p1 + 1;
-      fi;
-    else
-      p1 := p2;
-      p2 := p2 - 1;
-    fi;   
-    # if we reach this point, the levels are ok, p1 > p2
-  elif p1 = p2 then   # equal levels, that is easy:
-    # we can do this because we put vertices with infinite index in separate
-    # levels each, so they must be equal if they are in some equal (finite)
-    # index. FIXME
-    MergeVertices(sheet,v1,v2);
-    return;
+  res := GGLEnsureLevelIsLower(sheet,v1,v2);
+  if res = fail then
+    Info(GraphicLattice,1,"Cannot use inclusion ",v1!.label," in ",
+         v2!.label," because of levels!");
+    if GGLLogFile <> false then
+      AppendTo(GGLLogFile,"Cannot use inclusion ",v1!.label," in ",
+              v2!.label," because of levels!\n");
+    fi;
+    return;       # nothing to do!
   fi;
   
   # now we can begin our work. we don't have a way between the vertex v1 and
