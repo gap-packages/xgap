@@ -184,23 +184,33 @@ only the C program is put into the background.
 
 \Section{Installing in a different than the standard location}
 
-It could happen that you do not want to install XGAP in its standard
-location, perhaps because you do not want to bother your system
-administrator and have no access to the GAP directory. In this case you can
-unpack XGAP in any other location within a "pkg" directory with the <unzoo> 
-command as described above. Let us call this directory "pkg" for the moment.
-You get an "xgap" subdirectory with all the files of XGAP in it. You follow 
-the standard procedure with two exceptions:
+It could happen that you do not want to install XGAP in its
+standard location, perhaps because you do not want to bother your
+system administrator and have no access to the GAP directory. In
+this case you can unpack XGAP in any other location within a
+"pkg" directory with the <unzoo> command as described above. Let us
+call this directory "pkg" for the moment. You get an "xgap"
+subdirectory with all the files of XGAP in it. You follow the
+standard procedure with two exceptions:
 
 Before you can configure and compile XGAP you need a symbolic link
 "cnf" which is in the directory where "pkg" is and points to the "cnf"
-directory in the main GAP directory.
+directory in the main GAP directory. You can install this link directly
+after unzooing by (remember: you are in the "pkg" directory!):
 
-Note that you have to edit the startup script "bin/xgap.sh" to adjust
-the paths for "XGAP_DIR" and "GAP_DIR".  Enter your GAP installation
-directory for the variable "GAP_DIR" and the name of the directory
-that contains "pkg" for the variable "XGAP_DIR". The script will
-automatically launch GAP with two directories as library path such
-that all GAP and XGAP libraries will be found.
+ln -s /usr/local/lib/gap4/cnf ..
+
+if "/usr/local/lib/gap4" is the location of the main GAP installation.
+
+You can find out where the main GAP4 installation is by starting
+GAP as you usual and looking at the variable `GAP_ROOT_PATHS'
+within GAP.
+
+Note that you have to edit the startup script "xgap.sh" (see previous
+section) to adjust the paths for "XGAP_DIR" and "GAP_DIR".  Enter your 
+GAP installation directory for the variable "GAP_DIR" and the name of
+the directory that contains "pkg" for the variable "XGAP_DIR". The
+script will automatically launch GAP with two directories as
+library path such that all GAP and XGAP libraries will be found.
 
 
