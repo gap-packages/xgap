@@ -292,6 +292,10 @@ the ``Subgroups'' button and press the left mouse  button.  Keep the button
 down and choose an entry   by moving the pointer  on  top of this  entry.
 Release the mouse button to select an entry.
 
+Note that you can also get the ``Subgroups'' menu as a popup menu by
+clicking with the right mouse button into the graphic sheet of the subgroup
+lattice, but *not* on a vertex.
+
 The result   of a computation from   any of the  following  entries is
 colored green, if your screen supports color.  There will also be a short
 information message in the {\GAP} window about the result.
@@ -499,7 +503,8 @@ reference manual for details.
 
 Note that the exact result of all these information displays is stored in
 the global variable `LastResultOfInfoDisplay' after each operation. So you
-can access this easily from the {\GAP} command prompt.
+can access this easily from the {\GAP} command prompt. It is also returned
+as `last' value.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -567,6 +572,10 @@ the <Subgroups> button and press the  left mouse button.  Keep the button
 down and  choose an entry by  moving  the pointer on   top of this entry.
 Release the mouse button to select an entry.
 
+Note that you can also get the ``Subgroups'' menu as a popup menu by
+clicking with the right mouse button into the graphic sheet of the subgroup
+lattice, but *not* on a vertex.
+
 The result of  a computation  from any  of  the following entries  is
 colored green, if  your screen supports color.   In most cases there will
 also be short information message in the {\GAP} window about the result.
@@ -591,14 +600,19 @@ computes the permutation action of the whole  group on the cosets of the
 subgroup associated with  the selected vertex and  then searches  for all
 block systems.  `All Overgroups' requires exactly one selected vertex.
 
+\>`Closure' {Closure}
+
+computes and displays the common closure of the selected vertices.
+Requires at least one selected vertex. See also "ref:ClosureGroup" in the
+{\GAP} reference manual.
+
 \>`Compare Subgroups'{Compare Subgroups}
 
-Exactly two vertices must be selected to choose this menu entry. The
-subgroups belonging to these vertices are compared, and the inclusion
-information is displayed in the lattice. It may happen that the two
+A non-empty set of vertices must be selected to choose this menu entry. All
+subgroups belonging to these vertices are compared pairwise, and the inclusion
+information is displayed in the lattice. It may happen that two or more
 vertices are merged if {\GAP} notices, that the subgroups are
-equal. It is not yet possible to trigger the comparison of more than
-two subgroups at once, but it is planned to implement this feature.
+equal. 
 
 \>`Conjugacy Class'{Conjugacy Class}
 
@@ -682,6 +696,14 @@ associated to the vertex is known a  presentation is first computed using
 a   modified  Todd-Coxeter algorithm.   It    then calls `PrimeQuotient'.
 `Prime Quotient' requires exactly one selected vertex.
 
+\>`Test Conjugacy'{Test Conjugacy}
+
+walks through all levels and tests for all pairs of classes, that contain a 
+selected vertex, whether the groups in the classes are conjugates. If so,
+the classes are merged. After these calculations `Rearrange Classes' is
+called. Note that conjugacy calculations can take lots of time for finitely 
+presented groups!
+
 \bigskip
 
 These menu entries represent only a small selection of the functions of
@@ -743,7 +765,8 @@ computes the factor group  of the whole group by $u$, if $u$ is normal.
 
 Note that the exact result of all these information displays is stored in
 the global variable `LastResultOfInfoDisplay' after each operation. So you
-can access this easily from the {\GAP} command prompt.
+can access this easily from the {\GAP} command prompt. It is also returned
+as `last' value.
 
 
 %%% Local Variables: 
