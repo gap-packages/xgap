@@ -89,9 +89,9 @@ them and choose <Rearrange Classes> in the <Poset> menu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Selecting Vertices}
 
-Selected vertices are  represented by a slightly  thicker circle and,  if
-your screen  supports color, are colored red   or green.  There  are five
-different ways to select or deselect a vertex or a bunch of vertices.
+Selected vertices are represented by a slightly thicker circle and, if
+your screen supports color, are colored red.  There are five different
+ways to select or deselect a vertex or a bunch of vertices.
 
 Place the  pointer inside  a  vertex and press   the *left* mouse button.
 Release   the button immediately   without  moving the  mouse.  This will
@@ -235,9 +235,13 @@ posets.
   
 \>`Merge Classes'{Merge Classes}
 
-  This menu entry merges all classes within each level that contain a
-  selected vertex. Afterwards `RearrangeClasses' (see below) is performed.
-  Use `Merge Classes' to unite classes within a level.
+This menu  entry merges all  classes within each  level that contain a
+selected  vertex.    Afterwards  `RearrangeClasses'  (see   below)  is
+performed.  Use `Merge Classes' to  unite classes within a level,  but
+use it  with care: No further test  is performed! If you unite classes
+of subgroups that are not conjugate, other  errors may follow, because
+conjugacy tests  are later on only  performed by  looking at the first
+subgroup in a given class!
 
 \>`Magnify Lattice'{Magnify Lattice}
 
@@ -625,6 +629,11 @@ The result of  a computation  from any  of  the following entries  is
 colored green, if  your screen supports color.   In most cases there will
 also be short information message in the {\GAP} window about the result.
 
+Note that  some of   the menu entries  make  it  necessary  to compute
+presentations of subgroups   using a modified Todd-Coxeter  algorithm. 
+This can be very time consuming and  in some cases even impossible, if
+the index is too high.
+
 In  the following descriptions, we  use ``vertices'' as abbreviation for
 ``subgroups associated with vertices''.
 
@@ -673,9 +682,10 @@ requires at least one selected vertex.
 
 \>`Derived Subgroups'{Derived SubgroupsFp}@{Derived Subgroups}
 
-computes and displays the derived subgroups of the selected vertices.  It
-will  only  display  those derived    subgroups  whose index is   finite.
-`Derived Subgroups' requires at least one selected vertex.
+computes and displays the derived subgroups of  the selected vertices. 
+If applied   to a proper subgroup  of   the whole group it   will only
+display  those derived  subgroups  whose  index is  finite.   `Derived
+Subgroups' requires at least one selected vertex.
 
 \>`Epimorphisms (GQuotients)'{Epimorphisms (GQuotients)}
 
@@ -816,7 +826,7 @@ Placing the pointer  inside a vertex (selected  or not) and  pressing the
 *right* mouse button pops up the ``Information''  menu.  Clicking on any of
 the text  lines will compute the corresponding   property of the subgroup
 $u$  associated  with this  vertex. Clicking  on <close>  will  close the
-``Information'' menu.  Let $s$ be the graphic sheet.
+``Information'' menu.
 
 \>`Index'{IndexFp}@{Index}
 

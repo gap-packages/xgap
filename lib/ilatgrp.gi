@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.33 1999/05/26 16:59:22 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.34 1999/05/28 14:42:04 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.33 1999/05/26 16:59:22 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.34 1999/05/28 14:42:04 gap Exp $";
 
 
 #############################################################################
@@ -1862,6 +1862,8 @@ function( sheet, grp, conjugclass, hints )
     newlevel := [infinity,sheet!.largestinflevel];
   fi;
   
+  Print("Newlevel: ",newlevel,"\n");
+  
   if Position(Levels(sheet),newlevel) = fail then
     if IsInt(newlevel) then
       if newlevel < 0 then
@@ -2504,9 +2506,13 @@ function(G,def)
     # we just create one or two levels:
     CreateLevel(poset,1,"Index 1");  # for the whole group
     if latticetype[4] then
-      str := "Index ";
-      Append(str,String(Size(G)));
-      CreateLevel(poset,Size(G),str);
+      if Size(G) <> infinity then
+        str := "Index ";
+        Append(str,String(Size(G)));
+        CreateLevel(poset,Size(G),str);
+      else
+        CreateLevel(poset,-1,"Size 1");
+      fi;
     fi;
   fi;
   
@@ -2527,8 +2533,13 @@ function(G,def)
     vmath := rec(group := TrivialSubgroup(G),
                  info := rec(Index := Size(G)));
     vmath.class := [vmath];
-    v1 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index,label := "1",
-                                 shape := "diamond"));
+    if Size(G) <> infinity then
+      v1 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index,label := "1",
+                    shape := "diamond"));
+    else
+      v1 := Vertex(poset,vmath,rec(levelparam := -1,label := "1",
+                    shape := "diamond"));
+    fi;
     
     # connect the two vertices
     Edge(poset,v1,v2);
