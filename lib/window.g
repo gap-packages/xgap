@@ -2,14 +2,14 @@
 ##
 #W  window.g                    XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.9 1999/02/09 18:59:39 gap Exp $
+#H  @(#)$Id: window.g,v 1.10 1999/03/03 01:05:44 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_window_g :=
-    "@(#)$Id: window.g,v 1.9 1999/02/09 18:59:39 gap Exp $";
+    "@(#)$Id: window.g,v 1.10 1999/03/03 01:05:44 gap Exp $";
 
 
 #############################################################################
@@ -325,33 +325,53 @@ end );
 #F  HELP_PRINT_LINES_XGAP . . . . . . . . . . .  we want a pretty help window
 ##
 
-HELP_XGAP_SHEET:=fail;
+# obsolete: HELP_XGAP_SHEET:=fail;
+
+BindGlobal( "HELP_XGAP_HYPERLINK", function(sheet,x,y)
+  local obj,  i,  s;
+  obj := First(sheet!.objects,o->[x,y] in o);
+  if obj = fail then
+    return;
+  fi;
+  if obj!.text[1] = '[' then
+    i := Position(obj!.text,']');
+    s := obj!.text{[2..i-1]};
+    HELP(s);
+  else
+    HELP(obj!.text);
+  fi;
+  return;
+end);
+ 
 BindGlobal( "HELP_PRINT_LINES_XGAP", function(lines)
   
-  local l,font,h,i;
+  local l,font,h,i,HELP_XGAP_SHEET;
 
   l:=Length(lines);
-  if HELP_XGAP_SHEET=fail or not IsAlive(HELP_XGAP_SHEET.sheet) then
+  #if HELP_XGAP_SHEET=fail or not IsAlive(HELP_XGAP_SHEET.sheet) then
     font:=FontInfo(FONTS.normal);
     h:=font[1]+font[2]+1;
-    HELP_XGAP_SHEET:=rec(sheet:=GraphicSheet("XGAP-Help",81*(font[3]+1),
-                                             h*(l+1)),
-                         l:=l,font:=font,h:=h);
-  else
-    font:=HELP_XGAP_SHEET.font;
-    h:=HELP_XGAP_SHEET.h;
-    for i in ShallowCopy(HELP_XGAP_SHEET.sheet!.objects) do
-      Delete(HELP_XGAP_SHEET.sheet,i);
-    od;
-    if l <> HELP_XGAP_SHEET.l then
-      Resize(HELP_XGAP_SHEET.sheet,81*(font[3]+1),h*(l+1));
-      HELP_XGAP_SHEET.l:=l;
-    fi;
-  fi;
+  HELP_XGAP_SHEET := GraphicSheet("XGAP-Help",81*(font[3]+1),h*(l+1));
+  #  HELP_XGAP_SHEET:=rec(sheet:=GraphicSheet("XGAP-Help",81*(font[3]+1),
+  #                                           h*(l+1)),
+  #                       l:=l,font:=font,h:=h);
+  #else
+  #  font:=HELP_XGAP_SHEET.font;
+  #  h:=HELP_XGAP_SHEET.h;
+  #  for i in ShallowCopy(HELP_XGAP_SHEET.sheet!.objects) do
+  #    Delete(HELP_XGAP_SHEET.sheet,i);
+  #  od;
+  #  if l <> HELP_XGAP_SHEET.l then
+  #    Resize(HELP_XGAP_SHEET.sheet,81*(font[3]+1),h*(l+1));
+  #    HELP_XGAP_SHEET.l:=l;
+  #  fi;
+  #fi;
   
   for i in [1..l] do
-    Text(HELP_XGAP_SHEET.sheet,FONTS.normal,font[3],h*(i-1)+font[1],lines[i]);
+    Text(HELP_XGAP_SHEET,FONTS.normal,font[3],h*(i-1)+font[1],lines[i]);
   od;
+
+  InstallCallback(HELP_XGAP_SHEET,"LeftPBDown",HELP_XGAP_HYPERLINK);
 end);
 
 HELP_PRINT_LINES:=HELP_PRINT_LINES_XGAP;
