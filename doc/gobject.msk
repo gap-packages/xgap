@@ -105,7 +105,7 @@ There are some global data structures which can and should be consulted if
 certain information is needed. The first (about color handling) was already 
 described in the last section. The second is for vertices:
 
-\>`VERTEX'{VERTEXREC}
+\>`VERTEX'{VERTEXREC}@{VERTEX}
 
   This globally bound record contains the following components:
 
