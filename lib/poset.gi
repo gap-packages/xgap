@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.14 1999/03/24 09:45:04 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.15 1999/04/01 16:06:54 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.14 1999/03/24 09:45:04 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.15 1999/04/01 16:06:54 gap Exp $";
 
 
 
@@ -2655,7 +2655,6 @@ function(graph, from, to)
         else
           flag := true;
         fi;
-        Error();
         if graph!.menuenabled[i][j] <> flag then
           graph!.menuenabled[i][j] := flag;
           Enable(graph!.menus[i]!.entries[j],flag);
@@ -3031,7 +3030,8 @@ end);
 ##
 ##  This method is called when the user does a right click in a graph. 
 ##  This method just finds the vertex under the mouse pointer and calls the
-##  rightclickfunction of the poset.
+##  rightclickfunction of the poset. Note that the rightclickfunction
+##  can be called with `fail' if no vertex is hit.
 ##
 InstallMethod(PosetRightClick,
     "for a graph, and two integers",
@@ -3044,7 +3044,7 @@ function(graph,x,y)
   
   # is this a click on a vertex?
   v := WhichVertex(graph,x,y);
-  if graph!.rightclickfunction <> false and v <> fail then
+  if graph!.rightclickfunction <> false then
     graph!.rightclickfunction(graph,v,x,y);
   fi;
   return;

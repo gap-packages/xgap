@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.12 1999/03/09 18:37:43 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.13 1999/04/01 16:06:54 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.12 1999/03/09 18:37:43 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.13 1999/04/01 16:06:54 gap Exp $";
 
 
 #############################################################################
@@ -704,7 +704,8 @@ DeclareOperation( "PosetCtrlLeftClick", [IsGraphicSheet, IsInt, IsInt] );
 ##  This operation is called when the user does a right click in the graph
 ##  <graph>.  The generic method just finds the vertex under the mouse
 ##  pointer and calls the `rightclickfunction' of the poset or graph which
-##  is a component in the {\GAP} object.
+##  is a component in the {\GAP} object. Note that the `rightclickfunction'
+##  can be called with `fail' if no vertex is hit.
 ##
 DeclareOperation( "PosetRightClick", [IsGraphicSheet, IsInt, IsInt] );
 
