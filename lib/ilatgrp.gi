@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.31 1999/05/21 16:35:57 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.32 1999/05/25 10:50:54 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.31 1999/05/21 16:35:57 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.32 1999/05/25 10:50:54 gap Exp $";
 
 
 #############################################################################
@@ -1705,7 +1705,7 @@ function( sheet, grplist )
   classlists := [];
   for v in vert do
     # Do we have this level?
-    lpos := PositionSet(levelparams,v!.levelparam);
+    lpos := Position(levelparams,v!.levelparam);
     if lpos = fail then
       # no, so we store the new level
       Add(levelparams,v!.levelparam);
@@ -1713,7 +1713,7 @@ function( sheet, grplist )
       lpos := Length(levelparams);
     fi;
     # Do we have the class?
-    cpos := PositionSet(classlists[lpos],v!.classparam);
+    cpos := Position(classlists[lpos],v!.classparam);
     if cpos = fail then
       Add(classlists[lpos],v!.classparam);
       cpos := Length(classlists[lpos]);
