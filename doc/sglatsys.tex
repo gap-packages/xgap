@@ -90,14 +90,14 @@ menu, the usual {\GAP} logging is also directed to the {\XGAP} log
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{GraphicSubgroupLattice, Labeling of Levels}
+\Section{GraphicSubgroupLattice, Labelling of Levels}
 
 \label{levelsintro}
 We intend to represent subgroups of the same index at the same height
 of the graphic lattice. For this purpose we introduce ``levels'' as 
 horizontal slices of a graphic subgroup lattice. 
 
-Normally all vertices for subgroups of a certain (finite) index are
+All vertices for subgroups of a certain finite index are
 placed in exactly one common level. But what about infinite indices?
 
 Every level has a ``level parameter''.
@@ -142,8 +142,9 @@ partial order!
 
 On the screen, the levels are of course always totally ordered with respect
 to their height. {\XGAP} ensures that this total ordering is always
-compatible with the abovementioned total ordering. This means, that the
+compatible with the abovementioned partial ordering. This means, that the
 user can permute ``infinity'' levels, as long as this does not violate the
+partial order by the Hirsch lengths and the
 principle, that a vertex ``containing'' another one is drawn higher on
 the screen.
 
@@ -361,7 +362,7 @@ be integers and mean pixel numbers.
 \>`Change Labels'{Change Labels}
 
 Selecting  this entry will pop  up a dialog  box for each selected vertex
-asking for a new label.  Clicking on <CANCEL>  will cancel the relabeling
+asking for a new label.  Clicking on <CANCEL>  will cancel the relabelling
 of the remaining vertices but will not reset the already changed labels.
 
 \>`Average Y Positions'{Average Y Positions}
