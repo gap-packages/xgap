@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.10 1999/03/09 11:00:21 ahulpke Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.11 1999/03/11 17:26:59 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.10 1999/03/09 11:00:21 ahulpke Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.11 1999/03/11 17:26:59 gap Exp $";
 
 
 #############################################################################
@@ -213,6 +213,8 @@ DeclareOperation( "DecideSubgroupLatticeType", [ IsGroup ] );
 ##  If the lattice does not have CanCompareSubgroups and <conj> is a vertex
 ##  we put the new vertex into the class of this vertex. Otherwise <conj>
 ##  should either be false or fail.
+##  `InsertVertex' can return `fail', if `CanComputeIndex' *and*
+##  `CanComputeSize' return `false' for the subgroup.
 ##
 DeclareOperation( "InsertVertex", [IsGraphicSheet, IsGroup, IsObject, IsList]);
 

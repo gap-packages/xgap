@@ -2,14 +2,25 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.19 1999/03/09 18:37:43 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.20 1999/03/11 17:26:59 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.19 1999/03/09 18:37:43 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.20 1999/03/11 17:26:59 gap Exp $";
+
+
+#############################################################################
+##
+##  Some little gimmicks to fix a bug in gap4b5fix3:
+##
+##  FIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXME
+##
+#############################################################################
+InstallTrueMethod(CanComputeSize,IsPermGroup);
+InstallTrueMethod(CanComputeSize,CanEasilyComputePcgs);
 
 
 #############################################################################
@@ -812,19 +823,25 @@ function(sheet, menu, entry)
           res := InsertVertex( sheet, result.subgroups[grp], false, hints );
         fi;
         
-        vertices[grp] := res[1];
-        newflag[grp] := res[2];
-        
-        # we mark the vertex:
-        Select(sheet,res[1],true);
-        if sheet!.color.result <> false  then
-          Recolor( sheet, res[1], sheet!.color.result );
-        fi;
-
         if grp <> 1 then
           Append(infostr,",");
         fi;
-        Append(infostr,vertices[grp]!.label);
+        if res = fail then
+          vertices[grp] := fail;
+          newflag[grp] := fail;
+          Append(infostr,"fail");
+        else
+          vertices[grp] := res[1];
+          newflag[grp] := res[2];
+        
+            # we mark the vertex:
+          Select(sheet,res[1],true);
+          if sheet!.color.result <> false  then
+            Recolor( sheet, res[1], sheet!.color.result );
+          fi;
+
+          Append(infostr,vertices[grp]!.label);
+        fi;
       od;
       Append(infostr,")");
       Info(GraphicLattice,1,infostr);
@@ -846,7 +863,9 @@ function(sheet, menu, entry)
           for i in [1..len] do
             for j in [1..len] do
               if T[i][j] <> 0 and T2[i][j] = 0 then
-                NewInclusionInfo( sheet, vertices[i], vertices[j] );
+                if vertices[i] <> fail and vertices[j] <> fail then
+                  NewInclusionInfo( sheet, vertices[i], vertices[j] );
+                fi;
               fi;
             od;
           od;
@@ -854,17 +873,23 @@ function(sheet, menu, entry)
           for inc in result.inclusions do
             if inc[1] >= 1 and inc[1] <= len and 
                inc[2] >= 1 and inc[2] <= len then
-                # this is no inclusion with lower or higher groups!
-              NewInclusionInfo( sheet, vertices[inc[1]], vertices[inc[2]] );
+              # this is no inclusion with lower or higher groups!
+              if vertices[inc[1]] <> fail and vertices[inc[2]] <> fail then
+                NewInclusionInfo( sheet, vertices[inc[1]], vertices[inc[2]] );
+              fi;
             fi;
           od;
         elif menuop.rels = GGLrelsDown then
           for i in [1..len-1] do
-            NewInclusionInfo( sheet, vertices[i+1], vertices[i] );
+            if vertices[i+1] <> fail and vertices[i] <> fail then
+              NewInclusionInfo( sheet, vertices[i+1], vertices[i] );
+            fi;
           od;
         elif menuop.rels = GGLrelsUp then
           for i in [1..len-1] do
-            NewInclusionInfo( sheet, vertices[i], vertices[i+1] );
+            if vertices[i] <> fail and vertices[i+1] <> fail then
+              NewInclusionInfo( sheet, vertices[i], vertices[i+1] );
+            fi;
           od;
         fi;
         # we cannot say anything if menuop.rels = GGLrelsNo
@@ -873,19 +898,25 @@ function(sheet, menu, entry)
         if menuop.where = GGLwhereUp then
           for i in [1..len] do
             for j in [1..Length(todolist[todo])] do
-              NewInclusionInfo( sheet, todolist[todo][j], vertices[i] );
+              if vertices[i] <> fail then
+                NewInclusionInfo( sheet, todolist[todo][j], vertices[i] );
+              fi;
             od;
           od;
         elif menuop.where = GGLwhereDown then
           for i in [1..len] do
             for j in [1..Length(todolist[todo])] do
-              NewInclusionInfo( sheet, vertices[i], todolist[todo][j] );
+              if vertices[i] <> fail then
+                NewInclusionInfo( sheet, vertices[i], todolist[todo][j] );
+              fi;
             od;
           od;
         elif menuop.where = GGLwhereBetween then
           for i in [1..len] do
-            NewInclusionInfo( sheet, vertices[i], todolist[todo][1] );
-            NewInclusionInfo( sheet, todolist[todo][2], vertices[i] );
+            if vertices[i] <> fail then
+              NewInclusionInfo( sheet, vertices[i], todolist[todo][1] );
+              NewInclusionInfo( sheet, todolist[todo][2], vertices[i] );
+            fi;
           od;
         fi;
         # we cannot say anything if menuop.where = GGLwhereAny
@@ -913,25 +944,36 @@ InstallMethod( GGLSylowSubgroup,
     0,
 
 function(grp)
-  local   res,  p;
-  if IsInt(GGLSylowLastPrime) then
-    res := Query(GGLPrimeDialog,String(GGLSylowLastPrime));
-  else
-    res := Query( GGLPrimeDialog );
-  fi;
-  if res = false then
-    return fail;
-  fi;
-  if IsInt(GGLSylowLastPrime) and res = "" then
-    p := GGLSylowLastPrime;
-  else
-    p := Int(res);
-    if p <> GGLSylowLastPrime then
-      Info(GraphicLattice,1,"Sylow prime: ",p);
+  local   res,  p, st;
+  
+  repeat
+    st := "Prime ?";
+    if IsInt(GGLSylowLastPrime) then
+      st := Concatenation(st," (Default: ",String(GGLSylowLastPrime));
+      st := Concatenation(st,")");
     fi;
-  fi;
-  if not IsInt(p) or not IsPrime(p) then
-    return fail;
+    
+    res := Query( Dialog("OKcancel",st) );
+    if res = false then
+      return fail;
+    fi;
+    if IsInt(GGLSylowLastPrime) and res = "" then
+      p := GGLSylowLastPrime;
+    else
+      p := Int(res);
+    fi;
+    if not IsInt(p) or not IsPrime(p) then
+      res := Query(Dialog("OKcancel","You must enter a prime!"));
+      if res = false then
+        return fail;
+      fi;
+      res := false;
+    else
+      res := true;
+    fi;
+  until res;
+  if p <> GGLSylowLastPrime then
+    Info(GraphicLattice,1,"Sylow prime: ",p);
   fi;
   GGLSylowLastPrime := p;
   return SylowSubgroup( grp, p );
@@ -959,6 +1001,7 @@ function(sheet,grp)
   fi;
   p := Int(res);
   if not IsInt(p) or not IsPrime(p) then
+    Query(Dialog("OKcancel","You must enter a prime!"));
     return fail;
   fi;
   qs := PQuotient( grp, p, 1 );
@@ -987,6 +1030,7 @@ function(sheet,grp)
   fi;
   p := Int(res);
   if not IsInt(p) or not IsPrime(p) then
+    Query(Dialog("OKcancel","You must enter a prime!"));
     return fail;
   fi;
   res := Query( GGLClassDialog );
@@ -995,6 +1039,7 @@ function(sheet,grp)
   fi;
   cl := Int(res);
   if not IsInt(cl) or not cl >= 1 then
+    Query(Dialog("OKcancel","You must enter an integer >= 1!"));
     return fail;
   fi;
   l := [];
@@ -1146,12 +1191,14 @@ function(sheet,grp)
     groups := List(GGLEpiResults,Kernel);
     for g in groups do
       v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
-      Select(sheet,v[1]);
-      if sheet!.color.result <> false  then
-        Recolor( sheet, v[1], sheet!.color.result );
-      fi;
-      if v[2] then
-        NewInclusionInfo(sheet,v[1],GGLEpiVertex);
+      if v <> fail then
+        Select(sheet,v[1]);
+        if sheet!.color.result <> false  then
+          Recolor( sheet, v[1], sheet!.color.result );
+        fi;
+        if v[2] then
+          NewInclusionInfo(sheet,v[1],GGLEpiVertex);
+        fi;
       fi;
     od;
     Enable(sel,"display",false);
@@ -1168,12 +1215,14 @@ function(sheet,grp)
     groups := List(GGLEpiResults,e -> PreImage(e,Stabilizer(Image(e),1)));
     for g in groups do
       v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
-      Select(sheet,v[1]);
-      if sheet!.color.result <> false  then
-        Recolor( sheet, v[1], sheet!.color.result );
-      fi;
-      if v[2] then
-        NewInclusionInfo(sheet,v[1],GGLEpiVertex);
+      if v <> fail then
+        Select(sheet,v[1]);
+        if sheet!.color.result <> false  then
+          Recolor( sheet, v[1], sheet!.color.result );
+        fi;
+        if v[2] then
+          NewInclusionInfo(sheet,v[1],GGLEpiVertex);
+        fi;
       fi;
     od;
     Enable(sel,"display point stabilizers",false);
@@ -1357,6 +1406,8 @@ GGLLimitForIsNormalCalc := 1000;
 ##  If the lattice does not have CanCompareSubgroups and <conj> is a vertex
 ##  we put the new vertex into the class of this vertex. Otherwise <conj>
 ##  should either be false or fail.
+##  `InsertVertex' can return `fail', if `CanComputeIndex' *and*
+##  `CanComputeSize' return `false' for the subgroup.
 ##
 InstallMethod( InsertVertex,
     "for a graphic subgroup lattice, a group, and a list",
@@ -1365,8 +1416,9 @@ InstallMethod( InsertVertex,
     0,
         
 function( sheet, grp, conjugclass, hints )
-  local   index,  data,  newlevel,  str,  vertex,  v,  vers,  lev,  cl,  
-          conj,  Walkup,  Walkdown,  containerlist,  containedlist, size;
+  local   size,  index,  d,  data,  newlevel,  str,  vertex,  v,  
+          vers,  lev,  cl,  conj,  Walkup,  Walkdown,  containerlist,  
+          containedlist;
   
   # FIXME: Activate this when the time for it has come...
   # Did it, does it work?
@@ -1382,6 +1434,17 @@ function( sheet, grp, conjugclass, hints )
     index := Index(sheet!.group,grp);
   else
     index := fail;
+  fi;
+
+  if index = fail and size = fail then
+    d := Dialog("OKcancel",
+                Concatenation("GAP claims not to be able to calculate the ",
+                 "index of a subgroup in the whole group. Proceed anyway?"));
+    if Query(d,GroupString(grp)) = false then
+      return fail;
+    fi;
+    # We do it anyway:
+    index := Index(sheet!.group,grp);  
   fi;
   
   data := rec(group := grp,
