@@ -42,6 +42,16 @@ finitely presented group (`InteractiveFpLattice') respectively. Now there
 is only one generic program to display subgroup lattices interactively
 (`GraphicSubgroupLattice').
 
+{\XGAP} can now handle subgroups of infinite index. They are either
+placed in a ``finite size'' level or in an ``infinity'' level. See
+"levelsintro" for details.
+
+A new logging facility allows to automatically produce a protocol of
+the actions the user performs via mouse clicks. This is convenient
+because the normal {\GAP} command script contains no useful
+information about the selected entries in the menus. See
+"loggingfacility" for details.
+
 There is a new layer to display generic posets that do not have to be
 subgroup lattices. It can be used to display posets interactively very
 easily. This is for example used in the new link to the C-MeatAxe written
@@ -103,3 +113,8 @@ and `Check' did not work on the correct entry. This bug is fixed in
 changed. `Enable' and `Check' behave now like expected and documented in
 "Enable" and "Check".
 
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

@@ -62,14 +62,75 @@ group.
 %It is possible to abbreviate \"prime\"\  and \"normal subgroups\"\ and to
 %supply one or both.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{GraphicSubgroupLattice, Protocol of Group Theoretic
+  Constructions}
+
+\label{loggingfacility}
+{\XGAP} offers the possibility to write a protocol of the group
+theoretic constructions you perform via mouse clicks. This is
+convenient because otherwise you have no record of what you did. The
+normal {\GAP} command script cannot supply this because the menu
+entries you select do not produce useful output there.
+
+You start the protocol facility by selecting `Start logging' from the
+<Subgroups> menu. You are prompted for the file name of the protocol with 
+a file selector box. After selecting `OK' in this box, all subsequent
+actions are logged in the protocol file. You can switch this feature
+off by selecting `Stop logging' from the <Subgroups> menu.
+
+Note that when you select `SelectedGroups to GAP' from the <Subgroups> 
+menu, the usual {\GAP} logging is also directed to the {\XGAP} log
+  file. This is stopped when you select `InsertVertices from GAP' from 
+  the <Subgroups> menu. The idea of this is that you also see the
+  {\GAP} commands you issue within an {\XGAP} session in the {\XGAP}
+  protocol file, if you temporarily work with the keyboard instead of
+  the mouse. See "Start logging" and "Stop logging" for a description
+  of the menu entries.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{GraphicSubgroupLattice, Labeling of Levels}
+
+\label{levelsintro}
+Vertices representing subgroups of the same size are drawn at the same
+height. They are said to be ``on the same level''.  So ``levels'' are
+the horizontal slices of a graphic subgroup lattice.
+
+Normally all vertices for subgroups of a certain (finite) index are
+placed in exactly one common level. But what about infinite indices?
+
+Every level has a ``level parameter''.
+There are three types of levels: ``finite index'', ``finite size'' and 
+``infinity''. ``finite index'' means, that the index of the subgroups
+in this level is a certain, finite natural number, the level parameter 
+is exactly this number. ``finite size'' means, that the size of the
+subgroups in this level is finite *and* the index is either not known
+(to {\GAP}) or `infinity'. The level parameter is the size but with a
+negative sign. If the index is `infinity' and the size is
+not known, the third type applies: ``infinity''. In each ``infinity''
+level only one vertex can exist.
+
+This means that ``finite index'' takes precedence over ``finite size'' 
+and ``infinity'' and ``finite size'' takes precedence over
+``infinity'' if {\XGAP} is in doubt which level to choose for a new
+vertex. 
+
+Note that the level a vertex belongs to will be changed, if new
+information about the subgroup is available. This happens if the user
+chooses any entry in the information menu and new information is
+available thereafter.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Moving Vertices}
 
 In order to move a vertex, place the  pointer inside the vertex using the
 mouse, and press the *left* mouse button.  Hold the mouse button pressed,
 and start moving  the pointer by moving  the mouse.  The  vertex will now
-follow the pointer, but it is not possible to move the vertex higher than
-a vertex  of a group of bigger size  
+follow the pointer, but it is not possible to move the vertex out of
+the boundaries of its level.
 %(or number of prime  factors, if \"prime\"\ was
 %given as parameter to `GraphicSubgroupLattice') 
 or lower than a vertex of a group of smaller

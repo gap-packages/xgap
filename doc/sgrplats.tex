@@ -43,6 +43,13 @@ Again, making a window active is system and window manager dependent.
 In most cases you either have to move the pointer inside the {\GAP}
 window or you have to click on the title bar of the {\GAP} window.
 
+Note that for each of the following examples there is a small {\GAP}
+script in the `examples' subdirectory of the {\XGAP} home directory
+which contains the necessary commands. However we consider it better
+for learning {\XGAP} in a first time session if you type the commands
+by hand as suggested in the next few sections of this manual.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{The Subgroup Lattice of the Dihedral Group of Order 8}
 
@@ -111,7 +118,8 @@ representation of the subgroup lattice:
   the subgroup represented by the first vertex is larger than the size of
   the subgroup of the second, but see "GraphicSubgroupLattice" for details. At
   the right edge of the graphic sheet each level is labeled with the index
-  of the subgroups contained.
+  of the subgroups contained. See "levelsintro" for details on the
+  labeling of levels.
   
 \item{--} Vertices belonging to the same conjugacy class are placed closely
   together.  In our example the subgroups of $4$ and $5$ form one conjugacy
@@ -277,6 +285,14 @@ connected vertices   labeled  $1$ and $G$.     Vertex  $1$ represents the
 trivial subgroup and  vertex $G$ the group $S_6$.   Vertex $G$ is already
 selected, so it will be red if your screen supports color.
 
+{\XGAP} can automatically write a protocol of all the subsequent
+actions you perform via mouse clicks. This is convenient because in
+comparison to normal {\GAP} sessions you do not have the script of
+typed commands. You can activate this feature by selecting ``Start
+Logging'' from the <Subgroups> menu. {\XGAP} prompts you for a filename 
+via a file selector box. See "loggingfacility" for details about this
+feature. 
+
 In order  to  find all subgroups   of size $60$, we  cannot   not use the
 ``Subgroups'' menu directly, so go back into the  {\GAP} window and extract
 the conjugacy classes of <cc> whose representatives have size $60$.
@@ -300,7 +316,7 @@ Note  that  we  could have    achieved   this result  with the   entry
 "InsertVertex".  The  Hasse diagram now  contains  four vertices.  The
 new  vertices are  *not* selected automatically.   You can do  this as
 mentioned above  by clicking with  the *left*  mouse button on  them.  
-Selecting ``Conjugate Subgroups'' from the ``Subgroups'' menu adds the
+Selecting ``Conjugate Subgroups'' from the <Subgroups> menu adds the
 complete conjugacy classes.  Please do  this first for vertex $2$  and
 then   for vertex $3$   such that  the  numbering of  vertices  in the
 following description is correct!
@@ -438,7 +454,10 @@ same size.
 
 This is  now the  end of our  partial  investigation of  the (partial)
 subgroup  lattice  of $S_6$, close  the  graphic sheet(s) using <close
-graphic sheet> of the <GAP> menu.
+graphic sheet> of the <GAP> menu. If you started the logging facility
+of {\XGAP} as described above you now have a file (probably called
+`xgap.log' if you did not change the default) describing the actions
+we performed.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -625,7 +644,7 @@ $u$ such that the factor group of $C_2 / Core(u)$ is isomorphic to
 $PSL(2,11)$. You could have clicked on <display> to create a new vertex
 representing the kernel of the epimorphism.
 
-This is  now the  end of  out  partial investigation of  the (partial)
+This is  now the  end of  our  partial investigation of  the (partial)
 subgroup lattice of  $C_2$, you have  seen that $C_2$ is infinite  and
 contains $M_{12}$, $Alt(12)$, and $PSL(2,11)$ as factor groups.  Close
 the  graphic sheet by selecting <close  graphic sheet>  from the <GAP>
@@ -661,9 +680,9 @@ level marked with `[  infinity, 1 ]'. However,  there are not too many
 things you can do with such infinite index subgroups up  to now, as we
 will illustrate below:
 
-First   produce  some more subgroups  by  <Low   Index Subgroups> (for
+First  produce some  more  subgroups  by  <Low  Index  Subgroups> (for
 example with index limit 5). If you now try to compare  one of the new
-subgroups to  the derived subgroup, this is  possible. If  you however
+subgroups with the derived subgroup,  this is possible. If you however
 try to calculate the intersection of one of the finite-index subgroups
 with the derived subgroups, {\GAP} will run into an error:
 
@@ -700,7 +719,7 @@ You will get a new vertex $12$ for  an index $24$ subgroup. Select the
 vertices $12$   and $G$ and choose  <Intermediate  Subgroups> from the
 ``Subgroups'' menu. You will get lots  of new vertices. Note that some
 of them  are duplicates of  those which  were already  in the lattice. 
-This is because comparison of subgroups can  be quiet expensive and is
+This is because comparison of subgroups can  be quite expensive and is
 therefore   *not* performed automatically    in  the case of  finitely
 presented groups.
 
@@ -800,3 +819,81 @@ This  is now  the end of   our partial investigation  of the (partial)
 subgroup lattice  of $G$, close  the graphic sheet by selecting <close
 graphic sheet> from the <GAP> menu.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{A Partial Subgroup Lattice of an Infinite Space Group}
+
+This section describes an investigation of an infinite space group
+provided by the CRYST and CRYSTCAT share packages. Here you will see
+that subgroups of finite index and of finite size can occur at the
+same time in a graphic subgroup lattice of an infinite group. Note
+that you have to install these share package to try this example.
+
+Load the share packages, define the group and open the subgroup
+lattice window: 
+
+\begintt
+gap> RequirePackage("crystcat");;
+gap> RequirePackage("cryst");;
+gap> g := SpaceGroupBBNWZ(4,6,3,1,2);
+SpaceGroupOnRightBBNWZ( 4, 6, 3, 1, 2 )
+gap> s := GraphicSubgroupLattice(g);
+<graphic subgroup lattice "GraphicSubgroupLattice of SpaceGroupOnRightBBNWZ( 4, \
+6, 3, 1, 2 )">
+\endtt
+
+This fetches the space group of dimension $4$, associated crystal
+system number $6$, $\Q$-class 3, $\Z$-class $1$, and space group type
+$2$ (see the CRYSTCAT documentation for an explanation of this).
+
+Now we calculate some maximal subgroups with finite index:
+
+\begintt
+gap> m := MaximalSubgroupClassReps(g,rec(latticeequal := true));;
+[ <matrix group with 7 generators>, <matrix group with 7 generators>, 
+  <matrix group with 7 generators> ]
+gap> mm := m{[1..3]};
+#I  InsertVertices from GAP (G) --> (2,3,4)
+\endtt
+
+Again refer to the CRYST share package documentation for an
+explanation of these commands. Insert this list of three subgroups
+into the lattice by selecting `InsertSubgroups from GAP' from the
+<Subgroups> menu.
+
+Calculate subgroups of infinite index but with finite size:
+
+\begintt
+gap> w := WyckoffPositions(g);;
+gap> ww := w[1];
+< Wyckoff position, point group 11, translation := [ 0, 1/2, 0, 0 ], 
+basis := [  ] >
+gap> www := WyckoffStabilizer(ww);
+<matrix group of size 8 with 3 generators>
+\endtt
+
+Insert this subgroup into the lattice by selecting
+`InsertSubgroups from GAP' from the <Subgroups> menu. It will be
+inserted in the level for groups of size 8.
+
+%You will notice
+%that these vertices are placed into ``infinity'' levels, because
+%{\GAP} claims not to be able to calculate the (finite) size of these
+%subgroups. Open an information menu by clicking with the right mouse
+%button on one of the new vertices. There you see that actually the
+%`Size' is already known because it was calculated during the index
+%calculation. If you now click on any entry in this information menu,
+%{\XGAP} will notice this and inform you, that it puts the vertex into
+%a new level for finite size. Note that internally the vertex is
+%deleted and newly created, so it changes its name. All information
+%currently known is however preserved.
+
+This  is now  the end of   our partial investigation  of the (partial)
+subgroup lattice  of $G$, close  the graphic sheet by selecting <close
+graphic sheet> from the <GAP> menu.
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% End: 
