@@ -500,11 +500,12 @@ entries <Abelian  Prime Quotient>,  <All Overgroups>,  <Conjugacy Class>,
 <Cores>,  <Derived Subgroups>,  <Intersection>, <Intersections>,
 <Normalizers> or  <Prime Quotient> will compute any new subgroups.
 
-In order  to avoid accidents  the menu entries  <Abelian Prime Quotient>,
-<All Overgroup>, <Conjugacy Class>, <Epimorphisms>, <Low Index Subgroups>,
-and  <Prime  Quotient> from the  <Subgroups>  menu are only selectable if
-exactly one vertex is selected because the functions behind these entries
-are in general quite time and space consuming.
+In order to avoid accidents the menu entries <Abelian Prime Quotient>,
+<All  Overgroup>, <Conjugacy Class>, <Epimorphisms (GQuotients)>, <Low
+Index  Subgroups>, and <Prime Quotient>  from the <Subgroups> menu are
+only  selectable   if exactly   one vertex   is selected  because  the
+functions behind   these entries are in  general  quite time and space
+consuming.
 
 Close the <Information> window and select <Low  Index Subgroups> from the
 <Subgroups> menu.  A small dialog box will  pop up asking  for a limit on
@@ -556,20 +557,21 @@ Group
 Group
 \endtt
 
-So $C_2$  contains the Mathieu group  $M_{12}$, the alternating  group on
-$12$ symbols and $PSL(2,11)$ as  factor groups.  Therefore it would  have
-been possible to   find vertex $4$ using  <Epimorphisms>  instead of <Low
-Index Subgroups>.  Close  the graphic sheet by  selecting  the menu entry
-<close graphic sheet> from the <GAP> menu and start with a fresh one.
+So $C_2$ contains the Mathieu group $M_{12}$, the alternating group on
+$12$  symbols and $PSL(2,11)$   as factor groups.   Therefore it would
+have   been   possible  to   find   vertex  $4$   using  <Epimorphisms
+(GQuotients)>  instead of  <Low  Index Subgroups>.   Close the graphic
+sheet by selecting the menu entry <close graphic sheet> from the <GAP>
+menu and start with a fresh one.
 
 \begintt
 gap> s := GraphicSubgroupLattice(c2);
 <graphic subgroup lattice "GraphicSubgroupLattice of c2">
 \endtt
 
-Select <Epimorphisms> from  the <Subgroups> menu.   This  pops up a  menu
-similar to the <Information> menu  (see "GraphicSubgroupLattice for FpGroups,
-Subgroups Menu").
+Select  <Epimorphisms (GQuotients)> from  the  <Subgroups> menu.  This
+pops  up   a   menu   similar  to    the  <Information>   menu    (see
+"GraphicSubgroupLattice for FpGroups, Subgroups Menu").
 
 \begintt
 Sym(n)
@@ -579,10 +581,11 @@ Library
 User Defined 
 \endtt
 
-Select <PSL(d,q)>, which pops up a dialog box asking for a dimension. Enter
-``2'' and click on <OK>. Then a second dialog box pops up asking for a
-field size. Enter ``11'' and click on <OK>. After a short time of
-computation the display in the <Epimorphisms> menu changes and shows
+Select <PSL(d,q)>, which pops up a dialog  box asking for a dimension. 
+Enter ``2'' and click on <OK>. Then a second dialog box pops up asking
+for a field size.  Enter ``11'' and click on  <OK>. After a short time
+of  computation the display  in  the <Epimorphisms (GQuotients)>  menu
+changes and shows
 
 \begintt
 PSL(2,11)      1 found
@@ -655,6 +658,83 @@ large computations, especially if the indices are huge.
 This is  now   the end  of the investigation   of  the (partial) subgroup
 lattice of $K_3$,  close the graphic  sheet  by selecting <close  graphic
 sheet> from the <GAP> menu.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Section{A Partial Subgroup Lattice of a Finitely Presented Group}
+
+This section describes the investigation of the following finitely presented
+group: 
+$$ G := \langle a, b \; ; \; a^6 = 1 \rangle $$
+We will show especially how to deal with subgroups which have a very large
+index like those occuring in the prime quotient algorithm.
+
+Define the group and open the subgroup lattice window:
+
+\begintt
+gap> f := FreeGroup(2);
+<free group on the generators [ f1, f2 ]>
+gap> g := f/[f.1^6];
+<fp group on the generators [ f1, f2 ]>
+gap> s := GraphicSubgroupLattice(g);
+<graphic subgroup lattice "GraphicSubgroupLattice">
+\endtt
+
+First compute prime quotients by <Prime Quotient> in the <Subgroups>
+menu. You are asked for a prime and a class. Enter $2$ and $7$
+respectively. You get lots of output in the {\GAP} command window and
+seven new vertices. Some of the corresponding subgroups have huge
+indices. For those subgroups with an index greater or equal to
+`GGLLimitForIsNormalCalc' (currently set to $1000$, see
+"GGLLimitForIsNormalCalc") {\XGAP} does not calculate whether they are
+normal in $G$, because that would require a coset table. They are
+drawn as vertices with a rectangular shape. Note that these groups are
+only represented as kernels of epimorphisms within {\GAP}.
+
+Now compute epimorphisms onto the symmetric group on $3$ points by
+<Epimorphisms (GQuotients)> in the <Subgroups> menu, but use a polycyclic 
+presentation as follows (the reason for this will be explained below):
+
+\begintt
+gap> IdGroup(SymmetricGroup(3));
+[ 6, 1 ]
+gap> s3 := SmallGroup(6,1);
+<pc group with 2 generators>
+gap> IMAGE_GROUP := s3;;
+\endtt
+
+This first determines the identification number of the symmetric group 
+on $3$ points within the small groups library, and then fetches this
+group as a polycyclic group. For groups of size less than $1000$ this
+is often a good way to get a polycyclic presentation. Note that
+`SymmetricGroup(3)' leads to a permutation group. The last statement
+stores the group in a variable which can be used by {\XGAP}. 
+
+Select vertex $G$, then click on <Epimorphisms (GQuotient)> in the
+<Subgroups> menu and select <User defined> in the window that pops up.
+This will always use the group stored in the global variable
+`IMAGE_GROUP'. {\GAP} finds three epimorphisms. Display the three
+kernels by selecting <display> in the epimorphisms window.
+
+Note that the new vertex $9$ will be drawn on the line between
+vertices $2$ and $3$ because there is not yet a vertex in the level
+corresponding to index 6. You can move it aside by dragging it with
+the mouse to some better position within its level.
+
+Now select vertices $8$ and $11$ and calculate the intersection of the 
+two subgroups of indices $137438953472$ and $6$ respectively. {\GAP}
+can calculate this intersection by calculating the subdirect product
+of the image groups of the epimorphisms (the index of the subgroup
+belonging to vertex $12$ in $G$ is $412316860416$ which is three times
+of the index of the subgroup belonging to vertex $11$). Note that this 
+subdirect product can only be calculated because the two image groups
+are polycyclic groups. This is the reason why we needed $S_3$ as
+polycyclic group earlier.
+
+This is  now   the end  of the investigation   of  the (partial) subgroup
+lattice of $G$,  close the graphic  sheet  by selecting <close  graphic
+sheet> from the <GAP> menu.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice}
@@ -1179,7 +1259,7 @@ computes and displays the derived subgroups of the selected vertices.  It
 will  only  display  those derived    subgroups  whose index is   finite.
 `Derived Subgroups' requires at least one selected vertex.
 
-`Epimorphisms' &
+`Epimorphisms (GQuotients)' &
 pops up another menu. Requires exactly one selected vertex.
 
 \begintt
