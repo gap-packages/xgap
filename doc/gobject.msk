@@ -23,6 +23,7 @@ The following operations apply to graphic sheets:
 \Declaration{WindowId}
 \Declaration{SetTitle}
 \Declaration{SaveAsPS}
+\Declaration{FastUpdate}
 
 \Section{Graphic Objects in Sheets}
 
