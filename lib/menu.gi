@@ -2,14 +2,14 @@
 ##
 #W  menu.gi                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gi,v 1.4 1999/03/07 22:03:55 gap Exp $
+#H  @(#)$Id: menu.gi,v 1.5 1999/03/30 07:06:26 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_menu_gi :=
-    "@(#)$Id: menu.gi,v 1.4 1999/03/07 22:03:55 gap Exp $";
+    "@(#)$Id: menu.gi,v 1.5 1999/03/30 07:06:26 gap Exp $";
 
 
 #############################################################################
@@ -580,6 +580,8 @@ function( sel, tid )
     if 0 < tid  then
         sel!.selected := tid;
         return sel!.textFuncs[tid]( sel, sel!.labels[tid] );
+    else
+        return fail;
     fi;
 end );
 
