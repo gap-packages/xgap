@@ -106,6 +106,7 @@ if test "$have_x" != yes;  then
   AC_MSG_ERROR([XGAP needs XWindows X11R5 or better])
 fi
 
+AC_MSG_CHECKING(for open windows)
 case "$target" in
 
   *-*-sunos*)
@@ -113,7 +114,12 @@ case "$target" in
       *openwin*)
 	AC_DEFINE( HAVE_BROKEN_TEXT_EXPORE_COMPRESS )
 	X_EXTRA_LIBS="$X_EXTRA_LIBS $x_libraries/libmu.a"
+	AC_MSG_RESULT([yes (let's hope it works)])
         ;;
+
+      *)
+	AC_MSG_RESULT([no (good)])
+	;;
 
     esac
     ;;
