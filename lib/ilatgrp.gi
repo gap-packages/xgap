@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.27 1999/05/05 21:44:47 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.28 1999/05/06 00:12:12 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.27 1999/05/05 21:44:47 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.28 1999/05/06 00:12:12 gap Exp $";
 
 
 #############################################################################
@@ -468,6 +468,9 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                parent := false, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereDown, plural := false, rels := GGLrelsNo,
                sheet := true ),
+          rec( name := "Intermediate Subgroups", op := IntermediateSubgroups,
+               parent := false, from := GGLfrom2, to := GGLtoSet, 
+               where := GGLwhereBetween, plural := false, rels := GGLrelsMax ),
           rec( name := "Intersection", op := Intersection,
                parent := false, from := GGLfromSet, to := GGLto1, 
                where := GGLwhereDown, plural := false, rels := GGLrelsNo ),
@@ -925,6 +928,12 @@ function(sheet, menu, entry)
               if T[i][j] <> 0 and T2[i][j] = 0 then
                 if vertices[i] <> fail and vertices[j] <> fail then
                   NewInclusionInfo( sheet, vertices[i], vertices[j] );
+                  if not(IsAlive(vertices[i]!.obj)) then
+                    vertices[i] := fail;
+                  fi;
+                  if not(IsAlive(vertices[j]!.obj)) then
+                    vertices[j] := fail;
+                  fi;
                 fi;
               fi;
             od;
@@ -936,6 +945,12 @@ function(sheet, menu, entry)
               # this is no inclusion with lower or higher groups!
               if vertices[inc[1]] <> fail and vertices[inc[2]] <> fail then
                 NewInclusionInfo( sheet, vertices[inc[1]], vertices[inc[2]] );
+                if not(IsAlive(vertices[inc[1]]!.obj)) then
+                  vertices[inc[1]] := fail;
+                fi;
+                if not(IsAlive(vertices[inc[2]]!.obj)) then
+                  vertices[inc[2]] := fail;
+                fi;
               fi;
             fi;
           od;
@@ -943,12 +958,24 @@ function(sheet, menu, entry)
           for i in [1..len-1] do
             if vertices[i+1] <> fail and vertices[i] <> fail then
               NewInclusionInfo( sheet, vertices[i+1], vertices[i] );
+              if not(IsAlive(vertices[i]!.obj)) then
+                vertices[i] := fail;
+              fi;
+              if not(IsAlive(vertices[i+1]!.obj)) then
+                vertices[i+1] := fail;
+              fi;
             fi;
           od;
         elif menuop.rels = GGLrelsUp then
           for i in [1..len-1] do
             if vertices[i] <> fail and vertices[i+1] <> fail then
               NewInclusionInfo( sheet, vertices[i], vertices[i+1] );
+              if not(IsAlive(vertices[i]!.obj)) then
+                vertices[i] := fail;
+              fi;
+              if not(IsAlive(vertices[i+1]!.obj)) then
+                vertices[i+1] := fail;
+              fi;
             fi;
           od;
         fi;
@@ -960,6 +987,9 @@ function(sheet, menu, entry)
             for j in [1..Length(todolist[todo])] do
               if vertices[i] <> fail then
                 NewInclusionInfo( sheet, todolist[todo][j], vertices[i] );
+                if not(IsAlive(vertices[i]!.obj)) then
+                  vertices[i] := fail;
+                fi;
               fi;
             od;
           od;
@@ -968,6 +998,9 @@ function(sheet, menu, entry)
             for j in [1..Length(todolist[todo])] do
               if vertices[i] <> fail then
                 NewInclusionInfo( sheet, vertices[i], todolist[todo][j] );
+                if not(IsAlive(vertices[i]!.obj)) then
+                  vertices[i] := fail;
+                fi;
               fi;
             od;
           od;
@@ -976,6 +1009,9 @@ function(sheet, menu, entry)
             if vertices[i] <> fail then
               NewInclusionInfo( sheet, vertices[i], todolist[todo][1] );
               NewInclusionInfo( sheet, todolist[todo][2], vertices[i] );
+              if not(IsAlive(vertices[i]!.obj)) then
+                vertices[i] := fail;
+              fi;
             fi;
           od;
         fi;
@@ -985,6 +1021,9 @@ function(sheet, menu, entry)
           if vertices[i] <> fail then
             # FIXME: Is this correct to access vertex "G"?
             NewInclusionInfo( sheet, vertices[i], sheet!.levels[1]!.classes[1][1] );
+            if not(IsAlive(vertices[i]!.obj)) then
+              vertices[i] := fail;
+            fi;
           fi;
         od;
         
@@ -1162,9 +1201,11 @@ InstallMethod( GGLEpimorphisms,
 
 function(sheet,grp)
   local   GGLEpiResults,  GGLEpi,  GGLEpiShowResult,  GGLEpiShowStab,  
-          info,  width,  text,  i,  closefunc,  name;
+          info,  width,  text,  i,  closefunc,  name, kerneldone, stabdone;
   
   GGLEpiResults := [];   # no results yet
+  kerneldone := false;   # we did not yet include the kernels
+  stabdone := false;     # we did not yet include point stabilizers
   
   # Here comes the function that allows the user to search for epimorphisms:
 
@@ -1259,17 +1300,23 @@ function(sheet,grp)
   GGLEpiShowResult := function(sel,entry)
     local   groups,  g,  v,  txt,  tid,  len;
     groups := List(GGLEpiResults,Kernel);
-    for g in groups do
-      v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
+    kerneldone := [];
+    for g in [1..Length(groups)] do
+      v := InsertVertex(sheet,groups[g],false,[GGLEpiVertex!.x]);
       if v <> fail then
         # as of 1.4.1999 we do no longer select results:
         # Select(sheet,v[1]);
+        kerneldone[g] := v[1];
         if sheet!.color.result <> false  then
           Recolor( sheet, v[1], sheet!.color.result );
         fi;
         Add( sheet!.lastresult, v[1] );
         if v[2] then
           NewInclusionInfo(sheet,v[1],GGLEpiVertex);
+          if stabdone <> false and IsBound(stabdone[g]) and
+             IsAlive(stabdone[g]!.obj) then
+            NewInclusionInfo(sheet,v[1],stabdone[g]);
+          fi;
         fi;
       fi;
     od;
@@ -1285,17 +1332,23 @@ function(sheet,grp)
   GGLEpiShowStab := function(sel,entry)
     local   groups,  g,  v,  txt,  tid,  len;
     groups := List(GGLEpiResults,e -> PreImage(e,Stabilizer(Image(e),1)));
-    for g in groups do
-      v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
+    stabdone := [];
+    for g in [1..Length(groups)] do
+      v := InsertVertex(sheet,groups[g],false,[GGLEpiVertex!.x]);
       if v <> fail then
         # as of 1.4.1999 we do no longer select results:
         # Select(sheet,v[1]);
+        stabdone[g] := v[1];
         if sheet!.color.result <> false  then
           Recolor( sheet, v[1], sheet!.color.result );
         fi;
         Add( sheet!.lastresult, v[1] );
         if v[2] then
           NewInclusionInfo(sheet,v[1],GGLEpiVertex);
+          if kerneldone <> false and IsBound(kerneldone[g]) and
+             IsAlive(kerneldone[g]!.obj) then
+            NewInclusionInfo(sheet,kerneldone[g],v[1]);
+          fi;
         fi;
       fi;
     od;
