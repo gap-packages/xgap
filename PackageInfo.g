@@ -111,7 +111,7 @@ Persons := [
     FirstNames    := "Max",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "max.neunhoeffer@math.rwth-aachen.de"
+    Email         := "max.neunhoeffer@math.rwth-aachen.de",
     WWWHome       := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer",
     PostalAddress := Concatenation( [
                        "Max Neunhöffer\n",
@@ -170,8 +170,7 @@ PackageInfoURL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/Package
 # computing the Smith normal form of integer matrices and some related \
 # utilities.",
 AbstractHTML := 
-  "The <span class=\"pkgname\">XGAP</span> package allows to use graphics
-   in GAP.",
+  "The <span class=\"pkgname\">XGAP</span> package allows to use graphics in GAP.",
 
 PackageWWWHome := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4",
                   
