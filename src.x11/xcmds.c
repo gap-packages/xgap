@@ -2,7 +2,7 @@
 **
 *W  xcmds.c                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xcmds.c,v 1.1 1997/11/25 15:52:53 frank Exp $
+*H  @(#)$Id: xcmds.c,v 1.2 1997/11/25 16:29:22 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 */
@@ -1911,6 +1911,33 @@ static Boolean FunDrawText (
 /****************************************************************************
 **
 
+*F  FunPlaybackFile( <filename> ) . . . . . . . . .  playback file <filename>
+*/
+static Boolean FunPlaybackFile (
+    TypeArg               * arg )
+{
+    return PlaybackFile(arg->sargs[0]) ? 
+        ANSWER_GAP( "o", 0, 0, 0, 0 ) 
+      : ANSWER_GAP( "es", "cannot open file", 0, 0, 0 );
+}
+
+
+/****************************************************************************
+**
+*F  FunResumePlayback() . . . . . . . . . . . . . . . resume playback of file
+*/
+static Boolean FunResumePlayback (
+    TypeArg               * arg )
+{
+    return ResumePlayback() ? 
+        ANSWER_GAP( "o", 0, 0, 0, 0 ) 
+      : ANSWER_GAP( "es", "no playback in progress", 0, 0, 0 );
+}
+
+
+/****************************************************************************
+**
+
 *F  * * * * * * * * * *  interface to the main program  * * * * * * * * * * *
 */
 
@@ -1945,9 +1972,11 @@ TypeWindowCommand WindowCommands[] =
     { "XME",    "#SS",      FunMenu                 },
     { "XOS",    "SSS",      FunOpenSelector         },
     { "XOW",  	"SII",      FunOpenWindow           },
+    { "XPF",    "S",        FunPlaybackFile         },
     { "XPS",    "SS" ,      FunPopupShell           },
     { "XQP",    "#",        FunQueryPointer         },
     { "XRE",    "#II",      FunResize               },
+    { "XRP",    "",         FunResumePlayback       },
     { "XRO",    "#*",       FunRemoveObjects        },
     { "XSD",    "ISS",      FunShowDialog           },
     { "XSP",    "I",        FunShowPopup            },

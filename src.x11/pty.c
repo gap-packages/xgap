@@ -2,7 +2,7 @@
 **
 *A  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.1 1997/11/25 15:52:46 frank Exp $
+*H  @(#)$Id: pty.c,v 1.2 1997/11/25 16:29:20 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
@@ -10,6 +10,9 @@
 **  is based on code from 'xterm'.
 **
 *H  $Log: pty.c,v $
+*H  Revision 1.2  1997/11/25 16:29:20  frank
+*H  added playback patch for demos
+*H
 *H  Revision 1.1  1997/11/25 15:52:46  frank
 *H  first attempt at XGAP for GAP 4
 *H
@@ -573,17 +576,77 @@ void SimulateInput ( str )
 **
 *F  KeyboardInput( <str>, <len> ) . . . . . . . . . .  process keyboard input
 */
+Boolean PlayingBack = False;
+FILE * Playback = 0;
+
+int PlaybackFile ( str )
+    String      str;
+{
+    if ( Playback != 0 ) {
+	fclose(Playback);
+    }
+    Playback = fopen( str, "r" );
+    if ( Playback != 0 ) {
+	PlayingBack = True;
+    }
+    else {
+	PlayingBack = False;
+    }
+    return PlayingBack;
+}
+
+int ResumePlayback ()
+{
+    if ( PlayingBack || Playback == 0 )
+	return False;
+    PlayingBack = True;
+    return True;
+}
+
 void KeyboardInput ( str, len )
     String      str;
     Int     	len;
 {
+    char        buf[1025];
+
 #ifndef	EXIT_ON_DOUBLE_CTR_C
     static Int	ltime = 0;
     Int         ntime;  
 #endif
 
+    /* read playback file */
+    if ( PlayingBack && GapState == GAP_INPUT ) {
+	if ( *str == 'q' || *str == 'Q' ) {
+	    fclose(Playback);
+	    PlayingBack = False;
+	    Playback = 0;
+	    StoreInput( "\"Playback STOPPED\";;\n", 21 );
+	}
+	else if ( *str=='z' || *str=='Z' || *str=='y' || *str=='Y' ) {
+	    PlayingBack = False;
+	    StoreInput( "\"Playback SUPENDED\";;\n", 22 );
+	}
+	else {
+	    if ( fgets( buf, 1024, Playback ) == 0 ) {
+		fclose(Playback);
+		PlayingBack = False;
+		Playback = 0;
+	    }
+	    else {
+		StoreInput( buf, strlen(buf) );
+		if ( feof(Playback) ) {
+		    fclose(Playback);
+		    PlayingBack = False;
+		    Playback = 0;
+		}
+	    }
+	    if ( ! PlayingBack )
+		StoreInput( "\"Playback ENDED\";;\n", 19 );
+	}
+    }
+
     /* handle help mode directly */
-    if ( GapState == GAP_HELP )
+    else if ( GapState == GAP_HELP )
     {
 	if ( HAS_INPUT(InBuffer) || HAS_INPUT(InBuffer) )
 	    GapOutput( 0, 0, 0 );
@@ -628,6 +691,10 @@ void KeyboardInput ( str, len )
     }
 
     /* consume input */
+    else if ( PlayingBack && GapState == GAP_RUNNING ) {
+	;
+    }
+    else {
     while ( 0 < len )
     {
 
@@ -658,6 +725,7 @@ void KeyboardInput ( str, len )
 	    len--;
 	    str++;
 	}
+    }
     }
 
     /* try to process input */

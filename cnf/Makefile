@@ -2,7 +2,7 @@
 ##
 #W  Makefile                    GAP source                       Frank Celler
 ##
-#H  @(#)$Id: Makefile,v 1.1 1997/11/25 15:52:27 frank Exp $
+#H  @(#)$Id: Makefile,v 1.2 1997/11/25 16:29:15 frank Exp $
 ##
 #Y  Copyright (C)  1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 ##
@@ -36,7 +36,7 @@ AlwaysMakegap.in:
 	@echo >> Makegap.in
 	@echo '# compile and link XGAP' >> Makegap.in
 	@echo 'xgap: $$(OBJECTS)' >> Makegap.in
-	@echo '	$$(CC) -o xgap $$(OBJECTS) $$(CFLAGS) $$(LDFLAGS) $$(LIBS) $(X_LIBS) $(LOPTS)' >> Makegap.in
+	@echo '	$$(CC) -o xgap $$(OBJECTS) $$(CFLAGS) $$(LDFLAGS) $$(LIBS) $$(X_LIBS) $$(LOPTS)' >> Makegap.in
 	@echo >> Makegap.in
 	@echo '# dependencies are automatically generated' >> Makegap.in
 	@(for i in `eval 'echo $(SOURCE)'`; do \
