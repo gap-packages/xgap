@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.2 1998/11/27 18:39:33 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.3 1998/11/27 20:31:10 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.2 1998/11/27 18:39:33 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.3 1998/11/27 20:31:10 gap Exp $";
 
 
 
@@ -2870,7 +2870,35 @@ function( graph, menu, entry )
   # it is guaranteed, that at exactly two connected vertices are selected!
   Delete(graph,graph!.selectedvertices[1],graph!.selectedvertices[2]);
 end);
-    
+
+
+#############################################################################
+##
+## This is used by the following three methods:
+##
+BindGlobal("PosetScaleLattice",function(poset,factorx,factory)
+  local   l,  pos,  cl,  v,  newx,  newy,  diffx,  diffy;
+  
+  FastUpdate(poset,true);  
+  Resize(poset, Int(poset!.width*factorx), Int(poset!.height*factory));
+  for l in [1..Length(poset!.levelparams)] do
+    pos := PositionLevel(poset,poset!.levelparams[l]);
+    ResizeLevel(poset,poset!.levelparams[l],Int(pos[2]*factory));
+    for cl in poset!.levels[l]!.classes do
+      if cl <> [] then
+        v := cl[1];
+        newx := Int(v!.x*factorx);
+        newy := Int(v!.y*factory);
+        diffx := newx - v!.x;
+        diffy := newy - v!.y;
+        for v in cl do
+          Move(poset,v,v!.x + diffx,v!.y + diffy);
+        od;
+      fi;
+    od;
+  od;
+end);
+
 
 #############################################################################
 ##
@@ -2881,24 +2909,124 @@ end);
 ##  all heights of levels and positions of vertices.
 ##
 InstallMethod( UserMagnifyLattice,
-    "for a graphic graph, a menu, and a string",
+    "for a graphic poset, a menu, and a string",
     true,
     [ IsGraphicPosetRep, IsMenu, IsString ],
     0,
     
 function(poset, menu, entry)
   local   l,  pos,  cl,  v;
-  FastUpdate(poset,true);  
-  Resize(poset, Int(poset!.width*144/100), Int(poset!.height*144/100));
-  for l in [1..Length(poset!.levelparams)] do
-    pos := PositionLevel(poset,poset!.levelparams[l]);
-    ResizeLevel(poset,poset!.levelparams[l],Int(pos[2]*144/100));
-    for cl in poset!.levels[l]!.classes do
-      for v in cl do
-        Move(poset,v,Int(v!.x*144/100),Int(v!.y*144/100));
-      od;
-    od;
-  od;
+  PosetScaleLattice(poset,144/100,144/100);
+end);
+
+
+#############################################################################
+##
+#M  UserShrinkLattice . . . . . . .  lets the user shrink the graphic lattice
+##
+##  This operation is called when the user selects "Shrink Lattice". 
+##  The generic method scales everything by 100/144 including the sheet,
+##  all heights of levels and positions of vertices.
+##
+InstallMethod( UserShrinkLattice,
+    "for a graphic poset, a menu, and a string",
+    true,
+    [ IsGraphicPosetRep, IsMenu, IsString ],
+    0,
+    
+function(poset, menu, entry)
+  local   l,  pos,  cl,  v;
+  PosetScaleLattice(poset,100/144,100/144);
+end);
+
+
+##
+## Extracts two factors out of a string:
+##
+BindGlobal("PosetFactorsString", 
+  function( factor )
+    local   p,  x,  y;
+
+    # find ","
+    p := Position( factor, ',' );
+    if p = fail  then
+        x := Int(factor);
+        y := x;
+    elif p = 1  then
+        x := 1;
+        y := Int(factor{[2..Length(factor)]});
+    elif p = Length(factor)  then
+        x := Int(factor{[1..p-1]});
+        y := 1;
+    else
+        x := Int(factor{[1..p-1]});
+        y := Int(factor{[p+1..Length(factor)]});
+    fi;
+    if x <= 0  then x := 1;  fi;
+    if y <= 0  then y := 1;  fi;
+    return [ x, y ];
+  end);
+
+
+#############################################################################
+##
+#M  UserResizeLattice . . . . . . .  lets the user resize the graphic lattice
+##
+##  This operation is called when the user selects "Resize Lattice". 
+##  The generic method asks the user for a x and a y factor and scales
+##  everything including the sheet, all heights of levels and positions of 
+##  vertices.
+##
+InstallMethod( UserResizeLattice,
+    "for a graphic poset, a menu, and a string",
+    true,
+    [ IsGraphicPosetRep, IsMenu, IsString ],
+    0,
+    
+function(poset, menu, entry)
+  local   res,  fac;
+  
+  res := Query( Dialog( "OKcancel", "X,Y factors" ) );
+  if res = false or 0 = Length(res)  then
+    return;
+  fi;
+  fac := PosetFactorsString(res);
+  if fac[1] <> 1 or fac[2] <> 1 then
+    PosetScaleLattice(poset,fac[1],fac[2]);
+  fi;
+end);
+
+
+#############################################################################
+##
+#M  UserResizeSheet . . . . . . . . .  lets the user resize the graphic sheet
+##
+##  This operation is called when the user selects "Resize Sheet". 
+##  The generic method asks the user for a x and a y pixel number and
+##  changes the width and height of the sheet. No positions of levels and
+##  vertices are changed. If the user asks for trouble he gets it!
+##
+InstallMethod( UserResizeSheet,
+    "for a graphic graph, a menu, and a string",
+    true,
+    [ IsGraphicGraphRep, IsMenu, IsString ],
+    0,
+    
+function(poset, menu, entry)
+  local   res,  pix;
+  res := Query( Dialog( "OKcancel", "New Width,Height" ) );
+  if res = false or 0 = Length(res)  then
+    return;
+  fi;
+  pix := PosetFactorsString(res);
+  if pix[1] = 1 then
+    pix[1] := poset!.width;
+  fi;
+  if pix[2] = 1 then
+    pix[2] := poset!.height;
+  fi;
+  
+  Resize(poset,pix[1],pix[2]);
 end);
 
 
