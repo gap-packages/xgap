@@ -5,7 +5,7 @@
 \Declaration{GraphicPoset}
 \Declaration{CreateLevel}
 \Declaration{CreateClass}
-\Declaration{Vertex}
+\Declaration{Vertex}[poset]
 \Declaration{Edge}
 
 {\bf Destructors:}
@@ -25,12 +25,12 @@ a class respectively.
 \medskip
 \Declaration{ResizeLevel}
 \Declaration{MoveLevel}
-\Declaration{Relabel}
-\Declaration{Move}
-\Declaration{Reshape}
-\Declaration{Recolor}
-\Declaration{SetWidth}
-\Declaration{Highlight}
+\Declaration{Relabel}[poset]
+\Declaration{Move}[poset]
+\Declaration{Reshape}[poset]
+\Declaration{Recolor}[poset]
+\Declaration{SetWidth}[poset]
+\Declaration{Highlight}[poset]
 \Declaration{Select}
 \Declaration{DeselectAll}
 \Declaration{Selected}
@@ -65,7 +65,7 @@ a class respectively.
 \medskip
 {\bf Operations for user communication:}
 \medskip
-\Declaration{Menu}
+\Declaration{Menu}[poset]
 \Declaration{ModifyEnabled}
 \Declaration{InstallPopup}
 \Declaration{PosetLeftClick}

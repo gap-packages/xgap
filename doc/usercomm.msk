@@ -1,8 +1,8 @@
 \Section{Menus in Graphic Sheets}
 
-\Declaration{Menu}
-\Declaration{Check}
-\Declaration{Enable}
+\Declaration{Menu}[menu]
+\Declaration{Check}[menu]
+\Declaration{Enable}[menu]
 
 See the explanation of `GraphicSheet' ("CloseCallback") for the ``Close''
 event, which occurs when the user selects the menu entry ``Close'' in the

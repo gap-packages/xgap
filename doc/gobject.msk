@@ -41,7 +41,7 @@ The following operations apply to graphic sheets:
 \Declaration{Rectangle}
 \Declaration{Line}
 \Declaration{Text}
-\Declaration{Vertex}
+\Declaration{Vertex}[gobject]
 
 \bigskip
 
@@ -51,15 +51,15 @@ The following operations apply to graphic sheets:
 \Declaration{Disconnect}
 
 \Declaration{Draw}
-\Declaration{Delete}
+\Declaration{Delete}[gobject]
 \Declaration{Destroy}
 \Declaration{Revive}
-\Declaration{Move}
+\Declaration{Move}[gobject]
 \Declaration{MoveDelta}
 \Declaration{PSString}
 \Declaration{PrintInfo}
-\Declaration{Recolor}
-\Declaration{Reshape}
+\Declaration{Recolor}[gobject]
+\Declaration{Reshape}[gobject]
 \>`\\in'{in for graphic objects}
 
 This infix operation needs a vector of two integers to its left and a graphic
@@ -68,9 +68,9 @@ integers e.g. `[15,9]'). It determines, if the position given by the two
 integer coordinates is inside (e.g. for boxes) or on (e.g. for lines) the
 graphic objects. Returns a boolean value.
 \Declaration{Change}
-\Declaration{Relabel}
-\Declaration{SetWidth}
-\Declaration{Highlight}
+\Declaration{Relabel}[gobject]
+\Declaration{SetWidth}[gobject]
+\Declaration{Highlight}[gobject]
 
 \Section{Colors in XGAP}
 
