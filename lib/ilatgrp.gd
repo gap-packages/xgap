@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.9 1999/03/09 00:34:06 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.10 1999/03/09 11:00:21 ahulpke Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.9 1999/03/09 00:34:06 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.10 1999/03/09 11:00:21 ahulpke Exp $";
 
 
 #############################################################################
@@ -108,7 +108,7 @@ DeclareOperation( "GGLPrimeQuotient", [ IsGraphicSheet, IsGroup ] );
 ##
 #O  GGLEpiQuotientSystem . . . . . . . . . . calculates the epimorphism to qs
 ##
-DeclareOperation( "GGLEpiQuotientSystem", [ IsQuotientSystem ] );
+DeclareSynonym( "GGLEpiQuotientSystem", EpimorphismQuotientSystem );
 
 
 #############################################################################

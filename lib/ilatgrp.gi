@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.17 1999/03/09 00:34:06 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.18 1999/03/09 11:00:21 ahulpke Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.17 1999/03/09 00:34:06 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.18 1999/03/09 11:00:21 ahulpke Exp $";
 
 
 #############################################################################
@@ -1006,52 +1006,6 @@ function(sheet,grp)
 end);
 
 
-############################################################################
-##
-#M  GGLEpiQuotientSystem . . . . . . . . .  calculates the epimorphism to qs
-##
-InstallMethod( GGLEpiQuotientSystem,
-    "for a quotient system",
-    true,
-    [ IsQuotientSystem ],
-    -5,
-
-function(qs)
-  local   n,  coll,  i,  H,  l;
-  
-  # first we make the image group as a pc group:
-  # this is code from Werner:
-  n := qs!.numberOfGenerators;
-
-  coll := ShallowCopy(qs!.collector);
-
-  coll![ SCP_NUMBER_RWS_GENERATORS ] := n;
-
-  # truncate the collector to the correct number of generators.
-  for i in
-    [ SCP_RWS_GENERATORS,
-      SCP_POWERS,
-      SCP_INVERSES,
-      SCP_CONJUGATES,
-      SCP_AVECTOR,
-      SCP_AVECTOR2,
-      SCP_RELATIVE_ORDERS,
-      SCP_WEIGHTS ] do
-    
-    if IsBound( coll![ i ] ) and Length( coll![ i ] ) > n then
-      coll![ i ] := coll![ i ]{[1..n]};
-    fi;
-  od;
-  H := GroupByRwsNC( coll );
-
-  # now we write the images of the generators of G in H from qs:
-  l := List(qs!.images,x->ObjByExtRep(FamilyObj(One(H)),ExtRepOfObj(x)));
-  
-  return GroupHomomorphismByImagesNC(qs!.preimage,H,
-                                     GeneratorsOfGroup(qs!.preimage),l);
-end );
-  
-  
 #############################################################################
 ##
 #M  GGLKernelQuotientSystem  . . . . . . . calculates the kernel of epi to qs
@@ -1519,7 +1473,9 @@ function( sheet, grp, conjugclass, hints )
   fi;
  
   # Is it a normal subgroup?
-  if IsInt(index) and index < GGLLimitForIsNormalCalc then
+  if (IsInt(index) and index < GGLLimitForIsNormalCalc) or
+    (IsIdenticalObj(sheet!.group,Parent(grp))
+     and HasIsNormalInParent(grp)) then
     if IsNormal(sheet!.group,grp) then
       Reshape(sheet,vertex,"diamond");
       vertex!.data.info.IsNormal := true;
