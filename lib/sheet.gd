@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.12 1999/03/07 22:06:47 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.13 1999/03/10 16:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.12 1999/03/07 22:06:47 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.13 1999/03/10 16:45:18 gap Exp $";
 
 
 #############################################################################
@@ -315,7 +315,7 @@ DeclareOperation( "PointerButtonDown",
 ##  `LeftPBDown' event just occurred and x and y contain the current mouse
 ##  pointer position):
 ##
-##  \beginexample
+##  \begintt
 ##    storex := x;
 ##    storey := y;
 ##    box := Rectangle(sheet,x,y,0,0);
@@ -349,7 +349,7 @@ DeclareOperation( "PointerButtonDown",
 ##      the box was never big enough, we do nothing
 ##    fi;
 ##    Delete(box);
-## \endexample
+## \endtt
 ##
 DeclareOperation( "Drag",
         [ IsGraphicSheet, IsInt, IsInt, IsInt, IsFunction ] );

@@ -2,14 +2,14 @@
 ##
 #W  color.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gd,v 1.6 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: color.gd,v 1.7 1999/03/10 16:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_color_gd :=
-    "@(#)$Id: color.gd,v 1.6 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: color.gd,v 1.7 1999/03/10 16:45:18 gap Exp $";
 
 
 #############################################################################
@@ -58,7 +58,7 @@ DeclareSynonym( "ColourFamily", ColorFamily );
 ##  puts  a black box (see  "Box") onto it and  changes its color.  Obviously
 ##  you need a color display for this example.
 ##
-##  \beginexample
+##  \begintt
 ##      gap> sheet := GraphicSheet( "Nice Sheet", 300, 300 );
 ##      <graphic sheet "Nice Sheet">
 ##      gap> box := Box( sheet, 10, 10, 290, 290 );
@@ -69,7 +69,7 @@ DeclareSynonym( "ColourFamily", ColorFamily );
 ##      gap> Recolor( box, COLORS.lightGrey );
 ##      gap> Recolor( box, COLORS.dimGrey );
 ##      gap> Close(sheet);
-##  \endexample
+##  \endtt
 ##
 ##  The component `model' is always a string. It is `monochrome', if the 
 ##  display does not support colors. It is `gray' if we only have gray shades

@@ -2,14 +2,14 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.9 1999/02/23 00:14:03 gap Exp $
+#H  @(#)$Id: gobject.gd,v 1.10 1999/03/10 16:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.9 1999/02/23 00:14:03 gap Exp $";
+    "@(#)$Id: gobject.gd,v 1.10 1999/03/10 16:45:18 gap Exp $";
 
 #############################################################################
 #1
@@ -222,7 +222,7 @@ DeclareOperation( "SetWidth", [ IsGraphicObject, IsObject ] );
 ##  that the color of the box will be <color>.  See "Color Models" for how 
 ##  to select a <color>.
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to boxes.
 ##
 ##  Note that `Reshape' for boxes takes three parameters, namely the box
@@ -247,7 +247,7 @@ DeclareOperation( "Box",
 ##  to select a <color>. If the record contains a component `width' of value
 ##  <width>, the line width of the circle is set accordingly.
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to circles.
 ##
 ##  Note that `Reshape' for circles takes two parameters, namely the circle
@@ -272,7 +272,7 @@ DeclareOperation( "Circle",
 ##  that the color of the disc will be <color>.  See "Color Models" for how 
 ##  to select a <color>. 
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to discs.
 ##
 ##  Note that `Reshape' for discs takes two parameters, namely the disc
@@ -298,7 +298,7 @@ DeclareOperation( "Disc",
 ##  to select a <color>. If the record contains a component `width' with 
 ##  integer value <width>, the line width is set accordingly.
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to diamonds.
 ##
 ##  Note that `Reshape' for diamonds takes three parameters, namely the diamond
@@ -328,7 +328,7 @@ DeclareOperation( "Diamond",
 ##  to select a <color>. If the record contains a component `width' with 
 ##  integer value <width>, the line width is set accordingly.
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to rectangles.
 ##
 ##  Note that `Reshape' for rectangles takes three parameters, namely the 
@@ -355,7 +355,7 @@ DeclareOperation( "Rectangle",
 ##  contains a component `label' with a string value <label>, a text object
 ##  is attached as a label to the line.
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to lines.
 ##
 ##  Note that `Reshape' for lines takes three parameters, namely the 
@@ -382,7 +382,7 @@ DeclareOperation( "Line",
 ##  that the color of the text will be <color>.  See "Color Models" for how 
 ##  to select a <color>. 
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to texts.
 ##
 ##  Note that `Reshape' for texts takes two parameters, namely the 
@@ -413,7 +413,7 @@ DeclareOperation( "Text",
 ##  Note that the highlighting status of a vertex normally changes the line
 ##  width and the color of a vertex!
 ##
-##  See "table of operations for graphic objects" for a list of operations
+##  See "operations for graphic objects" for a list of operations
 ##  that apply to vertices.
 ##
 ##  Note that `Reshape' for vertices takes two parameters, namely the 

@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.10 1999/03/07 22:06:47 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.11 1999/03/10 16:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -15,7 +15,7 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.10 1999/03/07 22:06:47 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.11 1999/03/10 16:45:18 gap Exp $";
 
 
 #############################################################################
@@ -615,7 +615,7 @@ end );
 ##  LeftPBDown event just occured and x and y contain the current mouse
 ##  pointer position):
 ##
-##  \beginexample
+##  \begintt
 ##    storex := x;
 ##    storey := y;
 ##    box := Rectangle(sheet,x,y,0,0);
@@ -649,7 +649,7 @@ end );
 ##      # the box was never big enough, we do nothing
 ##    fi;
 ##    Delete(box);
-## \endexample
+## \endtt
 ##
 InstallMethod( Drag,
     "for a sheet, two integers, a button number and a function",
