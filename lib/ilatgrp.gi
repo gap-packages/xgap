@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.16 1999/03/08 17:19:44 ahulpke Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.17 1999/03/09 00:34:06 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.16 1999/03/08 17:19:44 ahulpke Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.17 1999/03/09 00:34:06 gap Exp $";
 
 
 #############################################################################
@@ -422,6 +422,10 @@ BindGlobal( "GGLMenuOpsForFpGroups",
           rec( name := "Compare Subgroups", op := GGLCompareSubgroups,
                parent := false, from := GGLfrom2, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo,
+               sheet := true ),
+          rec( name := "Prime Quotient", op := GGLPrimeQuotient,
+               parent := false, from := GGLfrom1, to := GGLtoSet, 
+               where := GGLwhereDown, plural := false, rels := GGLrelsDown,
                sheet := true )
         ] );
 
@@ -658,6 +662,7 @@ end);
 ## we need some dialogs:
 ##
 BindGlobal( "GGLPrimeDialog", Dialog( "OKcancel", "Prime" ) );
+BindGlobal( "GGLClassDialog", Dialog( "OKcancel", "Class" ) );
 BindGlobal( "GGLGoOnDialog", Dialog( "OKcancel", "Go on?" ) );
 BindGlobal( "GGLDegreeDialog", Dialog( "OKcancel", "Degree" ) );
 BindGlobal( "GGLDimensionDialog", Dialog( "OKcancel", "Dimension" ) );
@@ -941,7 +946,7 @@ end);
 ##  to calculate abelian prime quotients.
 ##
 InstallMethod( GGLAbelianPQuotient,
-    "for a graphic subgroup lattice sheet, and (fp) group",
+    "for a graphic subgroup lattice sheet, and an fp group",
     true,
     [ IsGraphicSubgroupLattice, IsGroup ],
     0,
@@ -957,8 +962,109 @@ function(sheet,grp)
     return fail;
   fi;
   qs := PQuotient( grp, p, 1 );
-  return Kernel(qs);
+  return GGLKernelQuotientSystem(qs);
 end);
+
+
+#############################################################################
+##
+#M  GGLPrimeQuotient(<sheet>,<grp>) .  asks for p and class and calls library
+##
+##  This operation asks for a prime p and a class cl and runs then the
+##  library operations to calculate prime quotients up to class cl.
+##
+InstallMethod( GGLPrimeQuotient,
+    "for a graphic subgroup lattice sheet, and an fp group",
+    true,
+    [ IsGraphicSubgroupLattice, IsGroup ],
+    0,
+
+function(sheet,grp)
+  local res, p, qs, cl, i, l;
+  res := Query( GGLPrimeDialog );
+  if res = false then
+    return fail;
+  fi;
+  p := Int(res);
+  if not IsInt(p) or not IsPrime(p) then
+    return fail;
+  fi;
+  res := Query( GGLClassDialog );
+  if res = false then
+    return fail;
+  fi;
+  cl := Int(res);
+  if not IsInt(cl) or not cl >= 1 then
+    return fail;
+  fi;
+  l := [];
+  for i in [1..cl] do
+    qs := PQuotient( grp, p, i );
+    Add(l, GGLKernelQuotientSystem(qs) );
+  od;
+  return l;
+end);
+
+
+############################################################################
+##
+#M  GGLEpiQuotientSystem . . . . . . . . .  calculates the epimorphism to qs
+##
+InstallMethod( GGLEpiQuotientSystem,
+    "for a quotient system",
+    true,
+    [ IsQuotientSystem ],
+    -5,
+
+function(qs)
+  local   n,  coll,  i,  H,  l;
+  
+  # first we make the image group as a pc group:
+  # this is code from Werner:
+  n := qs!.numberOfGenerators;
+
+  coll := ShallowCopy(qs!.collector);
+
+  coll![ SCP_NUMBER_RWS_GENERATORS ] := n;
+
+  # truncate the collector to the correct number of generators.
+  for i in
+    [ SCP_RWS_GENERATORS,
+      SCP_POWERS,
+      SCP_INVERSES,
+      SCP_CONJUGATES,
+      SCP_AVECTOR,
+      SCP_AVECTOR2,
+      SCP_RELATIVE_ORDERS,
+      SCP_WEIGHTS ] do
+    
+    if IsBound( coll![ i ] ) and Length( coll![ i ] ) > n then
+      coll![ i ] := coll![ i ]{[1..n]};
+    fi;
+  od;
+  H := GroupByRwsNC( coll );
+
+  # now we write the images of the generators of G in H from qs:
+  l := List(qs!.images,x->ObjByExtRep(FamilyObj(One(H)),ExtRepOfObj(x)));
+  
+  return GroupHomomorphismByImagesNC(qs!.preimage,H,
+                                     GeneratorsOfGroup(qs!.preimage),l);
+end );
+  
+  
+#############################################################################
+##
+#M  GGLKernelQuotientSystem  . . . . . . . calculates the kernel of epi to qs
+##
+InstallMethod( GGLKernelQuotientSystem,
+    "for a quotient system",
+    true,
+    [ IsQuotientSystem ],
+    -5,
+
+function(qs)
+  return Kernel( GGLEpiQuotientSystem(qs) );
+end );
 
 
 # We store the text selector in this variable to destroy it, if the next one
@@ -1267,6 +1373,16 @@ end );
 
 #############################################################################
 ##
+#V  GGLLimitForIsNormalCalc . . . . . index limit for automatic IsNormal test
+##
+##  Only for subgroups with index smaller than this number an automatic
+##  IsNormal test is performed, when the vertex is added to the sheet.
+##
+GGLLimitForIsNormalCalc := 1000;
+
+
+#############################################################################
+##
 #M  InsertVertex( <sheet>, <grp>, <conj>, <hints> ) . . . . insert new vertex
 ##
 ##  Insert the group <grp> as a new vertex into the sheet. If 
@@ -1403,13 +1519,17 @@ function( sheet, grp, conjugclass, hints )
   fi;
  
   # Is it a normal subgroup?
-  if IsNormal(sheet!.group,grp) then
-    Reshape(sheet,vertex,"diamond");
-    vertex!.data.info.IsNormal := true;
+  if IsInt(index) and index < GGLLimitForIsNormalCalc then
+    if IsNormal(sheet!.group,grp) then
+      Reshape(sheet,vertex,"diamond");
+      vertex!.data.info.IsNormal := true;
+    else
+      vertex!.data.info.IsNormal := false;
+    fi;
   else
-    vertex!.data.info.IsNormal := false;
+    Reshape(sheet,vertex,"rectangle");
   fi;
-        
+  
   if not HasseProperty(sheet) then
     return [vertex,true];
   fi;

@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.8 1999/02/25 18:44:04 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.9 1999/03/09 00:34:06 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.8 1999/02/25 18:44:04 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.9 1999/03/09 00:34:06 gap Exp $";
 
 
 #############################################################################
@@ -92,6 +92,30 @@ DeclareOperation( "GGLPresentation", [ IsGraphicSheet, IsGroup ] );
 ##  to calculate abelian prime quotients.
 ##
 DeclareOperation( "GGLAbelianPQuotient", [ IsGraphicSheet, IsGroup ] );
+
+
+#############################################################################
+##
+#O  GGLPrimeQuotient(<sheet>,<grp>) .  asks for p and class and calls library
+##
+##  This operation asks for a prime p and a class cl and runs then the
+##  library operations to calculate prime quotients up to class cl.
+##
+DeclareOperation( "GGLPrimeQuotient", [ IsGraphicSheet, IsGroup ] );
+
+
+#############################################################################
+##
+#O  GGLEpiQuotientSystem . . . . . . . . . . calculates the epimorphism to qs
+##
+DeclareOperation( "GGLEpiQuotientSystem", [ IsQuotientSystem ] );
+
+
+#############################################################################
+##
+#O  GGLKernelQuotientSystem  . . . . . . . calculates the kernel of epi to qs
+##
+DeclareOperation( "GGLKernelQuotientSystem", [ IsQuotientSystem ] );
 
 
 #############################################################################
