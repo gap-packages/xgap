@@ -2634,8 +2634,8 @@ if test "$have_x" != yes;  then
   { echo "configure: error: XGAP needs XWindows X11R5 or better" 1>&2; exit 1; }
 fi
 
-echo $ac_n "checking for open windows""... $ac_c" 1>&6
-echo "configure:2639: checking for open windows" >&5
+echo $ac_n "checking for broken exposure compress in open windows""... $ac_c" 1>&6
+echo "configure:2639: checking for broken exposure compress in open windows" >&5
 case "$target" in
 
   *-*-sunos*)

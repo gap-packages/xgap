@@ -106,7 +106,7 @@ if test "$have_x" != yes;  then
   AC_MSG_ERROR([XGAP needs XWindows X11R5 or better])
 fi
 
-AC_MSG_CHECKING(for open windows)
+AC_MSG_CHECKING(for broken exposure compress in open windows)
 case "$target" in
 
   *-*-sunos*)
