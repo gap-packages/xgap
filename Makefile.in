@@ -2,7 +2,7 @@
 ##
 #W  Makefile                    GAP source                       Frank Celler
 ##
-#H  @(#)$Id: Makefile.in,v 1.4 1999/07/01 14:07:28 ahulpke Exp $
+#H  @(#)$Id: Makefile.in,v 1.5 1999/07/01 15:32:24 gap Exp $
 ##
 #Y  Copyright (C)  1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 ##
@@ -47,7 +47,7 @@ bin/@target@-@CC@/Makefile: bin/@target@-@CC@/configure cnf/config.hin
 compile: bin/@target@-@CC@/configure bin/@target@-@CC@/Makefile
 	( cd bin/@target@-@CC@ ; $(MAKE) CC=$(CC) )
 	chmod +x xgap.sh
-	mv xgap.sh bin/xgap.sh
+	cp xgap.sh bin/xgap.sh
 
 clean:
 	rm -rf bin/@target@-@CC@
