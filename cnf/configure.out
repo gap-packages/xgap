@@ -2818,11 +2818,11 @@ EOF
 	echo "$ac_t""no (good)" 1>&6
 	;;
 
-    *)
-      echo "$ac_t""no (good)" 1>&6
-      ;;
-
     esac
+    ;;
+
+  *)
+    echo "$ac_t""no (good)" 1>&6
     ;;
 
 esac

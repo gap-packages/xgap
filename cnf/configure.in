@@ -130,11 +130,11 @@ case "$target" in
 	AC_MSG_RESULT([no (good)])
 	;;
 
-    *)
-      AC_MSG_RESULT([no (good)])
-      ;;
-
     esac
+    ;;
+
+  *)
+    AC_MSG_RESULT([no (good)])
     ;;
 
 esac
