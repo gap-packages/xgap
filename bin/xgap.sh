@@ -3,11 +3,14 @@
 ##
 #A  xgap                        XGAP source                      Frank Celler
 ##
-#H  @(#)$Id: xgap.sh,v 1.2 1999/01/14 20:01:42 gap Exp $
+#H  @(#)$Id: xgap.sh,v 1.3 1999/01/14 20:12:19 gap Exp $
 ##
 #Y  Copyright (C) 1998,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
 #H  $Log: xgap.sh,v $
+#H  Revision 1.3  1999/01/14 20:12:19  gap
+#H  Made the last change REALLY work. Some shell programming issue...
+#H
 #H  Revision 1.2  1999/01/14 20:01:42  gap
 #H  Made it possible to install xgap outside the normal gap4 tree.
 #H
@@ -266,9 +269,9 @@ fi;
 ##  We calculate the library path argument for GAP:
 ##
 if [ "$XGAP_DIR" = "$GAP_DIR" ]; then
-  LIBARG="-l $GAP_DIR"
+  LIBARG="$GAP_DIR"
 else
-  LIBARG="-l \"$XGAP_DIR;$GAP_DIR\""
+  LIBARG="$XGAP_DIR;$GAP_DIR"
 fi
 
 
@@ -296,9 +299,9 @@ fi
 ##
 if [ $DAEMON = "YES" ];  then
   $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
-                                   $LIBARG -m $GAP_MEM $GP &
+                                   -l $LIBARG -m $GAP_MEM $GP &
 else
   $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
-                                   $LIBARG -m $GAP_MEM $GP
+                                   -l $LIBARG -m $GAP_MEM $GP
 fi
 exit 0
