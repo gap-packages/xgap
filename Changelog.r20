@@ -1,0 +1,10 @@
+$Id: Changelog.r20,v 1.1 2004/01/30 16:17:53 gap Exp $
+
+This file describes the changes from xgap4r19 to xgap4r20:
+
+ * XGAP now reports "4.20" as version number instead of "4.19".
+
+ * Deleted a line in src.x11/selfile.c offending the compiler on Mac OS/X.
+   Seems to work under Linux/i386 also.
+
+(not yet released!)
