@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.29 1999/05/16 22:56:00 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.30 1999/05/19 22:05:56 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.29 1999/05/16 22:56:00 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.30 1999/05/19 22:05:56 gap Exp $";
 
 
 #############################################################################
@@ -21,6 +21,36 @@ Revision.pkg_xgap_lib_ilatgrp_gi :=
 #############################################################################
 InstallTrueMethod(CanComputeSize,IsPermGroup);
 InstallTrueMethod(CanComputeSize,CanEasilyComputePcgs);
+
+
+#############################################################################
+##
+##  Logging facilities:
+##
+#############################################################################
+
+GGLLogFile := false;   # not yet logging
+
+BindGlobal( "GGLChooseLog", function(arg)
+  local   di,  command;
+  if GGLLogFile <> false then
+    GGLLogFile := false;
+  fi;
+  di := Dialog("Filename","Log File?");
+  GGLLogFile := Query(di,"xgap.log");
+  if GGLLogFile <> false then
+    AppendTo(GGLLogFile,"Log of XGAP Session of ");
+    command := "date >>";
+    Append(command,GGLLogFile);
+    Exec(command);
+    AppendTo(GGLLogFile,"\n");
+  fi;
+end);
+
+
+BindGlobal( "GGLStopLog", function(arg)
+  GGLLogFile := false;
+end);
 
 
 #############################################################################
@@ -314,7 +344,7 @@ end );
 ##   parent   : true, false
 ##   from     : GGLfrom1, GGLfrom2, GGLfromSet
 ##   to       : GGLto0, GGLto1, GGLtoSet
-##   where    : GGLwhereUp, GGLwhereDown, GGLwhereAny, GGLWhereBetween
+##   where    : GGLwhereUp, GGLwhereDown, GGLwhereAny, GGLwhereBetween
 ##   plural   : true, false
 ##   rels     : GGLrelsMax, GGLrelsTotal, GGLrelsNo, GGLrelsDown, GGLrelsup
 ##   retsel   : true, false
@@ -437,13 +467,23 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
           rec( name := "Sylow Subgroups", op := GGLSylowSubgroup,
                parent := false, from := GGLfrom1, to := GGLto1, 
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
-          rec( name := "SelectedGroups to GAP", op := Ignore,
+          rec( name := "SelectedGroups to GAP", 
+               op := function(arg) 
+                 # We start GAP-Logging if XGAP-Logging is on!
+                 if GGLLogFile <> false then
+                   LogTo(GGLLogFile);
+                 fi;
+               end,
                parent := false, sheet := true, retsel := true,
-               from := GGLfromSet, to := GGLtoSet,
+               from := GGLfromSet, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
           rec( name := "InsertVertices from GAP",
                op := function(arg) 
                  local v;
+                 # We stop the GAP-Logging:
+                 if GGLLogFile <> false then
+                   LogTo();
+                 fi;
                  v := last;
                  if not IsList(v) then
                    if IsGroup(v) then
@@ -457,6 +497,14 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
                end,
                parent := false, sheet := false,
                from := GGLfromSet, to := GGLtoSet,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
+          rec( name := "Start Logging", op := GGLChooseLog,
+               parent := false, sheet := false, retsel := false,
+               from := GGLfromSet, to := GGLto0,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
+          rec( name := "Stop Logging", op := GGLStopLog,
+               parent := false, sheet := false, retsel := false,
+               from := GGLfromSet, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo )
 ] );
                                              
@@ -516,13 +564,23 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                parent := false, from := GGLfromSet, to := GGLto0, 
                where := GGLwhereAny, plural := false, rels := GGLrelsNo,
                sheet := true ),
-          rec( name := "SelectedGroups to GAP", op := Ignore,
+          rec( name := "SelectedGroups to GAP",
+               op := function(arg) 
+                 # We start GAP-Logging if XGAP-Logging is on!
+                 if GGLLogFile <> false then
+                   LogTo(GGLLogFile);
+                 fi;
+               end,
                parent := false, sheet := true, retsel := true,
                from := GGLfromSet, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
           rec( name := "InsertVertices from GAP",
                op := function(arg) 
                  local v;
+                 # We stop the GAP-Logging:
+                 if GGLLogFile <> false then
+                   LogTo();
+                 fi;
                  v := last;
                  if not IsList(v) then
                    if IsGroup(v) then
@@ -536,6 +594,14 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                end,
                parent := false, sheet := false,
                from := GGLfromSet, to := GGLtoSet,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
+          rec( name := "Start Logging", op := GGLChooseLog,
+               parent := false, sheet := false, retsel := false,
+               from := GGLfromSet, to := GGLto0,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo ),
+          rec( name := "Stop Logging", op := GGLStopLog,
+               parent := false, sheet := false, retsel := false,
+               from := GGLfromSet, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo )
         ] );
 
@@ -891,15 +957,24 @@ function(sheet, menu, entry)
     if result = fail then
       Append(infostr," --> fail");
       Info(GraphicLattice,1,infostr);
+      if GGLLogFile <> false then
+        AppendTo(GGLLogFile,infostr,"\n");
+      fi;
       infostr := "";
       if Query( GGLGoOnDialog ) = false then
         Info(GraphicLattice,1,"...Aborted.");
+        if GGLLogFile <> false then
+          AppendTo(GGLLogFile,"...Aborted.\n");
+        fi;
         return;
       fi;
     fi;
     if menuop.to = GGLto0 or result = fail then
       if result <> fail then
         Info(GraphicLattice,1,infostr);
+        if GGLLogFile <> false then
+          AppendTo(GGLLogFile,infostr,"\n");
+        fi;
         infostr := "";
       fi;
     else
@@ -953,6 +1028,9 @@ function(sheet, menu, entry)
       od;
       Append(infostr,")");
       Info(GraphicLattice,1,infostr);
+      if GGLLogFile <> false then
+        AppendTo(GGLLogFile,infostr,"\n");
+      fi;
       infostr := "";
       
       # if the sheet has the HasseProperty, we are done, because the 
@@ -1129,6 +1207,9 @@ function(grp)
   until res;
   if p <> GGLSylowLastPrime then
     Info(GraphicLattice,1,"Sylow prime: ",p);
+    if GGLLogFile <> false then
+      AppendTo(GGLLogFile,"Sylow prime: ",p,"\n");
+    fi;
   fi;
   GGLSylowLastPrime := p;
   return SylowSubgroup( grp, p );
@@ -1158,6 +1239,10 @@ function(sheet,grp)
   if not IsInt(p) or not IsPrime(p) then
     Query(Dialog("OKcancel","You must enter a prime!"));
     return fail;
+  fi;
+  Info(GraphicLattice,1,"AbelianPQuotient prime: ",p);
+  if GGLLogFile <> false then
+    AppendTo(GGLLogFile,"AbelianPQuotient prime: ",p,"\n");
   fi;
   epi := EpimorphismPGroup( grp, p, 1 );
   # this should be cheap and store the Size in the Image
@@ -1191,6 +1276,10 @@ function(sheet,grp)
     Query(Dialog("OKcancel","You must enter a prime!"));
     return fail;
   fi;
+  Info(GraphicLattice,1,"PQuotient prime: ",p);
+  if GGLLogFile <> false then
+    AppendTo(GGLLogFile,"PQuotient prime: ",p,"\n");
+  fi;
   res := Query( GGLClassDialog );
   if res = false then
     return fail;
@@ -1199,6 +1288,10 @@ function(sheet,grp)
   if not IsInt(cl) or not cl >= 1 then
     Query(Dialog("OKcancel","You must enter an integer >= 1!"));
     return fail;
+  fi;
+  Info(GraphicLattice,1,"PQuotient class: ",p);
+  if GGLLogFile <> false then
+    AppendTo(GGLLogFile,"PQuotient class: ",p,"\n");
   fi;
   l := [];
   for i in [1..cl] do
@@ -1496,6 +1589,11 @@ function(sheet,grp)
   if not IsInt(p) or p <= 0 then
     return fail;
   fi;
+  Info(GraphicLattice,1,"Limit for LowIndex: ",p);
+  if GGLLogFile <> false then
+    AppendTo(GGLLogFile,"Limit for LowIndex: ",p,"\n");
+  fi;
+  
   return LowIndexSubgroupsFpGroup(grp,TrivialSubgroup(grp),p);
 end);
 
@@ -1544,9 +1642,17 @@ function( sheet, grplist )
         # see: I really know what I am doing!
           if IsSubgroup(vert[2]!.data.group,vert[1]!.data.group) then
             Info(GraphicLattice,1,vert[2]!.label," contains ",vert[1]!.label);
+            if GGLLogFile <> false then
+              AppendTo(GGLLogFile,vert[2]!.label," contains ",
+                      vert[1]!.label,"\n");
+            fi;
             NewInclusionInfo(sheet,vert[1],vert[2]);
           elif IsSubgroup(vert[1]!.data.group,vert[2]!.data.group) then
             Info(GraphicLattice,1,vert[1]!.label," contains ",vert[2]!.label);
+            if GGLLogFile <> false then
+              AppendTo(GGLLogFile,vert[1]!.label," contains ",
+                       vert[2]!.label,"\n");
+            fi;
             NewInclusionInfo(sheet,vert[2],vert[1]);
           fi;
         else
@@ -1621,6 +1727,11 @@ function( sheet, grplist )
               Info(GraphicLattice,1,"Classes ",classlists[lpos][i]," and ",
                    classlists[lpos][j]," in level ",levelparams[lpos],
                    " are merged!");
+              if GGLLogFile <> false then
+                AppendTo(GGLLogFile,"Classes ",classlists[lpos][i]," and ",
+                         classlists[lpos][j]," in level ",levelparams[lpos],
+                         " are merged!\n");
+              fi;
               Append(cl1,cl2);
               for v in [1..Length(cl2)] do
                 cl2[v]!.classparam := cl1[1]!.classparam;
@@ -1998,7 +2109,11 @@ function( sheet, v1, v2 )
         else
           Info(GraphicLattice,1,"Cannot use inclusion ",v1!.label," in ",
                v2!.label," because of levels!");
-          return;   # nothing to do!
+          if GGLLogFile <> false then
+            AppendTo(GGLLogFile,"Cannot use inclusion ",v1!.label," in ",
+                     v2!.label," because of levels!\n");
+          fi;
+          return;       # nothing to do!
         fi;
       else
         p2 := p1;
@@ -2108,6 +2223,10 @@ function( sheet, v1, v2 )
   # give some information:
   Info(GraphicLattice,1,"Vertices ",v1!.label," and ",v2!.label,
        " are merged!");
+  if GGLLogFile <> false then
+    AppendTo(GGLLogFile,"Vertices ",v1!.label," and ",v2!.label,
+             " are merged!\n");
+  fi;
   
   # we use the inclusions of v2 as new inclusion information for v1:
   # note that it is possible that this can move around levels and even
@@ -2550,12 +2669,18 @@ function( sheet, li )
   for g in li do
     if not IsGroup(g) then
       Info(GraphicLattice,1,"Warning: This is no subgroup: ",g);
+      if GGLLogFile <> false then
+        AppendTo(GGLLogFile,"Warning: This is no subgroup: ",g,"\n");  
+      fi;
     else
       v := WhichVertex(sheet,g,function(a,b) 
                                  return a = b.group;
                                end );
       if v = fail then
         Info(GraphicLattice,1,"Warning: Subgroup not in lattice: ",g);
+        if GGLLogFile <> false then
+          AppendTo(GGLLogFile,"Warning: Subgroup not in lattice: ",g,"\n");  
+        fi;
       else
         Select(sheet,v,true);
       fi;

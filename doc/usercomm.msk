@@ -88,16 +88,44 @@ See also `Query' for dialogs in "Query".
 \Declaration{TextSelector}
 
 \>`Enable( <sel>,<bt>,<flag> )'{Enable for text selectors}@{`Enable' for text selectors}
+\>`Enable( <sel>,<btindex>,<flag> )'{Enable for text selectors}@{`Enable' for text selectors}
 
-Enables or disables the button <bt> (string value) of the text selector
-<sel>, according to <flag>.
+Enables or disables the button <bt> (string value) or <btindex>
+(integer index)  of the text selector <sel>, according to <flag>.
 
-\>`Reset( <sel> )'{Reset for text selectors}
+\>`Relabel( <sel>, <list> )'{Relabel for text selectors}@{`Relabel' for text selectors}
+\>`Relabel( <sel>, <index>, <text> )'{Relabel for text selectors}@{`Relabel' for text selectors}
 
-Resets all strings of a text selector.
+Changes the strings that are displayed in the text selector. In the
+first form <list> must be a list of strings. The second form only
+changes the text at index <index>.
 
-\>`Close( <sel> )'{Close for text selectors}
+\>`SetName( <sel>, <index>, <string> )'{SetName for text selectors}@{`SetName' for text selectors}
+
+Every string in a text selector has a name. The names are stored in
+the list `names' component of the text selector. So `sel!.names' ist a 
+list containing the names. The names are initialized with the strings
+from the creation of the text selector.
+
+\>`Reset( <sel> )'{Reset for text selectors}@{`Reset' for text selectors}
+
+Resets all strings of a text selector, such that they are no longer
+selected. 
+
+\>`Close( <sel> )'{Close for text selectors}@{`Close' for text selectors}
 
 Closes a text selector. It vanishes from screen.
 
+Note that you have access to the indices and names of strings and
+buttons:
 
+\>`IndexOfSelectedText'{IndexOfSelectedText}@{`IndexOfSelectedText'}
+
+Whenever the user clicks on a text in a text selector, the global
+variable is set to the index of the text in the text
+selector. 
+
+\>`IndexOfSelectedButton'{IndexOfSelectedButton}@{`IndexOfSelectedButton'}
+
+Whenever the user clicks on a button in a text selector, the global
+variable is set to the index of the button in the text selector.

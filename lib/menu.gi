@@ -2,14 +2,14 @@
 ##
 #W  menu.gi                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gi,v 1.6 1999/04/01 16:07:48 gap Exp $
+#H  @(#)$Id: menu.gi,v 1.7 1999/05/19 22:05:57 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_menu_gi :=
-    "@(#)$Id: menu.gi,v 1.6 1999/04/01 16:07:48 gap Exp $";
+    "@(#)$Id: menu.gi,v 1.7 1999/05/19 22:05:57 gap Exp $";
 
 
 #############################################################################
@@ -363,7 +363,27 @@ end );
 ##
 DeclareRepresentation( "IsTsMenuRep", IsAttributeStoringRep,
         [ "title", "labels", "buttons", "selected", 
-          "buttonFuncs", "textFuncs"] );
+          "buttonFuncs", "textFuncs", "names" ] );
+
+
+#############################################################################
+##
+#V  IndexOfSelectedButton . . . . . . . . . . . . . . . . .  as the name says
+##
+##  contains the index of the button, that was last selected in a text
+##  selector.
+##
+IndexOfSelectedButton := 0;
+
+
+#############################################################################
+##
+#V  IndexOfSelectedText . . . . . . . . . . . . . . . . . .  as the name says
+##
+##  contains the index of the text, that was last selected in a text
+##  selector.
+##
+IndexOfSelectedText := 0;
 
 
 #############################################################################
@@ -409,6 +429,7 @@ function( name, lbs, bts )
     SetMenuId(sel,id);
     sel!.title       := ShallowCopy(name);
     sel!.labels      := lbs{[1, 3 .. Length(lbs)-1]};
+    sel!.names       := List(sel!.labels,ShallowCopy);
     sel!.buttons     := bts{[1, 3 .. Length(bts)-1]};
     SetFilterObj(sel, IsAlive);
     sel!.selected    := 0;
@@ -491,6 +512,29 @@ end );
 
 #############################################################################
 ##
+#M  Enable( <sel>, <bt>, <flag> ) . . . . . . . . . . . . . . . enable button
+##
+InstallOtherMethod( Enable,
+    "for a text selector, an index, and a flag",
+    true,
+    [ IsTsMenuRep, IsInt, IsBool ],
+    0,
+
+function( sel, bt, flag )
+    if bt < 1 or bt > Length(sel!.buttons) then
+        Error( "unknown button number ", bt );
+    fi;
+    if flag  then
+        WcTsEnable( MenuId(sel), bt, 1 );
+    else
+        WcTsEnable( MenuId(sel), bt, 0 );
+    fi;
+    
+end );
+
+
+#############################################################################
+##
 #M  PrintObj( <sel> ) . . . . . . . . . . . . .  pretty print a text selector
 ##
 InstallOtherMethod( PrintObj,
@@ -530,6 +574,56 @@ function( sel, text )
     if not ForAll( sel!.labels, IsString ) then
       Print( "warning (Relabel for text selector): labels must be strings\n");
     fi;
+end );
+
+
+#############################################################################
+##
+#M  Relabel( <sel>, <index>, <text> ) . . . . . . . . . . . . .  set new text
+##
+InstallOtherMethod( Relabel,
+    "for a text selector, an index, and a string",
+    true,
+    [ IsTsMenuRep, IsInt, IsString ],
+    0,
+
+function( sel, index, text )
+    local   str,  i;
+    
+    if index = 1 then
+      str := ShallowCopy(text);
+    else
+      str := ShallowCopy(sel!.labels[1]);
+    fi;
+    for i  in [ 2 .. Length(sel!.labels) ]  do
+      Append( str, "|" );
+      if i <> index then
+        Append( str, sel!.labels[i] );
+      else
+        Append( str, text );
+      fi;
+    od;
+    WcTsChangeText( MenuId(sel), str );
+    sel!.labels[index] := text;
+end );
+
+
+#############################################################################
+##
+#M  SetName( <sel>, <index>, <text> ) . . . . . . . . . . . . .  set new name
+##
+InstallOtherMethod( SetName,
+    "for a text selector, an index, and a string",
+    true,
+    [ IsTsMenuRep, IsInt, IsString ],
+    0,
+
+function( sel, index, text )
+  if index < 1 or index > Length(sel!.names) then
+    return;
+  else
+    sel!.names[index] := text;
+  fi;
 end );
 
 
@@ -581,6 +675,7 @@ InstallMethod( TextSelected,
 function( sel, tid )
     if 0 < tid  then
         sel!.selected := tid;
+        IndexOfSelectedText := tid;
         return sel!.textFuncs[tid]( sel, sel!.labels[tid] );
     else
         return fail;
@@ -619,6 +714,7 @@ InstallMethod( ButtonSelected,
     0,
         
 function( sel, bid )
+    IndexOfSelectedButton := bid;
     return sel!.buttonFuncs[bid]( sel, sel!.buttons[bid] );
 end );
 

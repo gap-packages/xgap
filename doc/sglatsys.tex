@@ -9,7 +9,7 @@ available in a systematic way.
 
 \>`GraphicSubgroupLattice( <g> )'{GraphicSubgroupLatticeXYZ}@{GraphicSubgroupLattice}
 
-`GraphicSubgroupLattice' creates a new graphic sheet containing the Hasse
+`GraphicSubgroupLattice' creates a new graphic sheet for the Hasse
 diagram of the subgroup lattice of <g>.  The next sections describe
 how to select and move vertices and the following sections describe the
 available menus.
@@ -27,7 +27,7 @@ these dimensions later using either the menu (described in
 "GraphicSubgroupLattice, Poset Menu") or the operation `Resize' for graphic 
 sheets (see "Resize").
 
-This function is equal for all types of groups. It only behaves differently
+This function is the same for all types of groups. It only behaves differently
 according to some properties of the group. For example finitely presented
 groups are treated differently because other algorithms apply in this case
 and some of the standard ones are not feasible to be carried out. 
@@ -140,13 +140,25 @@ add edges to the appropriate vertices.  If  the lattice is the lattice
 of a  finitely presented group,  nothing is  done with respect  to the
 connections of any vertex.  `InsertVertex' returns a list with the new
 vertex as first entry and  a flag as  second, which says, whether this
-vertex was inserted right now or has already  been there.  <hint> is a
-list of $x$ coordinates which should give  some hint for the choice of
-the new $x$  coordinate. It can for example  be the $x$ coordinates of
-those groups which  were parameter for  the operation which calculated
-the group. <hints> can be empty but must always be  a list!  If <conj>
-is a vertex we  put  the new vertex  into the  class  of this vertex.  
-Otherwise <conj> should either be `false' or `fail'.
+vertex was inserted right now or has already  been there.  
+
+<hint> is a list of $x$ coordinates which should give some hint for
+the choice of the new $x$ coordinate. It can for example be the $x$
+coordinates of those groups which were parameter for the operation
+which calculated the group. <hints> can be empty but must always be a
+list!
+
+If <conj> is a vertex we put the new vertex into the class of this
+vertex.  Otherwise <conj> should either be `false' or `fail'.
+
+You have access to the simpler form of the above functions via the
+``Subgroups'' menu and the mouse. If you select ``InsertVertices from
+GAP'' in the ``Subgroups'' menu, the function `InsertVertex' is called 
+for the group in the (automatic) variable `last', or, if `last'
+contains a list of subgroups, for all of those subgroups. This is an
+easy way to insert results of calculations with {\GAP} into the
+lattice. If `last' is neither a subgroup nor a list of subgroups,
+nothing happens.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

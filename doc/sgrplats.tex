@@ -11,7 +11,7 @@ types of groups  it provides easy access to  many of  the group functions
 This chapter explains  how to use this  interface by way of examples.  
 Chapter  "Subgroup  Lattices - Systematic  Description" gives
 details about the   various  options and menus available.    These two
-chapter  will not  describe how to  write  your own programs using the
+chapters  will not  describe how to  write  your own programs using the
 graphic extensions supplied by {\XGAP}, see chapters "Graphic Sheets -
 Basic graphic operations" to "Graphic Graphs" for details.
 
@@ -36,12 +36,12 @@ track ball, a glide-pad, or even something as exotic as a rat, we will use
 the term mouse to refer to this pointer device.
 
 In case that some computation takes longer than expected, for instance
-the low index and the prime quotient can  be quite time consuming, you
-can always interrupt a computation by  making the {\GAP} window active
-and pressing <CTRL-C>.   Again, making a window  active is  system and
-window manager  dependent.  In most cases  you either have to move the
-pointer inside the {\GAP} window or you have to click on the title bar
-of the {\GAP} window.
+the low index and the prime quotient can be quite time consuming, you
+can always interrupt a computation by making the {\GAP} window active
+and pressing <CTRL-C> or selecting `Interrupt' in the <Run> menu.
+Again, making a window active is system and window manager dependent.
+In most cases you either have to move the pointer inside the {\GAP}
+window or you have to click on the title bar of the {\GAP} window.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{The Subgroup Lattice of the Dihedral Group of Order 8}
@@ -109,7 +109,7 @@ representation of the subgroup lattice:
   have size 2, and the subgroups of $3$, $6$, and $7$ have size $4$. The
   default behaviour is to place a vertex above another one if the size of
   the subgroup represented by the first vertex is larger than the size of
-  subgroup of the second, but see "GraphicSubgroupLattice" for details. At
+  the subgroup of the second, but see "GraphicSubgroupLattice" for details. At
   the right edge of the graphic sheet each level is labeled with the index
   of the subgroups contained.
   
@@ -184,7 +184,8 @@ details and  the   difference   between  ``Closure''  and    ``Closures'' see
 If you have selected some vertices (in the example $D8$ and $2$ are now
 selected), and you want to investigate the subgroups corresponding to these
 vertices further in {\GAP}, the function `SelectedGroups' will return a
-list of these subgroups:
+list of these subgroups (note that you can also achieve calling this
+function by selecting ``SelectedGroups to GAP'' in the ``Subgroups'' menu):
 
 \label{gapxgap}
 \begintt
@@ -207,13 +208,14 @@ gap> l := LowerCentralSeries(d8);
 gap> SelectGroups(s,l);
 \endtt
 
-This lower central series corresponds   to the vertices $D8$, $2$  and
-$1$ which  will now be  selected.  If, as is  is not the case  in this
-example, the subgroups are not yet depicted in  the lattice, a warning
-appears in the  {\GAP} command window. You  have to use `InsertVertex'
-to insert  a new vertex  into the  lattice (see section "InsertVertex"
-for  the     complete  description of    this  function    or  section
-"xgapgap" for an example).
+This lower central series corresponds to the vertices $D8$, $2$ and
+$1$ which will now be selected.  If, as it is not the case in this
+example, the subgroups are not yet depicted in the lattice, a warning
+appears in the {\GAP} command window. You have to use `InsertVertex'
+to insert a new vertex into the lattice (note that you can also
+achieve this by selecting ``InsertVertices from GAP'' in the
+``Subgroups'' menu, see section "InsertVertex" for the complete
+description of this function or section "xgapgap" for an example).
 
 To  summarize the above: the  function `SelectedGroups' can be used to
 transfer information  from   the  diagram  to  {\GAP}, the   functions
