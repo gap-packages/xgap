@@ -3,11 +3,14 @@
 ##
 #A  xgap                        XGAP source                      Frank Celler
 ##
-#H  @(#)$Id: xgap.sh,v 1.1 1998/12/06 22:18:28 gap Exp $
+#H  @(#)$Id: xgap.sh,v 1.2 1999/01/14 20:01:42 gap Exp $
 ##
 #Y  Copyright (C) 1998,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
 #H  $Log: xgap.sh,v $
+#H  Revision 1.2  1999/01/14 20:01:42  gap
+#H  Made it possible to install xgap outside the normal gap4 tree.
+#H
 #H  Revision 1.1  1998/12/06 22:18:28  gap
 #H  Started manual, shell script for easy installation.
 #H
@@ -41,12 +44,17 @@ fi
 ##
 ##  XGAP_DIR . . . . . . . . . . . . . . . . . . . directory where XGAP lives
 ##
-##  Set 'XGAP_DIR' to the name of the directory where you have installed XGAP
-##  The default is '$GAP_DIR/pkg/xgap', which is a standard location.
+##  Set 'XGAP_DIR' to the name of the directory where you have unpacked XGAP
+##  The default is '$GAP_DIR', which is a standard location.
 ##  You have to change this unless you have installed XGAP in this  location.
+##  Comment:
+##  Note that this path should *not* contain the part 'pkg/xgap' because
+##  this is added automatically when needed. We need this information without
+##  the last part for the GAP library path when XGAP is not installed in
+##  the standard location!
 ##
 if [ "x$XGAP_DIR" = "x" ];  then
-XGAP_DIR=$GAP_DIR/pkg/xgap
+XGAP_DIR=$GAP_DIR
 fi
 
 #############################################################################
@@ -122,7 +130,6 @@ VERBOSE="NO"
 ##  definitions above, they will *not* be overwritten!
 ##
 #############################################################################
-
 
 #############################################################################
 ##
@@ -256,15 +263,26 @@ fi;
 
 
 #############################################################################
+##  We calculate the library path argument for GAP:
+##
+if [ "$XGAP_DIR" = "$GAP_DIR" ]; then
+  LIBARG="-l $GAP_DIR"
+else
+  LIBARG="-l \"$XGAP_DIR;$GAP_DIR\""
+fi
+
+
+#############################################################################
 ##
 #F  verbose . . . . . . . . . . . . . . . . . . . . .  print some information
 ##
 if [ $VERBOSE = "YES" ];  then
   echo
   echo "XGAP path:         $XGAP_DIR"
-  echo "XGAP executable:   $XGAP_DIR/bin/$XGAP_PRG"
+  echo "XGAP executable:   $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG"
   echo "GAP path:          $GAP_DIR"
   echo "GAP executable:    $GAP_DIR/bin/$GAP_PRG"
+  echo "GAP library arg:   $LIBARG"
   echo "Display:           $DISPLAY"
   echo "XGAP parameters:   $XP"
   echo "GAP parameters:    $GP"
@@ -277,10 +295,10 @@ fi
 #F  XGAP  . . . . . . . . . . . . . . . . . . . . . . . . . . . .  start XGAP
 ##
 if [ $DAEMON = "YES" ];  then
-  $XGAP_DIR/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
-                          -l $GAP_DIR -m $GAP_MEM $GP &
+  $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
+                                   $LIBARG -m $GAP_MEM $GP &
 else
-  $XGAP_DIR/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
-                          -l $GAP_DIR -m $GAP_MEM $GP
+  $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
+                                   $LIBARG -m $GAP_MEM $GP
 fi
 exit 0
