@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.16 1999/04/26 10:55:18 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.17 1999/04/26 21:58:47 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.16 1999/04/26 10:55:18 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.17 1999/04/26 21:58:47 gap Exp $";
 
 
 
@@ -999,7 +999,7 @@ function( poset, levelparam, classparam )
   noerror := true;
   store := GGDeleteModifiesMenu;
   GGDeleteModifiesMenu := false;
-  for v in l!.classes[lp] do
+  for v in l!.classes[cp] do
     if Delete(poset,v) = fail then
       noerror := fail;
     fi;

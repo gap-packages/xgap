@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.24 1999/04/26 10:55:17 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.25 1999/04/26 21:58:46 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.24 1999/04/26 10:55:17 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.25 1999/04/26 21:58:46 gap Exp $";
 
 
 #############################################################################
@@ -432,6 +432,9 @@ BindGlobal( "GGLMenuOpsForFpGroups",
           rec( name := "All Overgroups", op := IntermediateSubgroups,
                parent := true, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereUp, plural := false, rels := GGLrelsMax ),
+          rec( name := "Closure", op := GGLClosureGroup, 
+               parent := false, from := GGLfromSet, to := GGLto1, 
+               where := GGLwhereUp, plural := false, rels := GGLrelsNo ),
           rec( name := "Compare Subgroups", op := GGLCompareSubgroups,
                parent := false, from := GGLfromSet, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo,
@@ -469,6 +472,10 @@ BindGlobal( "GGLMenuOpsForFpGroups",
           rec( name := "Prime Quotient", op := GGLPrimeQuotient,
                parent := false, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereDown, plural := false, rels := GGLrelsDown,
+               sheet := true ),
+          rec( name := "Test Conjugacy", op := GGLTestConjugacy,
+               parent := false, from := GGLfromSet, to := GGLto0, 
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo,
                sheet := true )
         ] );
 
@@ -1035,7 +1042,7 @@ InstallMethod( GGLAbelianPQuotient,
     0,
 
 function(sheet,grp)
-  local res, p, qs;
+  local res, p, epi;
   res := Query( GGLPrimeDialog );
   if res = false then
     return fail;
@@ -1045,8 +1052,8 @@ function(sheet,grp)
     Query(Dialog("OKcancel","You must enter a prime!"));
     return fail;
   fi;
-  qs := PQuotient( grp, p, 1 );
-  return GGLKernelQuotientSystem(qs);
+  epi := EpimorphismPGroup( grp, p, 1 );
+  return Kernel(epi);
 end);
 
 
@@ -1064,7 +1071,7 @@ InstallMethod( GGLPrimeQuotient,
     0,
 
 function(sheet,grp)
-  local res, p, qs, cl, i, l;
+  local res, p, cl, i, l, epi;
   res := Query( GGLPrimeDialog );
   if res = false then
     return fail;
@@ -1085,8 +1092,8 @@ function(sheet,grp)
   fi;
   l := [];
   for i in [1..cl] do
-    qs := PQuotient( grp, p, i );
-    Add(l, GGLKernelQuotientSystem(qs) );
+    epi := EpimorphismPGroup( grp, p, i );
+    Add(l, Kernel(epi) );
   od;
   return l;
 end);
@@ -1095,6 +1102,8 @@ end);
 #############################################################################
 ##
 #M  GGLKernelQuotientSystem  . . . . . . . calculates the kernel of epi to qs
+##
+##  obsolete!?!
 ##
 InstallMethod( GGLKernelQuotientSystem,
     "for a quotient system",
@@ -1472,8 +1481,13 @@ function( sheet, grplist )
           pos2 := Position(lev!.classparams,classlists[lpos][j]);
           if pos2 <> fail then  # could already be merged!
             cl2 := lev!.classes[pos2];
-            if IsConjugate(cl1[1]!.data.group,cl2[1]!.data.group) then
+            if Length(cl1) > 0 and Length(cl2) > 0 and
+               IsConjugate(sheet!.group,
+                           cl1[1]!.data.group,cl2[1]!.data.group) then
               # we have to merge the classes:
+              Info(GraphicLattice,1,"Classes ",classlists[lpos][i]," and ",
+                   classlists[lpos][j]," in level ",levelparams[lpos],
+                   " are merged!");
               Append(cl1,cl2);
               for v in [1..Length(cl2)] do
                 cl2[v]!.classparam := cl1[1]!.classparam;
@@ -1486,6 +1500,9 @@ function( sheet, grplist )
       od;
     od;
   od;
+  # Now we call `UserRearrangeClasses' to align the vertices neatly!
+  UserRearrangeClasses(sheet,sheet!.menus[2],"Rearrange Classes");
+  
 end );
 
 
