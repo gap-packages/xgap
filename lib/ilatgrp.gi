@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.46 2003/12/08 09:33:39 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.47 2004/05/22 14:03:50 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.46 2003/12/08 09:33:39 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.47 2004/05/22 14:03:50 gap Exp $";
 
 
 #############################################################################
@@ -2532,13 +2532,7 @@ end);
 ##  One has to make sure that the index is used if the whole group is finite,
 ##  because this method can not decide, if G is finite.
 ##
-InstallOtherMethod( CompareLevels,
-    "for a graphic subgroup lattice, and two integers",
-    true,
-    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsObject, IsObject ],
-    34,   # this is necessary because of IsObject, IsObject
-
-function( poset, l1, l2 )
+TEMPORARYFUNCTION := function( poset, l1, l2 )
   if IsList(l1) then          # infinity!
     if IsList(l2) then        # two infinities not comparable
       # Here we have the special case of a space group, where the Hirsch-
@@ -2593,7 +2587,23 @@ function( poset, l1, l2 )
       fi;
     fi;
   fi;
-end);
+end;
+
+InstallOtherMethod( CompareLevels,
+    "for a graphic subgroup lattice, and two objects",
+    true,
+    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsObject, IsObject ],
+    34,   # this is necessary because of IsObject, IsObject, is it?
+    TEMPORARYFUNCTION
+);
+
+InstallMethod( CompareLevels,
+    "for a graphic subgroup lattice, and two integers",
+    true,
+    [ IsGraphicPosetRep and IsGraphicSubgroupLattice, IsInt, IsInt ],
+    0, TEMPORARYFUNCTION
+);
+
 
 
 #############################################################################
