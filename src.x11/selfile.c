@@ -3,7 +3,7 @@
 *W  selfile.c                   XGAP Source              Erik M. van der Poel
 *W                                                   modified by Frank Celler
 **
-*H  @(#)$Id: selfile.c,v 1.4 1999/03/03 01:12:40 gap Exp $
+*H  @(#)$Id: selfile.c,v 1.5 2004/01/30 16:16:05 gap Exp $
 **
 **  This file is based on the file selector  distributed with  ghostview,  it
 **  contained the following notice:
@@ -137,7 +137,7 @@ static char SFstatChar();
 
 /* BSD 4.3 errno.h does not declare errno */
 extern int errno;
-extern int sys_nerr;
+/* extern int sys_nerr; */
 
 #if !defined(S_ISDIR) && defined(S_IFDIR)
 #define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
