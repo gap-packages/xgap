@@ -2,7 +2,7 @@
 **
 *W  gapgraph.c                  XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: gapgraph.c,v 1.2 1997/12/05 17:30:48 frank Exp $
+*H  @(#)$Id: gapgraph.c,v 1.3 1998/12/18 18:58:08 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -232,7 +232,9 @@ GapGraphicClassRec gapGraphicClassRec =
     /* compress_enterleave	*/	TRUE,
     /* visible_interest		*/	FALSE,
     /* destroy			*/	GapGraphDestroy,
-    /* resize			*/	GapGraphResize,
+    /* resize			*/	XtInheritResize,
+        /* FIXME: Dirty Hack by Max, replaced: GapGraphResize,
+           I absolutely do *not* know what that means! */
     /* expose			*/	GapGraphExpose,
     /* set_values		*/	NULL,
     /* set_values_hook		*/	NULL,
