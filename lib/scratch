@@ -1,0 +1,29 @@
+The following functions are applicable to graphic sheets.
+
+'Close( <sheet> )'
+
+closes the  graphic sheet, this is equivalent  to  the user selecting
+<close graphic sheet> from the <GAP> menu.
+
+'FastUpdate( <sheet> )' \\
+'FastUpdate( <sheet>, true )'
+
+puts the graphic sheet in a fast update mode, during this mode the screen
+is no longer updated completely if a graphic  object is moved or deleted.
+You  should call  'FastUpdate(  <sheet>, true  )'  before you start large
+rearrangements of the graphic  objects and 'FastUpdate( <sheet>, false )'
+at the end.
+
+'FastUpdate( <sheet>, false )'
+
+switches off the fast update mode and refreshes the graphic sheet.
+
+'Resize( <sheet>, <width>, <height> )'
+
+changes the dimension of the graphic sheet.
+
+'SetTitle( <sheet>, <name> )'
+
+changes the title of the graphic sheet.
+
+
