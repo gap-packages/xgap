@@ -1,6 +1,6 @@
 \Chapter{Subgroup Lattices}
 
-{\XGAP} provides a graphical interface to the  lattice or partial lattice
+{\XGAP} provides a graphical interface to the  lattice or a partial lattice
 of subgroups of groups.  For finitely  presented groups it gives you easy
 access to the   low  index,  prime quotient   and   Reidemeister-Schreier
 algorithms in order to build a partial  lattice interactively.  For other
@@ -195,8 +195,8 @@ computation in {\GAP} in the diagram, you can use `SelectGroups'.  The
 function `SelectGroups' allows you to mark any set of subgroups of $D_8$ in
 the diagram.
 
-For instance,  you can compute the lower central series of this (nilpotent) 
-in {\GAP}.
+For instance,  you can compute the lower central series of this (nilpotent)
+group in {\GAP}.
 
 \begintt
 gap> l := LowerCentralSeries(d8);
@@ -296,12 +296,13 @@ gap> s60 := List(c60,Representative);
 \endtt
 
 We now use the  function `InsertVertex'  to  add  these two subgroups  to your
-partial lattice.  The Hasse diagram now contains four vertices.
+partial lattice.  
 
 \begintt
 gap> for g in s60 do InsertVertex(s,g); od;
 \endtt
 
+The Hasse diagram now contains four vertices.
 The new vertices are selected automatically.  Selecting ``Conjugate
 Subgroups'' from the ``Subgroups'' menu adds the complete conjugacy classes.
 In order to find out what type of subgroups we  are looking at, use another
@@ -388,8 +389,8 @@ gap> s := GraphicSubgroupLattice(s6);
 <graphic subgroup lattice "GraphicSubgroupLattice of S6">
 \endtt
 
-In order to compute a Sylow $2$ subgroup select ``Sylow Subgroup'' from the
-``Subgroups'' menu.   A small dialog box  will  pop up asking  for a prime,
+In order to compute a Sylow $2$ subgroup select <Sylow Subgroup> from the
+<Subgroups> menu.   A small dialog box  will  pop up asking  for a prime,
 type in  $2$ and press <return> or  click on <OK>.   Now select  this new
 vertex $2$   representing the Sylow $2$  subgroup  and compute its normal
 subgroups.  This is rather slow because the  function checks for each new
@@ -542,7 +543,7 @@ $2$ to $9$  have  a finite  commutator  factor group except  the subgroup
 belonging  to  vertex  $3$    which has  an infinite    abelian quotient.
 Therefore the group $C_2$ itself is infinite.
 
-Now we want to investigate $C_2$ a little further using {\GAP}.  Selected
+Now we want to investigate $C_2$ a little further using {\GAP}.  Select
 vertices  $2$, $3$, and   $4$ and  switch   to  the {\GAP}  window.   Use
 `Selected' to get the subgroups associated with these vertices.
 
@@ -649,7 +650,7 @@ warning
 
 because  `GraphicSubgroupLattice'  cannot   deal  with subgroups of  infinite
 index.  So  use <Prime Quotient> to   compute a $2$-quotient  of $K_3$ of
-class $4$ instead.  This creates a new vertices $2$, $3$, $4$ and $5$ for
+class $4$ instead.  This creates new vertices $2$, $3$, $4$ and $5$ for
 the $2$-quotients of  class $1$ up to $4$  which however have a different
 shape. They are diamonds inside a square.  A diamond again indicates that
 the associated subgroup  is normal.  A square is  meant as a danger sign,
@@ -701,12 +702,14 @@ gap> GraphicSubgroupLattice( DihedralGroup(8) );
 
 In this form `GraphicSubgroupLattice' creates a graphic sheet of initial
 dimensions <width> times <height>.  However it is still possible to change
-these dimensions later using either "GraphicSubgroupLattice, Poset Menu".
+these dimensions later using either the menu (described in
+"GraphicSubgroupLattice, Poset Menu") or the operation `Resize' for graphic 
+sheets (see "Resize").
 
 This function is equal for all types of groups. It only behaves differently
 according to some properties of the group. For example finitely presented
 groups are treated differently because other algorithms apply in this case
-and some of the standard ones are not feasible to carry out. 
+and some of the standard ones are not feasible to be carried out. 
 
 In contrast to the {\GAP3} version of {\XGAP} all graphic subgroup lattices 
 are interactive so you can always remove vertices. You can still get the
@@ -757,7 +760,9 @@ moved.
 
 If you hold  down  the <SHIFT> key before  moving  a vertex as  described
 above then  only the selected vertex is moved but not all members of the
-same class.
+same class. You can realign the vertices of a class by selecting one of
+them and choose <Rearrange Classes> in the <Poset> menu 
+(see "Rearrange Classes").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Selecting Vertices}
@@ -869,7 +874,7 @@ posets.
 
 `Resize Lattice' &
 Selecting this entry will pop up a dialog box asking for an x and y factor
-separated by a comma.  You can enter integers or quotients If you enter
+separated by a comma.  You can enter integers or quotients. If you enter
 only one number this is used for x and y.  The graphic sheet is then
 enlarged or shrinked and the lattice is resized accordingly.
 
@@ -894,7 +899,7 @@ selected vertices.  This will only work if the corresponding subgroups do
 not have the same size and is used to align certain vertices
 vertically.
 
-`Rearrange Classes' &
+`Rearrange Classes' \label{Rearrange Classes} &
 Selecting this entry will clean up all classes which contain a selected
 vertex. You need this option if you have moved a vertex without its class
 (holding down the <SHIFT> key). The vertices in a class are arranged one
@@ -926,42 +931,42 @@ The following descriptions do not apply to the case of finitely presented
 groups. See "GraphicSubgroupLattice for FpGroups, Subgroups Menu" for this
 case. 
 
-\beginitems
-`All Subgroups' &
-computes and displays all subgroups of the selected vertices. Requires at
-least one selected vertex. Use with care! This can cause huge computations!
-See also "ref:LatticeSubgroups".
+\beginitems `All Subgroups' & 
+For each selected vertex `All Subgroups' computes and displays all its
+subgroups. Requires at least one selected vertex. Use with care! This can
+cause huge computations!  See also "ref:LatticeSubgroups".
 
 `Centralizers' &
-computes  and displays the   centralizers of  the selected  vertices with
-respect to the whole group.  Requires at  least one selected vertex.  See
-also "ref:Centralizer".
+For each selected vertex `Centralizers' computes and displays its
+centralizer with respect to the whole group.  Requires at least one
+selected vertex.  See also "ref:Centralizer".
 
 `Centres' &
-computes and displays  the centre of  the selected vertices.  Requires at
-least one selected vertex. See also "ref:Centre".
+For each selected vertex `Centres' computes and displays its centre.
+Requires at least one selected vertex. See also "ref:Centre".
 
 `Closure' &
 computes and    displays the common  closure  of  the  selected vertices.
-Requires at least one selected vertices. See also "ref:ClosureGroup".
+Requires at least one selected vertex. See also "ref:ClosureGroup".
 
 `Closures' &
-computes  and  displays the pairwise  closures of  the selected vertices.
+computes  and  displays the closure of each pair of selected vertices.
 Requires at least two selected vertices. See also "ref:ClosureGroup".
 
 `Commutator Subgroups' &
-computes and displays  the pairwise commutator  subgroups of the selected
+computes and displays  the commutator  subgroup of each pair of selected
 vertices.    Requires  at  least    two   selected  vertices. See    also
 "ref:CommutatorSubgroup".
 
 `Conjugate Subgroups' &
-computes and displays the conjugacy  classes (with  respect to the  whole
+computes and displays the conjugacy  class (with  respect to the  whole
 group) of each  selected vertex.  Requires  at least one selected vertex.
 See also "ref:ConjugacyClass".
 
 `Cores' &
-computes and displays the cores of  the selected vertices with respect to
-the whole group.  Requires at least one selected vertex. See also "ref:Core".
+For each selected vertex `Cores' computes and displays its core with
+respect to the whole group.  Requires at least one selected vertex. See
+also "ref:Core".
 
 `Derived Series' &
 For   each  selected vertex  `Derived  Series'  computes and displays its
@@ -969,12 +974,13 @@ derived series.   Requires  at   least  one selected vertex.    See  also
 "ref:DerivedSeriesOfGroup".
 
 `Derived Subgroups' &
-computes and  displays the  derived  subgroups of the selected  vertices.
-Requires at least one selected vertex.  See also "ref:DerivedSubgroup".
+For each selected vertex `Derived Subgroups' computes and displays its
+derived subgroup.  Requires at least one selected vertex.  See also
+"ref:DerivedSubgroup".
 
 `Fitting Subgroups' &
-computes and   displays   the   Fitting   subgroups   of   the   selected
-vertices.  Requires    at   least one      selected  vertex.   See   also
+For each selected vertex `Fitting Subgroups' computes and displays its
+Fitting subgroup.  Requires at least one selected vertex.  See also
 "ref:FittingSubgroup".
 
 `Intermediate Subgroups' &
@@ -987,18 +993,19 @@ computes and  displays the common intersection  of the selected vertices.
 Requires at least one selected vertices.  See also "ref:Intersection".
 
 `Intersections' &
-computes and displays the pairwise intersection of the selected vertices.
-Requires at least two selected vertices.  See also "ref:Intersection".
+For each pair of selected vertices `Intersections' computes and displays
+the intersection of the two vertices.  Requires at least two selected
+vertices.  See also "ref:Intersection".
 
 `Normalizers' &
-computes   and displays  the normalizers   of  the selected vertices with
-respect to the whole group.  Requires at least  one selected vertex.  See
-also "ref:Normalizer".
+For each selected vertex `Normalizers' computes and displays its normalizer
+with respect to the whole group.  Requires at least one selected vertex.
+See also "ref:Normalizer".
 
 `Normal Closures' &
-For   each  selected vertex `Normal  Closure'  computes  and displays the
-normal closure of this vertex with respect  to the whole group.  Requires
-at least one selected vertex.  See also "ref:NormalClosure".
+For each selected vertex `Normal Closure' computes and displays its normal
+closure with respect to the whole group.  Requires at least one selected
+vertex.  See also "ref:NormalClosure".
 
 `Normal Subgroups' &
 For   each selected vertex `Normal  Subgroups'  computes and displays the
@@ -1007,9 +1014,9 @@ subgroups are not  necessarily  normal in the  whole  group.  Requires at
 least one selected vertex.  See also "ref:NormalSubgroups".
 
 `Sylow Subgroups' &
-pops  up a dialog  box asking   for prime.   After entering  a  prime and
-pressing  <return> or  clicking  <OK> it computes   and displays  a Sylow
-subgroup  for   each selected vertex.  Requires   at   least one selected
+pops  up a dialog  box asking   for a prime.   After entering  a  prime $p$ 
+and pressing  <return> or  clicking  <OK> it computes   and displays  a Sylow
+$p$-subgroup  for   each selected vertex.  Requires   at   least one selected
 vertex.  See also "ref:SylowSubgroup".
 \enditems
 
@@ -1021,7 +1028,7 @@ group. See "GraphicSubgroupLattice for FpGroups, Information Menu" for this
 case.
 
 Placing the pointer  inside a vertex (selected  or not)  and pressing the
-*right* mouse button pops up the  `'Information'' menu.  Clicking on any of
+*right* mouse button pops up the  ``Information'' menu.  Clicking on any of
 the text  lines will compute  the corresponding  property of the subgroup
 $u$ associated  with  this vertex.  Clicking   on <all> will  compute all
 properties, clicking on <close> will close the ``Information'' menu.
@@ -1162,7 +1169,7 @@ Click on any of these entries to try to find a quotient isomorphic to the
 symmetric group (`Sym(n)'), the alternating group (`Alt(n)'),
 the symmetric or the alternating group (`Sym(n) > Alt(n)'), the projective
 special linear group (`PSL(d,q)'), a group in a library supplied with
-{\XGAP} (this will pops up a file selector), or a user defined group stored
+{\XGAP} (this will pop up a file selector), or a user defined group stored
 in the variable `PERM_GROUP'.  After supplying additional parameters, for
 example, the degree of the symmetric group or the dimension and field of
 $PSL$ using dialog boxes, the corresponding entry will change, for example
@@ -1180,7 +1187,7 @@ vertices.  Requires at least two selected vertices.
 
 `Low Index Subgroups' &
 pops up a dialog box asking for index  limit $k$.  It  will then do a low
-index subgroup search for  subgroup of index at  most $k$ of the selected
+index subgroup search for  subgroups of index at  most $k$ of the selected
 vertex using `LowIndexSubgroupsFpGroup'.    If no  presentation  for  the
 subgroup   associated to  the vertex  is  known a  presentation  is first
 computed using a  modified  Todd-Coxeter algorithm. Requires  exactly one
@@ -1262,22 +1269,23 @@ if $u$ is normal.
 
 The following vertex shapes can appear in an interactive lattice.
 
-circle:\\
+\beginitems
+circle: &
     a vertex for which  a coset table for  associated subgroup is  known.
     These vertices are checked for equality among each other.
 
-square:\\
+square: &
     a vertex for which  no coset table for  associated subgroup is known.
     These vertices are not checked for equality among all vertices.
 
-diamond:\\
+diamond: &
     as  a `circle' but   the associated subgroup  is  normal in the whole
     group *and* {\GAP} knows this.
 
-diamond with square:\\
+diamond with square: &
     as a  `square'  but the associated subgroup  is  normal in  the whole
     group *and* {\GAP} knows this.
-
+\enditems
 
 %%% Local Variables: 
 %%% mode: latex

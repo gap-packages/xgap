@@ -21,7 +21,7 @@ a class respectively.
 \Declaration{DeleteLevel}
 
 \medskip
-{\bf Operations to change poset:}
+{\bf Operations to change a poset:}
 \medskip
 \Declaration{ResizeLevel}
 \Declaration{MoveLevel}

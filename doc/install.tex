@@ -1,6 +1,6 @@
 \Chapter{Installing XGAP}
 
-Installing {\XGAP} should be easy once you have installed gap itself. We
+Installing {\XGAP} should be easy once you have installed {\GAP} itself. We
 assume here that you want to install {\XGAP} in its standard location,
 which is in the ``pkg'' subdirectory of the main {\GAP4} installation.
 
@@ -24,10 +24,11 @@ Being a graphical user interface to {\GAP}, {\XGAP} of course needs
 graphics. At the moment this means that you need the X window system in the 
 Version 11 Release 5 or newer. So you *cannot* use {\XGAP} on a Macintosh
 or a Microsoft Windows computer. On the other hand the type of Unix you use 
-should not matter. Please contact the author or post to the gap-trouble
+should not matter. Please contact Max Neunh\accent127offer (email:
+`max.neunhoeffer@math.rwth-aachen.de') or post to the gap-trouble  
 mailing list, if you encounter problems with certain system configurations.
 
-Because {\XGAP} consists of a C-part you need a C compiler.
+Because {\XGAP} contains a C-part you need a C compiler.
 
 \Section{Getting and unpacking the sources}
 
@@ -113,9 +114,11 @@ used to compile the code. You do this by typing
 \begintt
 # make
 if test ! -d bin;  then mkdir bin;  fi
-if test ! -d bin/i686-unknown-linux2.0.34-gcc;  then mkdir bin/i686-unknown-linux2.0.34-gcc;  fi
+if test ! -d bin/i686-unknown-linux2.0.34-gcc; \
+                then mkdir bin/i686-unknown-linux2.0.34-gcc;  fi
 cp cnf/configure.out bin/i686-unknown-linux2.0.34-gcc/configure
-( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc ./configure --target=i686-unknown-linux2.0.34  )
+( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc \
+                ./configure --target=i686-unknown-linux2.0.34  )
 creating cache ./config.cache
 checking for gcc... gcc
 checking whether the C compiler (gcc  ) works... yes
@@ -125,12 +128,16 @@ checking whether we are using GNU C... yes
 creating ./config.status
 creating Makefile
 creating config.h
-make[1]: Entering directory `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
+make[1]: Entering directory \
+     `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
 gcc -I. -g -O2 -I/usr/X11R6/include  -o xcmds.o -c ../../src.x11/xcmds.c
 gcc -I. -g -O2 -I/usr/X11R6/include  -o utils.o -c ../../src.x11/utils.c
 ...
-make[1]: Leaving directory `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
+make[1]: Leaving directory \
+     `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
 \endtt
+
+(a few lines were broken for typesetting purposes in this manual!) 
 
 Now all C sources are compiled and a binary executable is built. It is
 stored in a subdirectory of the ``bin'' subdirectory in your ``xgap''

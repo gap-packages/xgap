@@ -19,6 +19,7 @@ functions:
 The following operations apply to graphic sheets:
 
 \Declaration{Close}
+\Declaration{Resize}
 \Declaration{WindowId}
 \Declaration{SetTitle}
 \Declaration{SaveAsPS}
@@ -62,9 +63,10 @@ The following operations apply to graphic sheets:
 \>`\\in'{in for graphic objects}
 
 This infix operation needs a vector of two integers to its left and a graphic
-object to its right. It determines, if the position given by the two integer
-coordinates is inside (e.g. for boxes) or on (e.g. for lines) the graphic
-objects. Returns a boolean value.
+object to its right (``vector of two integers'' means a list of two
+integers e.g. `[15,9]'). It determines, if the position given by the two
+integer coordinates is inside (e.g. for boxes) or on (e.g. for lines) the
+graphic objects. Returns a boolean value.
 \Declaration{Change}
 \Declaration{Relabel}
 \Declaration{SetWidth}

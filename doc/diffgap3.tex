@@ -19,9 +19,9 @@ or algorithm in {\XGAP}. It is now only a front end and a graphical user
 interface. All code for finitely presented groups resides now in the {\GAP}
 library. This is a much cleaner concept and should make the management of
 the source code easier. At the same time {\XGAP} has become a much more
-generic program. Operations for subgroups are for example no longer case by 
-case hard wired into {\XGAP} but there is generic code which can be adapted 
-just by hacking a few tables. 
+generic program. Operations for subgroups are for example no longer hard
+wired into {\XGAP} case by case but there is generic code which can be
+adapted just by hacking a few tables.
 
 These generalizations made some sacrifices necessary, because {\XGAP} does
 no longer know anything about the mathematics it is displaying. This
@@ -29,11 +29,22 @@ however should not bother the user really.
 
 All in all nearly the complete {\GAP} code of {\XGAP} was written anew.
 
-The user of {\XGAP} should not realize much of those changes. The
+In the old {\GAP3} version of {\XGAP} there were three different programs
+for the full subgroup lattice of a (finite) group (`GraphicLattice'), the
+interactive partial subgroup lattice of a finite group
+(`InteractiveLattice') and the interactive partial subgroup lattice of a
+finitely presented group (`InteractiveFpLattice') respectively. Now there
+is only one generic program to display subgroup lattices interactively
+(`GraphicSubgroupLattice').
+
+The user of {\XGAP} should not realize much of those changes (except of
+course the name of the function to display a subgroup lattice). The
 programmer on the other hand has to get used to the new techniques. It was
 not in all places possible to achieve total compatibility for existing
 code. Some changes also were introduced deliberately to make the
 programmers adapt their programs to the new situation!
+
+There is now a new link to the C-MeatAxe written by Michael Ringe.
 
 \Section{User Interface}
 

@@ -56,8 +56,23 @@ visualizations of the mathematical objects you study. The user can select
 objects, choose functions from menus and ask for more information with a
 few mouse clicks. 
 
+A good example for this approach is the implementation of the interactive
+Todd-Coxeter-Algorithm to compute coset tables in finitely presented
+groups. It uses the graphical features of {\XGAP} to give the user quick
+and easy access to the algorithm by a few mouse clicks. This program was
+written by Ludger Hippe in Aachen using {\XGAP3} and is currently ported to
+{\XGAP4} by Volkmar Felsch.
+
+Another nice little example is in the `examples' subdirectory in the
+{\XGAP} distribution. It was written by Thomas Breuer (Aachen) to
+demonstrate the features of {\XGAP}. The user gets a small window with a
+puzzle and can solve it using the mouse. You can test this example by
+starting {\XGAP} and `Read'ing the file `pkg/xgap/examples/puzzle.g'.
+%FIXME: Is that true?
+
 You do not have to invent the wheel many times. For certain mathematical
-concepts like graphs or posets {\XGAP} provides implementations which can
+concepts like graphs, posets or lattices {\XGAP} provides implementations
+which can  
 be adapted to your special situation. You can use those parts of the code
 you like and substitute the other parts to adapt the behaviour of the user
 interface to your wishes.
@@ -87,12 +102,12 @@ the communications protocol to `xgap' and are eventually displayed on the
 screen. User actions like mouse clicks or keyboard events are caught by
 `xgap' and transmitted to the {\GAP} job via function calls that are
 ``typed in'' as if the user had typed them. So the library can work on them 
-and change the {\GAP} accordingly.
+and change the {\GAP} objects accordingly.
 
 Technically, {\XGAP} is a share package and one of the first commands that
 is executed automatically within the {\GAP} session is a
 `RequirePackage("xgap")' call. This reads in the extra {\XGAP}
-libraries. They are found in the `pkg/xgap/lib' directory normally in the
+libraries. They are found in the `pkg/xgap/lib' subdirectory, normally in the
 main {\GAP} directory. The files contain the following:
 
 \beginitems
@@ -124,4 +139,18 @@ variants of Unix with the X Window System Version 11 Release 5 or
 higher. As of now {\XGAP} does not run on Microsoft Windows or MacOS. It is 
 also definitely *not* easily ported there, because some important features
 that are used within {\XGAP} are missing there (like pseudo terminals).
+There are currently no plans underways to do work in this direction.
+However, portations are very welcome! If you would like to put some work
+into this, please contact Max Neunh\accent127offer (email:
+`max.neunhoeffer@math.rwth-aachen.de'). 
 
+\Section{Acknowledgements}
+
+The first version of {\XGAP} was written by Frank Celler and Susanne
+Keitemeister in 1993. This was improved in the following years mainly by
+Frank Celler, especially into the direction of finitely presented groups.
+
+In 1998, Thomas Breuer, Frank Celler, Joachim Neub\accent127user and Max
+Neunh\accent127offer invented the new concepts for the {\GAP4}
+version. The implementation and portation to {\GAP4} was done mainly by Max
+Neunh\accent127offer. 
