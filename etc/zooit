@@ -6,7 +6,7 @@
 
 # Change this for the latest revision:
 # (Last digit is patchlevel) 
-ZOOFILE=xgap4r00
+ZOOFILE=xgap4r01
 
 rm -f TEXTCOM BINCOM
 echo '!TEXT!' > TEXTCOM
@@ -20,7 +20,7 @@ for i in xgap/{README,Makefile.in,configure,configure.in,init.g}; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
-for i in xgap/bin/xgap*; do
+for i in xgap/xgap*; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
