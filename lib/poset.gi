@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.13 1999/03/09 11:34:25 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.14 1999/03/24 09:45:04 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.13 1999/03/09 11:34:25 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.14 1999/03/24 09:45:04 gap Exp $";
 
 
 
@@ -372,7 +372,7 @@ function( poset, levelparam, lpstr )
     fi;
     strlen := Length(str);
     text := Text(poset,FONTS.normal,
-                 poset!.width - 8 - strlen*FontInfo(FONTS.normal)[3],
+                 poset!.width - 24 - strlen*FontInfo(FONTS.normal)[3],
                  level!.top + QuoInt(level!.height,2),str);
     if COLORS.blue <> false then
       Recolor(text,COLORS.blue);
@@ -490,7 +490,7 @@ function( poset, levelparam, lpstr )
   fi;
   strlen := Length(str);
   text := Text(poset,FONTS.normal,
-               poset!.width - 8 - strlen*FontInfo(FONTS.normal)[3],
+               poset!.width - 24 - strlen*FontInfo(FONTS.normal)[3],
                level!.top + QuoInt(level!.height,2),str);
   if COLORS.blue <> false then
     Recolor(text,COLORS.blue);

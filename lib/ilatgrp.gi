@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.20 1999/03/11 17:26:59 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.21 1999/03/24 09:45:04 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.20 1999/03/11 17:26:59 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.21 1999/03/24 09:45:04 gap Exp $";
 
 
 #############################################################################
@@ -1500,6 +1500,8 @@ function( sheet, grp, conjugclass, hints )
     for cl in lev!.classes do
       if Length(cl) <> 0 then
         Add(vers,cl[1]);
+      else      # This is the case of an empty class!
+        Add(vers,false);
       fi;
     od;
     
@@ -1507,7 +1509,8 @@ function( sheet, grp, conjugclass, hints )
       conj := fail;
     else
       conj := First([1..Length(vers)],
-                    v->IsConjugate(sheet!.group,grp,vers[v]!.data.group));
+                    v->(vers[v] <> false and
+                        IsConjugate(sheet!.group,grp,vers[v]!.data.group)));
     fi;
     
     if conj <> fail then
@@ -1570,9 +1573,11 @@ function( sheet, grp, conjugclass, hints )
   end;
   
   Walkdown := function(v)
-    local   w;
+    local   w, list;
     # first check if there are superfluos connections:
-    for w in v!.maximalin do
+    # we need a copy because `Delete' changes v!.maximalin:
+    list := ShallowCopy(v!.maximalin);
+    for w in list do
       if PositionSet(containerlist,w!.serial) <> fail then
         # gotcha! Attention: new Edge not yet created, so no danger!
         Delete(sheet,w,v);
@@ -1611,7 +1616,7 @@ function( sheet, grp, conjugclass, hints )
   # a maximal element and have stored the serial numbers of all vertices
   # that contain our new vertex.
   # we now do the same downwards but we cancel additionally all connections
-  # between contained subgroups and overgroups.
+  # between contained subgroups and overgroups (see `WalkDown').
   containedlist := [];
   # all lower levels:
   lev := Position(Levels(sheet),newlevel)+1;
