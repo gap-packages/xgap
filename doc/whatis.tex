@@ -1,5 +1,43 @@
-\Chapter{What is XGAP 4?}
+\Chapter{What is XGAP?}
+
+In this chapter you find the answer to the above question beginning from a
+short overview up to a description of the technical concept.
 
 \Section{Basics}
+
+The idea of \XGAP~is that \GAP~should be able to control graphics. A
+graphical user interface is sometimes easier to use than a text and
+command oriented one and there are mathematical applications for which it
+can be quite useful to visualize objects with computer graphics.
+
+On the other hand it is not sensible to change the whole concept and user
+interface of \GAP~because people are used to it and it works. So \XGAP~is a 
+separate C program running under the X Window System, which starts up a
+\GAP~job and allows normal command execution within a window. In addition
+there is a library written in \GAP, which makes it possible to open new
+windows, display graphics, control menus and do other graphical user
+communication in \GAP~via the separate C part.
+
+Built on those ``simple'' windows and graphic objects are other libraries
+which display graphs and posets in a window and allow the user to move
+vertices around, select them and invoke \GAP~functions on mathematical
+objects which belong to the graphic objects.
+
+One ``application'' of these libraries is a program to display subgroup
+lattices interactively. So \XGAP~works as a front end for mathematical
+operations on subgroup lattices. It is possible to ``switch'' between the
+graphics and the \GAP~commands. This means that you can for example use the 
+graphically selected vertices resp. subgroups to do your own calculations
+in the command window. You can then display your results again as vertices
+in the lattice.
+
+Of course there are other applications possible and the libraries are
+developed with code reusage in mind.
+
+
+\Section{What you can do with XGAP}
+
+
+\Section{How does it work?}
 
 

@@ -1,3 +1,209 @@
-\Chapter{Installing XGAP 4}
+\Chapter{Installing XGAP}
 
+Installing {\XGAP} should be easy once you have installed gap itself. We
+assume here that you want to install {\XGAP} in its standard location,
+which is in the ``pkg'' subdirectory of the main {\GAP4} installation.
 
+\Section{Overview}
+
+You have to perform the following steps to install {\XGAP}:
+
+\beginlist
+\item{--} Get the sources
+\item{--} Unpack the sources with the <unzoo> utility
+\item{--} Use the <configure> script to adjust everything to your specific
+  system
+\item{--} Compile the C part of {\XGAP}
+\item{--} Edit a certain startup script and install it in an executable
+      location in your system
+\endlist
+
+\Section{What you need to install XGAP}
+
+Being a graphical user interface to {\GAP}, {\XGAP} of course needs
+graphics. At the moment this means that you need the X window system in the 
+Version 11 Release 5 or newer. So you *cannot* use {\XGAP} on a Macintosh
+or a Microsoft Windows computer. On the other hand the type of Unix you use 
+should not matter. Please contact the author or post to the gap-trouble
+mailing list, if you encounter problems with certain system configurations.
+
+Because {\XGAP} consists of a C-part you need a C compiler.
+
+\Section{Getting and unpacking the sources}
+
+You can download the sources from the same places as {\GAP}. So the main
+FTP servers are:
+
+\begintt
+ftp:/ftp-gap.dcs.st-and.ac.uk/pub/gap/gap4/
+ftp:/ftp.math.rwth-aachen.de/pub/gap4/
+ftp:/ftp.ccs.neu.edu/pub/mirrors/ftp-gap.dcs.st-and.ac.uk/pub/gap/gap4/
+ftp:/pell.anu.edu.au/pub/algebra/gap4/
+\endtt
+
+You need only one file with the name ``xgap4.zoo''
+%FIXME: Filename
+which is in the subdirectory for the share packages.
+%FIXME: Is that so?
+When you installed {\GAP} you used the utility <unzoo> to unpack the
+distribution. You will need this here again. See the {\GAP}-manual for
+instructions on how to get and compile this.
+%FIXME: Reference
+You now change your current directory to the location where you installed
+{\GAP} (you typed an <unzoo>-command, then a new directory called
+``gap4'' or something like that was created, this directory is the right
+place). The standard location would be:
+
+\begintt
+# cd /usr/local/lib/gap4
+\endtt
+
+Now you extract the sources for the {\XGAP} share package:
+
+\begintt
+# unzoo -x xgap4.zoo
+...
+\endtt
+%FIXME: Place some output here, FILENAME?
+
+The <unzoo> utility unpacks the files and stores them into the apropriate
+subdirectories. {\XGAP} resides completely in the following subdirectory
+(assuming standard location):
+
+\begintt
+/usr/local/lib/gap4/pkg/xgap
+\endtt
+
+\Section{Configuring and Compiling the C part}
+
+You have to change your current working directory to the ``xgap''
+subdirectory. You do this by
+
+\begintt
+# cd pkg/xgap
+\endtt
+
+if your current working directory is the one, where you used
+<unzoo>. There you invoke the <configure> script by:
+
+\begintt
+# ./configure
+creating cache ./config.cache
+checking for make... make
+checking host system type... i686-unknown-linux2.0.34
+checking target system type... i686-unknown-linux2.0.34
+checking build system type... i686-unknown-linux2.0.34
+checking for gcc... gcc
+checking whether the C compiler (gcc  ) works... yes
+checking whether the C compiler (gcc  ) is a cross-compiler... no
+checking whether we are using GNU C... yes
+...
+updating cache ./config.cache
+creating ./config.status
+creating Makefile
+\endtt
+
+$\ldots$ indicate omissions. 
+This script tries to determine, which kind of operating system and
+libraries you have installed and configures the source
+accordingly. Normally this should produce some output but no error
+messages. The last step of the script produces some makefiles which are
+used to compile the code. You do this by typing
+
+\begintt
+# make
+if test ! -d bin;  then mkdir bin;  fi
+if test ! -d bin/i686-unknown-linux2.0.34-gcc;  then mkdir bin/i686-unknown-linux2.0.34-gcc;  fi
+cp cnf/configure.out bin/i686-unknown-linux2.0.34-gcc/configure
+( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc ./configure --target=i686-unknown-linux2.0.34  )
+creating cache ./config.cache
+checking for gcc... gcc
+checking whether the C compiler (gcc  ) works... yes
+checking whether the C compiler (gcc  ) is a cross-compiler... no
+checking whether we are using GNU C... yes
+...
+creating ./config.status
+creating Makefile
+creating config.h
+make[1]: Entering directory `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
+gcc -I. -g -O2 -I/usr/X11R6/include  -o xcmds.o -c ../../src.x11/xcmds.c
+gcc -I. -g -O2 -I/usr/X11R6/include  -o utils.o -c ../../src.x11/utils.c
+...
+make[1]: Leaving directory `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
+\endtt
+
+Now all C sources are compiled and a binary executable is built. It is
+stored in a subdirectory of the ``bin'' subdirectory in your ``xgap''
+directory. The name of this location has something to do with your
+installation. It could for example be
+
+\begintt
+bin/i686-unknown-linux2.0.34-gcc/xgap
+\endtt
+
+if you compile on a Linux system using the GNU-C-Compiler.
+
+\Section{Installing the Startup Script}
+
+To make the startup of {\XGAP} more convenient there is a startup script
+which contains also some configuration information like the position of
+your {\GAP} installation. It is in the ``bin'' directory within the
+``xgap'' tree and is called ``xgap.sh''. You should edit it until the line
+
+\begintt
+##  STOP EDITING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\endtt
+
+You have to specify the directory where {\GAP} is installed (``GAP\_DIR''), 
+the amount of memory that {\GAP} should use as initial workspace
+(``GAP\_MEM''), the name of the {\GAP}-executable (``GAP\_PRG'') and the
+name of the {\XGAP}-executable (``XGAP\_PRG''). The first three are exactly 
+the same things that you had to edit in the main {\GAP} startup script.
+After that you have the possibility to control the behaviour of the {\XGAP}
+startup script. You can specify whether {\XGAP} goes into the background
+(``DAEMON'') and whether it prints out information about its parameters
+(``VERBOSE''). Note that it is possible to combine ``DAEMON=YES''
+and ``VERBOSE=YES'' because the script actually runs in the foreground and
+only the C program is put into the background.
+
+Copy the modified script to a location that people have in their ``PATH''
+environment variable, for example to ``/usr/local/bin''.
+
+This completes the installation.
+
+Perhaps the easiest way is to leave the names of the executables as they
+are in the script and make a symbolic link to the directory with the system 
+type with the name of the machine you want to run {\XGAP}:
+
+\begintt
+# cd /usr/local/lib/gap4/pkg/xgap/bin
+# ln -s i686-unknown-linux2.0.34-gcc beeblebrox
+\endtt
+
+if ``beeblebrox'' is the hostname of the machine you want to run {\XGAP}
+on.
+
+\Section{Installing in a different than the standard location}
+
+It could happen that you do not want to install {\XGAP} in its standard
+location, perhaps because you do not want to bother your system
+administrator and have no access to the {\GAP} directory. In this case you
+can unpack {\XGAP} in any other location with the <unzoo> command as
+described above. Let us call this directory ``{\XGAP} directory'' for the
+moment. You get a ``pkg'' directory and in there a ``xgap''
+subdirectory with all the files of {\XGAP} in it. You follow the
+standard procedure with two exceptions:
+
+Before you can configure and compile {\XGAP} you need a symbolic link
+``cnf'' which is in the {\XGAP} directory and points to the ``cnf''
+directory in the main {\GAP} directory.
+
+When editing the startup script you enter the name of the {\XGAP} directory 
+for the variable ``XGAP_DIR''. The script will automatically launch {\GAP}
+with two directories as library path such that all {\GAP} and {\XGAP}
+libraries will be found.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% End: 
