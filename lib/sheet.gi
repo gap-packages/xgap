@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.3 1997/12/09 12:37:10 frank Exp $
+#H  @(#)$Id: sheet.gi,v 1.4 1998/03/05 16:49:31 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -10,7 +10,7 @@
 ##  This  file contains all methods for  graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.3 1997/12/09 12:37:10 frank Exp $";
+    "@(#)$Id: sheet.gi,v 1.4 1998/03/05 16:49:31 gap Exp $";
 
 
 #############################################################################
@@ -18,8 +18,7 @@ Revision.pkg_xgap_lib_sheet_gi :=
 
 #R  IsGraphicWindowRep  . . . . . . . . . . . . . . .  default representation
 ##
-IsGraphicWindowRep := NewRepresentation(
-    "IsGraphicWindowRep",
+DeclareRepresentation( "IsGraphicWindowRep",
     IsComponentObjectRep and IsAttributeStoringRep,
     [ "name", "width", "height", "gapMenu", "callbackName", "callbackFunc" ],
     IsGraphicWindow );
@@ -29,7 +28,7 @@ IsGraphicWindowRep := NewRepresentation(
 ##
 #V  DefaultGAPMenu  . . . . . . . . . . . . . . . . . . . .  default GAP menu
 ##
-InitGVAR( DefaultGAPMenu,
+InstallValue( DefaultGAPMenu,
 [
     "save",                   Ignore,
     "save as",                Ignore,
@@ -212,8 +211,7 @@ end );
 
 #R  IsGraphicSheetRep . . . . . . . . . . . . . . . .  default representation
 ##
-IsGraphicSheetRep := NewRepresentation(
-    "IsGraphicSheetRep",
+DeclareRepresentation( "IsGraphicSheetRep",
     IsGraphicWindowRep,
     [ "objects", "free" ],
     IsGraphicSheet );
@@ -304,3 +302,4 @@ end );
 
 #E  sheet.gi  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
 ##
+

@@ -2,13 +2,13 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.2 1997/12/09 12:37:00 frank Exp $
+#H  @(#)$Id: gobject.gi,v 1.3 1998/03/05 16:49:26 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.2 1997/12/09 12:37:00 frank Exp $";
+    "@(#)$Id: gobject.gi,v 1.3 1998/03/05 16:49:26 gap Exp $";
 
 
 #############################################################################
@@ -16,8 +16,7 @@ Revision.pkg_xgap_lib_gobject_gi :=
 
 #R  IsGraphicObjectRep  . . . . . . . . . . . . . . .  default representation
 ##
-IsGraphicObjectRep := NewRepresentation(
-    "IsGraphicObjectRep",
+DeclareRepresentation( "IsGraphicObjectRep",
     IsComponentObjectRep,
     [],
     IsGraphicObject );
@@ -34,7 +33,7 @@ InstallMethod( ViewObj,
     0,
 
 function( obj )
-    if HasIsAlive(obj)  then
+    if IsAlive(obj)  then
         Print( "<graphic object>" );
     else
         Print( "<dead graphic object>" );
@@ -44,11 +43,61 @@ end );
 
 #############################################################################
 ##
+#M  WindowId( <object> )  . . . . . . . . . . . pretty print a graphic window
+##
+##  return the window id of the sheet
+##
+InstallOtherMethod( WindowId,
+    "for graphic object",
+    true,
+    [ IsGraphicObjectRep ],
+    0,
+    obj -> WindowId( obj!.sheet ) );
+
+
+#############################################################################
+##
+#M  GraphicObject( <sheet>, <ops>, <def> )  . . . . . . . . create a template
+##                                           
+InstallMethod( GraphicObject,
+    "for a representation, a graphic sheet, and defaults",
+    true,
+    [ IsFunction, IsGraphicSheet, IsRecord ], 0,
+    function( repres, sheet, def )
+    local   obj;                          
+    
+    # fill default record          
+    if not IsBound(def.color)  then def.color := sheet!.defaults.color;  fi;
+    if not IsBound(def.width)  then def.width := sheet!.defaults.width;  fi;
+    if not IsBound(def.label)  then def.label := sheet!.defaults.label;  fi;
+    
+    # create a template    
+    obj            := Objectify( NewType( GraphicObjectFamily,
+                                          repres and IsAlive ),
+                                 rec() );
+    obj!.sheet     := sheet;
+    obj!.color     := def.color;
+    
+    # add object to list of objects stored in <S>
+    if IsEmpty( sheet!.free ) then
+        Add( sheet!.objects, obj );
+    else                      
+        sheet!.objects[sheet!.free[Length(sheet!.free)]] := obj;
+        Unbind(sheet!.free[Length(sheet!.free)]);
+    fi;
+
+    # and return
+    return obj;
+
+end );
+
+
+#############################################################################
+##
 
 #R  IsBoxObjectRep  . . . . . . . . . . . . . . . . .  default representation
 ##
-IsBoxObjectRep := NewRepresentation(
-    "IsBoxObjectRep",
+DeclareRepresentation( "IsBoxObjectRep",
     IsGraphicObjectRep,
     [ "id", "x", "y", "w", "h", "x1", "x2", "y1", "y2" ],
     IsGraphicObject );

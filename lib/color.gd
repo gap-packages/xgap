@@ -2,13 +2,13 @@
 ##
 #W  color.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gd,v 1.1 1997/12/18 15:12:13 frank Exp $
+#H  @(#)$Id: color.gd,v 1.2 1998/03/05 16:49:22 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
-Revision.pkg_xgap_lib_color_gi :=
-    "@(#)$Id: color.gd,v 1.1 1997/12/18 15:12:13 frank Exp $";
+Revision.pkg_xgap_lib_color_gd :=
+    "@(#)$Id: color.gd,v 1.2 1998/03/05 16:49:22 gap Exp $";
 
 
 #############################################################################
@@ -16,22 +16,16 @@ Revision.pkg_xgap_lib_color_gi :=
 
 #C  IsColor . . . . . . . . . . . . . . . . . . . . . . .  category of colors
 ##
-IsColor := NewCategory(
-    "IsColor",
-    IsObject );
-
-IsColour := IsColor;
+DeclareCategory( "IsColor", IsObject );
+DeclareSynonym( "IsColour", IsColor );
 
 
 #############################################################################
 ##
 #O  ColorId( <color> )  . . . . . . . . . . . . . . . . . color id of a color
 ##
-ColorId := NewOperation(
-    "ColorId",
-    [ IsColor ] );
-
-ColourId := ColorId;
+DeclareOperation( "ColorId", [ IsColor ] );
+DeclareSynonym( "ColourId", ColorId );
 
 
 #############################################################################
@@ -39,9 +33,8 @@ ColourId := ColorId;
 
 #V  ColorFamily . . . . . . . . . . . . . . . . . . . . . .  family of colors
 ##
-ColorFamily := NewFamily( "ColorFamily" );
-
-ColourFamily := ColorFamily;
+BindGlobal( "ColorFamily", NewFamily( "ColorFamily" ) );
+DeclareSynonym( "ColourFamily", ColorFamily );
 
 
 #############################################################################
@@ -70,67 +63,9 @@ ColourFamily := ColorFamily;
 ##      gap> Close(sheet);
 ##  \endexample
 ##
-CreateColors := function()
-    local   type,  color,  model;
-    
-    # get color type
-    type := NewType( ColorFamily, IsColor and IsColorRep );
-
-    # "black" and "white" are alway displayable
-    color           := rec();
-    color.black     := Objectify( type,
-                             rec( colorId := 0, name := "black" ) );
-    color.white     := Objectify( type,
-                             rec( colorId := 1, name := "white" ) );
-    color.lightGray := false;
-    color.dimGray   := false;
-    color.red       := false;
-    color.blue      := false;
-    color.green     := false;
-
-    # check for other colors
-    model := WindowCmd(["XCN"])[1];
-    if   model = 1  then
-        color.model     := "monochrome";
-    elif model = 2  then
-        color.model     := "gray";
-        color.lightGray := Objectify( type, 
-                                 rec( colorId := 2, name := "light gray" ) );
-        color.dimGray   := Objectify( type,
-                                 rec( colorId := 3, name := "dim gray" ) );
-    elif model = 3  then
-        color.model     := "color3";
-        color.red       := Objectify( type, 
-                                 rec( colorId := 4, name := "red" ) );
-        color.blue      := Objectify( type,
-                                 rec( colorId := 5, name := "blue" ) );
-        color.green     := Objectify( type,
-                                 rec( colorId := 6, name := "green" ) );
-    elif model = 4  then
-        color.model     := "color5";
-        color.lightGray := Objectify( type,
-                                 rec( colorId := 2, name := "light gray" ) );
-        color.dimGray   := Objectify( type,
-                                 rec( colorId := 3, name := "dim gray" ) );
-        color.red       := Objectify( type,
-                                 rec( colorId := 4, name := "red" ) );
-        color.blue      := Objectify( type,
-                                 rec( colorId := 5, name := "blue" ) );
-        color.green     := Objectify( type,
-                                 rec( colorId := 6, name := "green" ) );
-    fi;
-
-    # fix spelling of grey
-    color.lightGrey := color.lightGray;
-    color.dimGrey   := color.dimGray;
-
-    # and return
-    return color;
-
-end;
-
-COLORS  := CreateColors();
-COLOURS := COLORS;
+DeclareGlobalFunction( "CreateColors" );
+DeclareGlobalVariable( "COLORS" );
+DeclareSynonym( "COLOURS", COLORS );
 
 
 #############################################################################

@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.3 1997/12/09 12:37:08 frank Exp $
+#H  @(#)$Id: sheet.gd,v 1.4 1998/03/05 16:49:29 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -10,7 +10,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.3 1997/12/09 12:37:08 frank Exp $";
+    "@(#)$Id: sheet.gd,v 1.4 1998/03/05 16:49:29 gap Exp $";
 
 
 #############################################################################
@@ -18,24 +18,21 @@ Revision.pkg_xgap_lib_sheet_gd :=
 
 #C  IsGraphicWindow . . . . . . . . . . . . . . . . . .   category of windows
 ##
-IsGraphicWindow := NewCategory(
-    "IsGraphicWindow",
-    IsObject );
+DeclareCategory( "IsGraphicWindow", IsObject );
 
 
 #############################################################################
 ##
 #V  GraphicWindowsFamily  . . . . . . . . . . . . . . . family of all windows
 ##
-GraphicWindowsFamily := NewFamily( "GraphicWindowsFamily" );
+BindGlobal( "GraphicWindowsFamily", NewFamily( "GraphicWindowsFamily" ) );
 
 
 #############################################################################
 ##
 #V  DefaultGAPMenu  . . . . . . . . . . . . . . . . . . . .  default GAP menu
 ##
-DefaultGAPMenu := NewGVAR(
-    "DefaultGAPMenu",
+DeclareGlobalVariable( "DefaultGAPMenu",
     "default menu for graphic windows" );
 
 
@@ -43,47 +40,35 @@ DefaultGAPMenu := NewGVAR(
 ##
 #O  GraphicWindow( <catrep>, <name>, <width>, <height> ) a new graphic window
 ##
-GraphicWindow := NewOperation(
-    "GraphicWindow",
-    [ IsObject, IsString, IsInt, IsInt ] );
+DeclareOperation( "GraphicWindow", [ IsObject, IsString, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
 #A  WindowId( <window> )  . . . . . . . . . . . . . . .  window id of <sheet>
 ##
-WindowId := NewAttribute(
-    "WindowId",
-    IsGraphicWindow );
-
-HasWindowId := Tester(WindowId);
-SetWindowId := Setter(WindowId);
+DeclareAttribute( "WindowId", IsGraphicWindow );
 
 
 #############################################################################
 ##
 #O  Callback( <window>, <func>, <args> )  . . . . execute a callback function
 ##
-Callback := NewOperation(
-    "Callback",
-    [ IsGraphicWindow, IsObject, IsList ] );
+DeclareOperation( "Callback", [ IsGraphicWindow, IsObject, IsList ] );
 
 
 #############################################################################
 ##
 #O  Close( <window> ) . . . . . . . . . . . . . . . .  close a graphic window
 ##
-Close := NewOperation(
-    "Close",
-    [ IsGraphicWindow ] );
+DeclareOperation( "Close", [ IsGraphicWindow ] );
 
 
 #############################################################################
 ##
 #O  InstallCallback( <window>, <func>, <call> ) . . . .  install new callback
 ##
-InstallCallback := NewOperation(
-    "InstallCallback",
+DeclareOperation( "InstallCallback",
     [ IsGraphicWindow, IsObject, IsFunction ] );
 
 
@@ -91,18 +76,14 @@ InstallCallback := NewOperation(
 ##
 #O  MakeGAPMenu( <window> ) . . . . . . . . . . . . .  create a standard menu
 ##
-MakeGAPMenu := NewOperation(
-    "MakeGAPMenu",
-    [ IsGraphicWindow ] );
+DeclareOperation( "MakeGAPMenu", [ IsGraphicWindow ] );
 
 
 #############################################################################
 ##
 #O  Resize( <window>, <width>, <height> ) . . . . . . . . . . .  resize sheet
 ##
-Resize := NewOperation(
-    "Resize",
-    [ IsGraphicWindow, IsInt, IsInt ] );
+DeclareOperation( "Resize", [ IsGraphicWindow, IsInt, IsInt ] );
 
     
 #############################################################################
@@ -110,9 +91,7 @@ Resize := NewOperation(
 
 #C  IsGraphicSheet  . . . . . . . . . . . . . . .  category of graphic sheets
 ##
-IsGraphicSheet := NewCategory(
-    "IsGraphicSheet",
-    IsGraphicWindow );
+DeclareCategory( "IsGraphicSheet", IsGraphicWindow );
 
 
 #############################################################################
@@ -175,75 +154,56 @@ IsGraphicSheet := NewCategory(
 ##    same as `LeftPBDown'  except that the  user has pressed the right mouse
 ##    button together with the $CTR$ key on the keyboard.
 ##
-GraphicSheet := NewOperation(
-    "GraphicSheet",
-    [ IsString, IsInt, IsInt ] );
+DeclareOperation( "GraphicSheet", [ IsString, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
 #A  DefaultsForGraphicObject( <sheet> ) . . . . . . . . .  default color, etc
 ##
-DefaultsForGraphicObject := NewAttribute(
-    "DefaultsForGraphicObject",
-    IsGraphicSheet );
-
-HasDefaultsForGraphicObject := Tester(DefaultsForGraphicObject);
-SetDefaultsForGraphicObject := Setter(DefaultsForGraphicObject);
+DeclareAttribute( "DefaultsForGraphicObject", IsGraphicSheet );
 
 
 #############################################################################
 ##
 #O  CtrlLeftPBDown( <sheet>, <x>, <y> ) . . . . . .  left pointer button down
 ##
-LeftPBDown := NewOperation(
-    "LeftPBDown",
-    [ IsGraphicSheet, IsInt, IsInt ] );
+DeclareOperation( "CtrlLeftPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
 #O  CtrlRightPBDown( <sheet>, <x>, <y> )  . . . . . right pointer button down
 ##
-LeftPBDown := NewOperation(
-    "LeftPBDown",
-    [ IsGraphicSheet, IsInt, IsInt ] );
+DeclareOperation( "CtrlRightPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
 #O  LeftPBDown( <sheet>, <x>, <y> ) . . . . . . . .  left pointer button down
 ##
-LeftPBDown := NewOperation(
-    "LeftPBDown",
-    [ IsGraphicSheet, IsInt, IsInt ] );
+DeclareOperation( "LeftPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
 #O  RightPBDown( <sheet>, <x>, <y> )  . . . . . . . right pointer button down
 ##
-LeftPBDown := NewOperation(
-    "LeftPBDown",
-    [ IsGraphicSheet, IsInt, IsInt ] );
+DeclareOperation( "RightPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
 #O  ShiftLeftPBDown( <sheet>, <x>, <y> )  . . . . .  left pointer button down
 ##
-LeftPBDown := NewOperation(
-    "LeftPBDown",
-    [ IsGraphicSheet, IsInt, IsInt ] );
+DeclareOperation( "ShiftLeftPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
 ##
 #O  ShiftRightPBDown( <sheet>, <x>, <y> ) . . . . . right pointer button down
 ##
-LeftPBDown := NewOperation(
-    "LeftPBDown",
-    [ IsGraphicSheet, IsInt, IsInt ] );
+DeclareOperation( "ShiftRightPBDown", [ IsGraphicSheet, IsInt, IsInt ] );
 
 
 #############################################################################
@@ -251,8 +211,7 @@ LeftPBDown := NewOperation(
 
 #F  UseFastUpdate . . . . . . . . . . . . . . . . . .  filter for fast update
 ##
-UseFastUpdate := NewFilter( "UseFastUpdate" );
-HasFastUpdate := Tester(UseFastUpdate);
+DeclareFilter( "UseFastUpdate" );
 
 
 #############################################################################
@@ -260,3 +219,4 @@ HasFastUpdate := Tester(UseFastUpdate);
 
 #E  sheet.gd  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
 ##
+
