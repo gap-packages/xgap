@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.5 1998/12/18 18:57:22 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.6 1999/02/09 18:59:39 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.5 1998/12/18 18:57:22 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.6 1999/02/09 18:59:39 gap Exp $";
 
 
 #############################################################################
@@ -119,7 +119,7 @@ fi;
 
 #############################################################################
 ##
-#O  DecideSubgroupLatticeType . . . . . . decides about the type of a lattice
+#O  DecideSubgroupLatticeType ( <grp> ) . decides about the type of a lattice
 ##
 ##  This operation is called while creation of a new graphic subgroup lattice.
 ##  It has to decide about the type of the lattice. That means it has to
@@ -227,7 +227,7 @@ DeclareOperation( "MergeVertices",
 
 #############################################################################
 ##
-#O  GGLMenuOperation . . . . . . . . . . . . . . . .  is called from the menu
+#O  GGLMenuOperation (<sheet>, <menu>, <entry>) . . . is called from the menu
 ##
 ##  This operation is called for all so called "menu operations" the user
 ##  wants to perform on lattices. It is highly configurable with respect
@@ -240,7 +240,8 @@ DeclareOperation( "GGLMenuOperation", [ IsGraphicSheet, IsMenu, IsString ]);
 
 ############################################################################
 ##
-#O  GGLRightClickPopup . . . . . . . . . . called if user does a right click
+#O  GGLRightClickPopup (<sheet>, <vertex>, <x>, <y>) . . . . . . . . . . . .
+##  . . . . . . . . . . . . . . . . . . .  called if user does a right click
 ##
 ##  This is called if the user does a right click on a vertex or somewhere
 ##  else on the sheet. This operation is highly configurable with respect

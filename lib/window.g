@@ -2,14 +2,14 @@
 ##
 #W  window.g                    XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.8 1998/12/18 18:57:22 gap Exp $
+#H  @(#)$Id: window.g,v 1.9 1999/02/09 18:59:39 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_window_g :=
-    "@(#)$Id: window.g,v 1.8 1998/12/18 18:57:22 gap Exp $";
+    "@(#)$Id: window.g,v 1.9 1999/02/09 18:59:39 gap Exp $";
 
 
 #############################################################################
@@ -172,6 +172,16 @@ end );
 #############################################################################
 ##
 #F  WcQueryPointer( <id> )  . . . . . . . . . . . . . . . . . . query pointer
+##
+##  <id> must be a `WindowId' of an {\XGAP} sheet. This function returns a
+##  vector of four integers. The first two are the coordinates of the mouse 
+##  pointer relative to the {\XGAP} sheet. Values outside the window are 
+##  represented by $-1$. The third element is a number where the pressed      
+##  buttons are coded. If no mouse button is pressed, the value is zero.
+##  `BUTTONS.left' is added to the value, if the left mouse button is pressed
+##  and `BUTTONS.right' is added, if the right mouse button is pressed. The
+##  fourth value codes the state of the shift and control. Here the values
+##  `BUTTONS.shift' and `BUTTONS.ctrl' are used.
 ##
 BindGlobal( "WcQueryPointer", function( id )
     return WindowCmd([ "XQP", id ]);
@@ -346,7 +356,3 @@ end);
 
 HELP_PRINT_LINES:=HELP_PRINT_LINES_XGAP;
 
-#############################################################################
-##
-#F  window.g  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
-##

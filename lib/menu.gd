@@ -2,7 +2,7 @@
 ##
 #W  menu.gd                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gd,v 1.5 1999/02/01 23:28:59 gap Exp $
+#H  @(#)$Id: menu.gd,v 1.6 1999/02/09 18:59:39 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -14,7 +14,7 @@
 ##  "sheet.gi".
 ##
 Revision.pkg_xgap_lib_menu_gd :=
-    "@(#)$Id: menu.gd,v 1.5 1999/02/01 23:28:59 gap Exp $";
+    "@(#)$Id: menu.gd,v 1.6 1999/02/09 18:59:39 gap Exp $";
 
 
 #############################################################################
@@ -114,12 +114,16 @@ DeclareOperation( "PopupMenu", [IsString, IsList] );
 
 #############################################################################
 ##
-#O  Query( <pop> ) . . . . . . . . . . . . . . actually put a popup on screen
+#O  Query( <obj> ) . . . . . . . . . actually put a popup or dialog on screen
+#O  Query( <obj>, <default> )  . . . . . . . . . . . dito, with default value
 ##
-##  actually puts a popup on screen. Returns the string of the selected entry
-##  or false if the user clicks outside the popup.
+##  Puts a dialog on screen. Returns `false' if the user clicks ``Cancel'' and
+##  a string value or filename, if the user clicks ``OK'', depending on the
+##  type of dialog. <default> is an optional initialization value for the 
+##  string.
 ##
 DeclareOperation( "Query", [ IsObject ] );
+DeclareOperation( "Query", [ IsObject, IsString ] );
 
 
 #############################################################################

@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.8 1999/02/01 23:28:59 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.9 1999/02/09 18:59:39 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.8 1999/02/01 23:28:59 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.9 1999/02/09 18:59:39 gap Exp $";
 
 
 #############################################################################
@@ -711,7 +711,8 @@ DeclareOperation( "PosetRightClick", [IsGraphicSheet, IsInt, IsInt] );
 
 #############################################################################
 ##
-#O  UserDeleteVerticesOp . . . is called if the user wants to delete vertices
+#O  UserDeleteVerticesOp (<sheet>, <menu>, <entry>) . . . . . . . . . . . . .
+##  . . . . . . . . . . . . .  is called if the user wants to delete vertices
 ##
 ##  This operation is called when the user selects `Delete vertices'.
 ##  The generic method actually deletes the selected vertices including all
@@ -722,7 +723,8 @@ DeclareOperation( "UserDeleteVerticesOp", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserDeleteEdgeOp  . . . . . is called if the user wants to delete an edge
+#O  UserDeleteEdgeOp (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . . .
+##  . . . . . . . . . . . . . . is called if the user wants to delete an edge
 ##
 ##  This operation is called when the user selects `Delete edge'.
 ##  The generic method deletes the edge with no further warning!
@@ -732,7 +734,8 @@ DeclareOperation( "UserDeleteEdgeOp", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserMagnifyLattice . . . . . .  lets the user magnify the graphic lattice
+#O  UserMagnifyLattice (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . .
+##  . . . . . . . . . . . . . . . . lets the user magnify the graphic lattice
 ##
 ##  This operation is called when the user selects `Magnify Lattice'. 
 ##  The generic method scales everything by $144/100$ including the sheet,
@@ -743,7 +746,8 @@ DeclareOperation( "UserMagnifyLattice", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserShrinkLattice . . . . . . .  lets the user shrink the graphic lattice
+#O  UserShrinkLattice (<sheet>, <menu>, <entry>)  . . . . . . . . . . . . . . 
+##  . . . . . . . . . . . . . . . .  lets the user shrink the graphic lattice
 ##
 ##  This operation is called when the user selects `Shrink Lattice'. 
 ##  The generic method scales everything by 100/144 including the sheet,
@@ -754,7 +758,8 @@ DeclareOperation( "UserShrinkLattice", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserResizeLattice . . . . . . .  lets the user resize the graphic lattice
+#O  UserResizeLattice (<sheet>, <menu>, <entry>)  . . . . . . . . . . . . . . 
+##  . . . . . . . . . . . . . . . .  lets the user resize the graphic lattice
 ##
 ##  This operation is called when the user selects `Resize Lattice'. 
 ##  The generic method asks the user for a x and a y factor and scales
@@ -766,7 +771,8 @@ DeclareOperation( "UserResizeLattice", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserResizeSheet . . . . . . . . .  lets the user resize the graphic sheet
+#O  UserResizeSheet (<sheet>, <menu>, <entry>)  . . . . . . . . . . . . . . .   
+##  . . . . . . . . . . . . . . . . .  lets the user resize the graphic sheet
 ##
 ##  This operation is called when the user selects `Resize Sheet'. 
 ##  The generic method asks the user for an x and a y pixel number and
@@ -778,7 +784,8 @@ DeclareOperation( "UserResizeSheet", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserMoveLattice . . . . . . . . . . . . . lets the user move all vertices
+#O  UserMoveLattice (<sheet>, <menu>, <entry>)  . . . . . . . . . . . . . . .   
+##  . . . . . . . . . . . . . . . . . . . . . lets the user move all vertices
 ##
 ##  This operation is called when the user selects `Move Lattice'. 
 ##  The generic method asks the user for a pixel number and
@@ -790,7 +797,8 @@ DeclareOperation( "UserMoveLattice", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserChangeLabels . . . . . . . .  lets the user change labels of vertices
+#O  UserChangeLabels (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . . .   
+##  . . . . . . . . . . . . . . . . . lets the user change labels of vertices
 ##
 ##  This operation is called when the user selects `Change Labels'. 
 ##  The user is prompted for every selected vertex, which label it should
@@ -801,7 +809,8 @@ DeclareOperation( "UserChangeLabels", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserAverageY . . . . . . . . .  average all y positions within all levels
+#O  UserAverageY (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . . . . .   
+##  . . . . . . . . . . . . . . . . average all y positions within all levels
 ##
 ##  This operation is called when the user selects `Average Y Positions'.
 ##  In all levels the average y coordinate is calculated and all vertices are
@@ -812,7 +821,8 @@ DeclareOperation( "UserAverageY", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserAverageX . . . . . . . . . . average all x positions of sel. vertices
+#O  UserAverageX (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . . . . .   
+##  . . . . . . . . . . . . . . . .  average all x positions of sel. vertices
 ##
 ##  This operation is called when the user selects `Average X Positions'.
 ##  The average of all x coordinates of the selected vertices is calculated.
@@ -824,7 +834,8 @@ DeclareOperation( "UserAverageX", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  UserRearrangeClasses  . . . . . . . . . . rearrange vertices within class
+#O  UserRearrangeClasses (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . 
+##  . . . . . . .  . . . . . . . . . . . . .  rearrange vertices within class
 ##
 ##  This operation is called when the user selects `Rearrange Classes'.
 ##  All classes with a selected vertex are rearranged: The vertices are
@@ -836,7 +847,8 @@ DeclareOperation( "UserRearrangeClasses", [IsGraphicSheet, IsMenu, IsString] );
 
 ############################################################################
 ##
-#O  UserUseBlackWhite . . . . . . . . . .  called if user selects bw in menu
+#O  UserUseBlackWhite (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . . 
+##  . . . . . . . . . . . . . . . . . . .  called if user selects bw in menu
 ##
 ##  This is called if the user selects `Use Black and White' in the menu.
 ##
@@ -845,7 +857,8 @@ DeclareOperation( "UserUseBlackWhite", [ IsGraphicSheet, IsMenu, IsString ] );
 
 #############################################################################
 ##
-#O  PosetShowLevels  . . . . . . . . . . . . . . . . switch display of levels
+#O  PosetShowLevels (<sheet>, <menu>, <entry>)  . . . . . . . . . . . . . . . 
+##  . . . . . . .  . . . . . . . . . . . . . . . . . switch display of levels
 ##
 ##  This operation is called when the user selects `Show Levels' in the menu.
 ##  Switches the display of the little boxes for level handling on and off.
@@ -855,7 +868,8 @@ DeclareOperation( "PosetShowLevels", [IsGraphicSheet, IsMenu, IsString] );
 
 #############################################################################
 ##
-#O  PosetShowLevelparams . . . . . . . . .  switch display of levelparameters
+#O  PosetShowLevelparams (<sheet>, <menu>, <entry>) . . . . . . . . . . . . . 
+##  . . . . . . . . . . . . . . . . . . . . switch display of levelparameters
 ##
 ##  This operation is called when the user selects `Show Level Parameters' in 
 ##  the menu. Switches the display of the level parameters at the right of
