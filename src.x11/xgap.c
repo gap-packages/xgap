@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.4 1997/12/04 21:59:19 frank Exp $
+*H  @(#)$Id: xgap.c,v 1.5 1997/12/04 22:10:07 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 */
@@ -962,6 +962,10 @@ static void ParseArgs ( argc, argv )
 		    argc--;
 		    goto gap;
 
+		/* print a help */
+     	        case 'h':
+		    goto fullusage;
+
 		/* toggle debug */
 		case 'D':
 #                   ifdef DEBUG_ON
@@ -1038,6 +1042,17 @@ usage:
     fputs("       run the X-Windows front-end for GAP,\n",stderr);
     fputs("       use '-h' option to get help.\n",stderr);
     fputs("\n",stderr);
+    exit(1);
+
+fullusage:
+    fputs("usage: xgap [OPTIONS] -- [GAP OPTIONS]\n",stderr);
+    fputs("       run the X-Windows front-end for GAP,\n",stderr);
+    fputs("\n",stderr);
+    fputs("  -h          print this help message\n",stderr);
+    fputs("  -D <num>    set debug level\n",stderr);
+    fputs("  -W          try to workaround broken wm\n",stderr);
+    fputs("  -E          toggle spy mode\n",stderr);
+    fputs("  -G <file>   filename of the GAP executable\n",stderr);
     exit(1);
 }
 
