@@ -1,6 +1,12 @@
-$Id: TODO,v 1.1 1999/11/30 22:55:25 gap Exp $
+$Id: TODO,v 1.2 1999/11/30 23:04:19 gap Exp $
 The following is planned for the future:
 
  Usage of `HirschLength' from the library.
  Completion of support for graphic graphs.
+ Klassen als ein Vertex anzeigen.
+ !.data in vertices beschreiben.
+ FontInfo in Dokumentation.
+ Hilfefenster pagen.
+ Keyboard events.
+
 
