@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: zooit,v 1.16 2002/04/23 10:45:18 gap Exp $
+# $Id: zooit,v 1.17 2002/04/23 10:59:29 gap Exp $
 # Shell-Script to zoo the distribution of xgap
 # This should be called right after the checkout and after making the
 # documentation and html files without compiled versions in the current
@@ -36,7 +36,9 @@ done
 for i in xgap/doc/{*.tex,*.msk,*.config,Makefile,manual.{six,bib,mst}}; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
-zoo ahc $ZOOFILE.zoo xgap/doc/manual.dvi <BINCOM
+for i in xgap/doc/manual.{dvi,pdf}; do
+  zoo ahc $ZOOFILE.zoo $i <BINCOM
+done
 
 for i in xgap/examples/*; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
