@@ -2,47 +2,15 @@
 **
 *W  gaptext.c                 	XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: gaptext.c,v 1.2 1997/11/27 10:59:18 frank Exp $
+*H  @(#)$Id: gaptext.c,v 1.3 1997/12/05 17:30:54 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 **
 **  The GapTextWidget is  intended to be used as   a simple front  end to the
 **  text widget with a gap  text source and an ascii  sink attached to it. It
 **  is a subclass of the standard text widget  supplied with X11R4 and should
 **  work with X11R5 and X11R6.
-**
-*H  $Log: gaptext.c,v $
-*H  Revision 1.2  1997/11/27 10:59:18  frank
-*H  possible fix for OpenWindows problem
-*H
-*H  Revision 1.1  1997/11/25 15:52:39  frank
-*H  first attempt at XGAP for GAP 4
-*H
-*H  Revision 1.7  1996/04/11  12:43:25  fceller
-*H  changed 'GapSrcScan' to handle 'XawstParagraph' and 'XawstWhiteSpace'
-*H  in two different 'for' loops instead of one loop with various ifs.
-*H
-*H  Revision 1.6  1995/08/16  12:40:55  fceller
-*H  changed ( ..->length - 1 ) into ( .. + ->length ) - 1, in case
-*H  length is zero this causes a problem
-*H
-*H  Revision 1.5  1995/07/24  09:28:30  fceller
-*H  reworked most parts to use nice typedefs
-*H
-*H  Revision 1.4  1994/06/06  08:56:35  fceller
-*H  updated database
-*H
-*H  Revision 1.3  1993/12/23  08:44:37  fceller
-*H  added "gap drop prompt"
-*H
-*H  Revision 1.2  1993/10/18  11:04:47  fceller
-*H  added fast updated,  fixed timing problem
-*H
-*H  Revision 1.1  1993/08/12  13:48:44  fceller
-*H  added cursor keys
-*H
-*H  Revision 1.0  1993/04/05  11:42:18  fceller
-*H  Initial revision
 */
 #include    "utils.h"
 #include    "gaptext.h"
@@ -54,7 +22,11 @@ extern void _XawTextCheckResize();
 extern void _XawTextExecuteUpdate();
 
 
-/* * * * * * * * * * * * * * * gap text widget * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * gap text widget * * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -640,7 +612,11 @@ GapTextClassRec gapTextClassRec =
 WidgetClass gapTextWidgetClass = (WidgetClass)&gapTextClassRec;
 
 
-/* * * * * * * * * * * * * gap text source widget  * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * gap text source widget  * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -1222,3 +1198,10 @@ void GTDropGapPrompt ( w, flag )
 
     gap->gap.drop_gap_prompt = flag;
 }
+
+
+/****************************************************************************
+**
+
+*E  gaptext.c . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/

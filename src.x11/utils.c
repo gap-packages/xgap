@@ -1,10 +1,11 @@
 /****************************************************************************
 **
-*A  utils.c                     XGAP Source                      Frank Celler
+*W  utils.c                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: utils.c,v 1.1 1997/11/25 15:52:50 frank Exp $
+*H  @(#)$Id: utils.c,v 1.2 1997/12/05 17:31:08 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 **
 **  This  file contains the  utility  functions  and  macros  used in   XGAP,
 **  basically  the list functions  ('ELM', 'LEN',  'AddList', and 'List') and
@@ -45,34 +46,13 @@
 **  'DEBUG' uses 'printf' to print the  <debug-text> in case that  'Debug' &&
 **  <type> is true.  The text  is preceded by the line number  and the source
 **  file name.  The following types are available:  D_LIST, D_XCMD, D_COMM.
-**
-*H  $Log: utils.c,v $
-*H  Revision 1.1  1997/11/25 15:52:50  frank
-*H  first attempt at XGAP for GAP 4
-*H
-*H  Revision 1.5  1995/07/24  09:28:30  fceller
-*H  reworked most parts to use nice typedefs
-*H
-*H  Revision 1.4  1994/06/06  08:57:24  fceller
-*H  added database
-*H
-*H  Revision 1.3  1993/12/23  08:47:41  fceller
-*H  removed malloc debug functions
-*H
-*H  Revision 1.2  1993/10/18  11:04:47  fceller
-*H  added fast updated,  fixed timing problem
-*H
-*H  Revision 1.1  1993/04/13  07:16:39  fceller
-*H  added 'SYS_HAS_STDARG
-*H
-*H  Revision 1.0  1993/04/05  11:42:18  fceller
-*H  Initial revision
 */
 #include    "utils.h"
 
 
 /****************************************************************************
 **
+
 *V  Debug . . . . . . . . . . . . . . . . . . . . . . . . . . .  debug on/off
 */
 Int Debug = 0;
@@ -145,3 +125,10 @@ void AddList ( lst, elm )
     /* and add list element */
     lst->ptr[lst->len++] = elm;
 }
+
+
+/****************************************************************************
+**
+
+*E  utils.c . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/

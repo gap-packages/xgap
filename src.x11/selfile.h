@@ -3,7 +3,7 @@
 *W  selfile.h                   XGAP Source              Erik M. van der Poel
 *W                                                   modified by Frank Celler
 **
-*H  @(#)$Id: selfile.h,v 1.1 1997/11/25 15:52:49 frank Exp $
+*H  @(#)$Id: selfile.h,v 1.2 1997/12/05 17:31:07 frank Exp $
 **
 **  This file is based on the file selector  distributed with  ghostview,  it
 **  contained the following notice:
@@ -55,10 +55,9 @@ extern Boolean XsraSelFile(
     Int (*)( String, String*, struct stat* ),
     String* );
 
+
 /****************************************************************************
 **
 
 *E  selfile.h . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
 */
-
-

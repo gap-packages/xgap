@@ -2,9 +2,10 @@
 **
 *W  xcmds.c                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xcmds.c,v 1.3 1997/12/04 21:59:17 frank Exp $
+*H  @(#)$Id: xcmds.c,v 1.4 1997/12/05 17:31:10 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 */
 #include    "utils.h"			/* utility functions 		   */
 
@@ -2111,3 +2112,10 @@ void ExitXCMDS ()
 	}
     XtFree((char*)PopupMenus);
 }
+
+
+/****************************************************************************
+**
+
+*E  xcmds.h . . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/

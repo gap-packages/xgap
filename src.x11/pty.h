@@ -2,9 +2,10 @@
 **
 *W  pty.h                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.h,v 1.1 1997/11/25 15:52:47 frank Exp $
+*H  @(#)$Id: pty.h,v 1.2 1997/12/05 17:31:04 frank Exp $
 **
-*Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 */
 #ifndef _pty_h
 #define _pty_h

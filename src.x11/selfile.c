@@ -3,7 +3,7 @@
 *W  selfile.c                   XGAP Source              Erik M. van der Poel
 *W                                                   modified by Frank Celler
 **
-*H  @(#)$Id: selfile.c,v 1.2 1997/11/27 12:08:48 frank Exp $
+*H  @(#)$Id: selfile.c,v 1.3 1997/12/05 17:31:05 frank Exp $
 **
 **  This file is based on the file selector  distributed with  ghostview,  it
 **  contained the following notice:
@@ -2616,3 +2616,10 @@ Boolean XsraSelFile ( toplevel, prompt, init_path, show_entry, name_return )
 }
 
 #endif
+
+
+/****************************************************************************
+**
+
+*E  selfile.h . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/

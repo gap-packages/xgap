@@ -2,9 +2,10 @@
 **
 *W  gapgraph.h                  XGAP source                      Frank Celler
 **
-*H  @(#)$Id: gapgraph.h,v 1.1 1997/11/25 15:52:36 frank Exp $
+*H  @(#)$Id: gapgraph.h,v 1.2 1997/12/05 17:30:50 frank Exp $
 **
-*Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 */
 #ifndef _gapgraph_h
 #define _gapgraph_h

@@ -2,9 +2,10 @@
 **
 *W  gaptext.h                   XGAP source                      Frank Celler
 **
-*H  @(#)$Id: gaptext.h,v 1.1 1997/11/25 15:52:41 frank Exp $
+*H  @(#)$Id: gaptext.h,v 1.2 1997/12/05 17:30:57 frank Exp $
 **
-*Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 **
 **  The GapTextWidget is  intended to be used as   a simple front  end to the
 **  text widget with a gap  text source and an ascii  sink attached to it. It

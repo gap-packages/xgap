@@ -1,41 +1,14 @@
 #############################################################################
 ##
-#A  window.g                  	XGAP library                     Frank Celler
+#W  window.g                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.1 1997/11/27 12:20:09 frank Exp $
+#H  @(#)$Id: window.g,v 1.2 1997/12/05 17:30:46 frank Exp $
 ##
-#Y  Copyright (C) 1993,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
+#Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+#Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
 ##  This files contains  the  low  level window   functions, the  high  level
 ##  functions are in "sheet.g".  The menu functions are in "menu.g".
-##
-#H  $Log: window.g,v $
-#H  Revision 1.1  1997/11/27 12:20:09  frank
-#H  added 3.5 library (does not work with 4.0)
-#H
-#H  Revision 1.7  1995/07/24  10:01:24  fceller
-#H  changed select mechanism
-#H
-#H  Revision 1.6  1995/02/16  20:48:08  fceller
-#H  added color support
-#H
-#H  Revision 1.5  1993/10/18  11:06:14  fceller
-#H  added fast updated
-#H
-#H  Revision 1.4  1993/10/05  12:33:26  fceller
-#H  added '.isAlive'
-#H
-#H  Revision 1.4  1993/10/05  12:33:26  fceller
-#H  added '.isAlive'
-#H
-#H  Revision 1.3  1993/08/18  10:59:49  fceller
-#H  removed emacs variables
-#H
-#H  Revision 1.2  1993/07/22  11:24:32  fceller
-#H  split files into three: "window.g", "sheet.g", "menu.g"
-#H
-#H  Revision 1.1  1993/07/21  12:32:42  fceller
-#H  Initial revision
 ##
 
 

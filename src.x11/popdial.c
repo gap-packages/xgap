@@ -1,10 +1,11 @@
 /****************************************************************************
 **
-*A  popdial.c			XGAP source	                 Frank Celler
+*W  popdial.c			XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: popdial.c,v 1.1 1997/11/25 15:52:43 frank Exp $
+*H  @(#)$Id: popdial.c,v 1.2 1997/12/05 17:30:58 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 **
 **  This  file  contains functions for popping up dialogs.  Two functions are
 **  exported:
@@ -49,25 +50,6 @@
 **  Some window  manager  don't handle transient shell widgets correctly.  In
 **  this case  calling  'PopupDialogBrokenWM' will  toggle  a flag such  that
 **  a override shell widet is used instead.
-**
-*H  $Log: popdial.c,v $
-*H  Revision 1.1  1997/11/25 15:52:43  frank
-*H  first attempt at XGAP for GAP 4
-*H
-*H  Revision 1.4  1995/07/24  09:28:30  fceller
-*H  reworked most parts to use nice typedefs
-*H
-*H  Revision 1.3  1995/01/24  11:14:36  fceller
-*H  a dot cursor is show if the cursor is inside a button
-*H
-*H  Revision 1.2  1993/12/23  08:45:54  fceller
-*H  used unsigned bitmaps to avoid compiler warnings
-*H
-*H  Revision 1.1  1993/08/12  13:50:35  fceller
-*H  fixed keyboard grab on dec station
-*H
-*H  Revision 1.0  1993/04/05  11:42:18  fceller
-*H  Initial revision
 */
 #include    "utils.h"
 #include    "popdial.h"			/* this package */
@@ -75,6 +57,7 @@
 
 /****************************************************************************
 **
+
 *F  ButtonSelected( <w>, <cld>, <cd> )	. . . . . . callback for button click
 */
 static struct { String name;  Int flag; } buttons[] =
@@ -318,3 +301,11 @@ Int PopupDialog ( dialog, message, deflt, result )
     XtPopdown(dialog->popupShell);
     return dialog->result & dialog->button;
 }
+
+
+/****************************************************************************
+**
+
+*E  popdial.c . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/
+

@@ -2,9 +2,10 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.5 1997/12/04 22:10:07 frank Exp $
+*H  @(#)$Id: xgap.c,v 1.6 1997/12/05 17:31:13 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 */
 #include    "utils.h"			/* utility functions */
 

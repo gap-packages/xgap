@@ -2,9 +2,10 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.5 1997/12/04 21:59:15 frank Exp $
+*H  @(#)$Id: pty.c,v 1.6 1997/12/05 17:31:01 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 **
 **  This file contains all the code for handling pseudo ttys.  'GetMasterPty'
 **  is based on code from 'xterm'.
@@ -1226,11 +1227,11 @@ static Boolean GetMasterPty ( pty )
         return False;
 
 #   else
-#   ifdef SYS_HAS_GET_PSEUDOTTY
+#   ifdef HAVE_GETPSEUDOTTY
         return (*pty = getpseudotty( &ttydev, &ptydev )) >= 0 ? False : True;
 
 #   else
-#   ifdef SYS_HAS_GETPTY
+#   ifdef HAVE__GETPTY
     char  * line;
 
 	line = _getpty(pty, O_RDWR|O_NDELAY, 0600, 0) ;
@@ -1240,7 +1241,7 @@ static Boolean GetMasterPty ( pty )
 	return False;
 
 #   else
-#   if defined(sgi) || (defined(umips) && defined(SYS_IS_USG))
+#   if defined(sgi) || (defined(umips) && defined(USG))
         struct stat fstat_buf;
 
         *pty = open( "/dev/ptc", O_RDWR );

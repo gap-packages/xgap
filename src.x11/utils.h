@@ -2,9 +2,10 @@
 **
 *W  utils.h                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: utils.h,v 1.2 1997/11/25 16:43:05 frank Exp $
+*H  @(#)$Id: utils.h,v 1.3 1997/12/05 17:31:09 frank Exp $
 **
-*Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 **
 **  This  file contains the  utility  functions  and  macros  used in   XGAP,
 **  basically  the list functions  ('ELM', 'LEN',  'AddList', and 'List') and
@@ -52,8 +53,7 @@
 
 /****************************************************************************
 **
-
-*F  autoconf  . . . . . . . . . . . . . . . . . .  process autoconfig results
+*F  Include . . . . . . . . . . . . . . . . . . . . . .  system include files
 */
 #include <config.h>
 
@@ -61,12 +61,6 @@
 #undef  HAVE_SGTTY_H
 #define HAVE_SGTTY_H	0
 #endif
-
-
-/****************************************************************************
-**
-*F  Include . . . . . . . . . . . . . . . . . . . . . .  system include files
-*/
 
 #include    <stdio.h>                   /* standard C i/o library          */
 

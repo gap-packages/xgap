@@ -2,9 +2,10 @@
 **
 *W  xgap.h                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.h,v 1.2 1997/12/04 21:59:20 frank Exp $
+*H  @(#)$Id: xgap.h,v 1.3 1997/12/05 17:31:14 frank Exp $
 **
-*Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 */
 #ifndef _xgap_h
 #define _xgap_h

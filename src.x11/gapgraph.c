@@ -1,38 +1,21 @@
 /****************************************************************************
 **
-*A  gapgraph.c                  XGAP Source                      Frank Celler
+*W  gapgraph.c                  XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: gapgraph.c,v 1.1 1997/11/25 15:52:35 frank Exp $
+*H  @(#)$Id: gapgraph.c,v 1.2 1997/12/05 17:30:48 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
-**
-*H  $Log: gapgraph.c,v $
-*H  Revision 1.1  1997/11/25 15:52:35  frank
-*H  first attempt at XGAP for GAP 4
-*H
-*H  Revision 1.5  1995/07/24  09:28:30  fceller
-*H  reworked most parts to use nice typedefs
-*H
-*H  Revision 1.4  1995/01/24  16:29:46  fceller
-*H  added color support
-*H
-*H  Revision 1.3  1993/10/18  11:04:47  fceller
-*H  added fast updated,  fixed timing problem
-*H
-*H  Revision 1.2  1993/08/12  14:34:00  fceller
-*H  fixed missing parameter
-*H
-*H  Revision 1.1  1993/08/12  13:47:41  fceller
-*H  fixed resize
-*H
-*H  Revision 1.0  1993/04/05  11:42:18  fceller
-*H  Initial revision
+*Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 */
 #include    "utils.h"
 #include    "gapgraph.h"
 
 
-/* * * * * * * * * * * * * * * local variables * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * * local variables * * * * * * * * * * * * * * *
+*/
 
 /****************************************************************************
 **
@@ -56,7 +39,11 @@ static Colormap GcColormap;
 static XColor GcColors[C_LAST+1];
 
 
-/* * * * * * * * * * * * * *  gap graphic widget * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * *  gap graphic widget * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -269,7 +256,11 @@ GapGraphicClassRec gapGraphicClassRec =
 WidgetClass gapGraphicWidgetClass = (WidgetClass)&gapGraphicClassRec;
 
 
-/* * * * * * * * * * * * * * color model functions * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * * * color model functions * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -441,7 +432,11 @@ void GCSetColorModel ( dis, mod, colors )
 }
 
 
-/* * * * * * * * * * * * gap graphic widget functions  * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F  * * * * * * * * * * * gap graphic widget functions  * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -771,3 +766,11 @@ void GGResize ( w, width, height )
     rec->height = gap->gap_graphic.height;
     XSetClipRectangles(XtDisplay(w),gap->gap_graphic.gc,0,0,rec,1,YXSorted);
 }
+
+
+/****************************************************************************
+**
+
+*E  gapgraph.c  . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+*/
+
