@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: zooit,v 1.18 2002/04/23 16:01:08 gap Exp $
+# $Id: zooit,v 1.19 2003/05/17 12:05:29 gap Exp $
 # Shell-Script to zoo the distribution of xgap
 # This should be called right after the checkout and after making the
 # documentation and html files without compiled versions in the current
@@ -7,7 +7,8 @@
 
 # Change this for the latest revision:
 # (Last digit is patchlevel) 
-ZOOFILE=xgap4r16
+ZOOFILE=xgap4r17
+ZOODOCFILE=xgapdoc4r17
 
 rm -f TEXTCOM BINCOM
 echo '!TEXT!' > TEXTCOM
@@ -16,8 +17,9 @@ echo '!BINARY!'>BINCOM
 echo '/END'   >>BINCOM
 
 rm -f $ZOOFILE.zoo
+rm -f $ZOODOCFILE.zoo
 
-for i in xgap/{README,Makefile.in,configure,configure.in,init.g}; do
+for i in xgap/{README,Makefile.in,configure,configure.in,init.g,PackageInfo.g}; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
@@ -39,6 +41,12 @@ done
 for i in xgap/doc/manual.{dvi,pdf}; do
   zoo ahc $ZOOFILE.zoo $i <BINCOM
 done
+for i in xgap/doc/manual.six; do
+  zoo ahc $ZOODOCFILE.zoo $i <TEXTCOM
+done
+for i in xgap/doc/manual.pdf; do
+  zoo ahc $ZOODOCFILE.zoo $i <BINCOM
+done
 
 for i in xgap/examples/*; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
@@ -46,6 +54,9 @@ done
 
 for i in xgap/htm/*; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
+done
+for i in xgap/htm/*; do
+  zoo ahc $ZOODOCFILE.zoo $i <TEXTCOM
 done
 
 for i in xgap/lib/{*.g,*.gi,*.gd}; do
