@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.10 1999/07/09 00:02:41 gap Exp $
+*H  @(#)$Id: pty.c,v 1.11 1999/07/14 13:30:52 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1369,7 +1369,7 @@ int StartGapProcess ( name, argv )
         tst.c_cc[VMIN]  = 1;
         tst.c_cc[VTIME] = 0;
         tst.c_lflag    &= ~(ECHO|ICANON);
-        if ( tcsetattr( slave, &tst ) == -1 )
+        if ( tcsetattr( slave, TCSANOW, &tst ) == -1 )
         {
             fputs( "tcsetattr on slave pty failed\n", stderr );
             exit(1);
