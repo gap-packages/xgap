@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.36 1999/05/30 22:34:19 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.37 1999/05/31 13:25:26 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.36 1999/05/30 22:34:19 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.37 1999/05/31 13:25:26 gap Exp $";
 
 
 #############################################################################
@@ -880,9 +880,9 @@ InstallMethod( GGLMenuOperation,
     0,
 
 function(sheet, menu, entry)
-  local   menuop,  parameters,  selected,  v,  todolist,  i,  j,  todo,  
-          currentparameters,  result,  infostr,  vertices,  newflag,  len,  
-          hints,  grp,  res,  ver,  T,  inc,  T2;
+  local   menuop,  parameters,  selected,  v,  todolist,  i,  j,  
+          todo,  currentparameters,  result,  infostr,  vertices,  
+          newflag,  len,  hints,  grp,  res,  T,  inc,  T2,  l,  cl;
   
   # first we determine the menu entry which was selected:
   menuop := Position(menu!.entries,entry);
@@ -1158,6 +1158,24 @@ function(sheet, menu, entry)
         # we cannot say anything if menuop.where = GGLwhereAny
         # except: all subgroups are in the whole group and
         #         all subgroups contain the trivial subgroup
+        # first we catch the case that one of the new vertices is the
+        # trivial subgroup, it always knows its Size 1!
+        for i in [1..len] do
+          if vertices[i] <> fail and
+             HasSize(vertices[i]!.data.group) and
+             Size(vertices[i]!.data.group) = 1 then
+            sheet!.TrivialGroupVert := vertices[i];
+            # We have the trivial subgroup, it is contained in all other
+            # subgroups:
+            for l in sheet!.levels do
+              for cl in l!.classes do
+                for v in cl do
+                  NewInclusionInfo(sheet, sheet!.TrivialGroupVert, v);
+                od;
+              od;
+            od;
+          fi;
+        od;
         for i in [1..len] do
           if vertices[i] <> fail then
             if not(IsAlive(vertices[i]!.obj)) then
@@ -2099,6 +2117,11 @@ InstallMethod( NewInclusionInfo,
 
 function( sheet, v1, v2 )
   local   p1,  p2,  over,  Walkup,  under,  Walkdown,  v,  w;
+  
+  # A trivial case:
+  if v1 = v2 then
+    return;
+  fi;
   
   # first make sure that there is no "way" from v2 down to v1 on the 
   # connections which are already in the poset. We use the function
