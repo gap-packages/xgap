@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.9 1999/02/12 00:49:07 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.10 1999/02/12 18:07:33 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.9 1999/02/12 00:49:07 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.10 1999/02/12 18:07:33 gap Exp $";
 
 
 #############################################################################
@@ -614,11 +614,6 @@ function(sheet, menu, entry)
         vertices[grp] := res[1];
         newflag[grp] := res[2];
         
-        # Is it a normal subgroup?
-        if IsNormal(sheet!.group,result.subgroups[grp]) then
-          Reshape(sheet,res[1],"diamond");
-        fi;
-        
         # we mark the vertex:
         Select(sheet,res[1],true);
         if sheet!.color.result <> false  then
@@ -1086,7 +1081,15 @@ function( sheet, grp, conjugclass, hints )
                                       label := String(sheet!.largestlabel)));
     fi;
   fi;
-  
+ 
+  # Is it a normal subgroup?
+  if IsNormal(sheet!.group,grp) then
+    Reshape(sheet,vertex,"diamond");
+    vertex!.data.info.IsNormal := true;
+  else
+    vertex!.data.info.IsNormal := false;
+  fi;
+        
   if not HasseProperty(sheet) then
     return [vertex,true];
   fi;
