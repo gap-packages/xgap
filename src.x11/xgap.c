@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.10 1999/11/25 18:06:58 gap Exp $
+*H  @(#)$Id: xgap.c,v 1.11 2002/04/14 18:56:29 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -180,8 +180,8 @@ static XrmOptionDescRec CommandOptions[] =
 static char *FallbackResources[] =
 {
     "*menu.line.height:                       10",
-    "*xgapMenu*shapeStyle:                    ShapeOval",
-    "*xgapDialog*shapeStyle:                  ShapeOval",
+    "*xgapMenu*shapeStyle:                    Oval",
+    "*xgapDialog*shapeStyle:                  Oval",
 
     /* gap talk window */
     "*xgapTalk.height:                        600",
@@ -655,7 +655,7 @@ static void GapTalkResized (
 **
 **  RESOURCES
 **    *xgapMenu*shapeStyle
-**        style of the menu buttons, default "ShapeOval"
+**        style of the menu buttons, default "Oval"
 **    *xgap.height
 **    *xgap.width
 **        start size of the communication text window

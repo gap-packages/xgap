@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: zooit,v 1.13 2000/11/28 07:41:49 gap Exp $
+# $Id: zooit,v 1.14 2002/04/14 18:56:29 gap Exp $
 # Shell-Script to zoo the distribution of xgap
 # This should be called right after the checkout and after making the
 # documentation and html files without compiled versions in the current
@@ -7,7 +7,7 @@
 
 # Change this for the latest revision:
 # (Last digit is patchlevel) 
-ZOOFILE=xgap4r13
+ZOOFILE=xgap4r14
 
 rm -f TEXTCOM BINCOM
 echo '!TEXT!' > TEXTCOM

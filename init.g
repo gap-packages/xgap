@@ -2,12 +2,12 @@
 ##
 #W  init.g                      XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: init.g,v 1.5 2000/11/28 07:41:48 gap Exp $
+#H  @(#)$Id: init.g,v 1.6 2002/04/14 18:56:29 gap Exp $
 ##
 #Y  Copyright (C) 1993,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
 
-DeclarePackage("xgap","4.13",ReturnTrue);
+DeclarePackage("xgap","4.14",ReturnTrue);
 DeclarePackageAutoDocumentation( "xgap", "doc" );
 
 #############################################################################
