@@ -17,48 +17,40 @@ echo '/END'   >>BINCOM
 rm -f $ZOOFILE.zoo
 
 for i in xgap/{README,Makefile.in,configure,configure.in,init.g}; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
 for i in xgap/bin/xgap*; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
 for i in xgap/cnf/{M*,c*}; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
-for i in xgap/doc/{*.tex,*.msk,*.config,Makefile,manual.dvi,manual.six}; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+for i in xgap/doc/{*.tex,*.msk,*.config,Makefile,manual.six}; do
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
+zoo ahc $ZOOFILE.zoo xgap/doc/manual.dvi <BINCOM
 
 for i in xgap/examples/*; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
 for i in xgap/htm/*; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
 for i in xgap/lib/{*.g,*.gi,*.gd}; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
 for i in xgap/src.x11/{*.c,*.h}; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
 for i in xgap/src.x11/bitmaps/*; do
-  zoo ah $ZOOFILE.zoo $i >/dev/null
-  zoo c  $ZOOFILE.zoo $i <BINCOM >/dev/null 2>&1
+  zoo ahc $ZOOFILE.zoo $i <BINCOM
 done
 
 rm -f TEXTCOM BINCOM

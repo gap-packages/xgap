@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.38 1999/06/04 10:59:34 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.39 1999/06/10 13:18:51 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.38 1999/06/04 10:59:34 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.39 1999/06/10 13:18:51 gap Exp $";
 
 
 #############################################################################
@@ -21,6 +21,13 @@ Revision.pkg_xgap_lib_ilatgrp_gi :=
 #############################################################################
 InstallTrueMethod(CanComputeSize,IsPermGroup);
 InstallTrueMethod(CanComputeSize,CanEasilyComputePcgs);
+
+# prevent an error message with gap4b5:
+if not IsBound(EpimorphismPGroup) then
+  EpimorphismPGroup := function(arg) 
+    Error("not yet implemented in GAP4b5");
+  end;
+fi;
 
 
 #############################################################################
