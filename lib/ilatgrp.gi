@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.15 1999/03/07 22:10:10 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.16 1999/03/08 17:19:44 ahulpke Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.15 1999/03/07 22:10:10 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.16 1999/03/08 17:19:44 ahulpke Exp $";
 
 
 #############################################################################
@@ -1307,9 +1307,8 @@ function( sheet, grp, conjugclass, hints )
   else
     size := fail;
   fi;
-  # FIXME: The following test substitutes a missing method in the library:
-  if ApplicableMethod(CanComputeIndex,[sheet!.group,grp]) = fail
-     or CanComputeIndex(sheet!.group,grp) then
+
+  if CanComputeIndex(sheet!.group,grp) then
     index := Index(sheet!.group,grp);
   else
     index := fail;
