@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.9 1999/02/01 23:28:59 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.10 1999/02/08 00:03:30 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.9 1999/02/01 23:28:59 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.10 1999/02/08 00:03:30 gap Exp $";
 
 
 
@@ -297,7 +297,7 @@ function( name, width, height )
     Append(tmpFuncs,["-",UserUseBlackWhite]);
   fi;
   m := Menu(poset,"Poset",tmpEntries,tmpTypes,tmpFuncs);
-  Check(m,"Show Levelparameters",true);
+  Check(m,"Show Level Parameters",true);
   
   return poset;
 end);

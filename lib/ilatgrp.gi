@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.7 1999/01/14 19:53:29 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.8 1999/02/08 00:03:30 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.7 1999/01/14 19:53:29 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.8 1999/02/08 00:03:30 gap Exp $";
 
 
 #############################################################################
@@ -220,7 +220,8 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
 BindGlobal( "GGLMenuOpsForFpGroups",
         [ rec( name := "Abelian Prime Quotient", op := GGLAbelianPQuotient,
                parent := false, from := GGLfrom1, to := GGLto1, 
-               where := GGLwhereDown, plural := false, rels := GGLrelsNo ),
+               where := GGLwhereDown, plural := false, rels := GGLrelsNo,
+               sheet := true ),
           rec( name := "All Overgroups", op := IntermediateSubgroups,
                parent := true, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereUp, plural := false, rels := GGLrelsMax ),
@@ -240,7 +241,8 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
           rec( name := "Epimorphisms", op := GGLEpimorphisms,
                parent := false, from := GGLfrom1, to := GGLtoSet, 
-               where := GGLwhereDown, plural := false, rels := GGLrelsNo ),
+               where := GGLwhereDown, plural := false, rels := GGLrelsNo,
+               sheet := true ),
           rec( name := "Intersections", op := Intersection,
                parent := false, from := GGLfrom2, to := GGLto1, 
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ) 
@@ -288,7 +290,7 @@ BindGlobal( "GGLInfoDisplaysForFpGroups",
         [ rec( name := "Index", func := Index, parent := true ),
           rec( name := "IsNormal", func := IsNormal, parent := true ),
           rec( name := "AbelianInvariants", attrib := AbelianInvariants ),
-          rec( name := "Presentation", func := GGLPresentation ) 
+          rec( name := "Presentation", func := GGLPresentation,sheet := true) 
         ] );
 # FIXME: ... to be continued
 
@@ -323,7 +325,7 @@ InstallMethod( GGLRightClickPopup,
     0,
 
 function(sheet,v,x,y)
-  local   grp,  textselectfunc,  text,  i,  str,  funcclose,  funcall;
+  local   grp,  textselectfunc,  text,  i,  ii,  str,  funcclose,  funcall;
   
   # did we get a vertex?
   if v = fail then
@@ -375,6 +377,25 @@ function(sheet,v,x,y)
     fi;
     text[tid] := str;
     Relabel( sel, text );
+    
+    # Perhaps the calculation of one attribute triggered the calculation
+    # of another one! So we have to look through all infos, if new information
+    # is available!
+    for i in [1..Length(sheet!.infodisplays)] do
+      ii := sheet!.infodisplays[i];
+      if IsBound(ii.attrib) and Tester(ii.attrib)(grp) and
+         text[i]{[15..21]} = "Unknown" then
+        # in fact: new information!
+        text[i] := text[i]{[1..14]};
+        if IsBound(ii.tostr) then
+          Append(text[i],ii.tostr(ii.attrib(grp)));
+        else
+          Append(text[i],String(ii.attrib(grp)));
+        fi;
+        Relabel(sel,text);
+      fi;
+    od;
+    
     return true;
   end;
 
@@ -446,6 +467,9 @@ end);
 ##
 BindGlobal( "GGLPrimeDialog", Dialog( "OKcancel", "Prime" ) );
 BindGlobal( "GGLGoOnDialog", Dialog( "OKcancel", "Go on?" ) );
+BindGlobal( "GGLDegreeDialog", Dialog( "OKcancel", "Degree" ) );
+BindGlobal( "GGLDimensionDialog", Dialog( "OKcancel", "Dimension" ) );
+BindGlobal( "GGLFieldSizeDialog", Dialog( "OKcancel", "Field Size" ) );
 
 
 #############################################################################
@@ -699,6 +723,214 @@ end);
 
 #############################################################################
 ##
+#M  GGLAbelianPQuotient(<sheet>,<grp>) . . . . . asks for p and calls library
+##
+##  This operation asks for a prime p and runs then the library operations
+##  to calculate abelian prime quotients.
+##
+InstallMethod( GGLAbelianPQuotient,
+    "for a graphic subgroup lattice sheet, and (fp) group",
+    true,
+    [ IsGraphicSubgroupLattice, IsGroup ],
+    0,
+
+function(sheet,grp)
+  local res, p;
+  res := Query( GGLPrimeDialog );
+  if res = false then
+    return fail;
+  fi;
+  p := Int(res);
+  if not IsInt(p) or not IsPrime(p) then
+    return fail;
+  fi;
+  return PQuotient( grp, p );
+end);
+
+
+# We store the text selector in this variable to destroy it, if the next one
+# pops up.
+GGLEpiTextsel := false;
+
+# the vertex we currently work on:
+GGLEpiVertex := false;
+
+# The user can supply groups for epimorghisms in the following variable:
+PERM_GROUP := 0;
+
+
+#############################################################################
+##
+#M  GGLEpimorphisms(<sheet>,<grp>) . . . pops up box to choose on which group
+##
+##  This operations brings up a text selector where one can choose several
+##  types of groups to calculate epimorphisms onto.
+##
+InstallMethod( GGLEpimorphisms,
+    "for a graphic subgroup lattice sheet, and (fp) group",
+    true,
+    [ IsGraphicSubgroupLattice, IsGroup ],
+    0,
+
+function(sheet,grp)
+  local   GGLEpi,  GGLEpiShowResult,  info,  width,  text,  
+          i,  closefunc,  name,  GGLEpiResults;
+  
+  GGLEpiResults := [];   # no results yet
+  
+  # Here comes the function that allows the user to search for epimorphisms:
+
+  GGLEpi := function(sel,st)
+    local   txt,  tid,  len,  res,  deg,  epigrp,  dim,  fis,  vec,  i,  
+            path,  str;
+    txt := sel!.labels;
+    tid := sel!.selected;
+    len := Length(txt[tid]);    # we want to preserve this!
+    if st{[1..3]} = "Sym" then   # Epis onto a symmetric group:
+      res := Query(GGLDegreeDialog); if res = false then return fail; fi;
+      deg := Int(res); if not IsInt(deg) or deg < 2 then return fail; fi;
+      epigrp := SymmetricGroup(deg);
+      txt[tid] := String(Concatenation("Sym(",String(deg),")"),-len);
+    elif st{[1..3]} = "Alt" then # Epis onto an alternating group:
+      res := Query(GGLDegreeDialog); if res = false then return fail; fi;
+      deg := Int(res); if not IsInt(deg) or deg < 2 then return fail; fi;
+      epigrp := AlternatingGroup(deg);
+      txt[tid] := String(Concatenation("Alt(",String(deg),")"),-len);
+    elif st{[1..3]} = "PSL" then
+      # Epis onto a PSL:
+      res := Query(GGLDimensionDialog); if res = false then return fail; fi;
+      dim := Int(res); if not IsInt(dim) or dim < 2 then return fail; fi;
+      res := Query(GGLFieldSizeDialog); if res = false then return fail; fi;
+      fis := Int(res); if not IsInt(fis) or not IsPrimePowerInt(fis) then 
+        return fail; 
+      fi;
+      epigrp := SL(dim,fis);
+      # FIXME: Do we have to go through this???
+      vec := [1]; for i in [2..dim] do Add(0,vec); od;
+      vec := vec * Z(fis);
+      epigrp := Operation(epigrp,Orbit(vec),OnLines);
+      txt[tid] := String(Concatenation("PSL(",String(dim),",",
+                                       String(fis),")"),-len);
+    elif st{[1..3]} = "Lib" then
+      # Epis onto a group of our library:
+      path := ShallowCopy(GAP_ROOT_PATHS[1]);
+      Append(path,"pkg/xgap/pmg/");
+      res := Query(Dialog("Filename","Which group?"),path);
+      PERM_GROUP := 0;
+      if not READ(res) then
+        Info(GraphicLattice,1,Concatenation( "cannot read file ", res ));
+        return fail;
+      elif IsInt(PERM_GROUP) then
+        Info(GraphicLattice,1,Concatenation( res, 
+                " does not define PERM_GROUP" ));
+        return fail;
+      fi;
+      epigrp := PERM_GROUP;
+      if HasName(epigrp) then
+        txt[tid] := String(Concatenation("Library: ",Name(epigrp),")"),-len);
+      else
+        txt[tid] := String("Library: Group with no name",-len);
+      fi;
+    elif st{[1..3]} = "Use" or st{[1..3]} = "Def" then
+      if not IsBound(PERM_GROUP) or IsInt(PERM_GROUP)  then
+        txt[tid] := "Define PERM_GROUP & click here! ";
+        Relabel( sel, txt );
+        return fail;
+      fi;
+      epigrp := PERM_GROUP;
+      if HasName(epigrp) then
+        txt[tid] := String(Concatenation("User Defined: ",Name(epigrp),")"),
+                           -len);
+      else
+        txt[tid] := String("User Defined: Group with no name",-len);
+      fi;
+    fi;
+    
+    # now the function has either returned (with "fail" as return value) or
+    # epigrp is correctly initialized with a group
+    Print(len," ",Length(txt[tid]),"\n");
+    txt[tid]{[len-13..len]} := "computing ... ";
+    Relabel(sel,txt);
+    GGLEpiResults := GQuotients(GGLEpiVertex!.data.group,epigrp);
+    str := Concatenation("       ",String(Length(GGLEpiResults))," found");
+    txt[tid]{[len-Length(str)+1..len]} := str;
+    Relabel(sel,txt);
+    Enable(sel,"display",true);
+    
+    return true;
+  end;
+  
+  # The following function is called when the user selects "display". The
+  # calculated results are put into the lattice.
+  
+  GGLEpiShowResult := function(list)
+    local   groups,  g,  v;
+    groups := List(list,Kernel);
+    for g in groups do
+      v := InsertVertex(sheet,g,false,[GGLEpiVertex!.x]);
+      if v[2] then
+        NewInclusionInfo(sheet,v[2],GGLEpiVertex);
+      fi;
+      Select(v[1]);
+      if sheet!.color.result <> false  then
+        Recolor( sheet, v[1], sheet!.color.result );
+      fi;
+    od;
+    return true;
+  end;
+  
+  # here starts the code of the operation GGLEpimorphisms:
+  
+  # get rid of old text selectors:
+  if GGLEpiTextsel <> false then
+    Close(GGLEpiTextsel);
+    GGLEpiTextsel := false;
+  fi;
+  
+  # Store the vertex in question:
+  GGLEpiVertex := Selected(sheet)[1];
+  
+  # construct text describing the groups
+  info := [
+           "Sym(n)",	           GGLEpi,
+           "Alt(n)",               GGLEpi,
+           "PSL(d,q)",             GGLEpi,
+           "Library",              GGLEpi,
+           "User Defined",         GGLEpi,
+           ];
+  width := Maximum(List(info{[1,3..Length(info)-1]},Length))+20;
+  text  := [];
+  for i  in [ 1, 3 .. Length(info)-1 ]  do
+    info[i] := String( info[i], -width );
+    Add( text, info[i] );
+  od;
+  
+  # close function
+  closefunc := function( sel, bt )
+    Close(sel);
+    GGLEpiTextsel := false;
+    return false;
+  end;
+  
+  # construct a text selector
+  if HasName(sheet!.group) then
+    name := Name(sheet!.group);
+  else
+    name := "Group";
+  fi;
+  
+  GGLEpiTextsel :=
+    TextSelector(Concatenation(
+            "          Epimorphisms from ", name, "           " ),
+            info, [ "display", GGLEpiShowResult, "close", closefunc ]
+            );
+  Enable( GGLEpiTextsel, "display", false );
+  return [];
+end );
+
+
+#############################################################################
+##
 ##  Methods for inserting new vertices:
 ##
 #############################################################################
@@ -735,20 +967,37 @@ InstallMethod( InsertVertex,
         
 function( sheet, grp, conjugclass, hints )
   local   index,  data,  newlevel,  str,  vertex,  v,  vers,  lev,  cl,  
-          conj,  Walkup,  Walkdown,  containerlist,  containedlist;
+          conj,  Walkup,  Walkdown,  containerlist,  containedlist, size;
   
-  ## FIXME: what if this index calculation crashes?
-  ## so we never get infinite indices!??
-  ## we have to add code to determine Size if that is possible!
+  # FIXME: Activate this when the time for it has come...
+  # The following code can be activated once CanComputeSize and CanComputeIndex
+  # work:
+  #if CanComputeSize(grp) then
+  #  size := Size(grp);
+  #else
+    size := fail;
+  #fi;
+  #if CanComputeIndex(sheet!.group,grp) then
+    index := Index(sheet!.group,grp);
+  #else
+  #  index := fail;
+  #fi;
   
-  index := Index(sheet!.group,grp);
   data := rec(group := grp,
               isClassRep := false,
               info := rec(Index := index));
   # missing: class and classrep, isClassRep could be changed!
   
+  # What will be the level parameter?
+  if index <> fail then
+    newlevel := index;
+  elif size <> fail then
+    newlevel := -size;
+  else 
+    newlevel := infinity;
+  fi;
+  
   # do we have this level yet?
-  # FIXME: what if index is infinite?
   if index = infinity then
     sheet!.largestinflevel := sheet!.largestinflevel + 1;
     newlevel := [infinity,sheet!.largestinflevel];
