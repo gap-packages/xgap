@@ -44,7 +44,7 @@ ftp://pell.anu.edu.au/pub/algebra/gap4/
 
 
 You need only one file with the name "xgap4r00.zoo" which is in the
-subdirectory for the share packages.  When you installed GAP you used the
+subdirectory for the packages.  When you installed GAP you used the
 utility <unzoo> to unpack the distribution. You will need this here
 again. See the GAP-manual for instructions on how to get and compile this.
 You now change your current directory to the `pkg' subdirectory of the 
@@ -55,7 +55,7 @@ contains the `pkg' subdirectory). The standard location would be:
 # cd /usr/local/lib/gap4/pkg
 (do not type the prompt character #)
 
-Now you extract the sources for the XGAP share package:
+Now you extract the sources for the XGAP package:
 
 # unzoo -x xgap4.zoo
 xgap/README     -- extracted as text
