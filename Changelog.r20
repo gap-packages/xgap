@@ -1,4 +1,4 @@
-$Id: Changelog.r20,v 1.1 2004/01/30 16:17:53 gap Exp $
+$Id: Changelog.r20,v 1.2 2004/02/20 08:17:17 gap Exp $
 
 This file describes the changes from xgap4r19 to xgap4r20:
 
@@ -6,5 +6,8 @@ This file describes the changes from xgap4r19 to xgap4r20:
 
  * Deleted a line in src.x11/selfile.c offending the compiler on Mac OS/X.
    Seems to work under Linux/i386 also.
+
+ * Two changes with respect to pseudo terminals for the Windows/CYGWIN
+   environment, suggested by Gary Zablackis. This is not tested.
 
 (not yet released!)
