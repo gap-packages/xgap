@@ -21,7 +21,7 @@ for i in xgap/{README,Makefile.in,configure,configure.in,init.g}; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
-for i in xgap/{Changelog.r11}; do
+for i in xgap/Changelog.r11 ; do
   zoo ahc $ZOOFILE.zoo $i <TEXTCOM
 done
 
