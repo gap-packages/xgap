@@ -1,53 +1,34 @@
 /****************************************************************************
 **
-*A  pty.c                       XGAP source                      Frank Celler
+*W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.2 1997/11/25 16:29:20 frank Exp $
+*H  @(#)$Id: pty.c,v 1.3 1997/11/27 15:14:35 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
 **  This file contains all the code for handling pseudo ttys.  'GetMasterPty'
 **  is based on code from 'xterm'.
 **
-*H  $Log: pty.c,v $
-*H  Revision 1.2  1997/11/25 16:29:20  frank
-*H  added playback patch for demos
-*H
-*H  Revision 1.1  1997/11/25 15:52:46  frank
-*H  first attempt at XGAP for GAP 4
-*H
-*H  Revision 1.10  1995/08/16  11:15:09  fceller
-*H  set bits for select using FD_SET if defined
-*H
-*H  Revision 1.9  1995/07/24  09:28:30  fceller
-*H  reworked most parts to use nice typedefs
-*H
-*H  Revision 1.8  1994/06/11  13:52:21  fceller
-*H  added 'SYS_HAS_SYS_SIGNAL' (why is SIGKILL not in <signal.h>?)
-*H
-*H  Revision 1.7  1994/06/11  12:42:28  fceller
-*H  added 'SYS_HAS_GETPTY'
-*H
-*H  Revision 1.6  1994/06/06  08:57:24  fceller
-*H  added database
-*H
-*H  Revision 1.5  1994/06/03  10:50:09  fceller
-*H  fixed exec problem (again)
-*H
-*H  Revision 1.4  1993/10/21  17:09:51  fceller
-*H  fixed includes
-*H
-*H  Revision 1.3  1993/10/21  17:03:07  fceller
-*H  added first (incomplete) hp support
-*H  
-*H  Revision 1.2  1993/10/18  11:04:47  fceller
-*H  added fast updated,  fixed timing problem
-*H
-*H  Revision 1.1  1993/08/12  13:49:47  fceller
-*H  fixed opening of slave
-*H
-*H  Revision 1.0  1993/04/05  11:42:18  fceller
-*H  Initial revision
+**  GAP is started in a special mode that will mask special characters.  The
+**  following '@' sequences produced by GAP are recoginzed:
+**
+**    'pX.Y.'          		package mode version X.Y
+**    '@'			a single '@'
+**    'A'..'Z'			a control character
+**    '1','2','3','4','5','6'	full garbage collection information
+**    '!','"','#','$','%','&'   partial garbage collection information
+**    'e'              		gap is waiting for error input
+**    'c'              		completion started
+**    'f'              		error output
+**    'h'              		help started
+**    'i'              		gap is waiting for input
+**    'm'             		end of 'Exec'
+**    'n'              		normal output
+**    'r'              		the current input line follows
+**    'sN'             		ACK for '@yN'
+**    'w'              		a window command follows
+**    'x'              		the current input line is empty
+**    'z' 			start of 'Exec'
 */
 #include    "utils.h"
 
@@ -58,7 +39,11 @@
 #include    "pty.h"
 
 
-/* * * * * * * * * * * * * * * local variables * * * * * * * * * * * * * * */
+/****************************************************************************
+**
+
+*F * * * * * * * * * * * * * * local variables * * * * * * * * * * * * * * *
+*/
 
 
 /****************************************************************************
@@ -805,24 +790,6 @@ static Boolean ParseInt (
 /****************************************************************************
 **
 *F  GapOutput( <cld>, <fid>, <id> ) . . . . . . . . . . . . handle gap output
-**
-**  The following '@' sequence are recoginzed:
-**
-**    '@@'		a single '@'
-**    '@A'..'@Z'	a control character
-**    '@1'..'@4'        garbage information
-**    '@c'              completion started
-**    '@e'              gap is waiting for error input
-**    '@f'              error output
-**    '@h'              help started
-**    '@i'              gap is waiting for input
-**    '@m'              end of 'Exec'
-**    '@n'              normal output
-**    '@r'              the current input line follows
-**    '@s'              ACK for '@y' (ignore it here,  see 'SimulateInput')
-**    '@w'              a window command follows
-**    '@x'              the current input line is empty
-**    '@z'              start of 'Exec'
 */
 #undef  CTR
 #define CTR(a)	( a & 0x1f )
@@ -1423,7 +1390,7 @@ int StartGapProcess ( name, argv )
     timeout.tv_sec  = 60;
     timeout.tv_usec = 0;
 
-    /* wait for an aknowledgement (@P) from the gap subprocess */
+    /* wait for an aknowledgement (@p) from the gap subprocess */
     j = 0;
     while ( j < 2 )
     {
@@ -1460,7 +1427,7 @@ int StartGapProcess ( name, argv )
             ReadGap( &(c[j++]), 1 );
     }
 
-    /* check if we got "@P" */
+    /* check if we got "@p" */
     if ( strncmp( c, "@p", 2 ) )
     {
         if ( ! strncmp( c, "@-", 2 ) )
