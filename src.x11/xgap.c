@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.12 2003/05/17 13:17:27 gap Exp $
+*H  @(#)$Id: xgap.c,v 1.13 2004/02/20 08:14:47 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1117,6 +1117,16 @@ int main ( argc,  argv )
     /* install our error handler, we have to kill gap in this case */
     OldIOErrorHandler = XSetIOErrorHandler( MyIOErrorHandler );
     OldErrorHandler   = XSetErrorHandler  ( MyErrorHandler   );
+
+    /***************WIN32 CYGWIN fix***************/
+    /* SIGIOT not defined in CYGWIN signal.h unless !defined(SIGTRAP)
+       there may be a way to get ...? */
+#ifdef __CYGWIN__
+#   define SIGIOT  6       /* IOT instruction */
+#   define SIGABRT 6       /* used by abort, replace SIGIOT in the future */
+#endif
+    /***************WIN32 CYGWIN fix***************/
+
 
     /* install your signal handler, we have to kill gap in this case */
 #   ifdef DEBUG_ON

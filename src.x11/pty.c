@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.11 1999/07/14 13:30:52 gap Exp $
+*H  @(#)$Id: pty.c,v 1.12 2004/02/20 08:14:47 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1227,6 +1227,20 @@ static Boolean GetMasterPty ( pty )
         return False;
 
 #   else
+#   ifdef __CYGWIN__
+        static int  slave    = 0;
+
+        sprintf(ptydev, "/dev/ptmx");
+        if ( (*pty = open( ptydev, O_RDWR )) >= 0 ) {   
+            /* O_NONBLOCK | O_NOCTTY */
+            strcpy(ttydev, ptsname(*pty));
+            revoke(ttydev);     /* ???? NECESSARY ???? */
+            return False;
+        }
+        errno = ENOENT; /* out of ptys */
+        perror(" Failed on open CYGWIN pty");
+        return True;
+#   else
 #   if HAVE_GETPSEUDOTTY
         return (*pty = getpseudotty( &ttydev, &ptydev )) >= 0 ? False : True;
 
@@ -1286,6 +1300,7 @@ static Boolean GetMasterPty ( pty )
             (void) letter++;
         }
         return True;
+#   endif
 #   endif
 #   endif
 #   endif
