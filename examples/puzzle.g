@@ -2,7 +2,7 @@
 ##
 #W  puzzle.g                    GAP library                     Thomas Breuer
 ##
-#H  @(#)$Id: puzzle.g,v 1.1 1999/02/17 13:53:36 gap Exp $
+#H  @(#)$Id: puzzle.g,v 1.2 1999/03/07 22:02:46 gap Exp $
 ##
 #Y  Copyright (C)  1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  (C) 1998 School Math and Comp. Sci., University of St.  Andrews, Scotland
@@ -128,9 +128,13 @@ BindGlobal( "Puzzle", function( arg )
 
         if i = boxpos[1] then
 
+          k:= boxpos[2];
+
+          # Put the free square under the cursor.
+          MoveDelta( free, bl * ( j - k ), 0 );
+
           # The free square is in the same row as the cursor.
           # Move the texts between the two towards the cursor.
-          k:= boxpos[2];
           if j < k then
 
             for z in [ k-1, k-2 .. j ] do
@@ -147,16 +151,18 @@ BindGlobal( "Puzzle", function( arg )
 
           fi;
 
-          # Put the free square under the cursor.
-          MoveDelta( free, bl * ( j - k ), 0 );
           Unbind( matrix[i][j] );
           boxpos[2]:= j;
 
         elif j = boxpos[2] then
 
+          k:= boxpos[1];
+
+          # Put the free square under the cursor.
+          MoveDelta( free, 0, bl * ( i - k ) );
+
           # The free square is in the same column as the cursor.
           # Move the texts between the two towards the cursor.
-          k:= boxpos[1];
           if i < k then
 
             for z in [ k-1, k-2 .. i ] do
@@ -173,8 +179,6 @@ BindGlobal( "Puzzle", function( arg )
 
           fi;
 
-          # Put the free square under the cursor.
-          MoveDelta( free, 0, bl * ( i - k ) );
           Unbind( matrix[i][j] );
           boxpos[1]:= i;
 
