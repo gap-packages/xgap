@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.15 1999/04/01 16:06:54 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.16 1999/04/26 10:55:18 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.15 1999/04/01 16:06:54 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.16 1999/04/26 10:55:18 gap Exp $";
 
 
 
@@ -942,6 +942,7 @@ function( poset, v )
   
   # now delete vertex:
   Delete(v!.obj);
+  ResetFilterObj(v,IsAlive);
   
   l := Length(cl);
   cl[p] := cl[l];

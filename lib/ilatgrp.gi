@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.23 1999/04/23 22:14:43 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.24 1999/04/26 10:55:17 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.23 1999/04/23 22:14:43 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.24 1999/04/26 10:55:17 gap Exp $";
 
 
 #############################################################################
@@ -433,7 +433,7 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                parent := true, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereUp, plural := false, rels := GGLrelsMax ),
           rec( name := "Compare Subgroups", op := GGLCompareSubgroups,
-               parent := false, from := GGLfrom2, to := GGLto0,
+               parent := false, from := GGLfromSet, to := GGLto0,
                where := GGLwhereAny, plural := false, rels := GGLrelsNo,
                sheet := true ),
           rec( name := "Conjugacy Class", 
@@ -756,10 +756,12 @@ function(sheet, menu, entry)
   
   # we clear old "results":
   for v in sheet!.lastresult do
-    if PositionSet(selected,v) = fail then
-      Recolor(sheet,v,sheet!.color.unselected);
-    else
-      Recolor(sheet,v,sheet!.color.selected);
+    if IsAlive(v) then
+      if PositionSet(selected,v) = fail then
+        Recolor(sheet,v,sheet!.color.unselected);
+      else
+        Recolor(sheet,v,sheet!.color.selected);
+      fi;
     fi;
   od;
   sheet!.lastresult := [];
@@ -877,6 +879,7 @@ function(sheet, menu, entry)
           if sheet!.color.result <> false  then
             Recolor( sheet, res[1], sheet!.color.result );
           fi;
+          Add( sheet!.lastresult, res[1] );  
 
           Append(infostr,vertices[grp]!.label);
         fi;
@@ -1235,6 +1238,7 @@ function(sheet,grp)
         if sheet!.color.result <> false  then
           Recolor( sheet, v[1], sheet!.color.result );
         fi;
+        Add( sheet!.lastresult, v[1] );
         if v[2] then
           NewInclusionInfo(sheet,v[1],GGLEpiVertex);
         fi;
@@ -1260,6 +1264,7 @@ function(sheet,grp)
         if sheet!.color.result <> false  then
           Recolor( sheet, v[1], sheet!.color.result );
         fi;
+        Add( sheet!.lastresult, v[1] );
         if v[2] then
           NewInclusionInfo(sheet,v[1],GGLEpiVertex);
         fi;
@@ -1355,58 +1360,135 @@ end);
 
 #############################################################################
 ##
-#M  GGLCompareSubgroups(<sheet>,<grp1>,<grp2>) . . . . compares two subgroups
+#M  GGLCompareSubgroups(<sheet>,<grplist>) . . . . .  compares some subgroups
 ##
-##  This operation lets the GAP library compare the two selected subgroups.
+##  This operation lets the GAP library compare the selected subgroups.
 ##  The new information about equality or inclusion of one in the other resp.
 ##  is included into the graphic lattice. This can lead to the merging of
 ##  vertices. No new vertices are included into the lattice.
 ##
 InstallMethod( GGLCompareSubgroups,
-    "for a graphic subgroup lattice sheet, and two fp groups",
+    "for a graphic subgroup lattice sheet, and a list of fp groups",
     true,
-    [ IsGraphicSubgroupLattice, IsGroup, IsGroup ],
+    [ IsGraphicSubgroupLattice, IsList ],
     0,
         
-function( sheet, grp1, grp2 )
-  local   vert,  pos;
+function( sheet, grplist )
+  local   vertlist,  poslist,  i,  j,  vert,  pos;
   # we ignore grp1 and grp2 and look at the selected vertices:
-  vert := Selected(sheet);   # we know that exactly two vertices are selected
-  pos := List(vert,v->Position(sheet!.levelparams,v!.levelparam));
-  if pos[1] < pos[2] then
-    vert := vert{[2,1]};
-    pos := pos{[2,1]};
-  fi;
-  # first make sure that there is no "way" from v[2] down to v[1] on the 
-  # connections which are already in the poset. We use the function
-  # GPSearchWay in poset.gi. Documentation there says:
-  #   The following function is only internal:
-  #   Use it on your own risk and only if you know what you are doing!
-  # So I (Max) say:
-  #  *I know what I am doing!*
-  if not GPSearchWay(sheet, vert[2], vert[1], pos[1]) then 
-    # note the order of the vertices in the calling convention!
-    # see: I really know what I am doing!
-    if IsSubgroup(vert[2]!.data.group,vert[1]!.data.group) then
-      Info(GraphicLattice,1,vert[2]!.label," contains ",vert[1]!.label);
-      NewInclusionInfo(sheet,vert[1],vert[2]);
-    elif IsSubgroup(vert[1]!.data.group,vert[2]!.data.group) then
-      Info(GraphicLattice,1,vert[1]!.label," contains ",vert[2]!.label);
-      NewInclusionInfo(sheet,vert[2],vert[1]);
-    fi;
-    vert := Selected(sheet);
-    if Length(vert) < 2 then
-      return;   # vertices already merged!
-    fi;
-  fi;    
-  if vert[1]!.data.group = vert[2]!.data.group then
-    # groups are the same!
-    MergeVertices(sheet,vert[1],vert[2]);
-  fi;
+  vertlist := Selected(sheet);  # at least one vertex is selected!
+  poslist := List(vertlist,v->Position(sheet!.levelparams,v!.levelparam));
+  for i in [1..Length(vertlist)] do
+    for j in [i+1..Length(vertlist)] do
+      if IsAlive(vertlist[i]) and IsAlive(vertlist[j]) then
+        # Now the routine for two vertices:
+        if poslist[i] < poslist[j] then
+          vert := vertlist{[j,i]};
+          pos := poslist{[j,i]};
+        else
+          vert := vertlist{[i,j]};
+          pos := poslist{[i,j]};
+        fi;
+
+        # first make sure that there is no "way" from v[2] down to v[1] on the 
+        # connections which are already in the poset. We use the function
+        # GPSearchWay in poset.gi. Documentation there says:
+        #   The following function is only internal:
+        #   Use it on your own risk and only if you know what you are doing!
+        # So I (Max) say:
+        #  *I know what I am doing!*
+        if not GPSearchWay(sheet, vert[2], vert[1], pos[1]) then 
+        # note the order of the vertices in the calling convention!
+        # see: I really know what I am doing!
+          if IsSubgroup(vert[2]!.data.group,vert[1]!.data.group) then
+            Info(GraphicLattice,1,vert[2]!.label," contains ",vert[1]!.label);
+            NewInclusionInfo(sheet,vert[1],vert[2]);
+          elif IsSubgroup(vert[1]!.data.group,vert[2]!.data.group) then
+            Info(GraphicLattice,1,vert[1]!.label," contains ",vert[2]!.label);
+            NewInclusionInfo(sheet,vert[2],vert[1]);
+          fi;
+        else
+          if vert[1]!.data.group = vert[2]!.data.group then
+            # groups are the same!
+            MergeVertices(sheet,vert[1],vert[2]);
+          fi;
+        fi;
+      fi;
+    od;
+  od;
   return;
 end );
 
       
+#############################################################################
+##
+#F  GGLTestConjugacy(<sheet>,<grplist>) . . . . . test conjugacy of subgroups
+##
+##  This operation lets the GAP library test the selected conjugacy classes
+##  of subgroups. If new information about conjugacy is found, classes are
+##  merged.
+##
+InstallMethod( GGLTestConjugacy,
+    "for a graphic subgroup lattice sheet, and a list of fp groups",
+    true,
+    [ IsGraphicSubgroupLattice, IsList ],
+    0,
+        
+function( sheet, grplist )
+  local   vert,  levelparams,  classlists,  v,  lpos,  cpos,  i,  j,  pos,  
+          lev,  pos1,  cl1,  pos2,  cl2;
+  # We ignore the list and take the selected vertices or their classes.
+  vert := Selected(sheet);
+  levelparams := [];
+  classlists := [];
+  for v in vert do
+    # Do we have this level?
+    lpos := PositionSet(levelparams,v!.levelparam);
+    if lpos = fail then
+      # no, so we store the new level
+      Add(levelparams,v!.levelparam);
+      Add(classlists,[]);
+      lpos := Length(levelparams);
+    fi;
+    # Do we have the class?
+    cpos := PositionSet(classlists[lpos],v!.classparam);
+    if cpos = fail then
+      Add(classlists[lpos],v!.classparam);
+      cpos := Length(classlists[lpos]);
+    fi;
+  od;
+  
+  # now we have a list of levels and for each levels a list of classes
+  # compare them pairwise:
+  for lpos in [1..Length(levelparams)] do
+    for i in [1..Length(classlists[lpos])] do
+      for j in [i+1..Length(classlists[lpos])] do
+        # Compare first subgroups of the two classes:
+        pos := Position(sheet!.levelparams,levelparams[lpos]);
+        lev := sheet!.levels[pos];
+        pos1 := Position(lev!.classparams,classlists[lpos][i]);
+        if pos1 <> fail then   # could already be merged!
+          cl1 := lev!.classes[pos1];
+          pos2 := Position(lev!.classparams,classlists[lpos][j]);
+          if pos2 <> fail then  # could already be merged!
+            cl2 := lev!.classes[pos2];
+            if IsConjugate(cl1[1]!.data.group,cl2[1]!.data.group) then
+              # we have to merge the classes:
+              Append(cl1,cl2);
+              for v in [1..Length(cl2)] do
+                cl2[v]!.classparam := cl1[1]!.classparam;
+                Unbind(cl2[v]);   # Modify the class!
+              od;
+              Delete(sheet,levelparams[lpos],classlists[lpos][j]); # class!
+            fi;
+          fi;
+        fi;
+      od;
+    od;
+  od;
+end );
+
+
 #############################################################################
 ##
 ##  Methods for inserting new vertices:

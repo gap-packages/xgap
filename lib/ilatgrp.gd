@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.12 1999/04/01 16:06:19 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.13 1999/04/26 10:55:17 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.12 1999/04/01 16:06:19 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.13 1999/04/26 10:55:17 gap Exp $";
 
 
 #############################################################################
@@ -120,14 +120,25 @@ DeclareOperation( "GGLKernelQuotientSystem", [ IsQuotientSystem ] );
 
 #############################################################################
 ##
-#O  GGLCompareSubgroups(<sheet>,<grp1>,<grp2>) . . . . compares two subgroups
+#O  GGLCompareSubgroups(<sheet>,<grplist>) . . . . . . . . compares subgroups
 ##
-##  This operation lets the GAP library compare the two selected subgroups.
+##  This operation lets the GAP library compare the selected subgroups.
 ##  The new information about equality or inclusion of one in the other resp.
 ##  is included into the graphic lattice. This can lead to the merging of
 ##  vertices. No new vertices are included into the lattice.
 ##
-DeclareOperation( "GGLCompareSubgroups", [IsGraphicSheet, IsGroup, IsGroup]);
+DeclareOperation( "GGLCompareSubgroups", [IsGraphicSheet, IsList ]);
+
+
+#############################################################################
+##
+#O  GGLTestConjugacy(<sheet>,<grplist>) . . . . . test conjugacy of subgroups
+##
+##  This operation lets the GAP library test the selected conjugacy classes
+##  of subgroups. If new information about conjugacy is found, classes are
+##  merged.
+##
+DeclareOperation( "GGLTestConjugacy", [IsGraphicSheet, IsList ]);
 
 
 #############################################################################
