@@ -2,7 +2,7 @@
 # Shell-Script to zoo the distribution of xgap
 # This should be called right after the checkout and after making the
 # documentation and html files without compiled versions in the current
-# directory tree. It should be called from the main gap directory.
+# directory tree. It should be called from the GAP `pkg' directory.
 
 # Change this for the latest revision:
 # (Last digit is patchlevel) 
@@ -16,47 +16,47 @@ echo '/END'   >>BINCOM
 
 rm -f $ZOOFILE.zoo
 
-for i in pkg/xgap/{README,Makefile.in,configure,configure.in,init.g}; do
+for i in xgap/{README,Makefile.in,configure,configure.in,init.g}; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/bin/xgap*; do
+for i in xgap/bin/xgap*; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/cnf/{M*,c*}; do
+for i in xgap/cnf/{M*,c*}; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/doc/{*.tex,*.msk,*.config,Makefile,manual.dvi,manual.six}; do
+for i in xgap/doc/{*.tex,*.msk,*.config,Makefile,manual.dvi,manual.six}; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/examples/*; do
+for i in xgap/examples/*; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/htm/*; do
+for i in xgap/htm/*; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/lib/{*.g,*.gi,*.gd}; do
+for i in xgap/lib/{*.g,*.gi,*.gd}; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/src.x11/{*.c,*.h}; do
+for i in xgap/src.x11/{*.c,*.h}; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <TEXTCOM >/dev/null 2>&1
 done
 
-for i in pkg/xgap/src.x11/bitmaps/*; do
+for i in xgap/src.x11/bitmaps/*; do
   zoo ah $ZOOFILE.zoo $i >/dev/null
   zoo c  $ZOOFILE.zoo $i <BINCOM >/dev/null 2>&1
 done
