@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.35 1999/05/30 21:03:57 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.36 1999/05/30 22:34:19 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.35 1999/05/30 21:03:57 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.36 1999/05/30 22:34:19 gap Exp $";
 
 
 #############################################################################
@@ -1313,9 +1313,9 @@ function(sheet,grp)
     Query(Dialog("OKcancel","You must enter an integer >= 1!"));
     return fail;
   fi;
-  Info(GraphicLattice,1,"PQuotient class: ",p);
+  Info(GraphicLattice,1,"PQuotient class: ",cl);
   if GGLLogFile <> false then
-    AppendTo(GGLLogFile,"PQuotient class: ",p,"\n");
+    AppendTo(GGLLogFile,"PQuotient class: ",cl,"\n");
   fi;
   l := [];
   for i in [1..cl] do

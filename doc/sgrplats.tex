@@ -160,7 +160,7 @@ Now  select ``Change Labels'' from the  ``Poset'' menu.  If this entry
 is not   available  you have  failed to    select vertex  $G$.   After
 selecting ``Change Labels'' a small dialog box is  opened asking for a
 label.  Type in `D8' and press the <return> key or click on <OK>.  The
-label of vertex $10$ will now be changed to ``$D8$''. Note that in the
+label of vertex $G$ will now be changed to ``$D8$''. Note that in the
 X Window System you have to move the pointer on  the text field if you
 want to edit the label.
 
@@ -370,9 +370,9 @@ intersection is of size $10$.  Select this intersection and use
 
 \begintt
 gap> l := SelectedGroups(s);
-[ Group([ (2,3)(4,6), (1,2,4,6,3) ]) ]
+[ Group([ (2,3)(4,6), (1,2)(3,4) ]) ]
 gap> u := l[1];
-Group([ (2,3)(4,6), (1,2,4,6,3) ])
+Group([ (2,3)(4,6), (1,2)(3,4) ])
 \endtt
 
 In order  to find out which subgroups  of the complete lattice  lie above
