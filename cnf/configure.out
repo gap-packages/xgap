@@ -2645,7 +2645,7 @@ case "$target" in
 #define HAVE_BROKEN_TEXT_EXPORE_COMPRESS  1
 EOF
 
-	X_EXTRA_LIBS="$X_EXTRA_LIBS $x_libraries/libmu.a"
+	X_EXTRA_LIBS="$X_EXTRA_LIBS $x_libraries/libXmu.a"
 	echo "$ac_t""yes (let's hope it works)" 1>&6
         ;;
 
