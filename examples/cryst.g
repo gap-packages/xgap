@@ -1,6 +1,5 @@
 # An example using cryst-GAP:
 # $Id:
-InstallOtherMethod(IsDiagonalMat,"",true,[IsList],-1,ReturnTrue);
 RequirePackage("crystcat");
 RequirePackage("cryst");
 g := SpaceGroupBBNWZ(4,6,3,1,2);

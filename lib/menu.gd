@@ -2,7 +2,7 @@
 ##
 #W  menu.gd                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gd,v 1.7 1999/04/01 16:07:48 gap Exp $
+#H  @(#)$Id: menu.gd,v 1.8 1999/06/25 16:48:23 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -14,7 +14,7 @@
 ##  "sheet.gi".
 ##
 Revision.pkg_xgap_lib_menu_gd :=
-    "@(#)$Id: menu.gd,v 1.7 1999/04/01 16:07:48 gap Exp $";
+    "@(#)$Id: menu.gd,v 1.8 1999/06/25 16:48:23 gap Exp $";
 
 
 #############################################################################
@@ -81,14 +81,23 @@ DeclareOperation( "Check", [ IsMenu, IsObject, IsBool ] );
 #############################################################################
 ##
 #O  Enable( <menu>, <entry>, <flag> ) . . . .  enable an object for selection
+#O  Enable( <menu>, <boollist> ) . . . . . enable/disable all entries at once
 ##
-##  Modifies the ``enabled'' state of a menu entry. Only enabled menu entries
-##  can be selected by the user. Deselected menu entries are visualized
+##  Modifies the ``enabled'' state of a menu entries. Only enabled menu entries
+##  can be selected by the user. Disabled menu entries are visualized
 ##  by grey or shaded letters in the menu. <menu> must be a menu object,
 ##  <entry> the string exactly as in the definition of the menu, and <flag>
-##  a boolean value.
+##  a boolean value. <entry> can also be a natural number meaning the index
+##  of the corresponding menu entry.
+##  In the second form <boollist> must be a list where each
+##  entry has either a boolean value or the value `fail' 
+##  The list must be as long as the 
+##  number of menu entries in the menu <menu>. All menu entries where a 
+##  boolean value is provided are enabled or disabled according to this
+##  value.
 ## 
 DeclareOperation( "Enable", [ IsMenu, IsObject, IsBool ] );
+DeclareOperation( "Enable", [ IsMenu, IsList ] );
 
 
 #############################################################################

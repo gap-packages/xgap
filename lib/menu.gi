@@ -2,14 +2,14 @@
 ##
 #W  menu.gi                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gi,v 1.7 1999/05/19 22:05:57 gap Exp $
+#H  @(#)$Id: menu.gi,v 1.8 1999/06/25 16:48:23 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_menu_gi :=
-    "@(#)$Id: menu.gi,v 1.7 1999/05/19 22:05:57 gap Exp $";
+    "@(#)$Id: menu.gi,v 1.8 1999/06/25 16:48:23 gap Exp $";
 
 
 #############################################################################
@@ -249,7 +249,60 @@ function( menu, entry, flag )
 
 end );
 
+InstallMethod( Enable,
+    "for menu",
+    true,
+    [ IsMenu and IsPulldownMenuRep,
+      IsInt,
+      IsBool ],
+    0,
 
+function( menu, entry, flag )
+
+    if entry < 1 or entry > Length(menu!.entries) then
+        Error( "unknown menu entry \"", entry, "\"" );
+    fi;
+    if flag  then
+        WcEnableMenu( WindowId(menu), MenuId(menu), entry, 1 );
+        menu!.enabled[entry] := true;
+    else
+        WcEnableMenu( WindowId(menu), MenuId(menu), entry, 0 );
+        menu!.enabled[entry] := false;
+    fi;
+
+end );
+
+
+#############################################################################
+##
+#M  Enable( <menu>, <boollist> )  . . . . . . . . . . . . . enable menu entry
+##
+InstallMethod( Enable,
+    "for menu, and a list",
+    true,
+    [ IsMenu and IsPulldownMenuRep,
+      IsList ],
+    0,
+
+function( menu, boollist )
+  local i;
+  
+  if Length(menu!.entries) <> Length(boollist) then
+    Error("Length of <boollist> must match the number of menu entries!");
+  fi;
+  
+  for i in [1..Length(menu!.entries)] do
+    if IsBound(boollist[i]) and boollist[i] <> fail then
+      if boollist[i] = true then
+        Enable(menu,menu!.entries[i],true);
+      else
+        Enable(menu,menu!.entries[i],false);
+      fi;
+    fi;
+  od;
+end);
+
+      
 #############################################################################
 ##
 #F  MenuSelected( <wid>, <mid>, <eid> ) . . . . . . . menu selector, internal
