@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.12 1999/03/07 22:10:10 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.13 1999/03/09 11:34:25 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.12 1999/03/07 22:10:10 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.13 1999/03/09 11:34:25 gap Exp $";
 
 
 
@@ -448,6 +448,7 @@ function( poset, levelparam, lpstr )
   level!.height := 2 * VERTEX.diameter;
   
   # move all lower levels down:
+  FastUpdate(poset,true);
   for i in [firstpos+1..l+1] do
     poset!.levels[i]!.top := poset!.levels[i]!.top + level!.height;
     for cl in poset!.levels[i]!.classes do
@@ -462,6 +463,7 @@ function( poset, levelparam, lpstr )
       MoveDelta(poset!.lptexts[i],0,level!.height);
     fi;
   od;
+  FastUpdate(poset,false);
   
   # has the graphic sheet become higher?
   l := l + 1;    # this means:   l := Length(poset!.levels);
@@ -1056,6 +1058,7 @@ function( poset, levelparam )
     
   l := Length(poset!.levels);
   # now we have to move all lower levels up:
+  FastUpdate(poset,true);
   for lev in [lp+1..l] do
     poset!.levels[lev]!.top := poset!.levels[lev]!.top 
                                - poset!.levels[lp]!.height;
@@ -1065,6 +1068,7 @@ function( poset, levelparam )
       od;
     od;
   od;
+  FastUpdate(poset,false);
   poset!.levels{[lp..l-1]} := poset!.levels{[lp+1..l]};
   Unbind(poset!.levels[l]);
   poset!.levelparams{[lp..l-1]} := poset!.levelparams{[lp+1..l]};
@@ -1125,6 +1129,7 @@ function( poset, levelparam, height )
     return true;
   elif height < l!.height then
     # move all vertices within level into the new range
+    FastUpdate(poset,true);
     for cl in l!.classes do
       for v in cl do
         if v!.y > height-VERTEX.radius then
@@ -1146,6 +1151,7 @@ function( poset, levelparam, height )
       Move(poset!.lptexts[lp],poset!.lptexts[lp]!.x,
            l!.top + QuoInt(l!.height,2));
     fi;
+    FastUpdate(poset,false);
     
   else   # height > l!.height
     dist := height - l!.height;
@@ -1170,6 +1176,7 @@ function( poset, levelparam, height )
     # next move down all the levels below the increased level:
   fi;
   
+  FastUpdate(poset,true);
   for l in [lp+1..Length(poset!.levels)] do
     poset!.levels[l]!.top := poset!.levels[l]!.top + dist;
     for cl in poset!.levels[l]!.classes do
@@ -1185,6 +1192,7 @@ function( poset, levelparam, height )
       MoveDelta(poset!.lptexts[l],0,dist);
     fi;
   od;
+  FastUpdate(poset,false);
 end);
 
 
@@ -1250,6 +1258,7 @@ function( poset, levelparam, position )
     od;
     
     # OK, we can do it:
+    FastUpdate(poset,true);
     list := Concatenation([lp],[position..lp-1]);
     poset!.levels{[position..lp]} := poset!.levels{list};
     poset!.levelparams{[position..lp]} := poset!.levelparams{list};
@@ -1296,6 +1305,7 @@ function( poset, levelparam, position )
     if poset!.showlevelparams then
       Draw(poset!.lptexts[position]);
     fi;
+    FastUpdate(poset,false);
     
     # we did it.
   else   # position > lp, move level DOWN
@@ -1321,6 +1331,7 @@ function( poset, levelparam, position )
     od;
     
     # OK, we can do it:
+    FastUpdate(poset,true);
     list := Concatenation([lp+1..position],[lp]);
     poset!.levels{[lp..position]} := poset!.levels{list};
     poset!.levelparams{[lp..position]} := poset!.levelparams{list};
@@ -1367,6 +1378,7 @@ function( poset, levelparam, position )
     if poset!.showlevelparams then
       Draw(poset!.lptexts[position]);
     fi;
+    FastUpdate(poset,false);
     
     # we did it.
   fi;
