@@ -1,9 +1,9 @@
 /****************************************************************************
 **
-*A  selfile.c                   XGAP Source              Erik M. van der Poel
-*A                                                   modified by Frank Celler
+*W  selfile.c                   XGAP Source              Erik M. van der Poel
+*W                                                   modified by Frank Celler
 **
-*H  @(#)$Id: selfile.c,v 1.1 1997/11/25 15:52:48 frank Exp $
+*H  @(#)$Id: selfile.c,v 1.2 1997/11/27 12:08:48 frank Exp $
 **
 **  This file is based on the file selector  distributed with  ghostview,  it
 **  contained the following notice:
@@ -47,19 +47,6 @@
 **      Software Research Associates, Inc.
 **      1-1-1 Hirakawa-cho, Chiyoda-ku
 **      Tokyo 102 Japan. TEL +81-3-234-2692
-**
-*H  $Log: selfile.c,v $
-*H  Revision 1.1  1997/11/25 15:52:48  frank
-*H  first attempt at XGAP for GAP 4
-*H
-*H  Revision 1.3  1995/08/08  17:36:30  fceller
-*H  define 'USG' if 'hpux' is defined (I should make this file autoconf aware)
-*H
-*H  Revision 1.2  1995/07/24  12:18:45  fceller
-*H  added a few missing statics
-*H
-*H  Revision 1.1  1995/07/24  09:28:30  fceller
-*H  Initial revision
 */
 #ifndef NO_FILE_SELECTOR
 
@@ -69,13 +56,23 @@
 
 #include    "utils.h"
 
-#if defined(SVR4) || defined(SYSV) || defined(USG) || defined(__osf__)
-#   include <dirent.h>
+#if HAVE_DIRENT_H
+# include <dirent.h>
+# define NAMLEN(dirent) strlen((dirent)->d_name)
 #else
-#   include <sys/dir.h>
-#   undef dirent
-#   define dirent direct
+# define dirent direct
+# define NAMLEN(dirent) (dirent)->d_namlen
+# if HAVE_SYS_NDIR_H
+#  include <sys/ndir.h>
+# endif
+# if HAVE_SYS_DIR_H
+#  include <sys/dir.h>
+# endif
+# if HAVE_NDIR_H
+#  include <ndir.h>
+# endif
 #endif
+
 
 #include "selfile.h"
 
@@ -90,6 +87,7 @@
 
 /****************************************************************************
 **
+
 *T  Typedefs  . . . . . . . . . . . . . . . . . . .  various private typedefs
 */
 typedef struct {

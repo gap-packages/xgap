@@ -97,7 +97,16 @@ fi
 
 dnl #########################################################################
 dnl ##
-dnl ## checks where the X11 libraries
+dnl ## check for directory handling
+dnl ##
+
+AC_HEADER_DIRENT
+AC_FUNC_CLOSEDIR_VOID
+
+
+dnl #########################################################################
+dnl ##
+dnl ## checks where the X11 libraries (this should be the last test)
 dnl ##
 
 AC_PATH_XTRA
@@ -120,6 +129,10 @@ case "$target" in
       *)
 	AC_MSG_RESULT([no (good)])
 	;;
+
+    *)
+      AC_MSG_RESULT([no (good)])
+      ;;
 
     esac
     ;;

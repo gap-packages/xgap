@@ -118,6 +118,27 @@
 
 /****************************************************************************
 **
+*D  check for directory handling
+*/
+
+/* define as 1 if `closedir' returns void                                  */
+#define CLOSEDIR_VOID		0
+
+/* define as 1 if you have the include file "dirent.h"                     */
+#define HAVE_DIRENT_H		0
+
+/* define as 1 if you have the include file "sys/ndir.h"                   */
+#define HAVE_SYS_NDIR_H         0
+
+/* define as 1 if you have the include file "sys/dir.h"                    */
+#define HAVE_SYS_DIR_H          0
+
+/* define as 1 if you have the include file "ndir.h"                       */
+#define HAVE_NDIR_H             0
+
+
+/****************************************************************************
+**
 *D  check for XWindows features
 */
 
