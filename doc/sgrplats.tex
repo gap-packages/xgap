@@ -38,7 +38,7 @@ the term mouse to refer to this pointer device.
 In case that some computation takes longer than expected, for instance
 the low index and the prime quotient can be quite time consuming, you
 can always interrupt a computation by making the {\GAP} window active
-and pressing <CTRL-C> or selecting `Interrupt' in the <Run> menu.
+and pressing <CTRL-C> or selecting `Interrupt' in the `Run' menu.
 Again, making a window active is system and window manager dependent.
 In most cases you either have to move the pointer inside the {\GAP}
 window or you have to click on the title bar of the {\GAP} window.
@@ -101,7 +101,7 @@ elements the lattice has.
 \endtt
 
 $10$ is small enough to use `AllSubgroups' without painting the screen
-black.  After you have clicked this menu entry in the <Subgroups> menu you
+black.  After you have clicked this menu entry in the `Subgroups' menu you
 see the complete Hasse diagram in the graphic sheet.
 
 The   following initial  remarks  can    be  made  about  the   graphical
@@ -152,7 +152,7 @@ vertex,  see "A Partial  Subgroup Lattice of  the Symmetric Group on 6
 Points" or "GraphicSubgroupLattice, Selecting Vertices".
 
 On the top of the window, above the graphic sheet, you  can see a list
-of  menu names:  ``GAP'',  ``Poset'', and ``Subgroups''.   In order to
+of  menu names:  `Sheet',  `Poset', and `Subgroups'.   In order to
 open  any of  these *pull down  menus*  place  the pointer inside  the
 button containing the menu name and press the left mouse button.  Keep
 the button pressed.  A pull down menu will  be shown and by moving the
@@ -164,17 +164,17 @@ down  menu the menu  is closed without selecting  any entry. Note that
 this   behaviour is different from that   of some other graphical user
 interfaces such as for example Windows.
 
-Now  select ``Change Labels'' from the  ``Poset'' menu.  If this entry
+Now  select `Change Labels' from the  `Poset' menu.  If this entry
 is not   available  you have  failed to    select vertex  $G$.   After
-selecting ``Change Labels'' a small dialog box is  opened asking for a
-label.  Type in `D8' and press the <return> key or click on <OK>.  The
+selecting `Change Labels' a small dialog box is  opened asking for a
+label.  Type in `D8' and press the <return> key or click on `OK'.  The
 label of vertex $G$ will now be changed to ``$D8$''. Note that in the
 X Window System you have to move the pointer on  the text field if you
 want to edit the label.
 
 In  order to find  out which  vertex represents the  centre  of $D_8$,
 first select vertex $D8$ and then the  menu entry `Centres' from the
-<Subgroups> menu.  In case of  a color screen,  vertex $D8$ will  be
+`Subgroups' menu.  In case of  a color screen,  vertex $D8$ will  be
 selected and colored  red, and vertex $2$  will be colored green.  The
 color green indicates that vertex $2$ is the result  of a computation. 
 There will also be a message  in the {\GAP}  window saying that vertex
@@ -184,7 +184,7 @@ $2$ represents the centre of the group belonging to vertex $D8$.
 #I  Centres (D8) --> (2)
 \endtt
 
-Most of  the menu entries  in <Subgroups> should be self-explanatory, for
+Most of  the menu entries  in `Subgroups' should be self-explanatory, for
 details and  the   difference   between  `Closure'  and    `Closures' see
 "GraphicSubgroupLattice, Subgroups Menu".
 
@@ -193,7 +193,7 @@ selected), and you want to investigate  the subgroups corresponding to
 these vertices further  in {\GAP}, the function  `SelectedGroups' will
 return a list of  these  subgroups (note  that  you can also   achieve
 calling this function by  selecting  `SelectedGroups to GAP' in  the
-<Subgroups> menu):
+`Subgroups' menu):
 
 \label{gapxgap}
 \begintt
@@ -201,7 +201,7 @@ gap> SelectedGroups(s);
 [ d8 ]
 \endtt
 
-On the other hand, the functions supplied via the <Subgroups> menu are by
+On the other hand, the functions supplied via the `Subgroups' menu are by
 far not all functions applicable to groups.  In order to show results of a
 computation in {\GAP} in the diagram, you can use `SelectGroups'.  The
 function `SelectGroups' allows you to mark any set of subgroups of $D_8$ in
@@ -222,7 +222,7 @@ example, the subgroups are not yet depicted in the lattice, a warning
 appears in the {\GAP} command window. You have to use `InsertVertex'
 to insert a new vertex into the lattice (note that you can also
 achieve this by selecting `InsertVertices from GAP' in the
-<Subgroups> menu, see section "InsertVertex" for the complete
+`Subgroups' menu, see section "InsertVertex" for the complete
 description of this function or section "xgapgap" for an example).
 
 To  summarize the above: the  function `SelectedGroups' can be used to
@@ -230,8 +230,8 @@ transfer information  from   the  diagram  to  {\GAP}, the   functions
 `SelectGroups' and `InsertVertex' can  be used to transfer information
 from {\GAP} to the diagram.
 
-In order to finish this example, close the window by selecting ``close
-graphic sheet'' from the ``GAP'' menu.  This will close the window
+In order to finish this example, close the window by selecting `close
+graphic sheet' from the `Sheet' menu.  This will close the window
 containing the Hasse diagram of $D_8$.
 
 In this example you have learned, how to display the Hasse diagram of the
@@ -240,13 +240,13 @@ mouse to move and select vertices, how to select a menu entry and how to
 transfer information between the Hasse diagram and {\GAP} using `SelectGroups'
 and `SelectedGroups'.
 
-In order to learn more about the menus ``GAP'' and ``Poset'', which were only
-mentioned very briefly, see "GraphicSubgroupLattice, GAP Menu", and
+In order to learn more about the menus `Sheet' and `Poset', which were only
+mentioned very briefly, see "GraphicSubgroupLattice, Sheet Menu", and
 "GraphicSubgroupLattice, Poset Menu".  
 
 % obsolete:
 %This example also did not discuss
-%two additional menus, namely the <Information> and <Sheet Menu>.  The first
+%two additional menus, namely the `Information' and `Sheet' menu.  The first
 %is discussed in "A Partial Subgroup Lattice of the Symmetric Group on 6
 %Points" and "GraphicSubgroupLattice, Information Menu", the latter in
 %"GraphicSubgroupLattice, Sheet Menu".
@@ -289,13 +289,13 @@ selected, so it will be red if your screen supports color.
 actions you perform via mouse clicks. This is convenient because in
 comparison to normal {\GAP} sessions you do not have the script of
 typed commands. You can activate this feature by selecting `Start
-Logging' from the <Subgroups> menu. {\XGAP} prompts you for a filename 
+Logging' from the `Subgroups' menu. {\XGAP} prompts you for a filename 
 via a file selector box. See "loggingfacility" for details about this
 feature. 
 
 In order  to  find all subgroups   of size $60$, we  cannot   not use the
-<Subgroups> menu directly, so go back into the  {\GAP} window and extract
-the conjugacy classes of <cc> whose representatives have size $60$.
+`Subgroups' menu directly, so go back into the  {\GAP} window and extract
+the conjugacy classes of `cc' whose representatives have size $60$.
 
 \begintt
 gap> c60 := Filtered(cc,x->Size(Representative(x))=60);;
@@ -312,17 +312,17 @@ gap> for g in s60 do InsertVertex(s,g); od;
 \endtt
 
 Note  that  we  could have    achieved   this result  with the   entry
-`InsertVertices from GAP'  in   the    <Subgroups>  menu,   see
+`InsertVertices from GAP'  in   the    `Subgroups'  menu,   see
 "InsertVertex".  The  Hasse diagram now  contains  four vertices.  The
 new  vertices are  *not* selected automatically.   You can do  this as
 mentioned above  by clicking with  the *left*  mouse button on  them.  
-Selecting `Conjugate Subgroups' from the <Subgroups> menu adds the
+Selecting `Conjugate Subgroups' from the `Subgroups' menu adds the
 complete conjugacy classes.  Please do  this first for vertex $2$  and
 then   for vertex $3$   such that  the  numbering of  vertices  in the
 following description is correct!
 
 In order  to find out  what type of subgroups  we  are looking at, use
-another  kind of menu not  discussed  so far, namely the <Information>
+another  kind of menu not  discussed  so far, namely the ``Information''
 menu.  Place the pointer inside  vertex $3$,  press the *right*  mouse
 button and release  it immediately.  This  will  pop up a  new window,
 containing some text    describing  vertex $3$ (as   mentioned  above,
@@ -356,9 +356,9 @@ telling you that the subgroup represented by vertex $3$ is isomorphic to
 the alternating group on five symbols.  The notation `[ 60, 5 ]' comes out
 of the small groups library and is the only information about the
 isomorphism type we can get from {\GAP4} up to now. Select <close> to close
-the <Information> menu.  Repeat this with vertex $2$, you will see that the
+the ``Information'' menu.  Repeat this with vertex $2$, you will see that the
 subgroup of vertex $2$ is also isomorphic to $A_5$, however these two $A_5$
-inside $S_6$ are not conjugate in $S_6$.  The information menu is described
+inside $S_6$ are not conjugate in $S_6$.  The ``Information'' menu is described
 in detail in "GraphicSubgroupLattice, Information Menu".
 
 Now we want to compute the normalizers of the elements of the conjugacy
@@ -378,7 +378,7 @@ the pointer right and slightly below vertex $13$.  You see a rectangle, one
 corner at your start position and the other following the pointer.  If
 vertices $3$ and $9$ to $13$ are all inside this rectangle, release the
 mouse button.  Now these vertices are selected.  Select `Normalizers' from
-the <Subgroups> menu to compute and display the normalizers.
+the `Subgroups' menu to compute and display the normalizers.
 
 Now select vertex $3$ and $4$ and compute the intersection.  The
 intersection is of size $10$.  Select this intersection and use
@@ -392,9 +392,9 @@ Group([ (2,3)(4,6), (1,2)(3,4) ])
 \endtt
 
 In order  to find out which subgroups  of the complete lattice  lie above
-the subgroup <u> you can  use `Intermediate Subgroups'. You select the
-whole group in addition to <u> and choose `Intermediate Subgroups' in the 
-<Subgroups> menu. You get 6 groups, some of them are already in the
+the subgroup `u' you can  use `Intermediate Subgroups'. You select the
+whole group in addition to `u' and choose `Intermediate Subgroups' in the 
+`Subgroups' menu. You get 6 groups, some of them are already in the
 lattice, the others are added.
 
 There is another feature we have not seen yet.  Close the current graphic
@@ -407,8 +407,8 @@ gap> s := GraphicSubgroupLattice(s6);
 \endtt
 
 In order to compute a Sylow $2$ subgroup select `Sylow Subgroup' from the
-<Subgroups> menu.   A small dialog box  will  pop up asking  for a prime,
-type in  $2$ and press <return> or  click on <OK>.   Now select  this new
+`Subgroups' menu.   A small dialog box  will  pop up asking  for a prime,
+type in  $2$ and press <return> or  click on `OK'.   Now select  this new
 vertex $2$   representing the Sylow $2$  subgroup  and compute its normal
 subgroups.  This is rather slow because the  function checks for each new
 vertex if the corresponding  subgroup is conjugate to  an old one  of the
@@ -436,7 +436,7 @@ same size.
 %\endtt
 %
 %Select vertex $3$   and compute a  random conjugate  by selecting `Random
-%Conjugate' from the <Subgroups> menu.  Select this new vertex and compute
+%Conjugate' from the `Subgroups' menu.  Select this new vertex and compute
 %its  normal subgroups.  You will  see  that now  the vertices  of the new
 %subgroups appear  faster on  the   graphic sheet, however,  they  have  a
 %different shape.  They are  represented by a square  instead of a circle.
@@ -453,8 +453,8 @@ same size.
 %FIXME: This feature does not yet exist.
 
 This is  now the  end of our  partial  investigation of  the (partial)
-subgroup  lattice  of $S_6$, close  the  graphic sheet(s) using <close
-graphic sheet> of the <GAP> menu. If you started the logging facility
+subgroup  lattice  of $S_6$, close  the  graphic sheet(s) using `close
+graphic sheet' of the `Sheet' menu. If you started the logging facility
 of {\XGAP} as described above you now have a file (probably called
 `xgap.log' if you did not change the default) describing the actions
 we performed.
@@ -505,7 +505,7 @@ section, there are the following differences:
 -- There is only one vertex instead of two.  This vertex labeled $G$ is the
 whole group $C_2$.  There is no vertex for the trivial subgroup (yet).
 
--- If you pull down the <Subgroups> menu, you will see  that this menu is
+-- If you pull down the `Subgroups' menu, you will see  that this menu is
 now   very different.   It gives  you   access to various algorithms  for
 finitely presented  groups  but most of  the  entries  from the last  two
 examples  are missing because most of  the {\GAP}  functions behind these
@@ -514,9 +514,9 @@ entries are not applicable to (infinite) finitely presented groups.
 This  example will show  you how to prove that  $C_2$ is infinite.  First
 look at the abelian invariants in order to see what the commutator factor
 group is.   In  order  to  compute the abelian    invariants pop  up  the
-<Information> menu.   This is done in exactly  the same manner  as in the
+``Information'' menu.   This is done in exactly  the same manner  as in the
 previous section.  Place the pointer inside vertex $G$, press the *right*
-mouse button and release   it  immediately.  This <Information> menu   is
+mouse button and release   it  immediately.  This ``Information'' menu   is
 described  in   detail in  "GraphicSubgroupLattice  for FpGroups, Information
 Menu".
 
@@ -538,21 +538,21 @@ line.  After a while this entry will change to
 Abelian Invariants perfect 
 \endtt
 
-telling you  that $C_2$  is perfect.   So none   of the  <Subgroups> menu
+telling you  that $C_2$  is perfect.   So none   of the  `Subgroups' menu
 entries `Abelian Prime Quotient',  `All Overgroups',  `Conjugacy Class',
 `Cores',  `Derived Subgroups',  `Intersection', `Intersections',
 `Normalizers' or  `Prime Quotient' will compute any new subgroups.
 
 In order to avoid accidents the menu entries `Abelian Prime Quotient',
 `All Overgroups', `Epimorphisms (GQuotients)', `Conjugacy Class', 
-`Low Index  Subgroups', and `Prime Quotient'  from the <Subgroups> menu are
+`Low Index  Subgroups', and `Prime Quotient'  from the `Subgroups' menu are
 only  selectable   if exactly   one vertex   is selected  because  the
 functions behind   these entries are in  general  quite time and space
 consuming.
 
-Close the <Information> window and select `Low Index Subgroups' from the
-<Subgroups> menu.  A small dialog box will  pop up asking  for a limit on
-the index.  Type in $12$ and press <return> or click on <OK>.  In general
+Close the ``Information'' window and select `Low Index Subgroups' from the
+`Subgroups' menu.  A small dialog box will  pop up asking  for a limit on
+the index.  Type in $12$ and press <return> or click on `OK'.  In general
 it  is hard to say what   kind of index  limit  will still work, for some
 groups even $5$ might be too  much while for others  $20$ works fine, see
 also "ref:LowIndexSubgroupsFpGroup".
@@ -608,7 +608,7 @@ $12$  symbols and $PSL(2,11)$   as factor groups.   Therefore it would
 have   been   possible  to   find   vertex  $4$   using  
 `Epimorphisms (GQuotients)'  instead of  `Low Index Subgroups'.   
 Close the graphic
-sheet by selecting the menu entry `close graphic sheet' from the <GAP>
+sheet by selecting the menu entry `close graphic sheet' from the `Sheet'
 menu and start with a fresh one.
 
 \begintt
@@ -616,8 +616,8 @@ gap> s := GraphicSubgroupLattice(c2);
 <graphic subgroup lattice "GraphicSubgroupLattice of c2">
 \endtt
 
-Select  `Epimorphisms (GQuotients)' from  the  <Subgroups> menu.  This
-pops  up   a   menu   similar  to    the  <Information>   menu    (see
+Select  `Epimorphisms (GQuotients)' from  the  `Subgroups' menu.  This
+pops  up   a   menu   similar  to    the  ``Information''   menu    (see
 "GraphicSubgroupLattice for FpGroups, Subgroups Menu").
 
 \begintt
@@ -629,9 +629,9 @@ User Defined
 \endtt
 
 Select <PSL(d,q)>, which pops up a dialog  box asking for a dimension. 
-Enter ``2'' and click on <OK>. Then a second dialog box pops up asking
-for a field size.  Enter ``11'' and click on  <OK>. After a short time
-of  computation the display  in  the <Epimorphisms (GQuotients)>  menu
+Enter `2' and click on <OK>. Then a second dialog box pops up asking
+for a field size.  Enter `11' and click on  <OK>. After a short time
+of  computation the display  in  the `Epimorphisms (GQuotients)'  menu
 changes and shows
 
 \begintt
@@ -648,7 +648,7 @@ representing the kernel of the epimorphism.
 This is  now the  end of  our  partial investigation of  the (partial)
 subgroup lattice of  $C_2$, you have  seen that $C_2$ is infinite  and
 contains $M_{12}$, $Alt(12)$, and $PSL(2,11)$ as factor groups.  Close
-the  graphic sheet by selecting <close  graphic sheet>  from the <GAP>
+the  graphic sheet by selecting `close  graphic sheet'  from the `Sheet'
 menu.
 
 
@@ -676,7 +676,7 @@ gap> s := GraphicSubgroupLattice(k3);
 If you  compute the Abelian invariants of  $K_3$ you will see that the
 commutator factor  group is isomorphic to the   infinite cyclic group. 
 If you try to  compute the derived subgroups it  works!  Just click on
-`Derived Subgroups'  in the <Subgroups> menu. A  vertex appears in a
+`Derived Subgroups'  in the `Subgroups' menu. A  vertex appears in a
 level marked with `[  infinity, 1 ]'. However,  there are not too many
 things you can do with such infinite index subgroups up  to now, as we
 will illustrate below:
@@ -700,14 +700,14 @@ the cosets of a subgroup with infinite index.  This situation can also
 occur with other operations. 
 
 You can leave this break loop by entering the command `quit;' or by
-clicking `Leave Break Loop' in the <Run> menu of the main {\XGAP}
+clicking `Leave Break Loop' in the `Run' menu of the main {\XGAP}
 window.
 
 Earlier you have computed the subgroups of index at most $5$.  There
 is one normal subgroup of index $2$ belonging to vertex $6$ and one of
 index $4$ belonging to vertex $8$. There is *no* line between those
 two vertices. Select both and click on `Compare Subgroups' in the
-<Subgroups> menu. A line appears and the line between vertices $8$ and
+`Subgroups' menu. A line appears and the line between vertices $8$ and
 $G$ vanishes. The reason for this is, that the
 `LowIndexSubgroupsFpGroup' call did not deliver the complete inclusion
 info. This can always happen for finitely presented groups in {\XGAP}.
@@ -715,10 +715,10 @@ In this case you have to compare the subgroups manually by
 `Compare Subgroups'. Note that this can mean large computations, especially if
 the indices are huge.
 
-Now select vertex $10$ and choose `Cores' from the <Subgroups> menu.
+Now select vertex $10$ and choose `Cores' from the `Subgroups' menu.
 You will get a new vertex $12$ for  an index $24$ subgroup. Select the
 vertices $12$   and $G$ and choose  `Intermediate  Subgroups' from the
-<Subgroups> menu. You will get lots  of new vertices. Note that some
+`Subgroups' menu. You will get lots  of new vertices. Note that some
 of them  are duplicates of  those which  were already  in the lattice. 
 This is because comparison of subgroups can  be quite expensive and is
 therefore   *not* performed automatically    in  the case of  finitely
@@ -727,7 +727,7 @@ presented groups.
 Select all vertices with a rubber band (click into the top left corner
 of  the sheet, hold down  the mouse and  move the pointer to the lower
 right corner, then  release  the mouse  button), and   choose 
-`Compare Subgroups' from the <Subgroups> menu.  A few vertices will disappear
+`Compare Subgroups' from the `Subgroups' menu.  A few vertices will disappear
 and  you get  some  messages in  the {\GAP}  window   about merging of
 vertices.
 
@@ -735,8 +735,8 @@ The  display   is also  not  fully correct  with  respect to conjugacy
 classes.    `IntermediateSubgroups'    does  not  return  the complete
 information about conjugacy of subgroups. Because also conjugacy tests
 can be very expensive, they are also *not* performed automatically for
-finitely   presented   groups.  Select    <Test  Conjugacy>  from  the
-<Subgroups>  menu to  trigger  this  test  manually (note  that  all
+finitely   presented   groups.  Select    `Test  Conjugacy'  from  the
+`Subgroups'  menu to  trigger  this  test  manually (note  that  all
 vertices are still selected!).   The vertices belonging  to  conjugate
 subgroups are  arranged together and  if you move those containing the
 normal subgroup  of index $24$    above this  one you  recognize   the
@@ -744,8 +744,8 @@ subgroup lattice   of the symmetric  group on   $4$ points above  that
 normal subgroup.
 
 This is  now  the end  of our partial   investigation of the (partial)
-subgroup lattice of $K_3$, close the graphic sheet by selecting <close
-graphic sheet> from the <GAP> menu.
+subgroup lattice of $K_3$, close the graphic sheet by selecting `close
+graphic sheet' from the `Sheet' menu.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -768,7 +768,7 @@ gap> s := GraphicSubgroupLattice(g);
 <graphic subgroup lattice "GraphicSubgroupLattice">
 \endtt
 
-First compute prime quotients by `Prime Quotient' in the <Subgroups>
+First compute prime quotients by `Prime Quotient' in the `Subgroups'
 menu. You are asked for a prime and a class. Enter $2$ and $7$
 respectively. You get lots of output in the {\GAP} command window and
 seven new vertices. Some of the corresponding subgroups have huge
@@ -777,7 +777,7 @@ epimorphisms within {\GAP}. So explicit calculation of a coset table
 or a presentation could take very long or be absolutely impossible!
 
 Now compute epimorphisms onto the symmetric group on $3$ points by
-`Epimorphisms (GQuotients)' in the <Subgroups> menu, but use a polycyclic 
+`Epimorphisms (GQuotients)' in the `Subgroups' menu, but use a polycyclic 
 presentation as follows (the reason for this will be explained below):
 
 \begintt
@@ -796,7 +796,7 @@ is often a good way to get a polycyclic presentation. Note that
 stores the group in a variable which can be used by {\XGAP}. 
 
 Select vertex $G$, then click on `Epimorphisms (GQuotient)' in the
-<Subgroups> menu and select `User defined' in the window that pops up.
+`Subgroups' menu and select `User defined' in the window that pops up.
 This will always use the group stored in the global variable
 `IMAGE_GROUP'. {\GAP} finds three epimorphisms. Display the three
 kernels by selecting <display> in the epimorphisms window.
@@ -817,8 +817,8 @@ are polycyclic groups. This is the reason why we needed $S_3$ as
 polycyclic group earlier.
 
 This  is now  the end of   our partial investigation  of the (partial)
-subgroup lattice  of $G$, close  the graphic sheet by selecting <close
-graphic sheet> from the <GAP> menu.
+subgroup lattice  of $G$, close  the graphic sheet by selecting `close
+graphic sheet' from the `Sheet' menu.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -826,7 +826,7 @@ graphic sheet> from the <GAP> menu.
 
 This section describes an investigation of an (infinite) space group
 provided by the catalogue CRYSTCAT of crystallographic groups and
-using the share packages CRYST. Here you will see that subgroups of
+using the share package CRYST. Here you will see that subgroups of
 finite index and of finite size can occur at the same time in a
 graphic subgroup lattice of an infinite group. Note that you have to
 install these share packages to try this example.
@@ -848,7 +848,8 @@ This fetches the space group of dimension $4$, associated crystal
 system number $6$, $\Q$-class 3, $\Z$-class $1$, and space group type
 $2$ (see the CRYSTCAT documentation for an explanation of this).
 
-Now we calculate some maximal subgroups with finite index:
+Now we calculate some maximal subgroups with finite index and choose three of
+them:
 
 \begintt
 gap> m := MaximalSubgroupClassReps(g,rec(latticeequal := true));;
@@ -860,7 +861,7 @@ gap> mm := m{[1..3]};
 Again refer to the CRYST share package documentation for an
 explanation of these commands. Insert this list of three subgroups
 into the lattice by selecting `InsertSubgroups from GAP' from the
-<Subgroups> menu.
+`Subgroups' menu.
 
 Next calculate subgroups of infinite index but with finite size:
 
@@ -880,38 +881,60 @@ gap> www := List(ww,WyckoffStabilizer);
 \endtt
 
 Insert these subgroups into the lattice by selecting
-`InsertSubgroups from GAP' from the <Subgroups> menu. They will be
+`InsertSubgroups from GAP' from the `Subgroups' menu. They will be
 inserted in the level for groups of size 8.
 
 Now you can compute the intersection of a subgroup with finite index
 and a subgroup with finite size, select for example vertex $2$ and vertex
-$5$ and choose `Intersection' from the <Subgroups> menu. You get a new 
+$5$ and choose `Intersection' from the `Subgroups' menu. You get a new 
 vertex representing a subgroup of size $4$.
 
-If you now select vertex $3$ and $4$ (i.e. maximal latticeequal
-subgroups) and choose `Centralizer' from the <Subgroups> menu, you
-will get two different new vertices representing groups with infinite
-index *and* infinite size.  Each such vertex is placed into a level on
-its own, which is marked by `[ infinity, <n>]' where <n> is replaced
-with subsequent natural numbers (see section "levelsintro" for details
-about levels).
+If you now calculate the centralizers of the fifteen latticeequal maximal 
+subgroups from above, you get among them four non-trivial cyclic subgroups:
 
-%%You will notice
-%%that these vertices are placed into ``infinity'' levels, because
-%%{\GAP} claims not to be able to calculate the (finite) size of these
-%%subgroups. Open an information menu by clicking with the right mouse
-%%button on one of the new vertices. There you see that actually the
-%%`Size' is already known because it was calculated during the index
-%%calculation. If you now click on any entry in this information menu,
-%%{\XGAP} will notice this and inform you, that it puts the vertex into
-%%a new level for finite size. Note that internally the vertex is
-%%deleted and newly created, so it changes its name. All information
-%%currently known is however preserved.
-%
+\begintt
+gap> c := List(m,x->Centralizer(g,x));
+[ <matrix group with 1 generators>, Group([  ]), Group([  ]), Group([  ]), 
+  <matrix group with 1 generators>, Group([  ]), Group([  ]), 
+  <matrix group with 1 generators>, Group([  ]), 
+  <matrix group with 1 generators>, Group([  ]), Group([  ]), Group([  ]), 
+  Group([  ]), Group([  ]) ]
+\endtt
+
+Insert these into the graphic sheet by selecting `Insert Vertices from GAP'
+from the `Subgroups' menu. You
+will get four different new vertices representing groups with infinite
+index *and* infinite size.  Each such vertex is placed into a level on
+its own, which is marked by `[ H1, <n>]' where <n> is replaced
+with subsequent natural numbers (see section "levelsintro" for details
+about levels). ``H1'' means Hirsch length 1, that is, each subnormal series
+of the group contains one and only one infinite cycle. In fact, since
+these are subgroups of space groups, it indicates that the translation
+subgroup is of dimension 1.
+
+(Note that by calculating the point groups of these centralizers you can 
+in fact see, that the infinite cyclic groups consist of translations only.)
+
+Take two of these centralizers and calculate the closure by selecting
+`Closure' from the `Subgroups' menu. You will get a new subgroup
+of Hirsch length 2, which is also placed on a level of its own. Next
+select three of them, and calculate the closure. What do you observe?
+Also, select all four of them and calculate the closure. This time 
+you get a subgroup of index 16, hence its level is marked by this finite
+index rather than a Hirsch number (which would be 4 here). Note that
+the finite index is used rather than the Hirsch length for this placement.
+
+Finally, check, whether the centralizers are normal in the whole space
+group by clicking on the vertices with the right mouse button and
+choosing `IsNormal' in the ``Information'' window, which springs up.
+Now form the closures of each of them with each of the size 8 point 
+stabilizers. You will get some other subgroups of Hirsch length 1.
+Both the centralizers and the point stabilizers are abelian. Is this also
+true for the closures?
 
 This  is now  the end of   our partial investigation  of the (partial)
-subgroup lattice  of $G$, close  the graphic sheet by selecting <close
-graphic sheet> from the <GAP> menu.
+subgroup lattice  of $G$, close  the graphic sheet by selecting `close
+graphic sheet' from the `Sheet' menu.
 
 
 %%% Local Variables: 

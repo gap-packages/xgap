@@ -74,15 +74,15 @@ normal {\GAP} command script cannot supply this because the menu
 entries you select do not produce useful output there.
 
 You start the protocol facility by selecting `Start logging' from the
-<Subgroups> menu. You are prompted for the file name of the protocol with 
+`Subgroups' menu. You are prompted for the file name of the protocol with 
 a file selector box. After selecting `OK' in this box, all subsequent
 actions are logged in the protocol file. You can switch this feature
-off by selecting `Stop logging' from the <Subgroups> menu.
+off by selecting `Stop logging' from the `Subgroups' menu.
 
-Note that when you select `SelectedGroups to GAP' from the <Subgroups> 
+Note that when you select `SelectedGroups to GAP' from the `Subgroups' 
 menu, the usual {\GAP} logging is also directed to the {\XGAP} log
   file. This is stopped when you select `InsertVertices from GAP' from 
-  the <Subgroups> menu. The idea of this is that you also see the
+  the `Subgroups' menu. The idea of this is that you also see the
   {\GAP} commands you issue within an {\XGAP} session in the {\XGAP}
   protocol file, if you temporarily work with the keyboard instead of
   the mouse. See "Start logging" and "Stop logging" for a description
@@ -93,9 +93,9 @@ menu, the usual {\GAP} logging is also directed to the {\XGAP} log
 \Section{GraphicSubgroupLattice, Labeling of Levels}
 
 \label{levelsintro}
-Vertices representing subgroups of the same size are drawn at the same
-height. They are said to be ``on the same level''.  So ``levels'' are
-the horizontal slices of a graphic subgroup lattice.
+We intend to represent subgroups of the same index at the same height
+of the graphic lattice. For this purpose we introduce ``levels'' as 
+horizontal slices of a graphic subgroup lattice. 
 
 Normally all vertices for subgroups of a certain (finite) index are
 placed in exactly one common level. But what about infinite indices?
@@ -112,11 +112,42 @@ not known, the third type applies: ``infinity''. In each ``infinity''
 level only one vertex can exist.
 
 This means that ``finite index'' takes precedence over ``finite size'' 
-and ``infinity'' and ``finite size'' takes precedence over
+and ``infinity'', and ``finite size'' takes precedence over
 ``infinity'' if {\XGAP} is in doubt which level to choose for a new
 vertex. 
 
-Note that the level a vertex belongs to will be changed, if new
+If the group in question is a space group provided by the CRYST share
+package, levels of type ``infinity'' are also labelled by the Hirsch 
+length of the subgroup, which is the number of infinite cyclic factors
+in any given subnormal series. Note that this is only implemented for 
+space groups as of this writing, although the Hirsch length is defined for
+a wider range of groups.
+
+For every graphic subgroup lattice the levels are partially ordered by
+the following rules:
+
+ - A ``finite index'' level is greater than an ``infinity'' level.
+
+ - An ``infinity'' is greater than a ``finite size'' level.
+
+ - The ``finite index'' levels are totally ordered by descending indices.
+
+ - The ``finite size'' levels are totally ordered by ascending sizes. 
+
+ - For space groups the ``infinity'' levels are partially ordered by
+     the Hirsch lengths of the subgroups.
+
+Note that in general different ``infinity'' levels are not comparable in this
+partial order!
+
+On the screen, the levels are of course always totally ordered with respect
+to their height. {\XGAP} ensures that this total ordering is always
+compatible with the abovementioned total ordering. This means, that the
+user can permute ``infinity'' levels, as long as this does not violate the
+principle, that a vertex ``containing'' another one is drawn higher on
+the screen.
+
+Note that the level a vertex belongs to will be changed, when new
 information about the subgroup is available. This happens if the user
 chooses any entry in the information menu and new information is
 available thereafter.
@@ -143,7 +174,7 @@ moved.
 If you hold  down  the <SHIFT> key before  moving  a vertex as  described
 above then  only the selected vertex is moved but not all members of the
 same class. You can realign the vertices of a class by selecting one of
-them and choose <Rearrange Classes> in the <Poset> menu 
+them and choose `Rearrange Classes' in the `Poset' menu 
 (see "Rearrange Classes").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -212,9 +243,9 @@ If <conj> is a vertex we put the new vertex into the class of this
 vertex.  Otherwise <conj> should either be `false' or `fail'.
 
 You have access to the simpler form of the above functions via the
-<Subgroups> menu and the mouse. If you select 
+`Subgroups' menu and the mouse. If you select 
 `InsertVertices from GAP'
-in the <Subgroups> menu, the function `InsertVertex' is called 
+in the `Subgroups' menu, the function `InsertVertex' is called 
 for the group in the (automatic) variable `last', or, if `last'
 contains a list of subgroups, for all of those subgroups. This is an
 easy way to insert results of calculations with {\GAP} into the
@@ -223,10 +254,10 @@ nothing happens.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\Section{GraphicSubgroupLattice, GAP Menu}
+\Section{GraphicSubgroupLattice, Sheet Menu}
 
-The ``GAP'' menu will  be pulled down if  you place the pointer inside  the
-``GAP'' button  and press the left mouse  button.  Keep the button down and
+The `Sheet' menu will  be pulled down if  you place the pointer inside  the
+`Sheet' button  and press the left mouse  button.  Keep the button down and
 choose an entry by moving the pointer on  top of this entry.  Release the
 mouse button to select an entry.
 
@@ -249,8 +280,8 @@ not close associated ``Information'' menus.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Poset Menu}
 
-The ``Poset'' menu will be pulled down if you place the pointer inside the
-``Poset'' button and  press the left mouse  button.  Keep  the button down
+The `Poset' menu will be pulled down if you place the pointer inside the
+`Poset' button and  press the left mouse  button.  Keep  the button down
 and choose an entry by moving the pointer on top of  this entry.  Release
 the mouse button to select an entry.
 
@@ -364,12 +395,12 @@ Switches to black and white in case of a color screen or back to colors.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Subgroups Menu}
 
-The <Subgroups> menu will be pulled down  if you place the pointer inside
-the <Subgroups> button and press the left mouse  button.  Keep the button
+The `Subgroups' menu will be pulled down  if you place the pointer inside
+the `Subgroups' button and press the left mouse  button.  Keep the button
 down and choose an entry   by moving the pointer  on  top of this  entry.
 Release the mouse button to select an entry.
 
-Note that you can also get the <Subgroups> menu as a popup menu by
+Note that you can also get the `Subgroups' menu as a popup menu by
 clicking with the right mouse button into the graphic sheet of the subgroup
 lattice, but *not* on a vertex.
 
@@ -526,8 +557,8 @@ subgroups, `InsertVertex' is  called for all  those subgroups. There is  no
 error  issued if one of  the entries of `last'   is no subgroup. If {\XGAP}
 logging is on, then the normal {\GAP} logging via `LogTo'  is switched off! 
 The idea of this is to switch  the logging temporarily from {\XGAP} logging
-to normal  {\GAP} logging between two clicks  to  ``SelectedGroups to GAP''
-and ``InsertVertices from GAP'' respectively.
+to normal  {\GAP} logging between two clicks  to  `SelectedGroups to GAP'
+and `InsertVertices from GAP' respectively.
 
 \>`Start Logging'{Start Logging}
 
@@ -564,8 +595,8 @@ case.
 Placing the pointer  inside a vertex (selected  or not)  and pressing the
 *right* mouse button pops up the  ``Information'' menu.  Clicking on any of
 the text  lines will compute  the corresponding  property of the subgroup
-$u$ associated  with  this vertex.  Clicking   on <all> will  compute all
-properties, clicking on <close> will close the ``Information'' menu.
+$u$ associated  with  this vertex.  Clicking   on `all' will  compute all
+properties, clicking on `close' will close the ``Information'' menu.
 
 \>`Size'{Size}
 
@@ -621,7 +652,7 @@ as `last' value.
 %\Section{GraphicSubgroupLattice, Sheet Menu}
 %
 %In order to adjust any margin place the pointer outside of any vertex and
-%press the  *right* mouse  button,  keep the button  pressed.  The <Sheet>
+%press the  *right* mouse  button,  keep the button  pressed.  The `Sheet'
 %menu will pop up.
 %
 %`Left Margin'
@@ -677,12 +708,12 @@ Automatic calculation is controlled by the following variable:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice for FpGroups, Subgroups Menu}
 
-The <Subgroups> menu will be pulled down  if you place the pointer inside
-the <Subgroups> button and press the  left mouse button.  Keep the button
+The `Subgroups' menu will be pulled down  if you place the pointer inside
+the `Subgroups' button and press the  left mouse button.  Keep the button
 down and  choose an entry by  moving  the pointer on   top of this entry.
 Release the mouse button to select an entry.
 
-Note that you can also get the <Subgroups> menu as a popup menu by
+Note that you can also get the `Subgroups' menu as a popup menu by
 clicking with the right mouse button into the graphic sheet of the subgroup
 lattice, but *not* on a vertex.
 
@@ -886,7 +917,7 @@ lattice of {\XGAP} to {\GAP} (via `SelectedGroups', see
 Placing the pointer  inside a vertex (selected  or not) and  pressing the
 *right* mouse button pops up the ``Information''  menu.  Clicking on any of
 the text  lines will compute the corresponding   property of the subgroup
-$u$  associated  with this  vertex. Clicking  on <close>  will  close the
+$u$  associated  with this  vertex. Clicking  on `close'  will  close the
 ``Information'' menu.
 
 \>`Index'{IndexFp}@{Index}

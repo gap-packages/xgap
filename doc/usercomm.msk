@@ -41,8 +41,8 @@ are created by constructors and can be used later on by operations.
 \Declaration{Enable}
 
 See the explanation of `GraphicSheet' ("CloseCallback") for the ``Close''
-event, which occurs when the user selects the menu entry ``Close'' in the
-``GAP'' menu.
+event, which occurs when the user selects the menu entry 
+`close graphic sheet' in the `Sheet' menu.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{Mouse Events}
