@@ -2,13 +2,13 @@
 ##
 #W  color.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gd,v 1.2 1998/03/05 16:49:22 gap Exp $
+#H  @(#)$Id: color.gd,v 1.3 1998/03/06 13:14:51 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
 Revision.pkg_xgap_lib_color_gd :=
-    "@(#)$Id: color.gd,v 1.2 1998/03/05 16:49:22 gap Exp $";
+    "@(#)$Id: color.gd,v 1.3 1998/03/06 13:14:51 gap Exp $";
 
 
 #############################################################################
@@ -49,7 +49,7 @@ DeclareSynonym( "ColourFamily", ColorFamily );
 ##  The  following example opens   a new graphic sheet  (see "GraphicSheet"),
 ##  puts  a black box (see  "Box") onto it and  changes its color.  Obviously
 ##  you need a color display for this example.
-##  
+##
 ##  \beginexample
 ##      gap> sheet := GraphicSheet( "Nice Sheet", 300, 300 );
 ##      <graphic sheet "Nice Sheet">
@@ -71,6 +71,5 @@ DeclareSynonym( "COLOURS", COLORS );
 #############################################################################
 ##
 
-#F  color.gd  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
-##
+#E  color.gd  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
 

@@ -2,13 +2,13 @@
 ##
 #W  color.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gi,v 1.2 1998/03/05 16:49:24 gap Exp $
+#H  @(#)$Id: color.gi,v 1.3 1998/03/06 13:14:53 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
 Revision.pkg_xgap_lib_color_gi :=
-    "@(#)$Id: color.gi,v 1.2 1998/03/05 16:49:24 gap Exp $";
+    "@(#)$Id: color.gi,v 1.3 1998/03/06 13:14:53 gap Exp $";
 
 
 #############################################################################
@@ -109,7 +109,7 @@ end );
 ##
 InstallGlobalFunction( CreateColors, function()
     local   type,  color,  model;
-    
+
     # get color type
     type := NewType( ColorFamily, IsColor and IsColorRep );
 
@@ -131,13 +131,13 @@ InstallGlobalFunction( CreateColors, function()
         color.model     := "monochrome";
     elif model = 2  then
         color.model     := "gray";
-        color.lightGray := Objectify( type, 
+        color.lightGray := Objectify( type,
                                  rec( colorId := 2, name := "light gray" ) );
         color.dimGray   := Objectify( type,
                                  rec( colorId := 3, name := "dim gray" ) );
     elif model = 3  then
         color.model     := "color3";
-        color.red       := Objectify( type, 
+        color.red       := Objectify( type,
                                  rec( colorId := 4, name := "red" ) );
         color.blue      := Objectify( type,
                                  rec( colorId := 5, name := "blue" ) );
@@ -172,6 +172,5 @@ InstallValue( COLORS, CreateColors() );
 #############################################################################
 ##
 
-#F  color.gi  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
-##
+#E  color.gi  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
 

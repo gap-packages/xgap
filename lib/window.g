@@ -2,13 +2,21 @@
 ##
 #W  window.g                    XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.5 1998/03/05 16:49:32 gap Exp $
+#H  @(#)$Id: window.g,v 1.6 1998/03/06 13:15:03 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
 Revision.pkg_xgap_lib_window_g :=
-    "@(#)$Id: window.g,v 1.5 1998/03/05 16:49:32 gap Exp $";
+    "@(#)$Id: window.g,v 1.6 1998/03/06 13:15:03 gap Exp $";
+
+
+#############################################################################
+##
+
+#V  WINDOWS . . . . . . . . . . . . . . . . . . . . . . . . . list of windows
+##
+BindGlobal( "WINDOWS", [] );
 
 
 #############################################################################
@@ -51,12 +59,12 @@ end );
 #############################################################################
 ##
 #F  WcSetColor( <id>, <col> ) . . . . . . . . . . . . . . . . . .   set color
-##              
+##
 BindGlobal( "WcSetColor", function( id, col )
     WindowCmd([ "XCO", id, col ]);
-end );      
-        
-       
+end );
+
+
 #############################################################################
 ##
 #F  WcDrawBox( <id>, <x1>, <y1>, <x2>, <y2> ) . . . . . . . . . .  draw a box
@@ -104,9 +112,9 @@ end );
 
 #############################################################################
 ##
-#F  WcDeleteMenu( <wid>, <mid> )  . . . . . . . . . . . . . . . delete a menu
+#F  WcDestroyMenu( <wid>, <mid> ) . . . . . . . . . . . . . .  destroy a menu
 ##
-BindGlobal( "WcDeleteMenu", function( wid, mid )
+BindGlobal( "WcDestroyMenu", function( wid, mid )
     WindowCmd([ "XDM", wid, mid ]);
 end );
 
@@ -120,7 +128,7 @@ BindGlobal( "WcDestroy", function( arg )
 
     cmd := Concatenation( ["XRO"], arg );
     WindowCmd(cmd);
-    
+
 end );
 
 
@@ -193,6 +201,14 @@ end );
 
 #############################################################################
 ##
+
+#V  SELECTORS . . . . . . . . . . . . . . . . . . . . . . . list of selectors
+##
+BindGlobal( "SELECTORS", [] );
+
+
+#############################################################################
+##
 #F  WcTsClose( <id> ) . . . . . . . . . . . . . . . . . . close text selector
 ##
 BindGlobal( "WcTsClose", function( id )
@@ -216,6 +232,25 @@ end );
 ##
 BindGlobal( "WcTsUnhighlight", function(id)
    WindowCmd([ "XUS", id ]);
+end );
+
+
+#############################################################################
+##
+
+#F  WcMenu( <wid>, <title>, <str> ) . . . . . .  create new menu for a window
+##
+BindGlobal( "WcMenu", function( id, title, str )
+    return WindowCmd([ "XME", id, title, str ])[1];
+end );
+
+
+#############################################################################
+##
+#F  WcCheckMenu( <wid>, <mid>, <pos>, <flag> )  . .  check/uncheck menu entry
+##
+BindGlobal( "WcCheckMenu", function( wid, mid, pos, flag )
+    WindowCmd([ "XCM", wid, mid, pos, flag ]);
 end );
 
 

@@ -2,15 +2,19 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.4 1998/03/05 16:49:31 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.5 1998/03/06 13:15:02 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
-##  This  file contains all methods for  graphic sheets.
+##  This file contains all methods for graphic sheets.
+##  The low level window functions are in `window.g'.
+##  The menu functions are in `menu.g'.
+##
+
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.4 1998/03/05 16:49:31 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.5 1998/03/06 13:15:02 gap Exp $";
 
 
 #############################################################################
@@ -20,7 +24,8 @@ Revision.pkg_xgap_lib_sheet_gi :=
 ##
 DeclareRepresentation( "IsGraphicWindowRep",
     IsComponentObjectRep and IsAttributeStoringRep,
-    [ "name", "width", "height", "gapMenu", "callbackName", "callbackFunc" ],
+    [ "name", "width", "height", "gapMenu", "callbackName", "callbackFunc",
+      "menus" ],
     IsGraphicWindow );
 
 
@@ -28,6 +33,8 @@ DeclareRepresentation( "IsGraphicWindowRep",
 ##
 #V  DefaultGAPMenu  . . . . . . . . . . . . . . . . . . . .  default GAP menu
 ##
+GMCloseGS := function( sheet, menu, entry ) Close(sheet); end;
+
 InstallValue( DefaultGAPMenu,
 [
     "save",                   Ignore,
@@ -36,7 +43,7 @@ InstallValue( DefaultGAPMenu,
     "save as postscript",     Ignore, #N XXX GMSaveAsPS,
     "save as LaTeX",          Ignore,
     ,                         ,
-    "close graphic sheet",    Ignore, #N XXX GraphicSheetOps.GMCloseGS
+    "close graphic sheet",    GMCloseGS,
 ] );
 
 
@@ -61,7 +68,7 @@ function( catrep, name, width, height )
     w.width  := width;
     w.height := height;
     Objectify( NewType( GraphicWindowsFamily, catrep ), w );
-    
+
     # really create a window and store the id
     id := WcOpenWindow( name, width, height );
     SetWindowId( w, id );
@@ -75,7 +82,8 @@ function( catrep, name, width, height )
     w!.callbackFunc := [];
 
     # add menu to close GraphicSheet
-    #N XXX MakeGAPMenu(w);
+    w!.menus := [];
+    MakeGAPMenu(w);
 
     # return the window <w>
     return w;
@@ -106,6 +114,7 @@ function( window, func, args )
         od;
     fi;
 end );
+
 
 #############################################################################
 ##
@@ -186,7 +195,7 @@ function( window, width, height )
     window!.width  := width;
 end );
 
-    
+
 #############################################################################
 ##
 #M  ViewObj( <window> ) . . . . . . . . . . . . pretty print a graphic window
@@ -204,7 +213,7 @@ function( win )
         Print( "<dead graphic window>" );
     fi;
 end );
-    
+
 
 #############################################################################
 ##
@@ -283,9 +292,9 @@ end );
 #M  ViewObj( <sheet> )  . . . . . . . . . . . .  pretty print a graphic sheet
 ##
 InstallMethod( ViewObj,
-    "for graphic window",
+    "for graphic sheet",
     true,
-    [ IsGraphicWindow and IsGraphicWindowRep ],
+    [ IsGraphicSheet and IsGraphicWindowRep ],
     0,
 
 function( sheet )
@@ -295,11 +304,35 @@ function( sheet )
         Print( "<dead graphic sheet>" );
     fi;
 end );
-    
+
+
+#############################################################################
+##
+#M  Delete( <sheet>, <obj> )  . . . . . . . . . . . . delete <obj> in <sheet>
+##
+InstallMethod( Delete,
+    "for graphic sheet, and object",
+    true,
+    [ IsGraphicSheet and IsGraphicWindowRep, IsGraphicObject ],
+    0,
+function( sheet, obj )
+    local   pos;
+
+    # find position of object
+    pos := Position( sheet!.objects, obj );
+
+    # destroy object
+    Destroy(obj);
+
+    # and remove it from the list of objects
+    Unbind(sheet!.objects[pos]);
+    Add( sheet!.free, pos );
+
+end );
+
 
 #############################################################################
 ##
 
 #E  sheet.gi  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
-##
 

@@ -2,13 +2,13 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.3 1998/03/05 16:49:25 gap Exp $
+#H  @(#)$Id: gobject.gd,v 1.4 1998/03/06 13:14:54 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.3 1998/03/05 16:49:25 gap Exp $";
+    "@(#)$Id: gobject.gd,v 1.4 1998/03/06 13:14:54 gap Exp $";
 
 
 #############################################################################
@@ -44,7 +44,19 @@ DeclareOperation( "GraphicObject", [ IsObject, IsGraphicSheet, IsRecord ] );
 
 #############################################################################
 ##
+#O  Delete( <sheet>, <object> ) . . .  delete a graphic object from its sheet
+#O  Delete( <object> )  . . . . . . .  delete a graphic object from its sheet
+##
+DeclareOperation( "Delete", [ IsGraphicSheet, IsGraphicObject ] );
+
+
+#############################################################################
+##
 #O  Destroy( <object> ) . . . . . . . . . . . . . .  destroy a graphic object
+##
+##  Note that <object> is *not* deleted from the list of objects on its
+##  graphic sheet <sheet>.  In order to delete <object> from <sheet>,
+##  use `Delete( <sheet>, <obj> )', which calls `Destroy' for <obj>.
 ##
 DeclareOperation( "Destroy", [ IsGraphicObject ] );
 
@@ -75,6 +87,14 @@ DeclareOperation( "MoveDelta", [ IsGraphicObject, IsInt, IsInt ] );
 #O  PrintInfo( <object> ) . . . . . . . . . . . . . . . . .  print debug info
 ##
 DeclareOperation( "PrintInfo", [ IsGraphicObject ] );
+#T regard this as a special case of `Display'?
+
+
+#############################################################################
+##
+#O  PostScriptString( <object> )  . . . . . . . . . . . . . PostScript string
+##
+DeclareOperation( "PostScriptString", [ IsGraphicObject ] );
 
 
 #############################################################################
@@ -84,6 +104,13 @@ DeclareOperation( "PrintInfo", [ IsGraphicObject ] );
 DeclareOperation( "Recolor", [ IsGraphicObject, IsColor ] );
 
 DeclareSynonym( "Recolour", Recolor );
+
+
+#############################################################################
+##
+#O  Reshape( <object>, ... )  . . . . . . . . . . . . . . . reshape an object
+##
+DeclareOperation( "Reshape", [ IsGraphicObject, IsObject ] );
 
 
 #############################################################################
@@ -137,14 +164,14 @@ DeclareOperation( "Disc",
 
 
 #############################################################################
-##                      
-    
+##
+
 #O  Diamond( <sheet>, <x>, <y>, <w>, <h> )  . . . . draw a diamond in a sheet
 #O  Diamond( <sheet>, <x>, <y>, <w>, <h>, <defaults> )
-##           
+##
 DeclareOperation( "Diamond",
     [ IsGraphicSheet, IsInt, IsInt, IsInt, IsInt, IsRecord ] );
-    
+
 
 #############################################################################
 ##
@@ -190,4 +217,4 @@ DeclareOperation( "Vertex",
 ##
 
 #E  gobject.gd  . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
-##
+

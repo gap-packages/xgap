@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.4 1998/03/05 16:49:29 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.5 1998/03/06 13:15:01 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -10,7 +10,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.4 1998/03/05 16:49:29 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.5 1998/03/06 13:15:01 gap Exp $";
 
 
 #############################################################################
@@ -85,7 +85,7 @@ DeclareOperation( "MakeGAPMenu", [ IsGraphicWindow ] );
 ##
 DeclareOperation( "Resize", [ IsGraphicWindow, IsInt, IsInt ] );
 
-    
+
 #############################################################################
 ##
 
@@ -128,7 +128,7 @@ DeclareCategory( "IsGraphicSheet", IsGraphicWindow );
 ##    button inside  the   graphic sheet, the  installed   function  gets the
 ##    graphic <sheet>,  the <x> coordinate and  <y> coordinate of the pointer
 ##    as arguments.
-##    
+##
 ##  \> RightPBDown( <sheet>, <x>, <y> )
 ##
 ##    same  as `LeftPBDown' except that the  user has pressed the right mouse
@@ -217,6 +217,13 @@ DeclareFilter( "UseFastUpdate" );
 #############################################################################
 ##
 
-#E  sheet.gd  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
+#O  SetTitle( <sheet>, <title> )  . . . . . . . . . . . . . . . . add a title
 ##
+DeclareOperation( "SetTitle", [ IsGraphicSheet ] );
+
+
+#############################################################################
+##
+
+#E  sheet.gd  . . . . . . . . . . . . . . . . . . . . . . . . . . . ends here
 
