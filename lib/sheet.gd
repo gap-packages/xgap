@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.13 1999/03/10 16:45:18 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.14 1999/05/19 23:14:52 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.13 1999/03/10 16:45:18 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.14 1999/05/19 23:14:52 gap Exp $";
 
 
 #############################################################################
@@ -57,9 +57,9 @@ DeclareCategory( "IsGraphicSheet", IsObject );
 
 #############################################################################
 ##
-#O  GraphicSheet( <name>, <width>, <height> ) . . . . . . . new graphic sheet
+#O  GraphicSheet( <title>, <width>, <height> ) . . . . . .  new graphic sheet
 ##
-##  creates  a  graphic  sheet with  title  <name>  and dimension <width>  by
+##  creates  a  graphic  sheet with  title  <title> and dimension <width>  by
 ##  <height>.  A graphic sheet  is the basic  tool  to draw something,  it is
 ##  like a piece of  paper on which you can  put your graphic objects, and to
 ##  which you  can attach your  menus.   The coordinate $(0,0)$ is  the upper

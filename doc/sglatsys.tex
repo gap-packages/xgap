@@ -443,6 +443,39 @@ $p$-subgroup  for   each selected vertex.  Requires   at   least one selected
 vertex.  See also "ref:SylowSubgroup" in the {\GAP}
 reference manual.
 
+\>`SelectedGroups to GAP'{SelectedGroups to GAP}
+
+If  the  user  selects  this menu entry,  the  subgroups   belonging to the
+selected  vertices are put into a  list which  is  stored into the variable
+`last'.  This is equivalent  to the  statement `SelectedGroups(sheet);;' if
+`sheet' contains the graphic sheet  object. If {\XGAP}  logging is on, then
+the normal {\GAP} logging via `LogTo'  is also directed  to the {\XGAP} log
+file.
+
+\>`InsertVertices from GAP'{InsertVertices from GAP}
+
+If the user selects this  menu entry, the  value of the variable `last'  is
+used to insert new vertices into the graphic sheet.  If  `last' is equal to
+one subgroup, it  is inserted via  `InsertVertex'. If `last'  is a list  of
+subgroups, `InsertVertex' is  called for all  those subgroups. There is  no
+error  issued if one of  the entries of `last'   is no subgroup. If {\XGAP}
+logging is on, then the normal {\GAP} logging via `LogTo'  is switched off! 
+The idea of this is to switch  the logging temporarily from {\XGAP} logging
+to normal  {\GAP} logging between two clicks  to  ``SelectedGroups to GAP''
+and ``InsertVertices from GAP'' respectively.
+
+\>`Start Logging'{Start Logging}
+
+After clicking on this menu entry the user is prompted for a filename. From 
+this point on all commands issued via mouse clicks in the subgroup menu are 
+logged into that file, such that one can afterwards see ``what happened''
+in the {\XGAP} session. The information displayed is the same as in the
+info displays in the {\GAP} window. 
+
+\>`Stop Logging'{Stop Logging}
+
+A click onto this menu entry stops the {\XGAP} logging.
+
 \bigskip
 
 These menu entries represent only a small selection of the functions
@@ -607,10 +640,12 @@ selected vertex.
 
 \>`All Overgroups'{All Overgroups}
 
-computes and displays all overgroups  of the selected vertex.  It  first
-computes the permutation action of the whole  group on the cosets of the
-subgroup associated with  the selected vertex and  then searches  for all
-block systems.  `All Overgroups' requires exactly one selected vertex.
+computes and   displays all overgroups   of the selected vertex.   It first
+computes the permutation  action of the whole group  on  the cosets of  the
+subgroup  associated with  the selected vertex  and then  searches for  all
+block  systems. If the   subgroup of the   selected vertex is  normal, then
+everything is   calculated within the  (finite) factor  group in   a better
+representation. `All Overgroups' requires exactly one selected vertex.
 
 \>`Closure' {Closure}
 
@@ -680,6 +715,18 @@ In case that the image of the epimorphism is a permutation group you can
 get this functionality by clicking on <display point stabilizer> instead of 
 <display>. 
 
+\>`Intermediate Subgroups'{Intermediate Subgroups}
+
+computes and displays all intermediate subgroups between two selected
+groups. Requires exactly two selected vertices. See also
+"ref:IntermediateSubgroups" in the {\GAP} reference manual. 
+
+\>`Intersection'{IntersectionFp}@{Intersection}
+
+computes and displays the common intersection of the selected vertices.
+Requires at least one selected vertex.  See also "ref:Intersection" in the
+{\GAP} reference manual.
+
 \>`Intersections'{IntersectionsFp}@{Intersections}
 
 computes and   displays   the pairwise   intersections  of  the  selected
@@ -715,6 +762,39 @@ selected vertex, whether the groups in the classes are conjugates. If so,
 the classes are merged. After these calculations `Rearrange Classes' is
 called. Note that conjugacy calculations can take lots of time for finitely 
 presented groups!
+
+\>`SelectedGroups to GAP'{SelectedGroups to GAP}
+
+If  the  user  selects  this menu entry,  the  subgroups   belonging to the
+selected  vertices are put into a  list which  is  stored into the variable
+`last'.  This is equivalent  to the  statement `SelectedGroups(sheet);;' if
+`sheet' contains the graphic sheet  object. If {\XGAP}  logging is on, then
+the normal {\GAP} logging via `LogTo'  is also directed  to the {\XGAP} log
+file.
+
+\>`InsertVertices from GAP'{InsertVertices from GAP}
+
+If the user selects this  menu entry, the  value of the variable `last'  is
+used to insert new vertices into the graphic sheet.  If  `last' is equal to
+one subgroup, it  is inserted via  `InsertVertex'. If `last'  is a list  of
+subgroups, `InsertVertex' is  called for all  those subgroups. There is  no
+error  issued if one of  the entries of `last'   is no subgroup. If {\XGAP}
+logging is on, then the normal {\GAP} logging via `LogTo'  is switched off! 
+The idea of this is to switch  the logging temporarily from {\XGAP} logging
+to normal  {\GAP} logging between two clicks  to  ``SelectedGroups to GAP''
+and ``InsertVertices from GAP'' respectively.
+
+\>`Start Logging'{Start Logging}
+
+After clicking on this menu entry the user is prompted for a filename. From 
+this point on all commands issued via mouse clicks in the subgroup menu are 
+logged into that file, such that one can afterwards see ``what happened''
+in the {\XGAP} session. The information displayed is the same as in the
+info displays in the {\GAP} window. 
+
+\>`Stop Logging'{Stop Logging}
+
+A click onto this menu entry stops the {\XGAP} logging.
 
 \bigskip
 

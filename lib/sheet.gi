@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.11 1999/03/10 16:45:18 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.12 1999/05/19 23:14:52 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -15,7 +15,7 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.11 1999/03/10 16:45:18 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.12 1999/05/19 23:14:52 gap Exp $";
 
 
 #############################################################################
@@ -31,9 +31,9 @@ DeclareRepresentation( "IsGraphicSheetRep",
 
 #############################################################################
 ##
-#M  GraphicSheet( <name>, <width>, <height> ) . . . . . . a new graphic sheet
+#M  GraphicSheet( <title>, <width>, <height> ) . . . . .  a new graphic sheet
 ##
-##  creates  a  graphic  sheet with  title  <name>  and dimension <width>  by
+##  creates  a  graphic  sheet with  title  <title> and dimension <width>  by
 ##  <height>.  A graphic sheet  is the basic  tool  to draw something,  it is
 ##  like a piece of  paper on which you can  put your graphic objects, and to
 ##  which you  can attach your  menus.   The coordinate $(0,0)$ is  the upper
@@ -107,19 +107,19 @@ InstallMethod( GraphicSheet,
       IsInt ],
     0,
 
-function( name, width, height )
+function( title, width, height )
     local   s,  id,  defaults;
     
     # create a new object
     s := rec();
-    s.name   := name;
+    s.name   := title;
     s.width  := width;
     s.height := height;
     Objectify( NewType( GraphicSheetFamily, 
                         IsGraphicSheet and IsGraphicSheetRep ), s );
 
     # really create a window and store the id
-    id := WcOpenWindow( name, width, height );
+    id := WcOpenWindow( title, width, height );
     SetWindowId( s, id );
     SetFilterObj( s, IsAlive );
 
