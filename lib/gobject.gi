@@ -2,14 +2,14 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.9 1999/02/12 00:49:07 gap Exp $
+#H  @(#)$Id: gobject.gi,v 1.10 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.9 1999/02/12 00:49:07 gap Exp $";
+    "@(#)$Id: gobject.gi,v 1.10 1999/02/23 00:14:03 gap Exp $";
 
 
 #############################################################################
@@ -1728,8 +1728,6 @@ function( rect, w, h )
 
 end );
 
-
-Error("Hier passierts!");
 
 #############################################################################
 ##

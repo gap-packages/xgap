@@ -2,7 +2,7 @@
 
 {\XGAP} provides a graphical interface to the  lattice or a partial lattice
 of subgroups of groups.  For finitely  presented groups it gives you easy
-access to the   low  index,  prime quotient   and   Reidemeister-Schreier
+access for example to the low index, prime quotient and Reidemeister-Schreier
 algorithms in order to build a partial  lattice interactively.  For other
 types of groups  it provides easy access to  many of  the group functions
 (for example, the normalizer, normal subgroups, and Sylow subgroups).
@@ -57,7 +57,7 @@ most features of the `GraphicSubgroupLattice' program.  This exercise is
 best carried out in front of {\XGAP}, trying the various commands yourself.
 
 First  you   have to define a  group   in {\GAP},  this example  uses the
-dihedral group defined as permutation group.
+dihedral group defined as polycyclic group.
 
 \begintt
 gap> d8 := DihedralGroup(8);
@@ -442,8 +442,8 @@ lattice'' of the ``GAP'' menu.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{A Partial Subgroup Lattice of the Cavicchioli Group}
 
-This  section  investigates the  following  finitely presented group, the
-so called Cavicchioli-group $C_2$.
+This  section  investigates the  following  finitely presented group $C_2$,
+which was first investigated by Alberto Cavicchioli in \cite{Cav86}:
 $$
 \langle a, b \;;\; aba^{-2}ba=b, (b^{-1}a^3b^{-1}a^{-3})^2=a^{-1}\rangle.
 $$
@@ -547,6 +547,7 @@ Now we want to investigate $C_2$ a little further using {\GAP}.  Select
 vertices  $2$, $3$, and   $4$ and  switch   to  the {\GAP}  window.   Use
 `Selected' to get the subgroups associated with these vertices.
 
+\label{gapxgap}
 \begintt
 gap> u := Selected( s );
 [ Subgroup( c2, [ a, b*a^2*b^-2, b*a*b^2*a^-1*b^-1*a^-1*b^-1,
@@ -934,91 +935,116 @@ case.
 \beginitems `All Subgroups' & 
 For each selected vertex `All Subgroups' computes and displays all its
 subgroups. Requires at least one selected vertex. Use with care! This can
-cause huge computations!  See also "ref:LatticeSubgroups".
+cause huge computations!  See also "ref:LatticeSubgroups" in the {\GAP}
+reference manual.
 
 `Centralizers' &
 For each selected vertex `Centralizers' computes and displays its
 centralizer with respect to the whole group.  Requires at least one
-selected vertex.  See also "ref:Centralizer".
+selected vertex.  See also "ref:Centralizer" in the {\GAP}
+reference manual.
 
 `Centres' &
 For each selected vertex `Centres' computes and displays its centre.
-Requires at least one selected vertex. See also "ref:Centre".
+Requires at least one selected vertex. See also "ref:Centre" in the {\GAP}
+reference manual.
 
-`Closure' &
-computes and    displays the common  closure  of  the  selected vertices.
-Requires at least one selected vertex. See also "ref:ClosureGroup".
+`Closure' & 
+computes and displays the common closure of the selected vertices.
+Requires at least one selected vertex. See also "ref:ClosureGroup" in the
+{\GAP} reference manual.
 
 `Closures' &
-computes  and  displays the closure of each pair of selected vertices.
-Requires at least two selected vertices. See also "ref:ClosureGroup".
+computes and displays the closure of each pair of selected vertices.
+Requires at least two selected vertices. See also "ref:ClosureGroup" in the
+{\GAP} reference manual.
 
 `Commutator Subgroups' &
 computes and displays  the commutator  subgroup of each pair of selected
 vertices.    Requires  at  least    two   selected  vertices. See    also
-"ref:CommutatorSubgroup".
+"ref:CommutatorSubgroup" in the {\GAP}
+reference manual.
 
 `Conjugate Subgroups' &
 computes and displays the conjugacy  class (with  respect to the  whole
 group) of each  selected vertex.  Requires  at least one selected vertex.
-See also "ref:ConjugacyClass".
+See also "ref:ConjugacyClass" in the {\GAP}
+reference manual.
 
 `Cores' &
 For each selected vertex `Cores' computes and displays its core with
 respect to the whole group.  Requires at least one selected vertex. See
-also "ref:Core".
+also "ref:Core" in the {\GAP}
+reference manual.
 
 `Derived Series' &
 For   each  selected vertex  `Derived  Series'  computes and displays its
 derived series.   Requires  at   least  one selected vertex.    See  also
-"ref:DerivedSeriesOfGroup".
+"ref:DerivedSeriesOfGroup" in the {\GAP}
+reference manual.
 
 `Derived Subgroups' &
 For each selected vertex `Derived Subgroups' computes and displays its
 derived subgroup.  Requires at least one selected vertex.  See also
-"ref:DerivedSubgroup".
+"ref:DerivedSubgroup" in the {\GAP}
+reference manual.
 
 `Fitting Subgroups' &
 For each selected vertex `Fitting Subgroups' computes and displays its
 Fitting subgroup.  Requires at least one selected vertex.  See also
-"ref:FittingSubgroup".
+"ref:FittingSubgroup" in the {\GAP}
+reference manual.
 
 `Intermediate Subgroups' &
 computes and displays all intermediate subgroups between two selected
 groups. Requires exactly two selected vertices. See also
-"ref:IntermediateSubgroups". 
+"ref:IntermediateSubgroups" in the {\GAP}
+reference manual. 
 
 `Intersection' &
-computes and  displays the common intersection  of the selected vertices.
-Requires at least one selected vertices.  See also "ref:Intersection".
+computes and displays the common intersection of the selected vertices.
+Requires at least one selected vertex.  See also "ref:Intersection" in the
+{\GAP} reference manual.
 
 `Intersections' &
 For each pair of selected vertices `Intersections' computes and displays
 the intersection of the two vertices.  Requires at least two selected
-vertices.  See also "ref:Intersection".
+vertices.  See also "ref:Intersection" in the {\GAP}
+reference manual.
 
 `Normalizers' &
 For each selected vertex `Normalizers' computes and displays its normalizer
 with respect to the whole group.  Requires at least one selected vertex.
-See also "ref:Normalizer".
+See also "ref:Normalizer" in the {\GAP}
+reference manual.
 
 `Normal Closures' &
 For each selected vertex `Normal Closure' computes and displays its normal
 closure with respect to the whole group.  Requires at least one selected
-vertex.  See also "ref:NormalClosure".
+vertex.  See also "ref:NormalClosure" in the {\GAP}
+reference manual.
 
 `Normal Subgroups' &
 For   each selected vertex `Normal  Subgroups'  computes and displays the
 normal subgroups of the subgroup associated  with this vertex.  These new
 subgroups are not  necessarily  normal in the  whole  group.  Requires at
-least one selected vertex.  See also "ref:NormalSubgroups".
+least one selected vertex.  See also "ref:NormalSubgroups" in the {\GAP}
+reference manual.
 
 `Sylow Subgroups' &
 pops  up a dialog  box asking   for a prime.   After entering  a  prime $p$ 
 and pressing  <return> or  clicking  <OK> it computes   and displays  a Sylow
 $p$-subgroup  for   each selected vertex.  Requires   at   least one selected
-vertex.  See also "ref:SylowSubgroup".
+vertex.  See also "ref:SylowSubgroup" in the {\GAP}
+reference manual.
 \enditems
+
+These menu entries represent only a small selection of the functions of
+{\GAP} which the authors of {\XGAP} considered most frequently used. You
+can calculate other subgroups like for example prefrattini subgroups from
+the {\GAP} command window. See section "gapxgap" for an example how to
+transfer information from the graphical lattice of {\XGAP} to {\GAP} (via
+`Selected') and vice versa (via `InsertVertex').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Information Menu}
@@ -1035,11 +1061,13 @@ properties, clicking on <close> will close the ``Information'' menu.
 
 \beginitems
 `Size' &
-computes and displays the size of $u$.  See also "ref:Size".
+computes and displays the size of $u$.  See also "ref:Size" in the
+{\GAP} reference manual.
 
 `Index' &
 computes and displays the  index  of $u$ in   the whole group.  See  also
-"ref:Index".
+"ref:IndexInWholeGroup" in the {\GAP} reference manual.
+%FIXME: eigentlich ref:Index, der ist aber falsch!
 
 `IsAbelian' &
 
@@ -1054,17 +1082,20 @@ computes and displays the  index  of $u$ in   the whole group.  See  also
 `IsSolvable' &
 computes and displays the corresponding property of $u$.  See also
 "ref:IsAbelian", "ref:IsCyclic", "ref:IsNilpotentGroup", "ref:IsPerfectGroup",
-"ref:IsSimpleGroup", and "ref:IsSolvableGroup".
+"ref:IsSimpleGroup", and "ref:IsSolvableGroup"  in the {\GAP}
+reference manual.
 
 `IsCentral' &
 
 `IsNormal' &
 computes and displays the corresponding  property of $u$ with respect  to
-the whole group.  See also "ref:IsCentral" and "ref:IsNormal".
+the whole group.  See also "ref:IsCentral" and "ref:IsNormal" in the {\GAP}
+reference manual.
 
 `Isomorphism' &
 computes and displays  the isomorphism type of  $u$.  This will only work
-if the size of $u$ is small.  See "ref:IdGroup" for details.
+if the size of $u$ is small.  See "ref:IdGroup"  in the {\GAP}
+reference manual for details.
 \enditems
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1118,7 +1149,7 @@ the <Subgroups> button and press the  left mouse button.  Keep the button
 down and  choose an entry by  moving  the pointer on   top of this entry.
 Release the mouse button to select an entry.
 
-The result of  of  a computation  from any  of  the following entries  is
+The result of  a computation  from any  of  the following entries  is
 colored green, if  your screen supports color.   In most cases there will
 also be short information message in the {\GAP} window about the result.
 
@@ -1170,7 +1201,7 @@ symmetric group (`Sym(n)'), the alternating group (`Alt(n)'),
 the symmetric or the alternating group (`Sym(n) > Alt(n)'), the projective
 special linear group (`PSL(d,q)'), a group in a library supplied with
 {\XGAP} (this will pop up a file selector), or a user defined group stored
-in the variable `PERM_GROUP'.  After supplying additional parameters, for
+in the variable `IMAGE_GROUP'.  After supplying additional parameters, for
 example, the degree of the symmetric group or the dimension and field of
 $PSL$ using dialog boxes, the corresponding entry will change, for example
 to something like

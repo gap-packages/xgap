@@ -2,14 +2,14 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.10 1999/02/08 00:03:30 gap Exp $
+#H  @(#)$Id: poset.gi,v 1.11 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.10 1999/02/08 00:03:30 gap Exp $";
+    "@(#)$Id: poset.gi,v 1.11 1999/02/23 00:14:03 gap Exp $";
 
 
 
@@ -829,6 +829,13 @@ end);
 
 #############################################################################
 ##
+##  Set this variable temporarily to false if you delete many things!
+##
+GGDeleteModifiesMenu := true;
+
+
+#############################################################################
+##
 #M  Delete(<graph>,<obj>) . . . . . . . . . . . . . remove something in graph
 ##
 ##  This operation already exists in xgap for the graphic objects!
@@ -870,6 +877,11 @@ function( poset, v1, v2 )
   v1!.maximalin[p] := v1!.maximalin[l];
   Unbind(v1!.maximalin[l]);
   
+  # think about the menus:
+  if GGDeleteModifiesMenu then
+    ModifyEnabled(poset,1,Length(poset!.menus));
+  fi;
+  
   return true;
 end);  
 
@@ -884,7 +896,7 @@ InstallOtherMethod( Delete,
 
 function( poset, v )
   local   lp,  l,  cp,  cl,  p,  savemaximals,  savemaximalin,  noerror,  
-          v1,  v2;
+          v1,  v2,  store;
   
   lp := Position(poset!.levelparams,v!.levelparam);
   if lp = fail then
@@ -909,6 +921,8 @@ function( poset, v )
   
   # Delete all connections:
   noerror := true;
+  store := GGDeleteModifiesMenu;
+  GGDeleteModifiesMenu := false;
   while v!.maximals <> [] do
     if Delete(poset,v,v!.maximals[1]) = fail then
       noerror := fail;
@@ -919,6 +933,7 @@ function( poset, v )
       noerror := fail;
     fi;
   od;
+  GGDeleteModifiesMenu := store;
   
   # was it selected?
   RemoveSet(poset!.selectedvertices,v);
@@ -944,6 +959,11 @@ function( poset, v )
     od;
   od;
         
+  # think about the menus:
+  if GGDeleteModifiesMenu then
+    ModifyEnabled(poset,1,Length(poset!.menus));
+  fi;
+  
   return noerror;
 end);
 
@@ -959,7 +979,7 @@ InstallOtherMethod( Delete,
     0,
 
 function( poset, levelparam, classparam )
-  local   lp,  l,  cp,  noerror,  v;
+  local   lp,  l,  cp,  noerror,  v,  store;
   
   lp := Position(poset!.levelparams,levelparam);
   if lp = fail then
@@ -974,11 +994,14 @@ function( poset, levelparam, classparam )
   
   # delete all vertices:
   noerror := true;
+  store := GGDeleteModifiesMenu;
+  GGDeleteModifiesMenu := false;
   for v in l!.classes[lp] do
     if Delete(poset,v) = fail then
       noerror := fail;
     fi;
   od;
+  GGDeleteModifiesMenu := store;
   
   lp := Length(l!.classes);
   l!.classes[cp] := l!.classes[lp];
@@ -986,6 +1009,11 @@ function( poset, levelparam, classparam )
   l!.classparams[cp] := l!.classparams[lp];
   Unbind(l!.classparams[lp]);
   
+  # think about the menus:
+  if GGDeleteModifiesMenu then
+    ModifyEnabled(poset,1,Length(poset!.menus));
+  fi;
+    
   return noerror;
 end);
 
@@ -1006,7 +1034,7 @@ InstallOtherMethod( DeleteLevel,
     0,
 
 function( poset, levelparam )
-  local   lp,  noerror,  cl,  v,  l,  lev;
+  local   lp,  noerror,  cl,  v,  l,  lev,  store;
   
   lp := Position(poset!.levelparams,levelparam);
   if lp = fail then
@@ -1015,6 +1043,8 @@ function( poset, levelparam )
   
   # delete all vertices:
   noerror := true;
+  store := GGDeleteModifiesMenu;
+  GGDeleteModifiesMenu := false;
   for cl in poset!.levels[lp] do
     while cl <> [] do
       if Delete(poset,cl[1]) = fail then
@@ -1022,6 +1052,7 @@ function( poset, levelparam )
       fi;
     od;
   od;
+  GGDeleteModifiesMenu := store;
     
   l := Length(poset!.levels);
   # now we have to move all lower levels up:
@@ -1044,6 +1075,12 @@ function( poset, levelparam )
   Delete(poset,poset!.lptexts[lp]);
   poset!.lptexts{[lp..l-1]} := poset!.lptexts{[lp+1..l]};
   Unbind(poset!.lptexts[l]);
+  
+  # think about the menus:
+  if GGDeleteModifiesMenu then
+    ModifyEnabled(poset,1,Length(poset!.menus));
+  fi;
+
   return noerror;
 end);
 
@@ -3040,7 +3077,7 @@ InstallMethod( UserDeleteEdgeOp,
     0,
         
 function( graph, menu, entry )
-  # it is guaranteed, that at exactly two connected vertices are selected!
+  # it is guaranteed, that exactly two connected vertices are selected!
   Delete(graph,graph!.selectedvertices[1],graph!.selectedvertices[2]);
 end);
 

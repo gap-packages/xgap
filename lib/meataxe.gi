@@ -2,21 +2,21 @@
 ##
 #W  meataxe.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: meataxe.gi,v 1.1 1998/12/18 17:02:15 gap Exp $
+#H  @(#)$Id: meataxe.gi,v 1.2 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-##  This file contains code for meataxe posets
+##  This file contains code for MeatAxe posets
 ##
 Revision.pkg_xgap_lib_meataxe_gi :=
-    "@(#)$Id: meataxe.gi,v 1.1 1998/12/18 17:02:15 gap Exp $";
+    "@(#)$Id: meataxe.gi,v 1.2 1999/02/23 00:14:03 gap Exp $";
 
 
 #############################################################################
 ##
 #M  GraphicMeatAxeLattice(<name>, <width>, <height>)  . creates graphic poset
 ##
-##  creates a new graphic meataxe lattice which is a specialization of a
+##  creates a new graphic MeatAxe lattice which is a specialization of a
 ##  graphic poset. Those posets have a new filter for method selection.
 ##
 InstallMethod( GraphicMeatAxeLattice,
@@ -38,16 +38,17 @@ end);
 
 #############################################################################
 ##
-#M  CompareLevels(<poset>,<levelp1>,<levelp2>) . . . compares two levelparams
+#M  CompareLevels(<poset>,<levelparam1>,<levelparam2>)  . . . . . . . . . . . 
+##  . . . . . . . . . . . . . . . . . . . . . . . .  compares two levelparams
 ##
-##  Compare two levelparams. -1 means that levelp1 is "higher", 1 means
-##  that levelp2 is "higher", 0 means that they are equal. fail means that
-##  they are not comparable. This method is for the case if level
-##  parameters are integers and lower values mean lower levels like in the
-##  case of meataxe lattices of Michael Ringe.
+##  Compare two level parameters. -1 means that <levelparam1> is "higher", 
+##  1 means that <levelparam2> is "higher", 0 means that they are equal. 
+##  fail means that they are not comparable. This method is for the case 
+##  if level parameters are integers and lower values mean lower levels 
+##  like in the case of MeatAxe lattices of Michael Ringe.
 ##
 InstallMethod( CompareLevels,
-    "for a graphic meataxe lattice, and two integers",
+    "for a graphic MeatAxe lattice, and two integers",
     true,
     [ IsGraphicPosetRep and IsMeatAxeLattice, IsInt, IsInt ],
     0,

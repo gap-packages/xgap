@@ -114,10 +114,10 @@ used to compile the code. You do this by typing
 \begintt
 # make
 if test ! -d bin;  then mkdir bin;  fi
-if test ! -d bin/i686-unknown-linux2.0.34-gcc; \
+if test ! -d bin/i686-unknown-linux2.0.34-gcc; \ line broken for this manual!
                 then mkdir bin/i686-unknown-linux2.0.34-gcc;  fi
 cp cnf/configure.out bin/i686-unknown-linux2.0.34-gcc/configure
-( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc \
+( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc \ line broken for this manual!
                 ./configure --target=i686-unknown-linux2.0.34  )
 creating cache ./config.cache
 checking for gcc... gcc
@@ -128,16 +128,17 @@ checking whether we are using GNU C... yes
 creating ./config.status
 creating Makefile
 creating config.h
-make[1]: Entering directory \
+make[1]: Entering directory \                    line broken for this manual!
      `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
 gcc -I. -g -O2 -I/usr/X11R6/include  -o xcmds.o -c ../../src.x11/xcmds.c
 gcc -I. -g -O2 -I/usr/X11R6/include  -o utils.o -c ../../src.x11/utils.c
 ...
-make[1]: Leaving directory \
+make[1]: Leaving directory \                     line broken for this manual!
      `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
 \endtt
 
-(a few lines were broken for typesetting purposes in this manual!) 
+(a few lines were broken for typesetting purposes in this manual, the
+position is marked by a backslash) 
 
 Now all C sources are compiled and a binary executable is built. It is
 stored in a subdirectory of the ``bin'' subdirectory in your ``xgap''

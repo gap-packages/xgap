@@ -2,20 +2,20 @@
 ##
 #W  color.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gd,v 1.5 1999/01/17 23:45:50 gap Exp $
+#H  @(#)$Id: color.gd,v 1.6 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_color_gd :=
-    "@(#)$Id: color.gd,v 1.5 1999/01/17 23:45:50 gap Exp $";
+    "@(#)$Id: color.gd,v 1.6 1999/02/23 00:14:03 gap Exp $";
 
 
 #############################################################################
 #1
 ##  Depending on the type of display you are using, there may be more or
-##  less colors available. You should write your programs always such that
+##  fewer colors available. You should write your programs always such that
 ##  they work even on monochrome displays. In {\XGAP} these differences can
 ##  be read off from the so called ``color model''. The global variable
 ##  `COLORS' contains all available information.

@@ -80,14 +80,10 @@ This is the declaration part:
 ##
 #W  meataxe.gd                  XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: posets.tex,v 1.4 1999/02/01 23:28:05 gap Exp $
-##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for MeatAxe posets
 ##
-Revision.pkg_xgap_lib_meataxe_gd :=
-    "@(#)$Id: posets.tex,v 1.4 1999/02/01 23:28:05 gap Exp $";
 
 DeclareFilter("IsMeatAxeLattice");
 
@@ -111,14 +107,10 @@ The implementation:
 ##
 #W  meataxe.gi                  XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: posets.tex,v 1.4 1999/02/01 23:28:05 gap Exp $
-##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code for MeatAxe posets
 ##
-Revision.pkg_xgap_lib_meataxe_gi :=
-    "@(#)$Id: posets.tex,v 1.4 1999/02/01 23:28:05 gap Exp $";
 
 #############################################################################
 ##
@@ -145,13 +137,14 @@ end);
 
 #############################################################################
 ##
-#M  CompareLevels(<poset>,<levelp1>,<levelp2>) . . . compares two levelparams
+#M  CompareLevels(<poset>,<levelparam1>,<levelparam2>)  . . . . . . . . . . .
+##  . . . . . . . . . . . . . . . . . . . . . . . .  compares two levelparams
 ##
-##  Compare two levelparams. -1 means that levelp1 is "higher", 1 means
-##  that levelp2 is "higher", 0 means that they are equal. fail means that
-##  they are not comparable. This method is for the case if level
-##  parameters are integers and lower values mean lower levels like in the
-##  case of MeatAxe lattices of Michael Ringe.
+##  Compare two level parameters. -1 means that <levelparam1> is "higher", 
+##  1 means that <levelparam2> is "higher", 0 means that they are equal. 
+##  fail means that they are not comparable. This method is for the case 
+##  if level parameters are integers and lower values mean lower levels 
+##  like in the case of MeatAxe lattices of Michael Ringe.
 ##
 InstallMethod( CompareLevels,
     "for a graphic MeatAxe lattice, and two integers",

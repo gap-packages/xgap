@@ -12,7 +12,8 @@ There are two main changes in the concept. The first is the migration to
 {\GAP4} with all the bells and whistles like object oriented design with
 operations, methods and method selection via filters. {\XGAP4} is rewritten 
 nearly totally with these technologies. This should make the reusage of
-code easier. 
+code in the future easier. One can now use big parts of the code of {\XGAP}
+for own structures by just replacing some methods via overloading.
 
 The second change is that there is no longer any mathematical ``knowledge''
 or algorithm in {\XGAP}. It is now only a front end and a graphical user
@@ -24,10 +25,12 @@ wired into {\XGAP} case by case but there is generic code which can be
 adapted just by hacking a few tables.
 
 These generalizations made some sacrifices necessary, because {\XGAP} does
-no longer know anything about the mathematics it is displaying. This
-however should not bother the user really.
-
-All in all nearly the complete {\GAP} code of {\XGAP} was written anew.
+no longer know anything about the mathematics it is displaying. It may for
+example happen that {\XGAP} does no longer adapt its behaviour to the
+amount of data that is known about some finitely presented groups. The
+reason for this is, that the generic poset routines cannot know that the
+vertices stand for groups at all. So sometimes one has to trigger the
+comparison of subgroups of finitely presented groups manually.
 
 In the old {\GAP3} version of {\XGAP} there were three different programs
 for the full subgroup lattice of a (finite) group (`GraphicLattice'), the
@@ -37,6 +40,13 @@ finitely presented group (`InteractiveFpLattice') respectively. Now there
 is only one generic program to display subgroup lattices interactively
 (`GraphicSubgroupLattice').
 
+There is a new layer to display generic posets that do not have to be
+subgroup lattices. It can be used to display posets interactively very
+easily. This is for example used in the new link to the C-MeatAxe written
+by Michael Ringe. The code for this link is also included in {\XGAP4}.
+
+Code for the display of graphic graphs is planned but not yet completed.
+
 The user of {\XGAP} should not realize much of those changes (except of
 course the name of the function to display a subgroup lattice). The
 programmer on the other hand has to get used to the new techniques. It was
@@ -44,7 +54,6 @@ not in all places possible to achieve total compatibility for existing
 code. Some changes also were introduced deliberately to make the
 programmers adapt their programs to the new situation!
 
-There is now a new link to the C-MeatAxe written by Michael Ringe.
 
 \Section{User Interface}
 

@@ -93,17 +93,17 @@ These functions apply to all graphic object types:
 `Draw', `Delete', `Destroy', `Revive', `Move', `MoveDelta', `PSString',
 `PrintInfo', `ViewObj', `Recolor', `Reshape', `\\in', `WindowId'
 
-In addition, the operation `Relabel' applies to objects of types `Line', 
-`Text', and `Vertex'; the operation `SetWidth' applies to objects of types 
-`Diamond', `Rectangle' and `Line'. There is also `Change' for a `Line' and 
-`Highlight' for a `Vertex'.
+In addition, the operation `Relabel' applies to objects of types `Line',
+`Text', and `Vertex'; the operation `SetWidth' applies to objects of types
+`Diamond', `Rectangle', `Circle', and `Line'. There is also `Change' for a
+`Line' and `Highlight' for a `Vertex'.
 
 
 \Section{Global Information}
 
 There are some global data structures which can and should be consulted if 
 certain information is needed. The first (about color handling) was already 
-described in the last section. The second is for vertices:
+described in section "Color Models". The second is for vertices:
 
 \>`VERTEX'{VERTEXREC}@{VERTEX}
 
@@ -148,5 +148,5 @@ codes for the respective keys on the keyboard.
 
 \bigskip
 
-You should always use these global data instead of hardwire any integers into
+You should always use these global data instead of hardwiring any integers into
 your code.

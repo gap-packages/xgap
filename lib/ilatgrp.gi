@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.10 1999/02/12 18:07:33 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.11 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.10 1999/02/12 18:07:33 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.11 1999/02/23 00:14:03 gap Exp $";
 
 
 #############################################################################
@@ -83,6 +83,25 @@ BindGlobal( "GGLrelsDown", 3 );
 BindGlobal( "GGLrelsUp", 4 );
 
 
+#############################################################################
+##
+#F  GGLClosureGroup( <grp1>, <grp2>, ... ) . . . . . . calculates the Closure
+##
+##  This function calculates the closure of a number of groups. It uses
+##  ClosureGroup inductively.
+##
+BindGlobal( "GGLClosureGroup",
+  function(arg)
+    local grp,  i;
+    # the number of arguments will always be at least 1!
+    grp := arg[1];
+    for i in [2..Length(arg)] do
+      grp := ClosureGroup(grp,arg[i]);
+    od;
+    return grp;
+  end );
+  
+  
 ##
 ##  The configuration of the menu operations works as follows:
 ##  Every menu operation gets a record with the following entries, which
@@ -166,7 +185,7 @@ BindGlobal( "GGLMenuOpsForFiniteGroups",
           rec( name := "Centres", op := Centre, 
                parent := false, from := GGLfrom1, to := GGLto1, 
                where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
-          rec( name := "Closure", op := ClosureGroup, 
+          rec( name := "Closure", op := GGLClosureGroup, 
                parent := false, from := GGLfromSet, to := GGLto1, 
                where := GGLwhereUp, plural := false, rels := GGLrelsNo ),
           rec( name := "Closures", op := ClosureGroup, 
@@ -245,7 +264,14 @@ BindGlobal( "GGLMenuOpsForFpGroups",
                sheet := true ),
           rec( name := "Intersections", op := Intersection,
                parent := false, from := GGLfrom2, to := GGLto1, 
-               where := GGLwhereDown, plural := true, rels := GGLrelsNo ) 
+               where := GGLwhereDown, plural := true, rels := GGLrelsNo ),
+          rec( name := "Low Index Subgroups", op := GGLLowIndexSubgroups,
+               parent := false, from := GGLfrom1, to := GGLtoSet,
+               where := GGLwhereDown, plural := false, rels := GGLrelsNo,
+               sheet := true ),
+          rec( name := "Normalizers", op := Normalizer,
+               parent := true, from := GGLfrom1, to := GGLto1,
+               where := GGLwhereUp, plural := true, rels := GGLrelsNo )
         ] );
 # FIXME: ... to be continued
 
@@ -470,6 +496,7 @@ BindGlobal( "GGLGoOnDialog", Dialog( "OKcancel", "Go on?" ) );
 BindGlobal( "GGLDegreeDialog", Dialog( "OKcancel", "Degree" ) );
 BindGlobal( "GGLDimensionDialog", Dialog( "OKcancel", "Dimension" ) );
 BindGlobal( "GGLFieldSizeDialog", Dialog( "OKcancel", "Field Size" ) );
+BindGlobal( "GGLMaxIndexDialog", Dialog( "OKcancel", "Maximal Index" ) );
 
 
 #############################################################################
@@ -756,7 +783,7 @@ GGLEpiTextsel := false;
 GGLEpiVertex := false;
 
 # The user can supply groups for epimorghisms in the following variable:
-PERM_GROUP := 0;
+IMAGE_GROUP := 0;
 
 
 #############################################################################
@@ -817,35 +844,35 @@ function(sheet,grp)
       path := ShallowCopy(GAP_ROOT_PATHS[1]);
       Append(path,"pkg/xgap/pmg/");
       res := Query(Dialog("Filename","Which group?"),path);
-      PERM_GROUP := 0;
+      IMAGE_GROUP := 0;
       if not READ(res) then
         Info(GraphicLattice,1,Concatenation( "cannot read file ", res ));
         return fail;
-      elif IsInt(PERM_GROUP) then
+      elif IsInt(IMAGE_GROUP) then
         Info(GraphicLattice,1,Concatenation( res, 
-                " does not define PERM_GROUP" ));
+                " does not define IMAGE_GROUP" ));
         return fail;
       fi;
-      epigrp := PERM_GROUP;
+      epigrp := IMAGE_GROUP;
       if HasName(epigrp) then
         txt[tid] := String(Concatenation("Library: ",Name(epigrp),")"),-len);
       else
         txt[tid] := String("Library: Group with no name",-len);
       fi;
     elif st{[1..3]} = "Use" or st{[1..3]} = "Def" then
-      if not IsBound(PERM_GROUP) or IsInt(PERM_GROUP)  then
-        txt[tid] := "Define PERM_GROUP & click here! ";
+      if not IsBound(IMAGE_GROUP) or IsInt(IMAGE_GROUP)  then
+        txt[tid] := "Define IMAGE_GROUP & click here! ";
         Relabel( sel, txt );
         return fail;
       fi;
-      epigrp := PERM_GROUP;
+      epigrp := IMAGE_GROUP;
       if HasName(epigrp) then
         txt[tid] := String(Concatenation("User Defined: ",Name(epigrp),")"),
                            -len);
       else
         txt[tid] := String("User Defined: Group with no name",-len);
       fi;
-      PERM_GROUP := 0;
+      IMAGE_GROUP := 0;
     fi;
     
     # now the function has either returned (with "fail" as return value) or
@@ -939,6 +966,33 @@ end );
 
 #############################################################################
 ##
+#M  GGLLowIndexSubgroups(<sheet>,<grp>) . .  pops up box to choose max. index
+##
+##  This operations brings up a dialog, in which one can choose the maximal
+##  index for the subgroups that are searched.
+##
+InstallMethod( GGLLowIndexSubgroups,
+    "for a graphic subgroup lattice sheet, and a (fp) group",
+    true,
+    [ IsGraphicSubgroupLattice, IsGroup ],
+    0,
+
+function(sheet,grp)
+  local   res,  p;
+  res := Query( GGLMaxIndexDialog );
+  if res = false then
+    return fail;
+  fi;
+  p := Int(res);
+  if not IsInt(p) or p <= 0 then
+    return fail;
+  fi;
+  return LowIndexSubgroupsFpGroup(grp,TrivialSubgroup(grp),p);
+end);
+
+
+#############################################################################
+##
 ##  Methods for inserting new vertices:
 ##
 #############################################################################
@@ -992,9 +1046,7 @@ function( sheet, grp, conjugclass, hints )
   #fi;
   
   data := rec(group := grp,
-              isClassRep := false,
               info := rec(Index := index));
-  # missing: class and classrep, isClassRep could be changed!
   
   # What will be the level parameter?
   if index <> fail then
@@ -1044,7 +1096,9 @@ function( sheet, grp, conjugclass, hints )
     lev := sheet!.levels[lev];
     # we walk through all classes and search the class representative:
     for cl in lev!.classes do
-      Add(vers,First(cl,x->x!.data.isClassRep));
+      if Length(cl) <> 0 then
+        Add(vers,cl[1]);
+      fi;
     od;
     
     if Length(vers) = 0 then 
@@ -1058,7 +1112,6 @@ function( sheet, grp, conjugclass, hints )
       # we insert into that class
       
       sheet!.largestlabel := sheet!.largestlabel+1;
-      data.classRep := vers[conj]!.data;
       data.class := vers[conj]!.data.class;
       vertex := Vertex(sheet,data,rec(levelparam := newlevel,
                                       classparam := lev!.classparams[conj],
@@ -1068,8 +1121,6 @@ function( sheet, grp, conjugclass, hints )
   
   # if not yet done we create a new vertex in a new class:
   if vertex = false then
-    data.isClassRep := true;
-    data.classRep := data;
     data.class := [data];
     sheet!.largestlabel := sheet!.largestlabel + 1;
     if IsGPVertex(conjugclass) then
@@ -1333,9 +1384,9 @@ end);
 ##  vertices to which belongs the same group respectively. If we come to
 ##  know this, then we have to fix this situation by merging vertices.
 ##  This operation does exactly this *without* further checks. The vertex
-##  residing in a higher level or having a lower x-coordinate survives and
-##  inherits all inclusion information the other has. The second one is
-##  deleted.
+##  having the lower (that is older) serial number survives and inherits all
+##  inclusion information the other one has. This in turn is deleted.
+##
 InstallMethod( MergeVertices,
     "for a graphic subgroup lattice, and two vertices",
     true,
@@ -1345,7 +1396,7 @@ InstallMethod( MergeVertices,
 function( sheet, v1, v2 )
   local   p1,  p2,  dummy,  v2maximalin,  v2maximals,  v,  lev,  cls;
   
-  # we compare the levels:
+  # we check the levels:
   p1 := Position(sheet!.levelparams,v1!.levelparam);
   if p1 = fail then
     return fail;
@@ -1354,18 +1405,22 @@ function( sheet, v1, v2 )
   if p2 = fail then
     return fail;
   fi;
-  if p1 > p2 then
-    dummy := v1;
-    v1 := v2;
-    v2 := dummy;
-  fi;
-  # now v1 is "higher", this is the one that survives
+  if v1!.serial > v2!.serial then                                               
+    dummy := v1;                                                                
+    v1 := v2;                                                                   
+    v2 := dummy;                                                                
+  fi;                                                                           
+  # now v1 is "older", this is the one that survives
   
   # we remember the connections of v2:
   v2maximalin := ShallowCopy(v2!.maximalin);
   v2maximals := ShallowCopy(v2!.maximals);
   
   Delete(sheet,v2);  # now v2 is gone with all connections!
+  
+  # give some information:
+  Info(GraphicLattice,1,"Vertices ",v1!.label," and ",v2!.label,
+       " are merged!");
   
   # we use the inclusions of v2 as new inclusion information for v1:
   # note that it is possible that this can move around levels and even
@@ -1634,10 +1689,8 @@ function(G,def)
   # create one or two initial vertices (G itself and trivial subgroup):
   # we seperate the mathematical data and the graphical data:
   vmath := rec(group := G,
-               isClassRep := true,
                info := rec(Index := 1));
   vmath.class := [vmath];
-  vmath.classrep := vmath;
   v2 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index, label := "G",
                                shape := "diamond"));
   
@@ -1648,10 +1701,8 @@ function(G,def)
   
   if latticetype[4] then
     vmath := rec(group := TrivialSubgroup(G),
-                 isClassRep := true,
                  info := rec(Index := Size(G)));
     vmath.class := [vmath];
-    vmath.classrep := vmath;
     v1 := Vertex(poset,vmath,rec(levelparam := vmath.info.Index,label := "1",
                                  shape := "diamond"));
     
@@ -1673,6 +1724,9 @@ function(G,def)
   # no vertex is green right now:
   poset!.lastresult := [];
   
+  # disable deletion of edges:
+  Enable(poset!.menus[2],"Delete Edge",false);
+         
   return poset;
 end);
 

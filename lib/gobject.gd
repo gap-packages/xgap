@@ -2,14 +2,14 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.8 1999/02/01 23:28:59 gap Exp $
+#H  @(#)$Id: gobject.gd,v 1.9 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.8 1999/02/01 23:28:59 gap Exp $";
+    "@(#)$Id: gobject.gd,v 1.9 1999/02/23 00:14:03 gap Exp $";
 
 #############################################################################
 #1
@@ -25,7 +25,7 @@ Revision.pkg_xgap_lib_gobject_gd :=
 ##  that if for example the position of a vertex is changed, the line which 
 ##  makes the connection to some other vertex is also changed automatically.
 ##  For every graphic object there is a constructor which has the same name 
-##  than the graphic object (e.g. `Box' is the constructor for boxes).
+##  as the graphic object (e.g. `Box' is the constructor for boxes).
 ##  
 
 
@@ -359,7 +359,7 @@ DeclareOperation( "Rectangle",
 ##  that apply to lines.
 ##
 ##  Note that `Reshape' for lines takes three parameters, namely the 
-##  line object, and the new <width> and <height> value. `Change' for
+##  line object, and the new <w> and <h> value. `Change' for
 ##  lines in contrast takes five parameters, namely the line object and all 
 ##  four coordinates like in the original call.
 ##
@@ -436,11 +436,11 @@ DeclareOperation( "ConnectionPosition",
 #############################################################################
 ##
 #O  Connection( <vertex>, <vertex>) . . . . . . . . . .  connect two vertices
-#O  Connection( <vertex>, <vertex>, <def>)  . . . . . .  connect two vertices
+#O  Connection( <vertex>, <vertex>, <defaults>) . . . .  connect two vertices
 ##
 ##  Connects two vertices with a line.
-##  The second variation can get a default record for the actual line. The
-##  same entries as in the default record for lines are allowed.
+##  The second variation can get a <defaults> record for the actual line. The
+##  same entries as in the <defaults> record for lines are allowed.
 ##
 DeclareOperation( "Connection", 
         [ IsGraphicObject,

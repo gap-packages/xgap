@@ -2,7 +2,7 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.10 1999/02/01 23:28:59 gap Exp $
+#H  @(#)$Id: sheet.gd,v 1.11 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -11,7 +11,7 @@
 ##  This file contains all operations for graphic sheets.
 ##
 Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.10 1999/02/01 23:28:59 gap Exp $";
+    "@(#)$Id: sheet.gd,v 1.11 1999/02/23 00:14:03 gap Exp $";
 
 
 #############################################################################
@@ -19,7 +19,7 @@ Revision.pkg_xgap_lib_sheet_gd :=
 ##  To access any graphics in {\XGAP} you first have to create a *graphic*
 ##  *sheet* object. Such objects are linked internally to windows on the
 ##  screen. You do *not* have to think about redrawing, resizing and other
-##  other organizing stuff. The graphic sheet object is a {\GAP} object
+##  organizing stuff. The graphic sheet object is a {\GAP} object
 ##  in the category `IsGraphicSheet' and should be saved because it is needed
 ##  later on for all graphic operations.
 

@@ -43,7 +43,7 @@ This function is used in
 \>`Query'{Query for popup@`Query for popup}
 
 actually puts a popup on screen. `Query' returns the string of the
-selected entry or false if the user clicks outside the popup. 
+selected entry or `false' if the user clicks outside the popup. 
 See also `Query' for dialogs in "Query".
 
 \Declaration{TextSelector}

@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.6 1999/02/09 18:59:39 gap Exp $
+#H  @(#)$Id: ilatgrp.gd,v 1.7 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
 Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.6 1999/02/09 18:59:39 gap Exp $";
+    "@(#)$Id: ilatgrp.gd,v 1.7 1999/02/23 00:14:03 gap Exp $";
 
 
 #############################################################################
@@ -62,6 +62,16 @@ DeclareOperation( "GGLSylowSubgroup", [ IsGroup ] );
 ##  types of groups to calculate epimorphisms onto.
 ##
 DeclareOperation( "GGLEpimorphisms", [ IsGraphicSheet, IsGroup ] );
+
+
+#############################################################################
+##
+#O  GGLLowIndexSubgroups(<sheet>,<grp>) . .  pops up box to choose max. index
+##
+##  This operations brings up a dialog, in which one can choose the maximal
+##  index for the subgroups that are searched.
+##
+DeclareOperation( "GGLLowIndexSubgroups", [ IsGraphicSheet, IsGroup ] );
 
 
 #############################################################################
@@ -205,15 +215,15 @@ DeclareOperation( "NewInclusionInfo",
 ##
 #O  MergeVertices( <sheet>, <v1>, <v2> ) . . . . . . . . . . . merge vertices
 ##
-##  For graphic group lattices without the HasseProperty we cannot calculate
-##  all inclusion information for each new vertex. If we don't have
+##  For graphic group lattices without the HasseProperty we cannot calculate  
+##  all inclusion information for each new vertex. If we don't have      
 ##  CanCompareSubgroups either, we have to think of the case where we have two
-##  vertices to which belongs the same group respectively. If we come to
-##  know this, then we have to fix this situation by merging vertices.
+##  vertices to which belongs the same group respectively. If we come to 
+##  know this, then we have to fix this situation by merging vertices. 
 ##  This operation does exactly this *without* further checks. The vertex
-##  residing in a higher level or having a lower x-coordinate survives and
-##  inherits all inclusion information the other has. The second one is
-##  deleted.
+##  having the lower (that is older) serial number survives and inherits all    
+##  inclusion information the other one has. This in turn is deleted.           
+##                                                                              
 DeclareOperation( "MergeVertices",
                   [ IsGraphicSheet, IsGraphicObject, IsGraphicObject ] );
 

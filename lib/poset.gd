@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.9 1999/02/09 18:59:39 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.10 1999/02/23 00:14:03 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.9 1999/02/09 18:59:39 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.10 1999/02/23 00:14:03 gap Exp $";
 
 
 #############################################################################
@@ -110,9 +110,9 @@ DeclareOperation("CreateClass",[IsGraphicSheet, IsObject, IsObject]);
 ##    `ChooseColor' for the color,
 ##    `ChooseShape' for the shape,
 ##    `ChoosePosition' for the position,
-##    `ChooseLevel' for the level parameter, and
-##    `ChooseClass' for the class parameter.
-##    `ChooseWidth' for the line width of the vertex
+##    `ChooseLevel' for the level parameter, 
+##    `ChooseClass' for the class parameter, and
+##    `ChooseWidth' for the line width of the vertex.
 ##  `Vertex' returns `fail' if no vertex was created. This happens only, if
 ##  one of the choose functions return `fail' or no possible value, for
 ##  example a non-existing level or class parameter. `Vertex' returns a
@@ -124,7 +124,7 @@ DeclareOperation("Vertex",[IsGraphicSheet, IsObject, IsRecord]);
 #############################################################################
 ##
 #O  Edge(<graph>,<vertex1>,<vertex2>) . . . . . . . . . . . . adds a new edge
-#O  Edge(<graph>,<vertex1>,<vertex2>,<def>) . . .  adds a new edge, with defs
+#O  Edge(<graph>,<vertex1>,<vertex2>,<defaults>) . adds a new edge, with defs
 ##
 ##  Adds a new edge from <vertex1> to <vertex2>. For posets this puts one
 ##  of the vertices into the other as a maximal subvertex. So either
@@ -134,7 +134,7 @@ DeclareOperation("Vertex",[IsGraphicSheet, IsObject, IsRecord]);
 ##  included in the other `fail' is returned, otherwise `true'. That means,
 ##  that in the case where one of the two vertices is already a maximal
 ##  subobject of the other, then the method does nothing and returns `true'.
-##  The variation with a defaults record just hands this over to the lower
+##  The variation with a <defaults> record just hands this over to the lower
 ##  levels, meaning that the line width and color are modified.
 ##
 DeclareOperation("Edge",[IsGraphicSheet,IsGraphicObject,IsGraphicObject]);
@@ -202,7 +202,7 @@ DeclareOperation("ResizeLevel",[IsGraphicSheet,IsObject,IsInt]);
 ##  <levelparam> is compared with all level parameters between the old and
 ##  the new position. If there is a contradiction, nothing happens and the
 ##  method returns `fail'. If everything works the operation returns
-##  `true'.  This operation already exists in {\XGAP} for graphic objects.
+##  `true'.
 ##
 DeclareOperation("MoveLevel",[IsGraphicSheet,IsObject,IsInt]);
 
@@ -218,7 +218,7 @@ DeclareOperation("MoveLevel",[IsGraphicSheet,IsObject,IsInt]);
 ##  and <vertex2>. This must be a short string. In the method where no
 ##  label is specified the new label is chosen functionally: the operation
 ##  `ChooseLabel' is called. Returns `fail' if an error occurs and `true'
-##  otherwise.  This operations already exists in {\XGAP} for graphic
+##  otherwise.  This operation already exists in {\XGAP} for graphic
 ##  objects.
 ##
 DeclareOperation("Relabel",[IsGraphicSheet,IsGraphicObject,IsString]);
@@ -233,7 +233,7 @@ DeclareOperation("Relabel",[IsGraphicSheet,IsGraphicObject,IsString]);
 ##  of the vertex. <vertex> must be a vertex object in <graph>. If no
 ##  coordinates are specified the operation `ChoosePosition' is
 ##  called. `Move' returns `fail' if an error occurs and `true' otherwise.
-##  This operations already exists in {\XGAP} for graphic objects.
+##  This operation already exists in {\XGAP} for graphic objects.
 ##
 DeclareOperation("Move",[IsGraphicSheet,IsGraphicObject,IsInt,IsInt]);
 
@@ -245,9 +245,9 @@ DeclareOperation("Move",[IsGraphicSheet,IsGraphicObject,IsInt,IsInt]);
 ##
 ##  Changes the shape of the vertex <vertex>. <vertex> must be a vertex
 ##  object in the graph or poset <graph>. For the method where no shape is
-##  specified the new shape is chosen functionally: `ChooseShape` is called
+##  specified the new shape is chosen functionally: `ChooseShape' is called
 ##  for the corresponding data.  `Reshape' returns `fail' if an error
-##  occurs and `true' otherwise.  This operations already exists in {\XGAP}
+##  occurs and `true' otherwise.  This operation already exists in {\XGAP}
 ##  for graphic objects.
 ##
 DeclareOperation("Reshape",[IsGraphicSheet,IsGraphicObject,IsString]);
@@ -364,7 +364,7 @@ DeclareOperation("ChooseLabel",[IsGraphicSheet,IsObject]);
 #O  ChooseLevel(<poset>,<data>)  . . . . . . is called during vertex creation
 ##
 ##  This operation is called during vertex creation, if the caller didn't
-##  specify a level where the vertex belongs to. It has to return a level
+##  specify a level to which the vertex belongs. It has to return a level
 ##  parameter which exists in the poset. If it returns `fail' the new
 ##  vertex is not generated!
 ##
@@ -373,12 +373,12 @@ DeclareOperation("ChooseLevel",[IsGraphicSheet,IsObject]);
 
 #############################################################################
 ##
-#O  ChooseClass(<poset>,<data>,<levelp>) . . is called during vertex creation
+#O  ChooseClass(<poset>,<data>,<levelparam>) .  called during vertex creation
 ##
 ##  This operation is called during vertex creation, if the caller didn't
 ##  specify a class to which the vertex belongs to. It has to return a
 ##  class parameter which exists in the poset in the level with parameter
-##  <levelp>. If it returns `fail' the new vertex is not generated!
+##  <levelparam>. If it returns `fail' the new vertex is not generated!
 ##
 DeclareOperation("ChooseClass",[IsGraphicSheet,IsObject,IsObject]);
 
@@ -409,14 +409,14 @@ DeclareOperation("ChooseHighlight",[IsGraphicSheet,IsObject]);
 
 #############################################################################
 ##
-#O  ChoosePosition(<poset>,<data>,<levelp>,<classp>,<hints>)  . . . . . . . . 
+#O  ChoosePosition(<poset>,<data>,<levelparam>,<classparam>,<hints>)  . . . . 
 #O  ChoosePosition(<graph>,<data>)  . . . .  is called during vertex creation
 ##                                            
 ##  This operation is called during vertex creation.  It has to return a
 ##  list with two integers: the coordinates. For posets those are relative
-##  to the level the vertex resides in.  If it returns `fail' the new vertex
-##  is not generated! The parameters <levelp> and <classp> are level and
-##  class parameters respectively.
+##  to the level the vertex resides in.  If it returns `fail' the new
+##  vertex is not generated! The parameters <levelparam> and <classparam>
+##  are level and class parameters respectively.
 ##
 DeclareOperation("ChoosePosition",[IsGraphicSheet,IsObject]);
 DeclareOperation("ChoosePosition",[IsGraphicSheet,IsObject,
@@ -450,12 +450,13 @@ DeclareOperation("ChooseWidth",[IsGraphicSheet,IsObject]);
 
 #############################################################################
 ##
-#O  CompareLevels(<poset>,<levelp1>,<levelp2>) . . . compares two levelparams
+#O  CompareLevels(<poset>,<levelparam1>,<levelparam2>)  . . . . . . . . . . .
+##  . . . . . . . . . . . . . . . . . . . . . . . .  compares two levelparams
 ##
 ##  Compare two level parameters. -1 means that the level with parameter
-##  <levelp1> is ``higher'', 1 means that the one with parameter <levelp2>
-##  is ``higher'', 0 means that they are equal. `fail' means that they are
-##  not comparable.
+##  <levelparam1> is ``higher'', 1 means that the one with parameter
+##  <levelparam2> is ``higher'', 0 means that they are equal. `fail' means
+##  that they are not comparable.
 ##
 DeclareOperation("CompareLevels",[IsGraphicSheet,IsObject,IsObject]);
 
@@ -471,8 +472,8 @@ DeclareOperation("CompareLevels",[IsGraphicSheet,IsObject,IsObject]);
 ##
 #O  WhichLevel(<poset>,<y>) . . . . . .  determine level in which position is
 ##
-##  Determines level in which position <y> is. Returns level parameter or
-##  `fail'. 
+##  Determines the level in which position <y> is. `WhichLevel' returns the
+##  level parameter or `fail'.
 ##
 DeclareOperation("WhichLevel",[IsGraphicSheet,IsInt]);
 
@@ -553,9 +554,10 @@ DeclareOperation("Classes",[IsGraphicSheet,IsObject]);
 ##
 #O  Vertices(<poset>,<levelparam>,<classparam>)  . . . . . . returns vertices
 ##
-##  Returns the list of vertices in class classparams in level
-##  levelparam. Returns `fail' if no level with parameter <levelparam> or no
-##  class with parameter <classparam> exists in the level.
+##  Returns the list of vertices in the class with parameter <classparam>
+##  in the level with parameter <levelparam>. Returns `fail' if no level
+##  with parameter <levelparam> or no class with parameter <classparam>
+##  exists in the level.
 ##
 DeclareOperation("Vertices",[IsGraphicSheet,IsObject,IsObject]);
 
@@ -564,8 +566,7 @@ DeclareOperation("Vertices",[IsGraphicSheet,IsObject,IsObject]);
 ##
 #O  Maximals(<poset>,<vertex>) . . . . . . . . .  returns maximal subvertices
 ##
-##  Returns the list of maximal subvertices in <vertex>. Returns `fail' if an
-##  error occurs.
+##  Returns the list of maximal subvertices in <vertex>. 
 ##
 DeclareOperation("Maximals",[IsGraphicSheet,IsObject]);
 
@@ -574,8 +575,7 @@ DeclareOperation("Maximals",[IsGraphicSheet,IsObject]);
 ##
 #O  MaximalIn(<poset>,<vertex>) . .  returns vertices, in which v. is maximal
 ##
-##  Returns the list of vertices, in which <vertex> is maximal.  Returns
-##  `fail' if an error occurs.
+##  Returns the list of vertices, in which <vertex> is maximal.  
 ##
 DeclareOperation("MaximalIn",[IsGraphicSheet,IsObject]);
 
@@ -691,7 +691,7 @@ DeclareOperation( "PosetLeftClick", [IsGraphicSheet, IsInt, IsInt] );
 ##  vertices or edges. The difference to the operation without the control
 ##  key is, that while selecting the old vertices are NOT deselected.
 ##  Moving does not move the whole class but only one vertex. This allows
-##  for permuting the vertices within a class. An edges is selected as pair
+##  for permuting the vertices within a class. An edge is selected as pair
 ##  of vertices.
 ##
 DeclareOperation( "PosetCtrlLeftClick", [IsGraphicSheet, IsInt, IsInt] );
@@ -762,7 +762,7 @@ DeclareOperation( "UserShrinkLattice", [IsGraphicSheet, IsMenu, IsString] );
 ##  . . . . . . . . . . . . . . . .  lets the user resize the graphic lattice
 ##
 ##  This operation is called when the user selects `Resize Lattice'. 
-##  The generic method asks the user for a x and a y factor and scales
+##  The generic method asks the user for an x and a y factor and scales
 ##  everything including the sheet, all heights of levels and positions of 
 ##  vertices.
 ##
