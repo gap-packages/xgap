@@ -2,14 +2,14 @@
 ##
 #W  window.g                    XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.10 1999/03/03 01:05:44 gap Exp $
+#H  @(#)$Id: window.g,v 1.11 2003/05/20 13:11:08 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_window_g :=
-    "@(#)$Id: window.g,v 1.10 1999/03/03 01:05:44 gap Exp $";
+    "@(#)$Id: window.g,v 1.11 2003/05/20 13:11:08 gap Exp $";
 
 
 #############################################################################
@@ -343,10 +343,19 @@ BindGlobal( "HELP_XGAP_HYPERLINK", function(sheet,x,y)
   return;
 end);
  
+# The following is a rather unholy hack to display help pages in a different
+# window, necessary to overcome some deficiencies in the XGAP terminal
+# window. Max.
+
 BindGlobal( "HELP_PRINT_LINES_XGAP", function(lines)
   
   local l,font,h,i,HELP_XGAP_SHEET;
 
+  if IsString(lines) then
+      lines := SplitString(lines,"\n");
+  elif IsRecord(lines) then
+      lines := lines.lines;
+  fi;
   l:=Length(lines);
   #if HELP_XGAP_SHEET=fail or not IsAlive(HELP_XGAP_SHEET.sheet) then
     font:=FontInfo(FONTS.normal);
@@ -374,5 +383,9 @@ BindGlobal( "HELP_PRINT_LINES_XGAP", function(lines)
   InstallCallback(HELP_XGAP_SHEET,"LeftPBDown",HELP_XGAP_HYPERLINK);
 end);
 
-HELP_PRINT_LINES:=HELP_PRINT_LINES_XGAP;
+MakeReadWriteGVar("PAGER_BUILTIN");
+PAGER_BUILTIN := HELP_PRINT_LINES_XGAP;
+MakeReadOnlyGVar("PAGER_BUILTIN");
+
+#HELP_PRINT_LINES:=HELP_PRINT_LINES_XGAP;
 
