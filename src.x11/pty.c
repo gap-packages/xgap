@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.7 1998/01/15 10:23:17 sal Exp $
+*H  @(#)$Id: pty.c,v 1.8 1999/02/08 14:42:18 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1310,6 +1310,7 @@ static void GapStatusHasChanged ()
 	return;
 #   ifdef DEBUG_ON
         fputs( "gap status has changed, leaving xgap\n", stderr );
+        fprintf( stderr,"Signal: %d\n",WTERMSIG(w));
 #   endif
     exit(1);
 }
