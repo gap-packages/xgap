@@ -2,7 +2,7 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.13 1999/11/25 18:06:58 gap Exp $
+#H  @(#)$Id: sheet.gi,v 1.14 2000/09/12 02:14:20 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -15,7 +15,7 @@
 
 ##
 Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.13 1999/11/25 18:06:58 gap Exp $";
+    "@(#)$Id: sheet.gi,v 1.14 2000/09/12 02:14:20 gap Exp $";
 
 
 #############################################################################
@@ -119,7 +119,7 @@ function( title, width, height )
                         IsGraphicSheet and IsGraphicSheetRep ), s );
 
     # really create a window and store the id
-    id := WcOpenWindow( title, width, height );
+    id := WcOpenWindow( title, width+15, height+15 );
     SetWindowId( s, id );
     SetFilterObj( s, IsAlive );
 
