@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.18 1999/03/09 11:00:21 ahulpke Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.19 1999/03/09 18:37:43 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.18 1999/03/09 11:00:21 ahulpke Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.19 1999/03/09 18:37:43 gap Exp $";
 
 
 #############################################################################
@@ -389,6 +389,10 @@ BindGlobal( "GGLMenuOpsForFpGroups",
           rec( name := "All Overgroups", op := IntermediateSubgroups,
                parent := true, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereUp, plural := false, rels := GGLrelsMax ),
+          rec( name := "Compare Subgroups", op := GGLCompareSubgroups,
+               parent := false, from := GGLfrom2, to := GGLto0,
+               where := GGLwhereAny, plural := false, rels := GGLrelsNo,
+               sheet := true ),
           rec( name := "Conjugacy Class", 
                op := function(G,H) 
                        return AsList(ConjugacyClassSubgroups(G,H)); 
@@ -419,10 +423,6 @@ BindGlobal( "GGLMenuOpsForFpGroups",
           rec( name := "Normalizers", op := Normalizer,
                parent := true, from := GGLfrom1, to := GGLto1,
                where := GGLwhereUp, plural := true, rels := GGLrelsNo ),
-          rec( name := "Compare Subgroups", op := GGLCompareSubgroups,
-               parent := false, from := GGLfrom2, to := GGLto0,
-               where := GGLwhereAny, plural := false, rels := GGLrelsNo,
-               sheet := true ),
           rec( name := "Prime Quotient", op := GGLPrimeQuotient,
                parent := false, from := GGLfrom1, to := GGLtoSet, 
                where := GGLwhereDown, plural := false, rels := GGLrelsDown,

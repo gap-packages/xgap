@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.11 1999/03/07 22:10:10 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.12 1999/03/09 18:37:43 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.11 1999/03/07 22:10:10 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.12 1999/03/09 18:37:43 gap Exp $";
 
 
 #############################################################################
@@ -376,7 +376,7 @@ DeclareOperation("ChooseLevel",[IsGraphicSheet,IsObject]);
 #O  ChooseClass(<poset>,<data>,<levelparam>) .  called during vertex creation
 ##
 ##  This operation is called during vertex creation, if the caller didn't
-##  specify a class to which the vertex belongs to. It has to return a
+##  specify a class to which the vertex belongs. It has to return a
 ##  class parameter which exists in the poset in the level with parameter
 ##  <levelparam>. If it returns `fail' the new vertex is not generated!
 ##
