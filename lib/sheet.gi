@@ -2,13 +2,15 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.2 1997/12/08 21:48:12 frank Exp $
+#H  @(#)$Id: sheet.gi,v 1.3 1997/12/09 12:37:10 frank Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
 ##  This  file contains all methods for  graphic sheets.
 ##
+Revision.pkg_xgap_lib_sheet_gi :=
+    "@(#)$Id: sheet.gi,v 1.3 1997/12/09 12:37:10 frank Exp $";
 
 
 #############################################################################
@@ -19,8 +21,24 @@
 IsGraphicWindowRep := NewRepresentation(
     "IsGraphicWindowRep",
     IsComponentObjectRep and IsAttributeStoringRep,
-    [ "name", "width", "height" ],
+    [ "name", "width", "height", "gapMenu", "callbackName", "callbackFunc" ],
     IsGraphicWindow );
+
+
+#############################################################################
+##
+#V  DefaultGAPMenu  . . . . . . . . . . . . . . . . . . . .  default GAP menu
+##
+InitGVAR( DefaultGAPMenu,
+[
+    "save",                   Ignore,
+    "save as",                Ignore,
+    ,                         ,
+    "save as postscript",     Ignore, #N XXX GMSaveAsPS,
+    "save as LaTeX",          Ignore,
+    ,                         ,
+    "close graphic sheet",    Ignore, #N XXX GraphicSheetOps.GMCloseGS
+] );
 
 
 #############################################################################
@@ -51,7 +69,14 @@ function( catrep, name, width, height )
     SetFilterObj( w, IsAlive );
 
     # store in list of windows
-    #N XXX StoreWindow(w);
+    WcStoreWindow( id, w );
+
+    # store list of callbacks
+    w!.callbackName := [];
+    w!.callbackFunc := [];
+
+    # add menu to close GraphicSheet
+    #N XXX MakeGAPMenu(w);
 
     # return the window <w>
     return w;
@@ -59,6 +84,110 @@ function( catrep, name, width, height )
 end );
 
 
+#############################################################################
+##
+#M  Callback( <window>, <func>, <args> )  . . . . execute a callback function
+##
+InstallMethod( Callback,
+    "for graphic window",
+    true,
+    [ IsGraphicWindow and IsGraphicWindowRep,
+      IsObject,
+      IsList ],
+    0,
+
+function( window, func, args )
+    local   p,  list,  f;
+
+    p := Position( window!.callbackName, func );
+    if p <> fail  then
+        list := window!.callbackFunc[p];
+        for f  in list  do
+            CallFuncList( f, args );
+        od;
+    fi;
+end );
+
+#############################################################################
+##
+#M  Close( <window> ) . . . . . . . . . . . . . . . . . . close graphic sheet
+##
+InstallMethod( Close,
+    "for graphic window",
+    true,
+    [ IsGraphicWindow and IsGraphicWindowRep ],
+    0,
+
+function( window )
+    Callback( window, Close, [ window ] );
+    ResetFilterObj( window, IsAlive );
+    WcCloseWindow(WindowId(window));
+end );
+
+
+#############################################################################
+##
+#M  InstallCallback( <window>, <func>, <call> ) . . . .  install new callback
+##
+InstallMethod( InstallCallback,
+    "for graphic window",
+    true,
+    [ IsGraphicWindow and IsGraphicWindowRep,
+      IsObject,
+      IsFunction ],
+    0,
+
+function( window, func, call )
+    local   p,  list;
+
+    p := Position( window!.callbackName, func );
+    if p <> fail  then
+        list := window!.callbackFunc[p];
+        Add( list, call );
+    else
+        Add( window!.callbackName, func   );
+        Add( window!.callbackFunc, [call] );
+    fi;
+end );
+
+
+#############################################################################
+##
+#M  MakeGAPMenu( <window> ) . . . . . . . . . . . . .  create a standard menu
+##
+InstallMethod( MakeGAPMenu,
+    "for graphic window",
+    true,
+    [ IsGraphicWindow and IsGraphicWindowRep ],
+    0,
+
+function( sheet )
+    sheet!.gapMenu := Menu( sheet, "GAP", DefaultGAPMenu );
+    Enable( sheet!.gapMenu, "save", false );
+    Enable( sheet!.gapMenu, "save as", false );
+    Enable( sheet!.gapMenu, "save as LaTeX", false );
+end );
+
+
+#############################################################################
+##
+#M  Resize( <window>, <width>, <height> ) . . . . . . . . . . .  resize sheet
+##
+InstallMethod( Resize,
+    "for graphic window",
+    true,
+    [ IsGraphicWindow and IsGraphicWindowRep,
+      IsInt,
+      IsInt ],
+    0,
+
+function( window, width, height )
+    WcResizeWindow( WindowId(window), width, height );
+    window!.height := height;
+    window!.width  := width;
+end );
+
+    
 #############################################################################
 ##
 #M  ViewObj( <window> ) . . . . . . . . . . . . pretty print a graphic window
@@ -70,10 +199,10 @@ InstallMethod( ViewObj,
     0,
 
 function( win )
-    if HasIsAlive(win)  then
-        Print( "<graphic sheet \"", win!.name, "\">" );
+    if IsAlive(win)  then
+        Print( "<graphic window \"", win!.name, "\">" );
     else
-        Print( "<dead graphic sheet>" );
+        Print( "<dead graphic window>" );
     fi;
 end );
     
@@ -123,12 +252,6 @@ function( name, width, height )
     defaults.label := false;
     SetDefaultsForGraphicObject( w, defaults );
 
-    # add menu to close GraphicSheet
-    #N XXX MakeGAPMenu(w);
-
-    # add close function
-    #N XXX InstallCallback( w, "Close", Ignore );
-
     # return the graphic sheet <w>
     return w;
 
@@ -148,14 +271,33 @@ InstallMethod( Close,
 function( sheet )
     local   obj;
 
-    #N XXX Callback( sheet, "Close" );
+    Callback( sheet, Close, [ sheet ] );
     ResetFilterObj( sheet, IsAlive );
     WcCloseWindow(WindowId(sheet));
-    for obj  in sheet.objects  do
+    for obj  in sheet!.objects  do
         ResetFilterObj( obj, IsAlive );
     od;
 end );
 
+
+#############################################################################
+##
+#M  ViewObj( <sheet> )  . . . . . . . . . . . .  pretty print a graphic sheet
+##
+InstallMethod( ViewObj,
+    "for graphic window",
+    true,
+    [ IsGraphicWindow and IsGraphicWindowRep ],
+    0,
+
+function( sheet )
+    if IsAlive(sheet)  then
+        Print( "<graphic sheet \"", sheet!.name, "\">" );
+    else
+        Print( "<dead graphic sheet>" );
+    fi;
+end );
+    
 
 #############################################################################
 ##

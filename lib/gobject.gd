@@ -2,11 +2,13 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.1 1997/12/08 21:48:02 frank Exp $
+#H  @(#)$Id: gobject.gd,v 1.2 1997/12/09 12:36:59 frank Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 ##
+Revision.pkg_xgap_lib_gobject_gd :=
+    "@(#)$Id: gobject.gd,v 1.2 1997/12/09 12:36:59 frank Exp $";
 
 
 #############################################################################

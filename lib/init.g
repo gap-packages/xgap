@@ -2,10 +2,18 @@
 ##
 #W  init.g                      XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: init.g,v 1.2 1997/12/08 21:48:07 frank Exp $
+#H  @(#)$Id: init.g,v 1.3 1997/12/09 12:37:02 frank Exp $
 ##
 #Y  Copyright (C) 1993,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
+
+#############################################################################
+##
+
+#V  WINDOWS . . . . . . . . . . . . . . . . . . . . . . . . . list of windows
+##
+WINDOWS := [];
+
 
 #############################################################################
 ##

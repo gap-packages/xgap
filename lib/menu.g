@@ -2,7 +2,7 @@
 ##
 #A  menu.g                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.g,v 1.1 1997/11/27 12:20:03 frank Exp $
+#H  @(#)$Id: menu.g,v 1.2 1997/12/09 12:37:03 frank Exp $
 ##
 #Y  Copyright (C) 1993,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
@@ -11,6 +11,9 @@
 ##  "sheet.g".
 ##
 #H  $Log: menu.g,v $
+#H  Revision 1.2  1997/12/09 12:37:03  frank
+#H  added first tries for documentation, menus
+#H
 #H  Revision 1.1  1997/11/27 12:20:03  frank
 #H  added 3.5 library (does not work with 4.0)
 #H
@@ -41,129 +44,6 @@
 #H  Revision 1.1  1993/07/22  11:24:12  fceller
 #H  Initial revision
 ##
-
-
-#############################################################################
-##
-#F  Menu( <sheet>, <title>, <entries> ) . . . . . . . . add a menu to a sheet
-##
-MenuOps := rec( name := "MenuOps" );
-
-Menu := function( arg )
-    local   sheet,  title,  lbs,  func,  str,  i,  menu;
-
-    # check arguments
-    sheet := arg[1];
-    title := arg[2];
-    if Length(arg) = 3  then
-        lbs  := [];
-        func := [];
-        for i  in [ 1, 3 .. Length(arg[3])-1 ]  do
-            if IsBound(arg[3][i])  then
-                lbs[(i+1)/2] := arg[3][i];
-                Add( func, arg[3][i+1] );
-            fi;
-        od;
-    else
-        lbs  := arg[3];
-        func := arg[4];
-    fi;
-
-    # create a string from <lbs>
-    str := "";
-    for i  in [ 1 .. Length(lbs)-1 ]  do
-    	if IsBound(lbs[i])  then
-            Append( str, lbs[i] );
-            Append( str, "|" );
-    	else
-    	    Append( str, "-|" );
-        fi;
-    od;
-    Append( str, lbs[Length(lbs)] );
-
-    # create menu in <sheet>
-    menu            := WcAddMenu( sheet, title, str );
-    menu.title      := title;
-    menu.sheet      := sheet;
-    menu.labels     := Copy(lbs);
-    menu.entries    := Copy( Filtered( lbs, IsBound ) );
-    menu.isAlive    := true;
-    menu.operations := MenuOps;
-
-    # if function is a list, check its length
-    if IsList(func)  then
-        if Number(lbs) <> Length(func)  then
-            Error( "need ", Length(lbs), " menu functions" );
-        fi;
-    fi;
-    menu.func       := func;
-
-    # return menu
-    return menu;
-    
-end;
-
-
-#############################################################################
-##
-#F  MenuOps.Check( <menu>, <entry>, <flag> )  . . . . . . .  check menu entry
-##
-MenuOps.Check := function( menu, entry, flag )
-    local   pos;
-
-    pos := Position( menu.entries, entry );
-    if pos = false  then
-        Error( "unknown menu entry \"", entry, "\"" );
-    fi;
-    if flag  then
-        WcCheckMenu( menu.sheet.id, menu.id, pos, 1 );
-    else
-        WcCheckMenu( menu.sheet.id, menu.id, pos, 0 );
-    fi;
-end;
-
-
-#############################################################################
-##
-#F  MenuOps.Delete( <menu> )  . . . . . . . . . . . . . . . . . delete a menu
-##
-MenuOps.Delete := function( menu )
-    menu.isAlive := false;
-    WcDeleteMenu( menu.sheet.id, menu.id );
-end;
-
-
-#############################################################################
-##
-#F  MenuOps.Enable( <menu>, <entry>, <flag> ) . . . . . . . enable menu entry
-##
-MenuOps.Enable := function( menu, entry, flag )
-    local   pos;
-
-    pos := Position( menu.entries, entry );
-    if pos = false  then
-        Error( "unknown menu entry \"", entry, "\"" );
-    fi;
-    if flag  then
-        WcEnableMenu( menu.sheet.id, menu.id, pos, 1 );
-    else
-        WcEnableMenu( menu.sheet.id, menu.id, pos, 0 );
-    fi;
-    
-end;
-
-
-#############################################################################
-##
-#F  MenuOps.Print( <menu> ) . . . . . . . . . . . . . . . pretty print a menu
-##
-MenuOps.Print := function( menu )
-    if menu.isAlive  then
-        Print( "<menu \"", menu.title, "\">" );
-    else
-        Print( "<dead menu>" );
-    fi;
-end;
 
 
 #############################################################################
