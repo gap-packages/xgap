@@ -148,6 +148,8 @@ of a character below the baseline in pixels, and the third is the width
 in pixels of *all* characters, because it is always assumed, that the
 fonts are non-proportional.
 
+\Declaration{FontInfo}
+
 \bigskip
 
 There is another global structure:

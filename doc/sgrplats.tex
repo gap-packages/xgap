@@ -822,61 +822,79 @@ graphic sheet> from the <GAP> menu.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\Section{A Partial Subgroup Lattice of an Infinite Space Group}
-%
-%This section describes an investigation of an infinite space group
-%provided by the CRYST and CRYSTCAT share packages. Here you will see
-%that subgroups of finite index and of finite size can occur at the
-%same time in a graphic subgroup lattice of an infinite group. Note
-%that you have to install these share package to try this example.
-%
-%Load the share packages, define the group and open the subgroup
-%lattice window: 
-%
-%\begintt
-%gap> RequirePackage("crystcat");;
-%gap> RequirePackage("cryst");;
-%gap> g := SpaceGroupBBNWZ(4,6,3,1,2);
-%SpaceGroupOnRightBBNWZ( 4, 6, 3, 1, 2 )
-%gap> s := GraphicSubgroupLattice(g);
-%<graphic subgroup lattice "GraphicSubgroupLattice of SpaceGroupOnRightBBNWZ( 4, \
-%6, 3, 1, 2 )">
-%\endtt
-%
-%This fetches the space group of dimension $4$, associated crystal
-%system number $6$, $\Q$-class 3, $\Z$-class $1$, and space group type
-%$2$ (see the CRYSTCAT documentation for an explanation of this).
-%
-%Now we calculate some maximal subgroups with finite index:
-%
-%\begintt
-%gap> m := MaximalSubgroupClassReps(g,rec(latticeequal := true));;
-%[ <matrix group with 7 generators>, <matrix group with 7 generators>, 
-%  <matrix group with 7 generators> ]
-%gap> mm := m{[1..3]};
-%#I  InsertVertices from GAP (G) --> (2,3,4)
-%\endtt
-%
-%Again refer to the CRYST share package documentation for an
-%explanation of these commands. Insert this list of three subgroups
-%into the lattice by selecting `InsertSubgroups from GAP' from the
-%<Subgroups> menu.
-%
-%Calculate subgroups of infinite index but with finite size:
-%
-%\begintt
-%gap> w := WyckoffPositions(g);;
-%gap> ww := w[1];
-%< Wyckoff position, point group 11, translation := [ 0, 1/2, 0, 0 ], 
-%basis := [  ] >
-%gap> www := WyckoffStabilizer(ww);
-%<matrix group of size 8 with 3 generators>
-%\endtt
-%
-%Insert this subgroup into the lattice by selecting
-%`InsertSubgroups from GAP' from the <Subgroups> menu. It will be
-%inserted in the level for groups of size 8.
-%
+\Section{A Partial Subgroup Lattice of a Space Group}
+
+This section describes an investigation of an (infinite) space group
+provided by the catalogue CRYSTCAT of crystallographic groups and
+using the share packages CRYST. Here you will see that subgroups of
+finite index and of finite size can occur at the same time in a
+graphic subgroup lattice of an infinite group. Note that you have to
+install these share packages to try this example.
+
+Load the share packages, define the group and open the subgroup
+lattice window: 
+
+\begintt
+gap> RequirePackage("crystcat");;
+gap> RequirePackage("cryst");;
+gap> g := SpaceGroupBBNWZ(4,6,3,1,2);
+SpaceGroupOnRightBBNWZ( 4, 6, 3, 1, 2 )
+gap> s := GraphicSubgroupLattice(g);
+<graphic subgroup lattice "GraphicSubgroupLattice of SpaceGroupOnRightBBNWZ( 4, \
+6, 3, 1, 2 )">
+\endtt
+
+This fetches the space group of dimension $4$, associated crystal
+system number $6$, $\Q$-class 3, $\Z$-class $1$, and space group type
+$2$ (see the CRYSTCAT documentation for an explanation of this).
+
+Now we calculate some maximal subgroups with finite index:
+
+\begintt
+gap> m := MaximalSubgroupClassReps(g,rec(latticeequal := true));;
+gap> mm := m{[1..3]};
+[ <matrix group with 7 generators>, <matrix group with 7 generators>, 
+  <matrix group with 7 generators> ]
+\endtt
+
+Again refer to the CRYST share package documentation for an
+explanation of these commands. Insert this list of three subgroups
+into the lattice by selecting `InsertSubgroups from GAP' from the
+<Subgroups> menu.
+
+Next calculate subgroups of infinite index but with finite size:
+
+\begintt
+gap> w := WyckoffPositions(g);;
+gap> ww := w{[1..3]};
+[ < Wyckoff position, point group 11, translation := [ 0, 1/2, 0, 0 ], 
+    basis := [  ] >
+    , < Wyckoff position, point group 11, translation := [ 0, 1/2, 0, 1/2 ], 
+    basis := [  ] >
+    , < Wyckoff position, point group 11, translation := [ 0, 1/2, 1/2, 0 ], 
+    basis := [  ] >
+     ]
+gap> www := List(ww,WyckoffStabilizer);
+[ <matrix group with 3 generators>, <matrix group with 3 generators>, 
+  <matrix group with 3 generators> ]
+\endtt
+
+Insert these subgroups into the lattice by selecting
+`InsertSubgroups from GAP' from the <Subgroups> menu. They will be
+inserted in the level for groups of size 8.
+
+Now you can compute the intersection of a subgroup with finite index
+and a subgroup with finite size, select for example vertex $2$ and vertex
+$5$ and choose `Intersection' from the <Subgroups> menu. You get a new 
+vertex representing a subgroup of size $4$.
+
+If you now select vertex $5$ and choose `Centralizer' from the
+<Subgroups> menu, you will get a new vertex representing a group with
+infinite index *and* infinite size. Such a vertex is placed into a
+level on its own, which is marked by `[ infinity, <n>]' where <n> is
+replaced with subsequent natural numbers (see section "levelsintro"
+for details about levels).
+
 %%You will notice
 %%that these vertices are placed into ``infinity'' levels, because
 %%{\GAP} claims not to be able to calculate the (finite) size of these
@@ -889,9 +907,10 @@ graphic sheet> from the <GAP> menu.
 %%deleted and newly created, so it changes its name. All information
 %%currently known is however preserved.
 %
-%This  is now  the end of   our partial investigation  of the (partial)
-%subgroup lattice  of $G$, close  the graphic sheet by selecting <close
-%graphic sheet> from the <GAP> menu.
+
+This  is now  the end of   our partial investigation  of the (partial)
+subgroup lattice  of $G$, close  the graphic sheet by selecting <close
+graphic sheet> from the <GAP> menu.
 
 
 %%% Local Variables: 
