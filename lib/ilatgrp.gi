@@ -2,14 +2,14 @@
 ##
 #W  ilatgrp.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gi,v 1.39 1999/06/10 13:18:51 gap Exp $
+#H  @(#)$Id: ilatgrp.gi,v 1.40 1999/08/04 23:59:51 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
 Revision.pkg_xgap_lib_ilatgrp_gi :=
-    "@(#)$Id: ilatgrp.gi,v 1.39 1999/06/10 13:18:51 gap Exp $";
+    "@(#)$Id: ilatgrp.gi,v 1.40 1999/08/04 23:59:51 gap Exp $";
 
 
 #############################################################################
@@ -1861,6 +1861,24 @@ end );
 GGLLimitForIsNormalCalc := 1000;
 
 
+##
+## Here comes a (somewhat dirty) hack because we want to use functions
+## from the CRYST share package once they are available:
+##
+if not IsBound(HasIsSpaceGroup) then
+  HasIsSpaceGroup := function(arg) return false; end;
+  definedHasIsSpaceGroup := true;
+fi;
+if not IsBound(IsSpaceGroup) then
+  IsSpaceGroup := function(arg) return false; end;
+  definedIsSpaceGroup := true;
+fi;
+if not IsBound(TranslationBasis) then
+  TranslationBasis := function(arg) return []; end;
+  definedTranslationBasis := true;
+fi;
+
+
 #############################################################################
 ##
 #M  InsertVertex( <sheet>, <grp>, <conj>, <hints> ) . . . . insert new vertex
@@ -1938,7 +1956,17 @@ function( sheet, grp, conjugclass, hints )
   # do we have this level yet?
   if newlevel = infinity then
     sheet!.largestinflevel := sheet!.largestinflevel + 1;
-    newlevel := [infinity,sheet!.largestinflevel];
+    if IsBound(HasIsSpaceGroup) and IsBound(IsSpaceGroup) and
+       IsBound(TranslationBasis) and
+       CallFuncList(HasIsSpaceGroup,[sheet!.group]) and 
+       CallFuncList(IsSpaceGroup,[sheet!.group]) then
+      # We calculate the Hirsch-Length of this subgroup:
+      newlevel := [Concatenation("H",
+                      String(Length(CallFuncList(TranslationBasis,[grp])))),
+                   sheet!.largestinflevel];
+    else
+      newlevel := [infinity,sheet!.largestinflevel];
+    fi;
   fi;
   
   if Position(Levels(sheet),newlevel) = fail then
@@ -2135,6 +2163,24 @@ function(sheet,group)
 end);
 
     
+##
+## Here comes the rest of the dirty hack because we want to use functions
+## from the CRYST share package once they are available:
+##
+if definedHasIsSpaceGroup then 
+  Unbind(HasIsSpaceGroup);
+  Unbind(definedHasIsSpaceGroup);
+fi;
+if definedIsSpaceGroup then 
+  Unbind(IsSpaceGroup);
+  Unbind(definedIsSpaceGroup);
+fi;
+if definedTranslationBasis then 
+  Unbind(TranslationBasis);
+  Unbind(definedTranslationBasis);
+fi;
+
+
 #############################################################################
 ##
 #M  NewInclusionInfo( <sheet>, <v1>, <v2> ) . . . . . . . . . . v1 lies in v2
@@ -2404,7 +2450,24 @@ InstallOtherMethod( CompareLevels,
 function( poset, l1, l2 )
   if IsList(l1) then          # infinity!
     if IsList(l2) then        # two infinities not comparable
-      return fail;
+      # Here we have the special case of a space group, where the Hirsch-
+      # length is in the first component: Higher Hirsch lengths are higher
+      # in the lattice:
+      if IsString(l1[1]) and IsString(l2[1]) then
+        if Length(l1[1]) > Length(l2[1]) then   # first has more digits
+          return -1;
+        elif Length(l1[1]) < Length(l2[1]) then # second has more digits
+          return 1;
+        elif l1[1] > l2[1] then  # this is string comparison!
+          return -1;
+        elif l1[1] < l2[1] then
+          return 1;
+        else
+          return fail;
+        fi;
+      else
+        return fail;
+      fi;
     elif l2 > 0 then          # infinity lower than number
       return 1;
     else                      # infinity higher than size
