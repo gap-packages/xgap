@@ -1,0 +1,93 @@
+
+{\bf Constructors:}
+
+\medskip
+\Declaration{GraphicPoset}
+\Declaration{CreateLevel}
+\Declaration{CreateClass}
+\Declaration{Vertex}
+\Declaration{Edge}
+
+{\bf Destructors:}
+
+\medskip
+\>`Delete( <poset>, <vertex1>, <vertex2> )'{Delete for edge in poset}
+\>`Delete( <poset>, <vertex1>)'{Delete for vertex in poset}
+\>`Delete( <poset>, <levelparam>, <classparam> )'{Delete for class in poset}
+
+These three variants of the `Delete' operation delete an edge, a vertex and 
+a class respectively.
+
+\Declaration{DeleteLevel}
+
+\medskip
+{\bf Operations to change poset:}
+\medskip
+\Declaration{ResizeLevel}
+\Declaration{MoveLevel}
+\Declaration{Relabel}
+\Declaration{Move}
+\Declaration{Reshape}
+\Declaration{Recolor}
+\Declaration{SetWidth}
+\Declaration{Highlight}
+\Declaration{Select}
+\Declaration{DeselectAll}
+\Declaration{Selected}
+
+\medskip
+{\bf Operations for decisions:}
+\medskip
+\Declaration{ChooseLabel}
+\Declaration{ChooseLevel}
+\Declaration{ChooseClass}
+\Declaration{ChooseColor}
+\Declaration{ChooseHighlight}
+\Declaration{ChoosePosition}
+\Declaration{ChooseShape}
+\Declaration{ChooseWidth}
+\Declaration{CompareLevels}
+
+\medskip
+{\bf Operations to get information:}
+\medskip
+\Declaration{WhichLevel}
+\Declaration{WhichClass}
+\Declaration{WhichVertex}
+\Declaration{WhichVertices}
+\Declaration{Levels}
+\Declaration{Classes}
+\Declaration{Vertices}
+\Declaration{Maximals}
+\Declaration{MaximalIn}
+\Declaration{PositionLevel}
+
+\medskip
+{\bf Operations for user communication:}
+\medskip
+\Declaration{Menu}
+\Declaration{ModifyEnabled}
+\Declaration{InstallPopup}
+\Declaration{PosetLeftClick}
+\Declaration{PosetCtrlLeftClick}
+\Declaration{PosetRightClick}
+
+\medskip
+{\bf Operations for user actions:}
+\medskip
+\Declaration{UserDeleteVerticesOp}
+\Declaration{UserDeleteEdgeOp}
+\Declaration{UserMagnifyLattice}
+\Declaration{UserShrinkLattice}
+\Declaration{UserResizeLattice}
+\Declaration{UserResizeSheet}
+\Declaration{UserMoveLattice}
+\Declaration{UserChangeLabels}
+\Declaration{UserAverageY}
+\Declaration{UserAverageX}
+\Declaration{UserRearrangeClasses}
+\Declaration{UserUseBlackWhite}
+\Declaration{PosetShowLevels}
+\Declaration{PosetShowLevelparams}
+\Declaration{DoRedraw}
+

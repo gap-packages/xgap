@@ -125,7 +125,7 @@ WindowId	 +N	 +N	 +N	 +N	 +N	 +N	 +N	 +N
 Change		 -	 -	 -	 -	 -	 +	 -	 -
 Relabel		 -	 -	 -	 -	 -	 +	 +	 +
 SetWidth	 -	 +	 -	 +	 +	 +	 -	 -
-
+Highlight        -	 -	 -	 -	 -	 -	 -	 +
 
 For vertices the following methods exist (in XGAP3 and XGAP4):
 

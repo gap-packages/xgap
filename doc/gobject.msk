@@ -1,7 +1,150 @@
-\Declaration{GraphicObject}
+
+\Section{Graphic Sheet Objects}
+
+\FileHeader[1]{sheet}
+
+\Declaration{GraphicSheet}
+
+Here is the documentation for the operations to control the callback 
+functions:
+
+\Declaration{InstallCallback}
+\Declaration{RemoveCallback}
+\Declaration{Callback}
+
+\FileHeader[2]{sheet}
+
+\Declaration{IsAlive}
+
+The following operations apply to graphic sheets:
+
+\Declaration{Close}
+\Declaration{WindowId}
+\Declaration{SetTitle}
+\Declaration{SaveAsPS}
+
+\Section{Graphic Objects in Sheets}
+
+\FileHeader[1]{gobject}
+
+\Declaration{IsGraphicObject}
+
+\bigskip
+
+{\bf Constructors:}
 
 \Declaration{Box}
+\Declaration{Circle}
+\Declaration{Disc}
+\Declaration{Diamond}
+\Declaration{Rectangle}
+\Declaration{Line}
+\Declaration{Text}
+\Declaration{Vertex}
 
+\bigskip
+
+{\bf Operations for graphic objects:}
+
+\Declaration{Connection}
+\Declaration{Disconnect}
+
+\Declaration{Draw}
+\Declaration{Delete}
+\Declaration{Destroy}
+\Declaration{Revive}
 \Declaration{Move}
+\Declaration{MoveDelta}
+\Declaration{PSString}
+\Declaration{PrintInfo}
+\Declaration{Recolor}
+\Declaration{Reshape}
+\>`\\in'{in for graphic objects}
+
+This infix operation needs a vector of two integers to its left and a graphic
+object to its right. It determines, if the position given by the two integer
+coordinates is inside (e.g. for boxes) or on (e.g. for lines) the graphic
+objects. Returns a boolean value.
+\Declaration{Change}
+\Declaration{Relabel}
+\Declaration{SetWidth}
+\Declaration{Highlight}
+
+\Section{Colors in XGAP}
+
+\label{Color Models}
+
+\FileHeader[1]{color}
+
+\Declaration{COLORS}
 
 
+\Section{Table of Operations for Graphic Objects}
+
+The following table gives an overview over the supported graphic objects and 
+the functions which are applicable respectively:
+
+Here are the supported graphic object types: `Box', `Circle', `Disc', 
+`Diamond', `Rectangle', `Line', `Text', `Vertex'.
+
+These functions apply to all graphic object types:
+`Draw', `Delete', `Destroy', `Revive', `Move', `MoveDelta', `PSString',
+`PrintInfo', `ViewObj', `Recolor', `Reshape', `\\in', `WindowId'
+
+In addition, the operation `Relabel' applies to objects of types `Line', 
+`Text', and `Vertex'; the operation `SetWidth' applies to objects of types 
+`Diamond', `Rectangle' and `Line'. There is also `Change' for a `Line' and 
+`Highlight' for a `Vertex'.
+
+
+\Section{Global Information}
+
+There are some global data structures which can and should be consulted if 
+certain information is needed. The first (about color handling) was already 
+described in the last section. The second is for vertices:
+
+\>`VERTEX'{VERTEXREC}
+
+  This globally bound record contains the following components:
+
+\beginitems
+`circle' & integer value for the vertex type ``circle''
+
+`diamond' & integer value for the vertex type ``diamond''
+
+`rectangle' & integer value for the vertex type ``rectangle''
+
+`radius' & radius in pixels of a vertex on the screen
+
+`diameter' & diameter in pixels of a vertex on the screen
+\enditems
+
+\bigskip
+
+The third structure is about the available fonts. 
+
+\>`FONTS'{FONTS} 
+
+This globally bound record has the following components: `tiny', `small', 
+`normal', `large', `huge' and `fonts'. The first 5 are itself records each
+for one available font. They have components `name' for the name of the font
+and `fontInfo', which is a list of 3 integers. The first is the maximal size
+of a character above the baseline in pixels, the second is the maximal size
+of a character below the baseline in pixels, and the third is the width
+in pixels of *all* characters, because it is always assumed, that the
+fonts are non-proportional.
+
+\bigskip
+
+There is another global structure:
+
+\>`BUTTONS'{BUTTONS}
+
+This record contains the following components: `left' and `right' contain a
+number for the left resp. right mouse button. `shift' and `ctrl' contain
+codes for the respective keys on the keyboard.
+
+\bigskip
+
+You should always use these global data instead of hardwire any integers into
+your code.

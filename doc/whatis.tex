@@ -37,7 +37,91 @@ developed with code reusage in mind.
 
 \Section{What you can do with XGAP}
 
+{\XGAP} graphic sheets work graphic object oriented. This means that the
+basic graphic objects are not pixels but lines, rectangles, circles and so
+on. Although technically everything on the screen consists of pixels
+{\XGAP} remembers the structure of your graphics via higher objects. This
+has advantages as well as disadvantages. Do not expect to be able to
+place pixel images into your {\XGAP} graphic sheets. That is as of now
+*not possible* with {\XGAP} and probably will never be, because it is not
+the idea of the design. 
+
+What you can do is create, move around and change lines, circles, text and
+so forth in graphic sheets. Your programs can communicate with the user via
+graphical user interfaces like mouse, menus, dialogs, and so on.
+
+It is very easy to link this graphical environment with your programs in
+the mathematical environment of {\GAP}. So you can very quickly implement
+visualizations of the mathematical objects you study. The user can select
+objects, choose functions from menus and ask for more information with a
+few mouseclicks. 
+
+You do not have to invent the wheel many times. For certain mathematical
+concepts like graphs or posets {\XGAP} provides implementations which can
+be adapted to your special situation. You can use those parts of the code
+you like and substitute the other parts to adapt the behaviour of the user
+interface to your wishes.
+
 
 \Section{How does it work?}
 
+{\XGAP} consists of a C program `xgap' separate from {\GAP} and some
+libraries written in the {\GAP} language. `xgap' is started by the
+user and launches a {\GAP} job in the background. It then talks 
+to this {\GAP} job. Especially it displays all the output which comes from
+{\GAP} in the communication window and feeds everything the user types in
+this window into the {\GAP} job. 
+
+But there is also some communication with the {\GAP} job about the graphics
+that should be displayed. Because {\GAP} has no concept of putting graphics
+on the screen, this part is done by `xgap'. Therefore there is a protocol
+between the {\GAP} part of {\XGAP} running in the {\GAP} session and `xgap' 
+which is embedded in the input/output stream. The user does not notice
+this. `xgap' stores all windows and graphic objects and does all the work
+necessary for displaying windows and managing user communication and so on.
+
+The {\GAP} part of {\XGAP} also stores all graphical information, but in
+form of {\GAP} objects. The user can inspect all these structures and use
+them in own programs. Changes in these structures are transmitted through
+the communications protocol to `xgap' and are eventually displayed on the
+screen. User actions like mouse clicks or keyboard events are caught by
+`xgap' and transmitted to the {\GAP} job via function calls that are
+``typed in'' as if the user had typed them. So the library can work on them 
+and change the {\GAP} accordingly.
+
+Technically, {\XGAP} is a share package and one of the first commands that
+is executed automatically within the {\GAP} session is a
+`RequirePackage("xgap")' call. This reads in the extra {\XGAP}
+libraries. They are found in the `pkg/xgap/lib' directory normally in the
+main {\GAP} directory. The files contain the following:
+
+\beginitems
+`window.g' & basic definitions for the communications protocol
+
+`sheet.g[di]' & graphic sheets and their operations 
+
+`color.g[di]' & color information
+
+`font.g[di]'  & text font information
+
+`menu.g[di]'  & menus, dialogs, popups, and user communication
+
+`gobject.g[di]'& low level graphic objects and their operations
+
+`poset.g[di]' & graphic graphs and graphic posets
+
+`ilatgrp.g[di]'& graphic subgroup lattices
+
+`meataxe.g[di]'& support to display submodule lattices calculated within
+the C MeatAxe
+\enditems
+
+The user normally does not need to know this or the details of it. However, 
+it is important to understand that the program `xgap' is highly machine or
+at least operating system dependend. There is no generic way to access
+graphics across different platforms up to now. {\XGAP} should run on all
+variants of Unix with the X Window System Version 11 Release 5 or
+higher. As of now {\XGAP} does not run on Microsoft Windows or MacOS. It is 
+also definitely *not* easily ported there, because some important features
+that are used within {\XGAP} are missing there (like pseudo terminals).
 
