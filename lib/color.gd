@@ -2,14 +2,14 @@
 ##
 #W  color.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gd,v 1.7 1999/03/10 16:45:18 gap Exp $
+#H  @(#)$Id: color.gd,v 1.8 2000/09/12 02:13:13 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_color_gd :=
-    "@(#)$Id: color.gd,v 1.7 1999/03/10 16:45:18 gap Exp $";
+    "@(#)$Id: color.gd,v 1.8 2000/09/12 02:13:13 gap Exp $";
 
 
 #############################################################################
@@ -36,6 +36,12 @@ DeclareSynonym( "IsColour", IsColor );
 DeclareOperation( "ColorId", [ IsColor ] );
 DeclareSynonym( "ColourId", ColorId );
 
+#############################################################################
+##
+#O  PSColour( <color> )  . . . . . . . . . . .  PostScript string for a color
+##
+DeclareOperation( "PSColour", [ IsColor ] );
+DeclareSynonym( "PSColor", PSColour );
 
 #############################################################################
 ##

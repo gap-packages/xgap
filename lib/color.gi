@@ -2,14 +2,14 @@
 ##
 #W  color.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gi,v 1.4 1998/11/27 14:50:47 ahulpke Exp $
+#H  @(#)$Id: color.gi,v 1.5 2000/09/12 02:13:13 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_color_gi :=
-    "@(#)$Id: color.gi,v 1.4 1998/11/27 14:50:47 ahulpke Exp $";
+    "@(#)$Id: color.gi,v 1.5 2000/09/12 02:13:13 gap Exp $";
 
 
 #############################################################################
@@ -36,6 +36,21 @@ InstallMethod( ColorId,
 
 function( color )
     return color!.colorId;
+end );
+
+
+#############################################################################
+##
+#M  PSColour( <color> )  . . . . . . . . . . . . PostScript string for colour
+##
+InstallMethod( PSColour,
+    "for color",
+    true,
+    [ IsColor and IsColorRep ],
+    0,
+
+function( color )
+    return color!.psColour;
 end );
 
 
@@ -115,9 +130,11 @@ InstallGlobalFunction( CreateColors, function()
     # "black" and "white" are always displayable
     color           := rec();
     color.black     := Objectify( type,
-                             rec( colorId := 0, name := "black" ) );
-    color.white     := Objectify( type,
-                             rec( colorId := 1, name := "white" ) );
+                             rec( colorId := 0, name := "black",
+                                  psColour := "0.0 0.0 0.0" ) );
+     color.white     := Objectify( type,
+                             rec( colorId := 1, name := "white",
+                                  psColour := "1.0 1.0 1.0" ) );
     color.lightGray := false;
     color.dimGray   := false;
     color.red       := false;
@@ -131,29 +148,39 @@ InstallGlobalFunction( CreateColors, function()
     elif model = 2  then
         color.model     := "gray";
         color.lightGray := Objectify( type,
-                                 rec( colorId := 2, name := "light gray" ) );
-        color.dimGray   := Objectify( type,
-                                 rec( colorId := 3, name := "dim gray" ) );
+                                 rec( colorId := 2, name := "light gray",
+                                      psColour := "0.83 0.83 0.83" ) );
+         color.dimGray   := Objectify( type,
+                                 rec( colorId := 3, name := "dim gray",
+                                      psColour := "0.41 0.41 0.41" ) );
     elif model = 3  then
         color.model     := "color3";
         color.red       := Objectify( type,
-                                 rec( colorId := 4, name := "red" ) );
-        color.blue      := Objectify( type,
-                                 rec( colorId := 5, name := "blue" ) );
-        color.green     := Objectify( type,
-                                 rec( colorId := 6, name := "green" ) );
+                                 rec( colorId := 4, name := "red",
+                                      psColour := "1.0 0.0 0.0" ) );
+         color.blue      := Objectify( type,
+                                 rec( colorId := 5, name := "blue",
+                                      psColour := "0.0 0.0 1.0" ) );
+         color.green     := Objectify( type,
+                                 rec( colorId := 6, name := "green",
+                                      psColour := "0.0 1.0 0.0" ) );
     elif model = 4  then
         color.model     := "color5";
         color.lightGray := Objectify( type,
-                                 rec( colorId := 2, name := "light gray" ) );
-        color.dimGray   := Objectify( type,
-                                 rec( colorId := 3, name := "dim gray" ) );
-        color.red       := Objectify( type,
-                                 rec( colorId := 4, name := "red" ) );
-        color.blue      := Objectify( type,
-                                 rec( colorId := 5, name := "blue" ) );
-        color.green     := Objectify( type,
-                                 rec( colorId := 6, name := "green" ) );
+                                 rec( colorId := 2, name := "light gray",
+                                      psColour := "0.83 0.83 0.83" ) );
+         color.dimGray   := Objectify( type,
+                                 rec( colorId := 3, name := "dim gray",
+                                      psColour := "0.41 0.41 0.41" ) );
+         color.red       := Objectify( type,
+                                 rec( colorId := 4, name := "red",
+                                      psColour := "1.0 0.0 0.0" ) );
+         color.blue      := Objectify( type,
+                                 rec( colorId := 5, name := "blue",
+                                      psColour := "0.0 0.0 1.0" ) );
+         color.green     := Objectify( type,
+                                 rec( colorId := 6, name := "green",
+                                      psColour := "0.0 1.0 0.0" ) );
     fi;
 
     # fix spelling of grey

@@ -2,14 +2,14 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.12 1999/11/23 19:32:00 gap Exp $
+#H  @(#)$Id: gobject.gi,v 1.13 2000/09/12 02:13:13 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.12 1999/11/23 19:32:00 gap Exp $";
+    "@(#)$Id: gobject.gi,v 1.13 2000/09/12 02:13:13 gap Exp $";
 
 
 #############################################################################
@@ -338,6 +338,7 @@ InstallMethod( PSString,
     [ IsGraphicObject and IsBoxObjectRep ],
     0,
     box -> Concatenation(
+	    PSColour(box!.color), " setrgbcolor\n",
             "newpath\n",
             String(box!.x), " ", 
             String(box!.sheet!.height-box!.y)," moveto\n",
@@ -640,6 +641,7 @@ InstallMethod( PSString,
     [ IsGraphicObject and IsCircleObjectRep ],
     0,
     circle -> Concatenation(
+	    PSColour(circle!.color), " setrgbcolor\n",
             "newpath\n",
             String(circle!.x), " ", String(circle!.sheet!.height-circle!.y), 
             " ", String(circle!.r), " 0 360 arc\n",
@@ -950,6 +952,7 @@ InstallMethod( PSString,
     [ IsGraphicObject and IsDiscObjectRep ],
     0,
     disc -> Concatenation(
+	      PSColour(disc!.color), " setrgbcolor\n",
               "newpath\n",
               String(disc!.x), " ", String(disc!.sheet!.height-disc!.y), " ",
               String(disc!.r), " 0 360 arc\nfill\n" )
@@ -1275,6 +1278,7 @@ function (dia)
     y3 := dia!.sheet!.height - y3;
     y4 := dia!.sheet!.height - y4;
     return Concatenation(
+	           PSColour(dia!.color), " setrgbcolor\n",
                    "newpath\n",
                    String(x1), " ", String(y1), " moveto\n",
                    String(x2), " ", String(y2), " lineto\n",
@@ -1641,6 +1645,7 @@ function (rect)
     y3 := rect!.sheet!.height - y3;
     y4 := rect!.sheet!.height - y4;
     return Concatenation(
+	           PSColour(rect!.color), " setrgbcolor\n",
                    "newpath\n",
                    String(x1), " ", String(y1), " moveto\n",
                    String(x2), " ", String(y2), " lineto\n",
@@ -1998,6 +2003,7 @@ InstallMethod( PSString,
 function (line)
     
     return Concatenation(
+	PSColour(line!.color), " setrgbcolor\n",
         "newpath\n",
         String(line!.x), " ", String(line!.sheet!.height-line!.y), " moveto\n",
         String(line!.x+line!.w), " ", 
@@ -2441,6 +2447,7 @@ function(text)
     a := QuoInt( FontInfo(text!.font)[1] * 150, 100 );
     b := QuoInt( FontInfo(text!.font)[3] * 168, 100 );
     return Concatenation(
+	PSColour(text!.color), " setrgbcolor\n",
        "/Courier findfont [", String(b), " 0 0 ", String(a),
        " 0 0] makefont setfont\n",
        String(text!.x), " ", String(text!.sheet!.height-text!.y), " moveto\n",
