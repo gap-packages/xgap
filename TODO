@@ -1,0 +1,6 @@
+$Id: TODO,v 1.1 1999/11/30 22:55:25 gap Exp $
+The following is planned for the future:
+
+ Usage of `HirschLength' from the library.
+ Completion of support for graphic graphs.
+
