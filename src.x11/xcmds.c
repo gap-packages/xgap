@@ -2,7 +2,7 @@
 **
 *W  xcmds.c                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xcmds.c,v 1.5 1998/11/27 14:51:01 ahulpke Exp $
+*H  @(#)$Id: xcmds.c,v 1.6 1999/03/11 17:25:04 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -58,7 +58,7 @@ static XFontStruct * LargeFont;
 **
 *V  NormalFont  . . . . . . . . . . . . . . . . . normal font for text output
 */
-static XFontStruct * NormalFont;
+XFontStruct * NormalFont;
 
 
 /****************************************************************************

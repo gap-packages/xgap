@@ -2,7 +2,7 @@
 **
 *W  popdial.c			XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: popdial.c,v 1.2 1997/12/05 17:30:58 frank Exp $
+*H  @(#)$Id: popdial.c,v 1.3 1999/03/11 17:25:04 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -176,6 +176,14 @@ TypePopupDialog CreatePopupDialog ( app, top, name, bt, def, pix )
 
 
 /****************************************************************************
+**                                                                           
+*V  NormalFont  . . . . . . . . . . . . . . . . . normal font for text output
+**
+**  see xcmds.c, imported here by Max 11.3.1999, see below
+*/
+extern XFontStruct * NormalFont;                                                    
+
+/****************************************************************************
 **
 *F  PopupDialogBrokenWM() . . . . . . . . . . . . . .  toggle <BrokenWM> flag
 */
@@ -205,6 +213,7 @@ Int PopupDialog ( dialog, message, deflt, result )
     Int        	        x2,  y2,  x3,  y3;
     UInt                bt;
     Int                 i;
+    Int                 textlen, deflen;
 
     /* create font cursor */
     display = XtDisplay(dialog->popupShell);
@@ -212,15 +221,36 @@ Int PopupDialog ( dialog, message, deflt, result )
 	BlobCursor = XCreateFontCursor( display, XC_dot );
 
     /* set message and default answer in dialog */
-    XtVaSetValues( dialog->dialog,
+    /* Changes by Max: 11.3.1999:
+       XtVaSetValues( dialog->dialog,
 		   XtNlabel, 	"            ",
 		   XtNvalue,    "                      ",
-		   0,           0 );
-    XtRealizeWidget( dialog->popupShell );
+		   0,           0 );*/
     XtVaSetValues( dialog->dialog,
 		   XtNlabel, 	message,
 		   XtNvalue,    deflt,
 		   0,           0 );
+    /* get size of popup dialog */
+    XtVaGetValues( dialog->popupShell,
+		   XtNwidth,       &w1,
+		   0,              0 );
+    textlen = strlen(message)*NormalFont->max_bounds.width + 80;
+    deflen = strlen(deflt)*NormalFont->max_bounds.width + 60;
+    if (textlen > deflen) {
+      if (textlen < w1)
+        textlen = w1;
+    } else {
+      if (deflen < w1)
+        textlen = w1;
+      else
+        textlen = deflen;
+    }
+    XtVaSetValues( dialog->dialog,
+                   XtNwidth,textlen,
+                   0,0 );
+    /* End of changes by Max. */
+
+    XtRealizeWidget( dialog->popupShell );
 
     /* get size of popup dialog */
     XtVaGetValues( dialog->popupShell,
