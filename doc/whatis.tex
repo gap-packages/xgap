@@ -11,12 +11,12 @@ command oriented one and there are mathematical applications for which it
 can be quite useful to visualize objects with computer graphics.
 
 On the other hand it is not sensible to change the whole concept and user
-interface of \GAP~because people are used to it and it works. So \XGAP~is a 
-separate C program running under the X Window System, which starts up a
-\GAP~job and allows normal command execution within a window. In addition
-there is a library written in \GAP, which makes it possible to open new
-windows, display graphics, control menus and do other graphical user
-communication in \GAP~via the separate C part.
+interface of {\GAP} because it is not advisable to put all the facilities of
+{\GAP} into a menu system. So \XGAP~is a separate C program running under the
+X Window System, which starts up a \GAP~job and allows normal command
+execution within a window. In addition there is a library written in \GAP,
+which makes it possible to open new windows, display graphics, control menus
+and do other graphical user communication in \GAP~via the separate C part.
 
 Built on those ``simple'' windows and graphic objects are other libraries
 which display graphs and posets in a window and allow the user to move
@@ -61,7 +61,7 @@ Todd-Coxeter-Algorithm to compute coset tables in finitely presented
 groups. It uses the graphical features of {\XGAP} to give the user quick
 and easy access to the algorithm by a few mouse clicks. This program was
 written by Ludger Hippe in Aachen using {\XGAP3} and is currently ported to
-{\XGAP4} by Volkmar Felsch.
+{\XGAP4} and extended by Volkmar Felsch.
 
 Another nice little example is in the `examples' subdirectory in the
 {\XGAP} distribution. It was written by Thomas Breuer (Aachen) to
@@ -86,7 +86,7 @@ interface to your wishes.
 \Section{How does it work?}
 
 {\XGAP} consists of a C program `xgap' (in the following `xgap' in
-typewriter style refers to this C part) separate from {\GAP} and some
+typewriter style refers to this C part) separate from {\GAP}, and of some
 libraries written in the {\GAP} language. `xgap' is started by the
 user and launches a {\GAP} job in the background. It then talks 
 to this {\GAP} job. Especially it displays all the output which comes from
@@ -154,7 +154,7 @@ into this, please contact Max Neunh\accent127offer (email:
 
 A first program for drawing a diagram showing the lattice of subgroups
 of  a finite  group  that  had  been   calculated by  a  computer  was
-implemented by H. Juergensen in 1965 (see \cite{FJ65}).
+implemented by H. J\accent127urgensen in 1965 (see \cite{FJ65}).
 % [quote K. Ferber, H. Juergensen,
 %A   programme for drawing    a  lattice.  p.  83 -   86  of J.  Leech,
 %ed. Computational Problems in Abstract Algebra, 1970]

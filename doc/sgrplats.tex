@@ -1,4 +1,4 @@
-\Chapter{Subgroup Lattices}
+\Chapter{Subgroup Lattices - Examples}
 
 {\XGAP} provides a graphical interface to the  lattice or a partial lattice
 of subgroups of groups.  For finitely  presented groups it gives you easy
@@ -7,15 +7,12 @@ algorithms in order to build a partial  lattice interactively.  For other
 types of groups  it provides easy access to  many of  the group functions
 (for example, the normalizer, normal subgroups, and Sylow subgroups).
 
-This chapter explains how to use this interface.  Using various examples
-the first sections "The Subgroup Lattice of the dihedral group of order 8",
-"A Partial Subgroup Lattice of the symmetric group on 6 points", "A Partial
-Subgroup Lattice of the Cavicchioli Group", and "A Partial Subgroup Lattice
-of the Trefoil Knot Group" explain most features.  The later sections
-give details about the various options and menus available.  This chapter
-will not describe how to write your own programs using the graphic
-extensions supplied by {\XGAP}, see chapters "Graphic Sheets - Basic graphic
-operations" to "Graphic Posets" for details.
+This chapter explains  how to use this  interface by way of examples.  
+Chapter  "Subgroup  Lattices - Systematic  Description" gives
+details about the   various  options and menus available.    These two
+chapter  will not  describe how to  write  your own programs using the
+graphic extensions supplied by {\XGAP}, see chapters "Graphic Sheets -
+Basic graphic operations" to "Graphic Graphs" for details.
 
 It is assumed that you have already started {\XGAP}.  On most systems you
 do this by typing
@@ -37,13 +34,13 @@ Although the device used to move this pointer can be anything, a mouse, a
 track ball, a glide-pad, or even something as exotic as a rat, we will use
 the term mouse to refer to this pointer device.
 
-In  case that some computation  takes  longer than expected, for instance
-the low index and the prime quotient can be quite time consuming, you can
-always interrupt  a computation  by  making the {\GAP}  window active and
-pressing <CTR-C>.  Again, making  a  window active  is system and  window
-manager dependent.   In most cases  you either have  to  move the pointer
-inside  the {\GAP} window or you  have to click on the   title bar of the
-{\GAP} window.
+In case that some computation takes longer than expected, for instance
+the low index and the prime quotient can  be quite time consuming, you
+can always interrupt a computation by  making the {\GAP} window active
+and pressing <CTRL-C>.   Again, making a window  active is  system and
+window manager  dependent.  In most cases  you either have to move the
+pointer inside the {\GAP} window or you have to click on the title bar
+of the {\GAP} window.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{The Subgroup Lattice of the Dihedral Group of Order 8}
@@ -56,7 +53,7 @@ Using the dihedral group of size $8$ as example the following will show you
 most features of the `GraphicSubgroupLattice' program.  This exercise is
 best carried out in front of {\XGAP}, trying the various commands yourself.
 
-First  you   have to define a  group   in {\GAP},  this example  uses the
+First  you   have to define a  group   in {\GAP},  this example  uses a
 dihedral group defined as polycyclic group.
 
 \begintt
@@ -137,39 +134,43 @@ left mouse button vertex $4$ will stay at its current position and the rest
 of the conjugacy class (in this example $5$) will be moved to this new
 position.
 
-In order to *select* vertex $G$ place the pointer inside the diamond around
-$G$, press the *left* mouse button and release it immediately.  Do not
-move the mouse while you hold down the left mouse button.  Vertex $G$ now
-has a slightly thicker boundary and is red if you have a color screen.
-There are two different ways to select more than one vertex, see "A Partial
-Subgroup Lattice of the Symmetric Group on 6 Points" or
-"GraphicSubgroupLattice, Selecting Vertices".
+In  order to *select* vertex $G$  place the pointer inside the diamond
+around $G$, press the *left* mouse button  and release it immediately. 
+Do  not move the  mouse  while you hold down  the  left mouse button.  
+Vertex $G$ now has a slightly thicker boundary and is  red if you have
+a color screen.  There are two different ways  to select more than one
+vertex,  see "A Partial  Subgroup Lattice of  the Symmetric Group on 6
+Points" or "GraphicSubgroupLattice, Selecting Vertices".
 
-On the top of the window, above the graphic sheet,  you can see a list of
-menu names: ``GAP'', ``Poset'', and ``Subgroups''.  In order to
-open any of these *pull  down menus* place the  pointer inside the button
-containing   the menu name  and press  the  left  mouse button.  Keep the
-button pressed.  A pull down menu will be shown and by moving the pointer
-down you  can choose  a   menu entry.  By choosing    an entry and   then
-releasing  the  mouse button  the entry   is  selected, the corresponding
-function is executed and  the pull down menu is  closed.  If  you release
-the mouse button while the pointer is outside the pull down menu the menu
-is closed without selecting any entry.
+On the top of the window, above the graphic sheet, you  can see a list
+of  menu names:  ``GAP'',  ``Poset'', and ``Subgroups''.   In order to
+open  any of  these *pull down  menus*  place  the pointer inside  the
+button containing the menu name and press the left mouse button.  Keep
+the button pressed.  A pull down menu will  be shown and by moving the
+pointer down  you can choose  a menu entry.   By choosing an entry and
+then  releasing    the mouse   button the   entry    is  selected, the
+corresponding function is  executed and the  pull down menu is closed. 
+If you release the mouse button while the  pointer is outside the pull
+down  menu the menu  is closed without selecting  any entry. Note that
+this   behaviour is different from that   of some other graphical user
+interfaces such as for example Windows.
 
-Now select ``Change Labels'' from the ``Poset'' menu.  If this entry is not
-available you have failed to select vertex $G$.  After selecting ``Change
-Labels'' a small dialog box is opened asking for a label.  Type in `D8' and
-press the <return> key or click on <OK>.  The label of vertex $10$ will now
-be changed to ``$D8$''. Note that in the X Window System you have to move
-the pointer on the text field if you want to edit the label.
+Now  select ``Change Labels'' from the  ``Poset'' menu.  If this entry
+is not   available  you have  failed to    select vertex  $G$.   After
+selecting ``Change Labels'' a small dialog box is  opened asking for a
+label.  Type in `D8' and press the <return> key or click on <OK>.  The
+label of vertex $10$ will now be changed to ``$D8$''. Note that in the
+X Window System you have to move the pointer on  the text field if you
+want to edit the label.
 
-In order to find  out which vertex  represents the centre of $D_8$, first
-select vertex $D8$ and then the menu entry ``Centres'' from the ``Subgroups''
-menu.   In  case of  a  color screen, vertex $D8$   will  be selected and
-colored  red, and vertex  $2$ will  be selected  and  colored green.  The
-color green  indicates that vertex $2$  is  the result  of a computation.
-There will also be a message in the {\GAP} window  saying that vertex $2$
-represents the centre of the group belonging to vertex $D8$.
+In  order to find   out which vertex  represents the  centre of $D_8$,
+first select vertex $D8$ and then the menu  entry ``Centres'' from the
+``Subgroups'' menu.  In  case of a color  screen, vertex  $D8$ will be
+selected and colored red, and vertex  $2$ will be selected and colored
+green.  The color  green indicates that vertex $2$  is the result of a
+computation.  There will also be a message in the {\GAP} window saying
+that vertex $2$ represents the centre of the group belonging to vertex
+$D8$.
 
 \begintt
 #I  Centres (D8) --> (2)
@@ -429,6 +430,9 @@ $$
 \langle a, b \;;\; aba^{-2}ba=b, (b^{-1}a^3b^{-1}a^{-3})^2=a^{-1}\rangle.
 $$
 
+In this example we will show a way to prove a finitely presented group
+to be infinite, and to find some big nonabelian factor groups of it.
+
 The following {\GAP} commands define $C_2$.
 
 \begintt
@@ -613,6 +617,9 @@ $$
     \langle a, b \;;\; aba = bab \rangle
 $$
 
+This examples shows some  limitations   of the methods available,   in
+particular if infinite factors occur.
+
 \begintt
 gap> f := FreeGroup( "a", "b" );
 <free group on the generators [ a, b ]>
@@ -684,12 +691,9 @@ First compute prime quotients by <Prime Quotient> in the <Subgroups>
 menu. You are asked for a prime and a class. Enter $2$ and $7$
 respectively. You get lots of output in the {\GAP} command window and
 seven new vertices. Some of the corresponding subgroups have huge
-indices. For those subgroups with an index greater or equal to
-`GGLLimitForIsNormalCalc' (currently set to $1000$, see
-"GGLLimitForIsNormalCalc") {\XGAP} does not calculate whether they are
-normal in $G$, because that would require a coset table. They are
-drawn as vertices with a rectangular shape. Note that these groups are
-only represented as kernels of epimorphisms within {\GAP}.
+indices. Note that these groups are only represented as kernels of
+epimorphisms within {\GAP}. So explicit calculation of a coset table
+or a presentation could take very long or be absolutely impossible!
 
 Now compute epimorphisms onto the symmetric group on $3$ points by
 <Epimorphisms (GQuotients)> in the <Subgroups> menu, but use a polycyclic 
@@ -737,9 +741,15 @@ sheet> from the <GAP> menu.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Chapter{Subgroup Lattices - Systematic Description}
+
+In this chapter we give details about the various options and menus
+available in a systematic way.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice}
 
-`GraphicSubgroupLattice( <g> )'
+\>`GraphicSubgroupLattice( <g> )'{GraphicSubgroupLatticeXYZ}@{GraphicSubgroupLattice}
 
 `GraphicSubgroupLattice' creates a new graphic sheet containing the Hasse
 diagram of the subgroup lattice of <g>.  The next sections describe
@@ -751,7 +761,7 @@ gap> GraphicSubgroupLattice( DihedralGroup(8) );
 <graphic subgroup lattice "GraphicSubgroupLattice">
 \endtt
 
-`GraphicSubgroupLattice( <g>, <width>, <height> )'
+\>`GraphicSubgroupLattice( <g>, <width>, <height> )'{GraphicSubgroupLatticeXYZZ}@{GraphicSubgroupLattice}
 
 In this form `GraphicSubgroupLattice' creates a graphic sheet of initial
 dimensions <width> times <height>.  However it is still possible to change
@@ -859,20 +869,21 @@ The ``GAP'' menu will  be pulled down if  you place the pointer inside  the
 choose an entry by moving the pointer on  top of this entry.  Release the
 mouse button to select an entry.
 
-\beginitems
-`save as postscript' &
+\>`save as postscript'{save as postscript}
+
 Selecting this entry pops up a file  selector.  If you  enter a file name
 and click on <OK>, this will save a  description of the graphic sheet and
 graphic objects on  the sheet as encapsulated postscript  output. This
 output should be imported easily into other documents.
 
-`close graphic sheet' &
+\>`close graphic sheet'{close graphic sheet}
+
 This entry will close the current graphic sheet and the window containing
 the sheet  and all  ``Information'' menus related  to  this sheet.  On some
 window system or using  some window manager the window  itself has also a
 close button or menu entry.  However,  using the window close method will
 not close associated ``Information'' menus.
-\enditems
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Poset Menu}
@@ -886,12 +897,13 @@ This menu is a generic menu for any graphic poset and is not specific to
 subgroup lattices. So you find here options for the handling of general
 posets. 
 
-\beginitems
-`Redraw' &
+\>`Redraw'{Redraw}
+
   The whole lattice will be redrawn. Use this option if some manipulation
   has disturbed the window.
   
-`Show Levels' & 
+\>`Show Levels'{Show Levels}
+
   If this menu entry is activated (after clicking it will have a small
   check sign at its right, clicking again deactivates it), there will be a
   little blue box under each level at the left edge of the graphic
@@ -901,12 +913,14 @@ posets.
   subgroups you can move levels by moving the corresponding blue box with
   pressed <SHIFT> button.
   
-`Show Levelparameters' &
+\>`Show Levelparameters'{Show Levelparameters}
+
   This menu entry controls the display of the level parameters at the right 
   edge of the graphic sheet. Normally these are displayed but you can
   switch it off with this menu entry.
 
-`Delete Vertices' &
+\>`Delete Vertices'{Delete Vertices}
+
   Selecting the entry will delete all selected vertices. All edges from or
   to one of these are also deleted. However, inclusion information is
   preserved. This means that new edges are created from all vertices which
@@ -914,51 +928,61 @@ posets.
   vertex was maximal. So you get the Hasse diagram of the poset which is
   the restriction of the former one to the not selected vertices.
 
-`Delete Edge' &
+\>`Delete Edge'{Delete Edge}
+
   This menu entry is normally not selectable because it would destroy the
   Hasse diagram.
   
-`Merge Classes' & 
+\>`Merge Classes'{Merge Classes}
+
   This menu entry merges all classes within each level that contain a
   selected vertex. Afterwards `RearrangeClasses' (see below) is performed.
   Use `Merge Classes' to unite classes within a level.
 
-`Magnify Lattice' & 
+\>`Magnify Lattice'{Magnify Lattice}
+
   Selecting the entry will multiply the dimensions of the graphic sheet by
   the square root of $2$ and enlarge the lattice accordingly.
 
-`Shrink Lattice' &
+\>`Shrink Lattice'{Shrink Lattice}
+
   Selecting  the entry will divide the  dimensions  of the graphic sheet by 
   the square root of $2$ and shrink the lattice accordingly.
 
-`Resize Lattice' &
+\>`Resize Lattice'{Resize Lattice}
+
 Selecting this entry will pop up a dialog box asking for an x and y factor
 separated by a comma.  You can enter integers or quotients. If you enter
 only one number this is used for x and y.  The graphic sheet is then
 enlarged or shrinked and the lattice is resized accordingly.
 
-`Resize Sheet' &
+\>`Resize Sheet'{Resize Sheet}
+
 This  entry is similar to `Resize  Lattice' except that  only the graphic
 sheet is changed, the lattice remains unchanged. The numbers you enter must 
 be integers and mean pixel numbers.
 
-`Change Labels' &
+\>`Change Labels'{Change Labels}
+
 Selecting  this entry will pop  up a dialog  box for each selected vertex
 asking for a new label.  Clicking on <CANCEL>  will cancel the relabeling
 of the remaining vertices but will not reset the already changed labels.
 
-`Average Y Positions' &
+\>`Average Y Positions'{Average Y Positions}
+
 Selecting this entry will average the y coordinates of all vertices
 belonging to the same level. For graphic subgroup lattices this means all
 subgroups with the same index in the whole group.
 
-`Average X Positions' &
+\>`Average X Positions'{Average X Positions}
+
 Selecting this entry  will  average the x   coordinates  of two or   more
 selected vertices.  This will only work if the corresponding subgroups do
 not have the same size and is used to align certain vertices
 vertically.
 
-`Rearrange Classes' \label{Rearrange Classes} &
+\>`Rearrange Classes'{Rearrange Classes}
+
 Selecting this entry will clean up all classes which contain a selected
 vertex. You need this option if you have moved a vertex without its class
 (holding down the <SHIFT> key). The vertices in a class are arranged one
@@ -967,9 +991,10 @@ coordinates. So you can permute the vertices within a class carelessly and
 then again get a nice picture with the new order by selecting this menu
 entry.
 
-`Use Black\&White' &
+\>`Use Black\&White'{Use BlackWhite}@{Use Black\&White}
+
 Switches to black and white in case of a color screen or back to colors.
-\enditems
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \Section{GraphicSubgroupLattice, Subgroups Menu}
@@ -990,112 +1015,131 @@ The following descriptions do not apply to the case of finitely presented
 groups. See "GraphicSubgroupLattice for FpGroups, Subgroups Menu" for this
 case. 
 
-\beginitems `All Subgroups' & 
+\>`All Subgroups'{All Subgroups}
+
 For each selected vertex `All Subgroups' computes and displays all its
 subgroups. Requires at least one selected vertex. Use with care! This can
 cause huge computations!  See also "ref:LatticeSubgroups" in the {\GAP}
 reference manual.
 
-`Centralizers' &
+\>`Centralizers'{Centralizers}
+
 For each selected vertex `Centralizers' computes and displays its
 centralizer with respect to the whole group.  Requires at least one
 selected vertex.  See also "ref:Centralizer" in the {\GAP}
 reference manual.
 
-`Centres' &
+\>`Centres'{Centres}
+
 For each selected vertex `Centres' computes and displays its centre.
 Requires at least one selected vertex. See also "ref:Centre" in the {\GAP}
 reference manual.
 
-`Closure' & 
+\>`Closure' {Closure}
+
 computes and displays the common closure of the selected vertices.
 Requires at least one selected vertex. See also "ref:ClosureGroup" in the
 {\GAP} reference manual.
 
-`Closures' &
+\>`Closures'{Closures}
+
 computes and displays the closure of each pair of selected vertices.
 Requires at least two selected vertices. See also "ref:ClosureGroup" in the
 {\GAP} reference manual.
 
-`Commutator Subgroups' &
+\>`Commutator Subgroups'{Commutator Subgroups}
+
 computes and displays  the commutator  subgroup of each pair of selected
 vertices.    Requires  at  least    two   selected  vertices. See    also
 "ref:CommutatorSubgroup" in the {\GAP}
 reference manual.
 
-`Conjugate Subgroups' &
+\>`Conjugate Subgroups'{Conjugate Subgroups}
+
 computes and displays the conjugacy  class (with  respect to the  whole
 group) of each  selected vertex.  Requires  at least one selected vertex.
 See also "ref:ConjugacyClass" in the {\GAP}
 reference manual.
 
-`Cores' &
+\>`Cores'{Cores}
+
 For each selected vertex `Cores' computes and displays its core with
 respect to the whole group.  Requires at least one selected vertex. See
 also "ref:Core" in the {\GAP}
 reference manual.
 
-`Derived Series' &
+\>`Derived Series'{Derived Series}
+
 For   each  selected vertex  `Derived  Series'  computes and displays its
 derived series.   Requires  at   least  one selected vertex.    See  also
 "ref:DerivedSeriesOfGroup" in the {\GAP}
 reference manual.
 
-`Derived Subgroups' &
+\>`Derived Subgroups'{Derived Subgroups}
+
 For each selected vertex `Derived Subgroups' computes and displays its
 derived subgroup.  Requires at least one selected vertex.  See also
 "ref:DerivedSubgroup" in the {\GAP}
 reference manual.
 
-`Fitting Subgroups' &
+\>`Fitting Subgroups'{Fitting Subgroups}
+
 For each selected vertex `Fitting Subgroups' computes and displays its
 Fitting subgroup.  Requires at least one selected vertex.  See also
 "ref:FittingSubgroup" in the {\GAP}
 reference manual.
 
-`Intermediate Subgroups' &
+\>`Intermediate Subgroups'{Intermediate Subgroups}
+
 computes and displays all intermediate subgroups between two selected
 groups. Requires exactly two selected vertices. See also
 "ref:IntermediateSubgroups" in the {\GAP}
 reference manual. 
 
-`Intersection' &
+\>`Intersection'{Intersection}
+
 computes and displays the common intersection of the selected vertices.
 Requires at least one selected vertex.  See also "ref:Intersection" in the
 {\GAP} reference manual.
 
-`Intersections' &
+\>`Intersections'{Intersections}
+
 For each pair of selected vertices `Intersections' computes and displays
 the intersection of the two vertices.  Requires at least two selected
 vertices.  See also "ref:Intersection" in the {\GAP}
 reference manual.
 
-`Normalizers' &
+\>`Normalizers'{Normalizers}
+
 For each selected vertex `Normalizers' computes and displays its normalizer
 with respect to the whole group.  Requires at least one selected vertex.
 See also "ref:Normalizer" in the {\GAP}
 reference manual.
 
-`Normal Closures' &
+\>`Normal Closures'{Normal Closures}
+
 For each selected vertex `Normal Closure' computes and displays its normal
 closure with respect to the whole group.  Requires at least one selected
 vertex.  See also "ref:NormalClosure" in the {\GAP}
 reference manual.
 
-`Normal Subgroups' &
+\>`Normal Subgroups'{Normal Subgroups}
+
 For   each selected vertex `Normal  Subgroups'  computes and displays the
 normal subgroups of the subgroup associated  with this vertex.  These new
 subgroups are not  necessarily  normal in the  whole  group.  Requires at
 least one selected vertex.  See also "ref:NormalSubgroups" in the {\GAP}
 reference manual.
 
-`Sylow Subgroups' &
+\>`Sylow Subgroups'{Sylow Subgroups}
+
 pops  up a dialog  box asking   for a prime.   After entering  a  prime $p$ 
 and pressing  <return> or  clicking  <OK> it computes   and displays  a Sylow
 $p$-subgroup  for   each selected vertex.  Requires   at   least one selected
 vertex.  See also "ref:SylowSubgroup" in the {\GAP}
 reference manual.
-\enditems
+
+\bigskip
 
 These menu entries represent only a small selection of the functions of
 {\GAP} which the authors of {\XGAP} considered most frequently used. You
@@ -1117,44 +1161,49 @@ the text  lines will compute  the corresponding  property of the subgroup
 $u$ associated  with  this vertex.  Clicking   on <all> will  compute all
 properties, clicking on <close> will close the ``Information'' menu.
 
-\beginitems
-`Size' &
+\>`Size'{Size}
+
 computes and displays the size of $u$.  See also "ref:Size" in the
 {\GAP} reference manual.
 
-`Index' &
+\>`Index'{IndexFG}@{Index}
+
 computes and displays the  index  of $u$ in   the whole group.  See  also
 "ref:IndexInWholeGroup" in the {\GAP} reference manual.
 %FIXME: eigentlich ref:Index, der ist aber falsch!
 
-`IsAbelian' &
+\>`IsAbelian'{IsAbelian}
 
-`IsCyclic' &
+\>`IsCyclic'{IsCyclic}
 
-`IsNilpotent' &
+\>`IsNilpotent'{IsNilpotent}
 
-`IsPerfect' &
+\>`IsPerfect'{IsPerfect}
 
-`IsSimple' &
+\>`IsSimple'{IsSimple}
 
-`IsSolvable' &
+\>`IsSolvable'{IsSolvable}
+
 computes and displays the corresponding property of $u$.  See also
 "ref:IsAbelian", "ref:IsCyclic", "ref:IsNilpotentGroup", "ref:IsPerfectGroup",
 "ref:IsSimpleGroup", and "ref:IsSolvableGroup"  in the {\GAP}
 reference manual.
 
-`IsCentral' &
+\>`IsCentral'{IsCentral}
 
-`IsNormal' &
+\>`IsNormal'{IsNormal}
+
 computes and displays the corresponding  property of $u$ with respect  to
 the whole group.  See also "ref:IsCentral" and "ref:IsNormal" in the {\GAP}
 reference manual.
 
-`Isomorphism' &
+\>`Isomorphism'{Isomorphism}
+
 computes and displays  the isomorphism type of  $u$.  This will only work
 if the size of $u$ is small.  See "ref:IdGroup"  in the {\GAP}
 reference manual for details.
-\enditems
+
+\bigskip
 
 Note that the exact result of all these information displays is stored in
 the global variable `LastResultOfInfoDisplay' after each operation. So you
@@ -1195,17 +1244,20 @@ can access this easily from the {\GAP} command prompt.
 
 The following vertex shapes can appear in an interactive lattice:
 
-\beginitems
-`circle' &
+\>`circle'{circleVS}@{circle}
+
   Subgroup is not normal in whole group.
 
-`diamond' &
+\>`diamond'{diamondVS}@{diamond}
+
   Subgroup is normal in whole group.
 
-`rectangle' &
+\>`rectangle'{rectangleVS}@{rectangle}
+
   Subgroup has an index that is too big for automatic calculation of
   normality. So it is not yet known whether this group is normal.
-\enditems
+
+\bigskip
 
 Automatic calculation is controlled by the following variable:
 
@@ -1230,8 +1282,8 @@ also be short information message in the {\GAP} window about the result.
 In  the following descriptions, we  use ``vertices'' as abbreviation for
 ``subgroups associated with vertices''.
 
-\beginitems
-`Abelian Prime Quotient' &
+\>`Abelian Prime Quotient'{Abelian Prime Quotient}
+
 pops  up a dialog  box asking  for a  prime  $p$.  It  then computes  and
 displays the largest elementary   abelian  $p$ quotient of  the  selected
 vertex.  If no presentation for the  subgroup associated to the vertex is
@@ -1240,26 +1292,40 @@ algorithm.     It then calls    `PrimeQuotient' to   compute  the largest
 elementary abelian quotient.  `Abelian PrimeQuotient' requires exactly one
 selected vertex. 
 
-`All Overgroups' &
+\>`All Overgroups'{All Overgroups}
+
 computes and displays all overgroups  of the selected vertex.  It  first
 computes the permutation action of the whole  group on the cosets of the
 subgroup associated with  the selected vertex and  then searches  for all
 block systems.  `All Overgroups' requires exactly one selected vertex.
 
-`Conjugacy Class' &
+\>`Compare Subgroups'{Compare Subgroups}
+
+Exactly two vertices must be selected to choose this menu entry. The
+subgroups belonging to these vertices are compared, and the inclusion
+information is displayed in the lattice. It may happen that the two
+vertices are merged if {\GAP} notices, that the subgroups are
+equal. It is not yet possible to trigger the comparison of more than
+two subgroups at once, but it is planned to implement this feature.
+
+\>`Conjugacy Class'{Conjugacy Class}
+
 computes and  displays  the   conjugacy  class of  the   selected vertex.
 `Conjugacy Class' requires  exactly  one selected vertex.  
 
-`Cores' &
+\>`Cores'{CoresFp}@{Cores}
+
 computes and  displays the cores  of the selected vertices.   `Cores'
 requires at least one selected vertex.
 
-`Derived Subgroups' &
+\>`Derived Subgroups'{Derived SubgroupsFp}@{Derived Subgroups}
+
 computes and displays the derived subgroups of the selected vertices.  It
 will  only  display  those derived    subgroups  whose index is   finite.
 `Derived Subgroups' requires at least one selected vertex.
 
-`Epimorphisms (GQuotients)' &
+\>`Epimorphisms (GQuotients)'{Epimorphisms (GQuotients)}
+
 pops up another menu. Requires exactly one selected vertex.
 
 \begintt
@@ -1296,11 +1362,13 @@ In case that the image of the epimorphism is a permutation group you can
 get this functionality by clicking on <display point stabilizer> instead of 
 <display>. 
 
-`Intersections' &
+\>`Intersections'{IntersectionsFp}@{Intersections}
+
 computes and   displays   the pairwise   intersections  of  the  selected
 vertices.  `Intersections' requires at least two selected vertices.
 
-`Low Index Subgroups' &
+\>`Low Index Subgroups'{Low Index Subgroups}
+
 pops up a dialog box asking for index  limit $k$.  It  will then do a low
 index subgroup search for  subgroups of index at  most $k$ of the selected
 vertex using `LowIndexSubgroupsFpGroup'.    If no  presentation  for  the
@@ -1308,18 +1376,21 @@ subgroup   associated to  the vertex  is  known a  presentation  is first
 computed using a  modified  Todd-Coxeter algorithm. `Low Index Subgroups'
 requires  exactly one selected vertex.
 
-`Normalizers' &
+\>`Normalizers'{NormalizersFp}@{Normalizers}
+
 computes and displays the normalizers of the selected vertices.
 `Normalizers' requires at least one selected vertex.
 
-`Prime Quotient' &
+\>`Prime Quotient'{Prime Quotient}
+
 pops up a dialog box asking for a prime $p$ and another dialog box asking
 for a class $c$.  It then  computes and displays the largest $p$-quotient
 of class $c$ of the selected vertex.  If no presentation for the subgroup
 associated to the vertex is known a  presentation is first computed using
 a   modified  Todd-Coxeter algorithm.   It    then calls `PrimeQuotient'.
 `Prime Quotient' requires exactly one selected vertex.
-\enditems
+
+\bigskip
 
 These menu entries represent only a small selection of the functions of
 {\GAP} which the authors of {\XGAP} considered most frequently used. You
@@ -1338,34 +1409,42 @@ the text  lines will compute the corresponding   property of the subgroup
 $u$  associated  with this  vertex. Clicking  on <close>  will  close the
 ``Information'' menu.  Let $s$ be the graphic sheet.
 
-\beginitems
-`Index' &
+\>`Index'{IndexFp}@{Index}
+
 displays  the index of  $u$ in the whole  group.
 
-`IsNormal' &
+\>`IsNormal'{IsNormalFp}@{IsNormal}
+
 checks  if $u$ is  normal  in the  whole group.
 
-`IsFpGroup' &
-checks if $u$ is a finitely presented group. Note that a subgroup of a
-finitely presented group that is defined by a coset table or as kernel of
-an epimorphism is *not* itself a finitely presented group. This means, that 
-certain algorithms can not be applied. Use `IsomorphismFpGroup' (see
-"ref:IsomorphismFpGroup" in the {\GAP} reference manual) to calculate a
-finitely presented group and an isomorphism onto it.
+\>`IsFpGroup'{IsFpGroup}
 
-`Abelian Invariants' &
+checks if $u$ is a finitely presented group. Note that a subgroup of a
+finitely presented group that is defined by a coset table or as kernel
+of an epimorphism is *not* automatically known to {\GAP} as a finitely
+presented group. This means, that certain algorithms can not be
+applied. Use `IsomorphismFpGroup' (see "ref:IsomorphismFpGroup" in the
+{\GAP} reference manual) to calculate a finitely presented group and
+an isomorphism onto it, if some calculation does not work automatically.
+
+\>`Abelian Invariants'{Abelian Invariants}
+
 computes  and  displays  the  abelian invariants  of  $u$.
 
-`Coset Table' &
+\>`Coset Table'{Coset Table}
+
 computes   a   coset table for   $u$.
 
-`IsomorphismFpGroup' &
+\>`IsomorphismFpGroup'{IsomorphismFpGroup}
+
 computes a finitely presented group that is isomorphic to $u$ and displays
 the number of generators and relators of it.
 
-`Factor Fp Group' &
+\>`Factor Fp Group'{Factor Fp Group}
+
 computes the factor group  of the whole group by $u$, if $u$ is normal.
-\enditems
+
+\bigskip
 
 Note that the exact result of all these information displays is stored in
 the global variable `LastResultOfInfoDisplay' after each operation. So you
