@@ -4,7 +4,7 @@ dnl ## check for a unique program in the source directory
 dnl ##
 
 AC_INIT(xgap.c)
-AC_CONFIG_AUX_DIR(../../../cnf)
+AC_CONFIG_AUX_DIR(../../cnf)
 
 
 dnl #########################################################################

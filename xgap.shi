@@ -3,11 +3,16 @@
 ##
 #A  xgap                        XGAP source                      Frank Celler
 ##
-#H  @(#)$Id: xgap.shi,v 1.1 1999/07/01 14:07:28 ahulpke Exp $
+#H  @(#)$Id: xgap.shi,v 1.2 2003/05/17 13:24:38 gap Exp $
 ##
 #Y  Copyright (C) 1998,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
 #H  $Log: xgap.shi,v $
+#H  Revision 1.2  2003/05/17 13:24:38  gap
+#H  Add autoconf files to CVS. Do no longer rely on those in GAP's ../../cnf.
+#H  Slight changes in startup script.
+#H    Max.
+#H
 #H  Revision 1.1  1999/07/01 14:07:28  ahulpke
 #H  `xgap.sh' is now built by `configure/make'.
 #H
@@ -301,11 +306,13 @@ fi
 ##
 #F  XGAP  . . . . . . . . . . . . . . . . . . . . . . . . . . . .  start XGAP
 ##
+XGAP=$XGAP_DIR/pkg/xgap/bin/$XGAP_PRG
+GAP=$GAP_DIR/bin/$GAP_PRG
+                                                                                
 if [ $DAEMON = "YES" ];  then
-  $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
-                                   -l $LIBARG -m $GAP_MEM $GP &
+  $XGAP -G $GAP $XP -- -l $LIBARG -m $GAP_MEM $GP &
 else
-  $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG -G $GAP_DIR/bin/$GAP_PRG $XP -- \
-                                   -l $LIBARG -m $GAP_MEM $GP
+  $XGAP -G $GAP $XP -- -l $LIBARG -m $GAP_MEM $GP
 fi
+
 exit 0

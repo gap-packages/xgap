@@ -8,7 +8,7 @@ if test -z "$MAKE";  then
 AC_MSG_ERROR([cannot find make])
 fi
 AC_SUBST(gp_configure_options)
-AC_CONFIG_AUX_DIR(../../cnf)
+AC_CONFIG_AUX_DIR([cnf])
 AC_CANONICAL_SYSTEM
 AC_PROG_CC
 AC_PROG_MAKE_SET

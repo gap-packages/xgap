@@ -1,4 +1,4 @@
-$Id: Changelog.r17,v 1.1 2003/05/17 12:05:29 gap Exp $
+$Id: Changelog.r17,v 1.2 2003/05/17 13:24:37 gap Exp $
 
 This file describes the changes from xgap4r16 to xgap4r17:
 
@@ -13,3 +13,9 @@ This file describes the changes from xgap4r16 to xgap4r17:
  * The global variable 'last' is set in init.g to make the XGAP package
    autoloadable.
 
+ * Changes in the autoconf usage: All files are now here.
+   No more referring to ../../cnf from main GAP.
+
+ * Slight changes in the startup shell script.
+
+ * Display of MBytes instead of KBytes.
