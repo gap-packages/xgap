@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-*A  gaptext.c                 	XGAP source	                 Frank Celler
+*W  gaptext.c                 	XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: gaptext.c,v 1.1 1997/11/25 15:52:39 frank Exp $
+*H  @(#)$Id: gaptext.c,v 1.2 1997/11/27 10:59:18 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
@@ -12,6 +12,9 @@
 **  work with X11R5 and X11R6.
 **
 *H  $Log: gaptext.c,v $
+*H  Revision 1.2  1997/11/27 10:59:18  frank
+*H  possible fix for OpenWindows problem
+*H
 *H  Revision 1.1  1997/11/25 15:52:39  frank
 *H  first attempt at XGAP for GAP 4
 *H
@@ -603,7 +606,11 @@ GapTextClassRec gapTextClassRec =
     /* num_resource       */    XtNumber(GapTextResources),
     /* xrm_class          */    NULLQUARK,
     /* compress_motion    */    TRUE,
+#if HAVE_BROKEN_TEXT_EXPORE_COMPRESS
+    /* compress_exposure  */    XtExposeNoCompress,
+#else
     /* compress_exposure  */    XtExposeGraphicsExpose | XtExposeNoExpose,
+#endif
     /* compress_enterleave*/	TRUE,
     /* visible_interest   */    FALSE,
     /* destroy            */    GapTextDestroy,

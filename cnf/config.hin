@@ -114,3 +114,12 @@
 
 /* define as 1 if <RTSIGTYPE> is void                                      */
 #define HAVE_SIGNAL_VOID        0
+
+
+/****************************************************************************
+**
+*D  check for XWindows features
+*/
+
+/* define as 1 if your OpenWindows does not deal with compressed exposures */
+#define HAVE_BROKEN_TEXT_EXPORE_COMPRESS	0

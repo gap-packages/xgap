@@ -1,12 +1,15 @@
 /****************************************************************************
 **
-*A  xgap.c                      XGAP Source                      Frank Celler
+*W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.1 1997/11/25 15:52:55 frank Exp $
+*H  @(#)$Id: xgap.c,v 1.2 1997/11/27 10:59:20 frank Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 **
 *H  $Log: xgap.c,v $
+*H  Revision 1.2  1997/11/27 10:59:20  frank
+*H  possible fix for OpenWindows problem
+*H
 *H  Revision 1.1  1997/11/25 15:52:55  frank
 *H  first attempt at XGAP for GAP 4
 *H
