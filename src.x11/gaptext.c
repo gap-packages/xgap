@@ -2,7 +2,7 @@
 **
 *W  gaptext.c                 	XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: gaptext.c,v 1.4 1999/03/22 20:54:58 gap Exp $
+*H  @(#)$Id: gaptext.c,v 1.5 2000/11/22 15:41:17 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -915,9 +915,9 @@ GapSrcClassRec gapSrcClassRec =
     /* extension                */      NULL
   },
   { /* textSrc_class fields     */
-    /* Read                     */      (_XawTextPositionFunc)GapSrcReadText,
-    /* Replace                  */      (_XawIntFunc) GapSrcReplaceText,
-    /* Scan                     */      (_XawTextPositionFunc) GapSrcScan,
+    /* Read                     */      (XawTextPosition (*)())GapSrcReadText,
+    /* Replace                  */      (int (*)()) GapSrcReplaceText,
+    /* Scan                     */      (XawTextPosition (*)()) GapSrcScan,
     /* Search                   */      XtInheritSearch,
     /* SetSelection             */      XtInheritSetSelection,
     /* ConvertSelection         */      XtInheritConvertSelection
