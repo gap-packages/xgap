@@ -2,14 +2,14 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.6 1999/01/17 23:45:50 gap Exp $
+#H  @(#)$Id: gobject.gd,v 1.7 1999/01/18 22:48:22 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.6 1999/01/17 23:45:50 gap Exp $";
+    "@(#)$Id: gobject.gd,v 1.7 1999/01/18 22:48:22 gap Exp $";
 
 #############################################################################
 #1
@@ -25,7 +25,7 @@ Revision.pkg_xgap_lib_gobject_gd :=
 ##  that if for example the position of a vertex is changed, the line which 
 ##  makes the connection to some other vertex is also changed automatically.
 ##  For every graphic object there is a constructor which has the same name 
-##  than the graphic object (e.g. `Box' is the contructor for boxes).
+##  than the graphic object (e.g. `Box' is the constructor for boxes).
 ##  
 
 
@@ -407,9 +407,9 @@ DeclareOperation( "Text",
 ##  If a record <defaults> is given and contains a component `label' with a
 ##  string value <label> this is used for the label. In addition this record
 ##  is forwarded to the constructors of the circle and the label, such that
-##  defaults for those subobjects like color can be controled.
+##  defaults for those subobjects like color can be controlled.
 ##
-##  Note that the highlightning status of a vertex normally changes the line
+##  Note that the highlighting status of a vertex normally changes the line
 ##  width and the color of a vertex!
 ##
 ##  See "table of operations for graphic objects" for a list of operations
@@ -459,12 +459,12 @@ DeclareOperation( "Disconnect",
 
 #############################################################################
 ##
-#O  Highlight( <vertex> ) . . . . . . . switch highlightning status of vertex
-#O  Highlight( <vertex>, <flag> ) . . . switch highlightning status of vertex
+#O  Highlight( <vertex> ) . . . . . . .  switch highlighting status of vertex
+#O  Highlight( <vertex>, <flag> ) . . .  switch highlighting status of vertex
 ##
-##  In the first form this operation switches the highlightning status of a
+##  In the first form this operation switches the highlighting status of a
 ##  vertex to ON. In the second form the <flag> decides about ON or OFF.
-##  Highlightning normally means a thicker line width and a change in color.
+##  Highlighting normally means a thicker line width and a change in color.
 ##
 DeclareOperation( "Highlight", 
         [ IsGraphicObject, IsBool ] );

@@ -2,14 +2,14 @@
 ##
 #W  poset.gd                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gd,v 1.6 1999/01/17 23:45:50 gap Exp $
+#H  @(#)$Id: poset.gd,v 1.7 1999/01/18 22:48:22 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for graphs and posets
 ##
 Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gd,v 1.6 1999/01/17 23:45:50 gap Exp $";
+    "@(#)$Id: poset.gd,v 1.7 1999/01/18 22:48:22 gap Exp $";
 
 
 #############################################################################
@@ -124,7 +124,7 @@ fi;
 ##    ChooseLevel for the levelparam, and
 ##    ChooseClass for the classparam.
 ##    ChooseWidth for the line width of the vertex
-##  Returns fail no vertex was created. This happens only, if one of the
+##  Returns fail if no vertex was created. This happens only, if one of the
 ##  choose functions return fail or no possible value, for example a
 ##  non-existing level or class parameter.
 ##  Returns vertex object if everything went well. 
@@ -337,10 +337,10 @@ fi;
 
 #############################################################################
 ##
-#O  Highlight(<graph>,<vertex>)  . . . . . . . change highlightning of vertex
-#O  Highlight(<graph>,<vertex>,<flag>) . . . . change highlightning of vertex
+#O  Highlight(<graph>,<vertex>)  . . . . . . .  change highlighting of vertex
+#O  Highlight(<graph>,<vertex>,<flag>) . . . .  change highlighting of vertex
 ##
-##  Changes the highlightning status of a vertex. <vertex> must be a vertex
+##  Changes the highlighting status of a vertex. <vertex> must be a vertex
 ##  object in <graph>. For the method where no flag is specified the new status
 ##  is chosen functionally: ChooseHighlight is called for the corresponding 
 ##  data. Returns fail if an error occurs and true otherwise. This operation
@@ -671,7 +671,7 @@ fi;
 #O  Vertices(<poset>,<levelparam>,<classparam>)  . . . . . . returns vertices
 ##
 ##  Returns the list of vertices in class classparams in level
-##  levelparam. Returns fail no level with paramter <levelparam> or no
+##  levelparam. Returns fail if no level with parameter <levelparam> or no
 ##  class with parameter <classparam> in the level.
 ##
 if IsBound(Vertices) then if not IsOperation(Vertices) then
@@ -736,7 +736,7 @@ fi;
 #O  Menu(<graph>,<title>,<entrylist>,<typelist>,<functionslist>) . . new menu
 ##
 ##  This operation already exists in xgap for GraphicSheets.
-##  Builts a new Menu but with information about the type of the menu entry.
+##  Builds a new Menu but with information about the type of the menu entry.
 ##  This information describes the relation between the selection state of
 ##  the vertices and the parameters supplied to the functions. The following 
 ##  types are supported:
