@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.11 2002/04/14 18:56:29 gap Exp $
+*H  @(#)$Id: xgap.c,v 1.12 2003/05/17 13:17:27 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -585,7 +585,7 @@ void UpdateMemoryInfo ( type, val )
             XtVaSetValues( LabelLiveKB, XtNlabel, tmp, NULL );
 	    break;
 	case 6:
-            sprintf( tmp, "KBytes total: %-4d ", val/1024 );
+            sprintf( tmp, "MBytes total: %-4d ", val/1024 );
             XtVaSetValues( LabelTotalKBytes, XtNlabel, tmp, NULL );
 	    break;
     }
