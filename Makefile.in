@@ -2,7 +2,7 @@
 ##
 #W  Makefile                    GAP source                       Frank Celler
 ##
-#H  @(#)$Id: Makefile.in,v 1.6 2011/11/24 11:47:03 gap Exp $
+#H  @(#)$Id: Makefile.in,v 1.7 2011/11/24 11:49:43 gap Exp $
 ##
 #Y  Copyright (C)  1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 ##
@@ -42,7 +42,7 @@ bin/$(GAParch)/configure: cnf/configure.out
 	cp cnf/configure.out bin/$(GAParch)/configure
 
 bin/$(GAParch)/Makefile: bin/$(GAParch)/configure cnf/config.hin
-	( cd bin/$(GAParch) ; CC=$(CC) ./configure --target=@target@ @gp_configure_options@ )
+	( cd bin/$(GAParch) ; CC=$(CC) ./configure @gp_configure_options@ )
 
 compile: bin/$(GAParch)/configure bin/$(GAParch)/Makefile
 	( cd bin/$(GAParch) ; $(MAKE) CC=$(CC) )
