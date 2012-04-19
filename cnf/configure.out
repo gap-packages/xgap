@@ -5336,7 +5336,7 @@ fi
 
 
 if test "$have_x" != yes;  then
-  as_fn_error $? "XGAP needs XWindows X11R5 or better" "$LINENO" 5
+    as_fn_error $? "XGAP needs XWindows X11R5 or better including the development files like header files, usually you can install these using the package manager of your operating system and install a xlib-dev package or so" "$LINENO" 5
 fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for broken exposure compress in open windows" >&5
