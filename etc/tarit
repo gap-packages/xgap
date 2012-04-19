@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Shell-Script to tar the distribution of xgap
 # This should be called right after the checkout and after making the
 # documentation and html files without compiled versions in the current

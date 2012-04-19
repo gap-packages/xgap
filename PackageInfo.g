@@ -13,18 +13,18 @@ PackageName := "XGAP",
 Subtitle := "a graphical user interface for GAP",
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "4.21",
+Version := "4.22",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 # 
-Date := "22/05/2004",
+Date := "19/04/2012",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name *must be changed* with each version of the archive
 ##  (and probably somehow contain the package name and version).
 # 
-ArchiveURL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/xgap4r21",
+ArchiveURL := "http://www-groups.mcs.st-and.ac.uk/~neunhoef/Computer/Software/Gap/xgap4/xgap-4.22",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
@@ -40,7 +40,7 @@ ArchiveURL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/xgap4r21",
 ##  a convenient installation and upgrading on Linux systems.
 ##  
 # ArchiveFormats := ".tar.bz2", # the others are generated automatically
-ArchiveFormats := ".zoo",
+ArchiveFormats := ".tar.gz",
 
 ##  If not all of the archive formats mentioned above are provided, these 
 ##  can be produced at the GAP side. Therefore it is necessary to know which
@@ -156,8 +156,8 @@ AcceptDate := "07/1999",
 ##  the updating of package information on the GAP Website, and inclusion
 ##  and updating of the package in the GAP distribution.
 #
-README_URL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/README",
-PackageInfoURL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/PackageInfo.g",
+README_URL := "http://www-groups.mcs.st-and.ac.uk/~neunhoef/Computer/Software/Gap/xgap4/README",
+PackageInfoURL := "http://www-groups.mcs.st-and.ac.uk/~neunhoef/Computer/Software/Gap/xgap4/PackageInfo.g",
 
 ##  Here you  must provide a short abstract explaining the package content 
 ##  in HTML format (used on the package overview Web page) and an URL 
@@ -172,7 +172,7 @@ PackageInfoURL := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4/Package
 AbstractHTML := 
   "The <span class=\"pkgname\">XGAP</span> package allows to use graphics in GAP.",
 
-PackageWWWHome := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer/xgap4",
+PackageWWWHome := "http://www-groups.mcs.st-and.ac.uk/~neunhoef/Computer/Software/Gap/xgap4.html",
                   
 ##  On the GAP Website there is an online version of all manuals in the
 ##  GAP distribution. To handle the documentation of a package it is
@@ -214,11 +214,11 @@ PackageDoc := rec(
 Dependencies := rec(
   # GAP version, use version strings for specifying exact versions,
   # prepend a '>=' for specifying a least version.
-  GAP := ">=4.3",
+  GAP := ">=4.4",
   # list of pairs [package name, (least) version],  package name is case
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load
-  # NeededOtherPackages := [["GAPDoc", ">= 0.99"]],
+  # NeededOtherPackages := [["GAPDoc", ">= 1.0"]],
   NeededOtherPackages := [],
   # without these the package will issue a warning while loading
   # SuggestedOtherPackages := [],
