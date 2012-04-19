@@ -2,14 +2,14 @@
 ##
 #W  window.g                    XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.11 2003/05/20 13:11:08 gap Exp $
+#H  @(#)$Id: window.g,v 1.12 2012/04/19 13:32:27 neunhoef Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 Revision.pkg_xgap_lib_window_g :=
-    "@(#)$Id: window.g,v 1.11 2003/05/20 13:11:08 gap Exp $";
+    "@(#)$Id: window.g,v 1.12 2012/04/19 13:32:27 neunhoef Exp $";
 
 
 #############################################################################
@@ -351,16 +351,18 @@ BindGlobal( "HELP_PRINT_LINES_XGAP", function(lines)
   
   local l,font,h,i,HELP_XGAP_SHEET;
 
+  if IsRecord(lines) then
+      lines := lines.lines;
+  fi;
   if IsString(lines) then
       lines := SplitString(lines,"\n");
-  elif IsRecord(lines) then
-      lines := lines.lines;
   fi;
   l:=Length(lines);
   #if HELP_XGAP_SHEET=fail or not IsAlive(HELP_XGAP_SHEET.sheet) then
     font:=FontInfo(FONTS.normal);
     h:=font[1]+font[2]+1;
-  HELP_XGAP_SHEET := GraphicSheet("XGAP-Help",81*(font[3]+1),h*(l+1));
+  HELP_XGAP_SHEET := GraphicSheet("XGAP-Help",
+                                  SizeScreen()[1]*(font[3]+1),h*(l+1));
   #  HELP_XGAP_SHEET:=rec(sheet:=GraphicSheet("XGAP-Help",81*(font[3]+1),
   #                                           h*(l+1)),
   #                       l:=l,font:=font,h:=h);

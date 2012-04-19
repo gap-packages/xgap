@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.15 2012/04/19 12:41:05 neunhoef Exp $
+*H  @(#)$Id: pty.c,v 1.16 2012/04/19 13:32:27 neunhoef Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -84,7 +84,7 @@ Boolean QuitGapCtrlD = FALSE;
 **
 *V  ScreenSizeBuffer  . . . . . . . . . . . . . .  screen size change command
 */
-char ScreenSizeBuffer[128] = { 0 };
+char ScreenSizeBuffer[1024] = { 0 };
 
 
 /****************************************************************************
@@ -456,7 +456,6 @@ void ProcessStoredInput ( state )
 {
     String          ptr;
     String          free;
-    Char            ch;
     Int             len;
     static Boolean  inProgress = False;
 
