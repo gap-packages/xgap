@@ -2,7 +2,7 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.14 2011/11/24 11:44:23 gap Exp $
+*H  @(#)$Id: pty.c,v 1.15 2012/04/19 12:41:05 neunhoef Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -1466,7 +1466,7 @@ int StartGapProcess ( name, argv )
 #       else
             execv( name, (void*) argv );
 #       endif
-        write( 1, "@-", 4 );
+        if (write( 1, "@-", 2) < 2) fputs("Child: Cannot write @-", stderr);
         close(slave);
         _exit(1);
     }

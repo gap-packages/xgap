@@ -2,7 +2,7 @@
 **
 *W  pty.h                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.h,v 1.3 2011/11/24 11:44:23 gap Exp $
+*H  @(#)$Id: pty.h,v 1.4 2012/04/19 12:41:05 neunhoef Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -42,12 +42,12 @@ extern Int  CheckCaretPos( Int, Int );
 extern int  StartGapProcess( String, String argv[] );
 extern void GapOutput( XtPointer, Int*,  XtInputId );
 extern void InterruptGap( void );
-extern int  PlaybackFile ( String );
-extern int  ResumePlayback( void );
 extern void KeyboardInput( String, Int );
 extern void KillGap( void );
 extern void StoreInput( String, Int );
 extern void ProcessStoredInput( Int );
+extern int  PlaybackFile ( String );
+extern int  ResumePlayback( void );
 
 
 /****************************************************************************

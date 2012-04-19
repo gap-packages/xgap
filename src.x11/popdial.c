@@ -2,7 +2,7 @@
 **
 *W  popdial.c			XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: popdial.c,v 1.4 2011/11/24 11:44:23 gap Exp $
+*H  @(#)$Id: popdial.c,v 1.5 2012/04/19 12:41:04 neunhoef Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -82,7 +82,7 @@ static void ButtonSelected ( w, cld, cd )
     String          name;
 
     /* find name in <buttons> and set result */
-    XtVaGetValues( w, XtNlabel, &name, 0, NULL );
+    XtVaGetValues( w, XtNlabel, (XtArgVal)&name, (String)NULL );
     for ( i = 0;  i < XtNumber(buttons);  i++ )
 	if ( ! strcmp( buttons[i].name, name ) )
 	    (*res) |= buttons[i].flag;
@@ -126,25 +126,25 @@ TypePopupDialog CreatePopupDialog ( app, top, name, bt, def, pix )
     if ( BrokenWM )
         dialog->popupShell = XtVaCreatePopupShell(
                                  name, overrideShellWidgetClass,  top,
-		                 XtNallowShellResize, True,
-			         NULL );
+		                 XtNallowShellResize, (XtArgVal)True,
+			         (String)NULL );
     else
         dialog->popupShell = XtVaCreatePopupShell(
 	    		         name, transientShellWidgetClass, top,
-			         XtNallowShellResize, True,
-			         XtNtransientFor,     top,
-			         NULL );
+			         XtNallowShellResize, (XtArgVal)True,
+			         XtNtransientFor,     (XtArgVal)top,
+			         (String)NULL );
     if ( pix == 0 )
         dialog->dialog = XtVaCreateManagedWidget(
                              "xgapDialog",  dialogWidgetClass,
                              dialog->popupShell,
-                             0, NULL );
+                             (String)NULL );
     else
         dialog->dialog = XtVaCreateManagedWidget(
                              "xgapDialog",  dialogWidgetClass,
                              dialog->popupShell,
-                             XtNicon, pix,
-                             0, NULL );
+                             XtNicon, (XtArgVal)pix,
+                             (String)NULL );
     dialog->button        = bt;
     dialog->context       = app;
     dialog->defaultButton = def;
@@ -157,13 +157,13 @@ TypePopupDialog CreatePopupDialog ( app, top, name, bt, def, pix )
 		dialog->buttons[i] = XtVaCreateManagedWidget(
 			    buttons[i].name, commandWidgetClass,
 			    dialog->dialog, 
-			    XtNleftBitmap, symbol,
-			    0, NULL );
+			    XtNleftBitmap, (XtArgVal)symbol,
+			    (String)NULL );
 	    else
 		dialog->buttons[i] = XtVaCreateManagedWidget(
 			    buttons[i].name, commandWidgetClass,
 			    dialog->dialog, 
-			    0, NULL );
+			    (String)NULL );
 	    XtAddCallback( dialog->buttons[i],
 			   XtNcallback,
 			   ButtonSelected,
@@ -227,13 +227,13 @@ Int PopupDialog ( dialog, message, deflt, result )
 		   XtNvalue,    "                      ",
 		   0,           0 );*/
     XtVaSetValues( dialog->dialog,
-		   XtNlabel, 	message,
-		   XtNvalue,    deflt,
-		   0,           NULL );
+		   XtNlabel, 	(XtArgVal)message,
+		   XtNvalue,    (XtArgVal)deflt,
+		   (String)NULL );
     /* get size of popup dialog */
     XtVaGetValues( dialog->popupShell,
-		   XtNwidth,       &w1,
-		   0,              NULL );
+		   XtNwidth,       (XtArgVal)&w1,
+		   (String)NULL );
     textlen = strlen(message)*NormalFont->max_bounds.width + 80;
     deflen = strlen(deflt)*NormalFont->max_bounds.width + 60;
     if (textlen > deflen) {
@@ -254,10 +254,10 @@ Int PopupDialog ( dialog, message, deflt, result )
 
     /* get size of popup dialog */
     XtVaGetValues( dialog->popupShell,
-		   XtNwidth,       &w1,
-		   XtNheight,      &h1,
-		   XtNborderWidth, &bw,
-		   0,              NULL );
+		   XtNwidth,       (XtArgVal)&w1,
+		   XtNheight,      (XtArgVal)&h1,
+		   XtNborderWidth, (XtArgVal)&bw,
+		   (String)NULL );
 
     /* get position of the mouse pointer */
     XQueryPointer( display, XtWindow(dialog->popupShell),
@@ -275,9 +275,9 @@ Int PopupDialog ( dialog, message, deflt, result )
 
     /* move the popup dialog to this position */
     XtVaSetValues( dialog->popupShell,
-		   XtNx, x1,
-		   XtNy, y1,
-		   0,    NULL );
+		   XtNx, (XtArgVal)x1,
+		   XtNy, (XtArgVal)y1,
+		   (String)NULL );
 
     /* pop up shell */
     XtPopup( dialog->popupShell, XtGrabExclusive );

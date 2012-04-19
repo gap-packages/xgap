@@ -2,7 +2,7 @@
 **
 *W  xgap.c                      XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xgap.c,v 1.14 2011/11/24 11:44:24 gap Exp $
+*H  @(#)$Id: xgap.c,v 1.15 2012/04/19 12:41:05 neunhoef Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -279,9 +279,11 @@ static void MenuPastePrompt ( item )
     paste = !paste;
     GTDropGapPrompt( GapTalk, !paste );
     if ( paste )
-	XtVaSetValues( item->entry, XtNrightBitmap, CheckMarkSymbol, NULL );
+	XtVaSetValues( item->entry, XtNrightBitmap, (XtArgVal)CheckMarkSymbol, 
+                       (String)NULL );
     else
-	XtVaSetValues( item->entry, XtNrightBitmap, EmptyMarkSymbol, NULL );
+	XtVaSetValues( item->entry, XtNrightBitmap, (XtArgVal)EmptyMarkSymbol, 
+                       (String)NULL );
 }
 
 static void MenuQuitGapCTRD ( item )
@@ -289,9 +291,11 @@ static void MenuQuitGapCTRD ( item )
 {
     QuitGapCtrlD = !QuitGapCtrlD;
     if ( QuitGapCtrlD )
-	XtVaSetValues( item->entry, XtNrightBitmap, CheckMarkSymbol, NULL );
+	XtVaSetValues( item->entry, XtNrightBitmap, (XtArgVal)CheckMarkSymbol, 
+                       (String)NULL );
     else
-	XtVaSetValues( item->entry, XtNrightBitmap, EmptyMarkSymbol, NULL );
+	XtVaSetValues( item->entry, XtNrightBitmap, (XtArgVal)EmptyMarkSymbol, 
+                       (String)NULL );
 }
 
 #ifndef NO_FILE_SELECTOR
@@ -434,37 +438,42 @@ static void CreateMenu (
     {
 	if ( *(items->label) == '-' )
 	    (void) XtVaCreateManagedWidget( "line",
-		       smeLineObjectClass, menu, NULL );
+		       smeLineObjectClass, menu, (String)NULL );
 	else
 	{
 	    items->entry = XtVaCreateManagedWidget(
 			       items->label, smeBSBObjectClass, menu,
-			       XtNrightMargin, 14,
-                               XtNrightBitmap, EmptyMarkSymbol,
-			       NULL );
+			       XtNrightMargin, (XtArgVal)14,
+                               XtNrightBitmap, (XtArgVal)EmptyMarkSymbol,
+			       (String)NULL );
 	    XtAddCallback( items->entry, XtNcallback,
 			   (XtCallbackProc)MenuSelected, items );
 	    switch ( items->sensitive )
 	    {
 		case S_INPUT_ONLY:
 		    AddList( ListInputOnly, items->entry );
-		    XtVaSetValues( items->entry, XtNsensitive, False, NULL );
+		    XtVaSetValues( items->entry, XtNsensitive, (XtArgVal)False, 
+                                   (String)NULL );
 		    break;
 		case S_ERROR_ONLY:
 		    AddList( ListErrorOnly, items->entry );
-		    XtVaSetValues( items->entry, XtNsensitive, False, NULL );
+		    XtVaSetValues( items->entry, XtNsensitive, (XtArgVal)False, 
+                                   (String)NULL );
 		    break;
 		case S_NORMAL_ONLY:
 		    AddList( ListNormalOnly, items->entry );
-		    XtVaSetValues( items->entry, XtNsensitive, False, NULL );
+		    XtVaSetValues( items->entry, XtNsensitive, (XtArgVal)False, 
+                                   (String)NULL );
 		    break;
 		case S_RUNNING_ONLY:
 		    AddList( ListRunningOnly, items->entry );
-		    XtVaSetValues( items->entry, XtNsensitive, False, NULL );
+		    XtVaSetValues( items->entry, XtNsensitive, (XtArgVal)False, 
+                                   (String)NULL );
 		    break;
 		case S_HELP_ONLY:
 		    AddList( ListHelpOnly, items->entry );
-		    XtVaSetValues( items->entry, XtNsensitive, False, NULL );
+		    XtVaSetValues( items->entry, XtNsensitive, (XtArgVal)False, 
+                                   (String)NULL );
 		    break;
 		case S_ALWAYS:
 		    break;
@@ -504,9 +513,11 @@ void UpdateMenus ( state )
     for ( i = 0;  i < l->len;  i++ )
     {
 	if ( state == GAP_ERROR )
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, True, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)True, 
+                           (String)NULL );
 	else
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, False, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)False, 
+                           (String)NULL );
     }
 
     /* menu entry active only during input */
@@ -514,9 +525,11 @@ void UpdateMenus ( state )
     for ( i = 0;  i < l->len;  i++ )
     {
 	if ( state == GAP_ERROR || state == GAP_INPUT )
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, True, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)True, 
+                           (String)NULL );
 	else
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, False, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)False, 
+                           (String)NULL );
     }
 
     /* menu entry active only during normal input */
@@ -524,9 +537,11 @@ void UpdateMenus ( state )
     for ( i = 0;  i < l->len;  i++ )
     {
 	if ( state == GAP_INPUT )
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, True, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)True, 
+                           (String)NULL );
 	else
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, False, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)False, 
+                           (String)NULL );
     }
 
     /* menu entry active only while gap is running */
@@ -534,9 +549,11 @@ void UpdateMenus ( state )
     for ( i = 0;  i < l->len;  i++ )
     {
 	if ( state == GAP_RUNNING )
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, True, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)True, 
+                           (String)NULL );
 	else
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, False, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)False, 
+                           (String)NULL );
     }
 
     /* menu entry active only while gap is helping */
@@ -544,9 +561,11 @@ void UpdateMenus ( state )
     for ( i = 0;  i < l->len;  i++ )
     {
 	if ( state == GAP_HELP )
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, True, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)True, 
+                           (String)NULL );
 	else
-	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, False, NULL );
+	    XtVaSetValues( (Widget)l->ptr[i], XtNsensitive, (XtArgVal)False, 
+                           (String)NULL );
     }
 }
 
@@ -578,15 +597,18 @@ void UpdateMemoryInfo ( type, val )
     {
 	case 1:
 	    sprintf( tmp, "Objects: %-5d ", val );
-  	    XtVaSetValues( LabelLiveObjects, XtNlabel, tmp, NULL );
+  	    XtVaSetValues( LabelLiveObjects, XtNlabel, (XtArgVal)tmp, 
+                           (String)NULL );
 	    break;
 	case 2:
             sprintf( tmp, "KB used: %-5d ", val );
-            XtVaSetValues( LabelLiveKB, XtNlabel, tmp, NULL );
+            XtVaSetValues( LabelLiveKB, XtNlabel, (XtArgVal)tmp, 
+                           (String)NULL );
 	    break;
 	case 6:
             sprintf( tmp, "MBytes total: %-4d ", val/1024 );
-            XtVaSetValues( LabelTotalKBytes, XtNlabel, tmp, NULL );
+            XtVaSetValues( LabelTotalKBytes, XtNlabel, (XtArgVal)tmp, 
+                           (String)NULL );
 	    break;
     }
 }
@@ -615,8 +637,8 @@ static void GapTalkResized (
     {
 	
 	/* compute a sensible size */
-	XtVaGetValues( talk, XtNtextSink, &snk,  NULL );
-	XtVaGetValues( snk,  XtNfont,     &font, NULL );
+	XtVaGetValues( talk, XtNtextSink, (XtArgVal)&snk,  (String)NULL );
+	XtVaGetValues( snk,  XtNfont,     (XtArgVal)&font, (String)NULL );
 	w = evt->xconfigure.width / font->max_bounds.width - 3;
 	h = evt->xconfigure.height / ( font->max_bounds.ascent
 	    + font->max_bounds.descent ) - 2;
@@ -672,15 +694,15 @@ static void CreateGapWindow ( void )
 
     /* create a "paned" for the menu and text window */
     paned = XtVaCreateManagedWidget( "paned", panedWidgetClass,
-				      XGap, NULL );
+				      XGap, (String)NULL );
 
     /* create a menu box for the menu buttons */
     box = XtVaCreateManagedWidget( "xgapMenu", boxWidgetClass,
 	      paned,
-	      XtNx,	    	        0,
-	      XtNy,                     0,
- 	      XtNresizeToPreferred,	True,
-	      NULL );
+	      XtNx,	    	        (XtArgVal)0,
+	      XtNy,                     (XtArgVal)0,
+ 	      XtNresizeToPreferred,	(XtArgVal)True,
+	      (String)NULL );
 
     /* create a menu button drop down symbol */
     display = XtDisplay(box);
@@ -692,45 +714,45 @@ static void CreateGapWindow ( void )
     /* create file menu button and file menu */
     button = XtVaCreateManagedWidget( "gapButton", menuButtonWidgetClass,
 	         box,
-	         XtNleftBitmap,     symbol,
-		 XtNx,              0,
-		 NULL );
+	         XtNleftBitmap,     (XtArgVal)symbol,
+		 XtNx,              (XtArgVal)0,
+		 (String)NULL );
     CreateMenu( button, GapMenu );
 
     /* create run menu button and run menu */
     button = XtVaCreateManagedWidget( "runButton", menuButtonWidgetClass,
 	         box,
-		 XtNleftBitmap,     symbol,
-		 XtNx,              10,
-		 NULL );
+		 XtNleftBitmap,     (XtArgVal)symbol,
+		 XtNx,              (XtArgVal)10,
+		 (String)NULL );
     CreateMenu( button, RunMenu );
 
     /* create help menu button and help menu */
     button = XtVaCreateManagedWidget( "helpButton", menuButtonWidgetClass,
 	         box,
-		 XtNleftBitmap,     symbol,
-		 XtNx,              10,
-		 NULL );
+		 XtNleftBitmap,     (XtArgVal)symbol,
+		 XtNx,              (XtArgVal)10,
+		 (String)NULL );
     CreateMenu( button, HelpMenu );
 
     /* create the communication window */
     GapTalk = XtVaCreateManagedWidget( "xgapTalk", gapTextWidgetClass,
                   paned,
-		  XtNinputCallback,    KeyboardInput,
-		  XtNcheckCaretPos,    CheckCaretPos,
-                  XtNscrollHorizontal, XawtextScrollWhenNeeded,
-                  XtNscrollVertical,   XawtextScrollAlways,
-                  XtNeditType,         XawtextEdit,
-                  XtNbottomMargin,     15,
-                  XtNx,                0,
-                  XtNy,                10,
-                  XtNdisplayCaret,     True,
-                  NULL );
+		  XtNinputCallback,    (XtArgVal)KeyboardInput,
+		  XtNcheckCaretPos,    (XtArgVal)CheckCaretPos,
+                  XtNscrollHorizontal, (XtArgVal)XawtextScrollWhenNeeded,
+                  XtNscrollVertical,   (XtArgVal)XawtextScrollAlways,
+                  XtNeditType,         (XtArgVal)XawtextEdit,
+                  XtNbottomMargin,     (XtArgVal)15,
+                  XtNx,                (XtArgVal)0,
+                  XtNy,                (XtArgVal)10,
+                  XtNdisplayCaret,     (XtArgVal)True,
+                  (String)NULL );
     XtAddEventHandler(GapTalk,StructureNotifyMask,False,GapTalkResized,0);
     GTDropGapPrompt( GapTalk, True );
 
     /* to quit or not do quit on CTR-D */
-    XtVaGetValues( GapTalk, XtNquitGapCtrD, &flag, NULL );
+    XtVaGetValues( GapTalk, XtNquitGapCtrD, (XtArgVal)&flag, (String)NULL );
     if ( flag )
     {
 	for ( i = 0;  GapMenu[i].label;  i++ )
@@ -754,23 +776,23 @@ static void CreateGapWindow ( void )
     /* create a box and labels for garbage info */
     box = XtVaCreateManagedWidget( "xgapInfo", boxWidgetClass,
 	      paned,
-	      XtNx, 	                0,
-	      XtNy,                     20,
-	      XtNskipAdjust,            True,
-	      XtNresizeToPreferred, 	True,
-	      NULL );
+	      XtNx, 	                (XtArgVal)0,
+	      XtNy,                     (XtArgVal)20,
+	      XtNskipAdjust,            (XtArgVal)True,
+	      XtNresizeToPreferred, 	(XtArgVal)True,
+	      (String)NULL );
     LabelLiveObjects = XtVaCreateManagedWidget( "liveObjects",
 		          labelWidgetClass, box,
-			  XtNborderWidth, 0,
-			  NULL );
+			  XtNborderWidth,   (XtArgVal)0,
+			  (String)NULL );
     LabelLiveKB = XtVaCreateManagedWidget( "liveBytes",
 		          labelWidgetClass, box,
- 			  XtNborderWidth, 0,
-			  NULL );
+ 			  XtNborderWidth,   (XtArgVal)0,
+			  (String)NULL );
     LabelTotalKBytes = XtVaCreateManagedWidget( "totalBytes",
 			 labelWidgetClass, box,
-			 XtNborderWidth, 0,
-			 NULL );
+			 XtNborderWidth,   (XtArgVal)0,
+			 (String)NULL );
     UpdateMemoryInfo( 1, 0 );
     UpdateMemoryInfo( 2, 0 );
     UpdateMemoryInfo( 6, 0 );
@@ -1077,7 +1099,7 @@ int main ( argc,  argv )
     /* create a new top level shell and an applictation context */
     XGap = XtVaAppInitialize( &AppContext, "XGap",
 			      CommandOptions, XtNumber(CommandOptions),
-			      &i, argv, FallbackResources, NULL );
+			      &i, argv, FallbackResources, (String)NULL );
     for ( j = len;  j <= argc;  j++ ) {
 	argv[i+(j-len)] = argv[j];
     }
@@ -1155,7 +1177,7 @@ int main ( argc,  argv )
     InitXCMDS();
 
     /* get color model */
-    XtVaGetValues( GapTalk, XtNcolorModel, &color, NULL );
+    XtVaGetValues( GapTalk, XtNcolorModel, (XtArgVal)&color, (String)NULL );
     len = strlen(color);
     if ( !strncmp( color, "black&white", len ) )
 	mod = CM_BW;
@@ -1179,7 +1201,7 @@ int main ( argc,  argv )
 	mod = -1;
     }
     if ( mod != -1 ) {
-	XtVaGetValues( GapTalk, XtNcolors, &colors, NULL );
+	XtVaGetValues( GapTalk, XtNcolors, (XtArgVal)&colors, (String)NULL );
 	GCSetColorModel( GapDisplay, mod, colors );
     }
 
