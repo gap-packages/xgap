@@ -417,5 +417,3 @@ MakeReadOnlyGVar("PAGER_BUILTIN");
 
 #HELP_PRINT_LINES:=HELP_PRINT_LINES_XGAP;
 
-SetHelpViewer("firefox");    # because ours does not work well
-

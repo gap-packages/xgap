@@ -1209,10 +1209,13 @@ int main ( argc,  argv )
     XtAppAddInput( AppContext,  fromGap,  (XtPointer) XtInputReadMask,
                    (XtInputCallbackProc) GapOutput,  (XtPointer) 0 );
 
-    StoreInput( "RequirePackage(\"xgap\");;\n",25 );
+    StoreInput( "LoadPackage(\"xgap\");;\n",22 );
 
     /* force a garbage collection in the beginning */
     StoreInput( "GASMAN(\"collect\");\n", 19 );
+
+    /* set help viewer to firefox */
+    StoreInput( "SetHelpViewer(\"firefox\");\n",26 );
 
     /* talk window is drawn only partial during start up otherwise (why?) */
     /*XFlush( GapDisplay );
