@@ -347,6 +347,31 @@ end);
 # window, necessary to overcome some deficiencies in the XGAP terminal
 # window. Max.
 
+BindGlobal( "HELP_FILTER_OUT_CONTROL_CHARS", function(l)
+  local i,pos,pos2,s;
+  for i in [1..Length(l)] do
+      s := l[i];
+      pos := 0;
+      while true do
+          pos := PositionSublist(s,"\033[");
+          if pos = fail then break; fi;
+          pos2 := pos+2;
+          while pos2 <= Length(s) and
+                not( (s[pos2] >= 'A' and s[pos2] <= 'Z') or
+                     (s[pos2] >= 'a' and s[pos2] <= 'z') ) do
+              pos2 := pos2 + 1;
+          od;
+          if pos2 <= Length(s) then
+              s := s{Concatenation([1..pos-1],[pos2+1..Length(s)])};
+          else
+              s := s{[1..pos-1]};
+          fi;
+          pos := pos-1;
+      od;
+      l[i] := Filtered(s,x->INT_CHAR(x) < 128);
+  od;
+end );
+
 BindGlobal( "HELP_PRINT_LINES_XGAP", function(lines)
   
   local l,font,h,i,HELP_XGAP_SHEET;
@@ -378,6 +403,7 @@ BindGlobal( "HELP_PRINT_LINES_XGAP", function(lines)
   #  fi;
   #fi;
   
+  HELP_FILTER_OUT_CONTROL_CHARS(lines);
   for i in [1..l] do
     Text(HELP_XGAP_SHEET,FONTS.normal,font[3],h*(i-1)+font[1],lines[i]);
   od;

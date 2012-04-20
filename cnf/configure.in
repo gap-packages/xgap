@@ -112,10 +112,15 @@ dnl ##
 AC_PATH_XTRA
 
 if test "$have_x" != yes;  then
-    AC_MSG_ERROR([XGAP needs XWindows X11R5 or better including the
+    AC_MSG_ERROR([XGAP needs XWindows X11R5 or later including the
     development files like header files, usually you can install these
-    using the package manager of your operating system and install a
-    libx11-dev package or xlibs-dev or so])
+    using the package manager of your operating system. For debian-derived
+    Linux distributions these packages are called
+        libx11-dev
+        libxaw7-dev
+        libxt-dev
+    Note that depending on your operating system, these packages could
+    be called differently.])
 fi
 
 AC_MSG_CHECKING(for broken exposure compress in open windows)
