@@ -2,7 +2,7 @@
 ##  
 ##  PackageInfo.g for the package `xgap'                      Max Neunhoeffer
 ##                                                              
-##  (created from Frank Lübeck's PackageInfo.g template file)
+##  (created from Frank LÃ¼beck's PackageInfo.g template file)
 ##  
 
 SetPackageInfo( rec(
@@ -17,7 +17,7 @@ Version := "4.22",
 
 ##  Release date of the current version in dd/mm/yyyy format.
 # 
-Date := "19/04/2012",
+Date := "20/04/2012",
 
 ##  URL of the archive(s) of the current package release, but *without*
 ##  the format extension(s), like '.zoo', which are given next.
@@ -73,7 +73,7 @@ ArchiveFormats := ".tar.gz",
 ##     rec(
 ##     # these are compulsory, characters are interpreted as latin-1, so
 ##     # German umlauts and other western European special characters are ok:
-##     LastName := "Müller",
+##     LastName := "MÃ¼ller",
 ##     FirstNames := "Fritz Eduard",
 ##  
 ##     # At least one of the following two entries must be given and set 
@@ -89,7 +89,7 @@ ArchiveFormats := ".tar.gz",
 ##     # complete URL, starting with protocol
 ##     WWWHome := "http://www.no.org/~Mueller",
 ##     # separate lines by '\n' (*optional*)
-##     PostalAddress := "Dr. F. Müller\nNo Org Institute\nNo Place 13\n\
+##     PostalAddress := "Dr. F. MÃ¼ller\nNo Org Institute\nNo Place 13\n\
 ##     12345 Notown\nNocountry"
 ##     
 ##     # If you want, add one or both of the following entries (*optional*)
@@ -107,21 +107,21 @@ Persons := [
     WWWHome       := "http://celler.de/"
   ),
   rec( 
-    LastName      := "Neunhöffer",
+    LastName      := "NeunhÃ¶ffer",
     FirstNames    := "Max",
     IsAuthor      := true,
     IsMaintainer  := true,
     Email         := "max.neunhoeffer@math.rwth-aachen.de",
     WWWHome       := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer",
     PostalAddress := Concatenation( [
-                       "Max Neunhöffer\n",
-                       "Lehrstuhl D für Mathematik\n",
+                       "Max NeunhÃ¶ffer\n",
+                       "Lehrstuhl D fÃ¼r Mathematik\n",
                        "RWTH Aachen\n",
                        "Templergraben 64\n",
                        "52062 Aachen\n",
                        "Germany" ] ),
     Place         := "Aachen",
-    Institution   := "Lehrstuhl D für Mathematik, RWTH Aachen"
+    Institution   := "Lehrstuhl D fÃ¼r Mathematik, RWTH Aachen"
   )
 # provide such a record for each author and/or maintainer ...
   
@@ -141,7 +141,7 @@ Status := "accepted",
 ##  "accepted":
 # format: 'name (place)'
 # CommunicatedBy := "Mike Atkinson (St. Andrews)",
-CommunicatedBy := "Gerhard Hiß (Aachen)",
+CommunicatedBy := "Gerhard HiÃŸ (Aachen)",
 # format: mm/yyyy
 # AcceptDate := "08/1999",
 AcceptDate := "07/1999",
@@ -218,7 +218,6 @@ Dependencies := rec(
   # list of pairs [package name, (least) version],  package name is case
   # insensitive, least version denoted with '>=' prepended to version string.
   # without these, the package will not load
-  # NeededOtherPackages := [["GAPDoc", ">= 1.0"]],
   NeededOtherPackages := [],
   # without these the package will issue a warning while loading
   # SuggestedOtherPackages := [],
