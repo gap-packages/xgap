@@ -1,4 +1,3 @@
-$Id: TODO,v 1.5 2012/04/19 14:12:17 neunhoef Exp $
 The following is planned for the future:
 
  Comparison of sheet objects.
@@ -9,10 +8,4 @@ The following is planned for the future:
  FontInfo in Dokumentation.
  Hilfefenster pagen.
  Keyboard events.
-
-Probleme:
-
-  Help texts contain control characters since GAP 4.5.
-  This looks ugly and XGAP cannot do much to alleviate this problem.
-
 
