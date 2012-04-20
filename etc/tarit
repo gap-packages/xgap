@@ -10,5 +10,5 @@ TARFILE=xgap-4.22
 
 rm -f $TARFILE.tar.gz
 
-tar czvf $TARFILE.tar.gz xgap/{README,Makefile.in,configure,configure.in,init.g,PackageInfo.g} xgap/Changelog.* xgap/xgap.shi xgap/cnf/{M*,c*,i*} xgap/doc/{*.tex,*.msk,*.config,Makefile,manual.{six,bib,mst}} xgap/doc/manual.{dvi,pdf} xgap/doc/manual.six xgap/doc/manual.pdf xgap/examples/* xgap/htm/* xgap/htm/* xgap/lib/{*.g,*.gi,*.gd} xgap/src.x11/{*.c,*.h} xgap/src.x11/bitmaps/*
+tar czvf $TARFILE.tar.gz xgap/{README*,Makefile.in,configure,configure.in,init.g,PackageInfo.g} xgap/Changelog.* xgap/xgap.shi xgap/cnf/{M*,c*,i*} xgap/doc/{*.tex,*.msk,*.config,Makefile,manual.{six,bib,mst}} xgap/doc/manual.{dvi,pdf} xgap/doc/manual.six xgap/doc/manual.pdf xgap/examples/* xgap/htm/* xgap/htm/* xgap/lib/{*.g,*.gi,*.gd} xgap/src.x11/{*.c,*.h} xgap/src.x11/bitmaps/*
 
