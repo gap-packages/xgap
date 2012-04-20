@@ -375,6 +375,25 @@ DeclareOperation( "GMSaveAsPS", [ IsGraphicSheet, IsObject, IsString ] );
 ##
 DeclareOperation( "SaveAsPS", [ IsGraphicSheet, IsString ] );
 
+#############################################################################
+##
+#O  GMSaveAsFig( <sheet>, <menu>, <entry> )  . . . .  save sheet as postscript
+##
+##  This operation is called from the menu, if the user clicks on ``Save As
+##  Fig''. It asks for a filename (defaultname stored in the sheet)
+##  and calls the operation <SaveAsFig>.
+##
+DeclareOperation( "GMSaveAsFig", [ IsGraphicSheet, IsObject, IsString ] );
+
+
+#############################################################################
+##
+#O  SaveAsPS( <sheet>, <filename> ) . . . . . . . .  save sheet as postscript
+##
+##  Saves the graphics in the sheet <sheet> in fig format into the file
+##  <filename>, which is overwritten, if it exists.
+##
+DeclareOperation( "SaveAsFig", [ IsGraphicSheet, IsString ] );
 
 #############################################################################
 ##

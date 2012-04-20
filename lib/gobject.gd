@@ -146,6 +146,17 @@ DeclareOperation( "PSString", [ IsGraphicObject ] );
 
 #############################################################################
 ##
+#O  FigString( <object> )  . . . . . . . . . . . . . . . . . Fig format string
+##
+##  Creates a string which describes the graphic object in the fig format. Normally
+##  you do not need to call this because it is only used internally if the
+##  user exports the whole graphic sheet to encapsulated postscript.
+##
+DeclareOperation( "FigString", [ IsGraphicObject ] );
+
+
+#############################################################################
+##
 #O  Recolor( <object>, <col> )  . . . . . . . . . . . . . . . .  change color
 ##
 ##  Changes the color of a graphic object. See "Color Models" for how 

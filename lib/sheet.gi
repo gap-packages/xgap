@@ -25,7 +25,7 @@ Revision.pkg_xgap_lib_sheet_gi :=
 DeclareRepresentation( "IsGraphicSheetRep",
     IsComponentObjectRep and IsAttributeStoringRep,
     [ "name", "width", "height", "gapMenu", "callbackName", "callbackFunc",
-      "menus", "objects", "free", "filenamePS" ],
+      "menus", "objects", "free", "filenamePS", "filenameFig" ],
     IsGraphicSheet );
 
 
@@ -155,6 +155,7 @@ function( title, width, height )
     SetDefaultsForGraphicObject( s, defaults );
     
     s!.filenamePS := "";
+    s!.filenameFig := "";
     
     # return the graphic sheet <s>
     return s;
@@ -174,10 +175,11 @@ InstallValue( DefaultGAPMenu,
 ## "save",                   Ignore,
 ##    "save as",                Ignore,
 ##   ,                         ,
-    "save as postscript",     GMSaveAsPS,
+    "Save As Postscript",     GMSaveAsPS,
+    "Save As Fig",      GMSaveAsFig,
 ##    "save as LaTeX",          Ignore,
     ,                         ,
-    "close graphic sheet",    GMCloseGS,
+    "Close Graphic Sheet",    GMCloseGS,
 ] );
 
 
@@ -271,6 +273,76 @@ function( sheet, file )
   Append( str, "showpage\n" );
   Append( str, "%%EOF\n");
   
+  AppendTo( file, str );
+  
+end);
+
+#############################################################################
+##
+#M  GMSaveAsFig( <sheet>, <menu>, <entry> )  . . . .  save sheet as postscript
+##
+##  This operation is called from the menu, if the user clicks on ``Save As
+##  Fig''. It asks for a filename (defaultname stored in the sheet)
+##  and calls the operation <SaveAsFig>.
+##
+InstallMethod( GMSaveAsFig,
+    "for a graphic sheet",
+    true,
+    [ IsGraphicSheet, IsMenu, IsString ],
+    0,
+function( sheet, menu, entry )
+  local   res;
+  res := Query( Dialog("Filename", "Enter a filename"), sheet!.filenameFig );
+  if res = false  then
+    return;
+  fi;
+  sheet!.filenameFig := res;
+  SaveAsFig( sheet, res );
+end);
+
+
+#############################################################################
+##
+#M  SaveAsFig( <sheet>, <filename> ) . . . . . . . .  save sheet as postscript
+##
+##  Saves the graphics in the sheet <sheet> in fig format into the file
+##  <filename>, which is overwritten, if it exists.
+##
+InstallMethod( SaveAsFig,
+    "for a graphic sheet, and a string",
+    true,
+    [ IsGraphicSheet, IsString ],
+    0,
+function( sheet, file )
+  local   str,  a,  b,  obj;
+  
+  # set filename and create file
+  PrintTo( file, "#FIG 3.2\n" );
+  
+  # collect string in <str>
+  str := "";
+  
+  # we follow Adobes document conventions:
+  Append( str, "Landscape\n");
+  Append( str, "Center\n");
+  Append( str, "Inches\n");
+  Append( str, "Letter\n");
+  Append( str, "100.00\n");
+  Append( str, "Single\n");
+  Append( str, "-2\n");
+  Append( str, "# Created by XGAP4\n");
+  Append( str, "100 2\n");
+  
+  Append( str, "0 32 #CCCCCC\n");
+  Append( str, "0 33 #666666\n");
+  
+  for obj  in sheet!.objects  do
+    if IsAlive(obj) then
+      Append( str, FigString(obj) );
+    fi;
+  od;
+  
+  Append( str, "\n");
   AppendTo( file, str );
   
 end);

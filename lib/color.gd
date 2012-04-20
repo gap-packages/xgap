@@ -45,6 +45,13 @@ DeclareSynonym( "PSColor", PSColour );
 
 #############################################################################
 ##
+#O  FigColour( <color> )  . . . . . . . . . . .  Fig string for a color
+##
+DeclareOperation( "FigColour", [ IsColor ] );
+DeclareSynonym( "FigColor", FigColour );
+
+#############################################################################
+##
 #V  ColorFamily . . . . . . . . . . . . . . . . . . . . . .  family of colors
 ##
 BindGlobal( "ColorFamily", NewFamily( "ColorFamily" ) );

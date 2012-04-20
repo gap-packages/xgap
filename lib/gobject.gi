@@ -356,6 +356,24 @@ InstallMethod( PSString,
 
 #############################################################################
 ##
+#M  FigString( <box> ) . . . . . . . . . . . . . . .  Fig format string
+##
+InstallMethod( FigString,
+    "for a box",
+    true,
+    [ IsGraphicObject and IsBoxObjectRep ],
+    0,
+    box -> Concatenation("2 2 0 1 ", FigColor(box!.color), " ", FigColor(box!.color), " 50 -1 20 0 0 0 -1 0 0 5\n\t",
+						 String(box!.x), " ", String(box!.y), " ",
+						 String(box!.x+box!.w), " ", String(box!.y), " ",
+						 String(box!.x+box!.w), " ", String(box!.y+box!.h), " ",
+						 String(box!.x), " ", String(box!.y+box!.h), " ",
+						 String(box!.x), " ", String(box!.y), "\n")
+);
+
+
+#############################################################################
+##
 #M  PrintInfo( <box> )  . . . . . . . . . . . . . . . . . print debug message
 ##
 InstallMethod( PrintInfo,
@@ -647,6 +665,23 @@ InstallMethod( PSString,
             " ", String(circle!.r), " 0 360 arc\n",
             String(circle!.width), " setlinewidth\n",
             "stroke\n" )
+);
+
+
+#############################################################################
+##
+#M  FigString( <circle> )  . . . . . . . . . . . . .  Fig string
+##
+InstallMethod( FigString,
+    "for a circle",
+    true,
+    [ IsGraphicObject and IsCircleObjectRep ],
+    0,
+    circle -> Concatenation("1 3 0 ", String(circle!.width), " ", FigColor(circle!.color), " 0 50 -1 -1 0 1 0 ",
+	                        String(circle!.x), " ", String(circle!.y), " ",
+							String(circle!.r), " ", String(circle!.r), " ",
+	                        String(circle!.x), " ", String(circle!.y), " ",
+							String(circle!.x + circle!.r), " ", String(circle!.y), "\n")
 );
 
 
@@ -956,6 +991,23 @@ InstallMethod( PSString,
               "newpath\n",
               String(disc!.x), " ", String(disc!.sheet!.height-disc!.y), " ",
               String(disc!.r), " 0 360 arc\nfill\n" )
+);
+
+
+#############################################################################
+##
+#M  FigString( <disc> )  . . . . . . . . . . . . .  Fig string
+##
+InstallMethod( FigString,
+    "for a disc",
+    true,
+    [ IsGraphicObject and IsDiscObjectRep ],
+    0,
+    disc -> Concatenation("1 3 0 1 ", FigColor(disc!.color), " ", FigColor(disc!.color), " 50 -1 20 0 1 0 ",
+	                        String(disc!.x), " ", String(disc!.y), " ",
+							String(disc!.r), " ", String(disc!.r), " ",
+	                        String(disc!.x), " ", String(disc!.y), " ",
+							String(disc!.x + disc!.r), " ", String(disc!.y), "\n")
 );
 
 
@@ -1287,6 +1339,40 @@ function (dia)
                    String(x1), " ", String(y1), " lineto\n",
                    String(dia!.width), " setlinewidth\n",
                    "closepath\nstroke\n" );
+end );
+
+
+#############################################################################
+##
+#M  FigString( <dia> ) . . . . . . . . . . . . . . Fig format string for <dia>
+##
+InstallMethod( FigString,
+    "for a diamond",
+    true,
+    [ IsGraphicObject and IsDiamondObjectRep ],
+    0,
+        
+function (dia)
+    
+    local   x1,  x2,  x3,  x4,  y1,  y2,  y3,  y4;
+    
+    # create the four corners, transform y-coordinate
+    x1 := dia!.x;
+    y1 := dia!.y;
+    x2 := dia!.x + dia!.w;
+    y2 := dia!.y + dia!.h;
+    x3 := 2*x2-x1;
+    y3 := y1;
+    x4 := x2;
+    y4 := 2*y1-y2;
+
+    return Concatenation("2 3 0 ", String(dia!.width), " ", FigColour(dia!.color),
+	                " 0 50 -1 -1 0.0 0 0 -1 0 0 5\n\t",
+                   	String(x1), " ", String(y1), " ",
+					String(x2), " ", String(y2), " ",
+					String(x3), " ", String(y3), " ",
+					String(x4), " ", String(y4), " ", 
+                   	String(x1), " ", String(y1), "\n");
 end );
 
 
@@ -1659,6 +1745,24 @@ end );
 
 #############################################################################
 ##
+#M  FigString( <rect> ) . . . . . . . . . . . . . Fig format string for <rect>
+##
+InstallMethod( FigString,
+    "for a rectangle",
+    true,
+    [ IsGraphicObject and IsRectangleObjectRep ],
+    0,
+    rect -> Concatenation("2 2 0 1 ", FigColor(rect!.color), " 0 50 -1 -1 0 0 0 -1 0 0 5\n\t",
+						 String(rect!.x), " ", String(rect!.y), " ",
+						 String(rect!.x+rect!.w), " ", String(rect!.y), " ",
+						 String(rect!.x+rect!.w), " ", String(rect!.y+rect!.h), " ",
+						 String(rect!.x), " ", String(rect!.y+rect!.h), " ",
+						 String(rect!.x), " ", String(rect!.y), "\n")
+);
+
+
+#############################################################################
+##
 #M  PrintInfo( <rect> ) . . . . . . . . . . . . . . . . . print debug message
 ##
 InstallMethod( PrintInfo,
@@ -2003,13 +2107,32 @@ InstallMethod( PSString,
 function (line)
     
     return Concatenation(
-	PSColour(line!.color), " setrgbcolor\n",
+        PSColour(line!.color), " setrgbcolor\n",
         "newpath\n",
         String(line!.x), " ", String(line!.sheet!.height-line!.y), " moveto\n",
         String(line!.x+line!.w), " ", 
         String(line!.sheet!.height-line!.y-line!.h), " lineto\n",
         String(line!.width), " setlinewidth\n",
         "stroke\n" );
+end );
+
+
+#############################################################################
+##
+#M  FigString( <line> ) . . . . . . . . . . . . . Fig format string for <line>
+##
+InstallMethod( FigString,
+    "for a line",
+    true,
+    [ IsGraphicObject and IsLineObjectRep ],
+    0,
+        
+function (line)
+
+    return Concatenation("2 1 0 ", String(line!.width), " ", FigColour(line!.color),
+	                " 0 50 -1 -1 0.0 0 0 -1 0 0 2\n\t",
+                   	String(line!.x), " ", String(line!.y), " ",
+					String(line!.x+line!.w), " ", String(line!.y+line!.h), "\n");
 end );
 
 
@@ -2452,6 +2575,27 @@ function(text)
        " 0 0] makefont setfont\n",
        String(text!.x), " ", String(text!.sheet!.height-text!.y), " moveto\n",
        "(", save_text, ") show\n" );
+end );
+
+
+#############################################################################
+##
+#M  FigString( <text> )  . . . . . . . . . . . . . .  output Fig format String
+##
+InstallMethod( FigString,
+    "for a text",
+    true,
+    [ IsGraphicObject and IsTextObjectRep ],
+    0,
+function(text)
+    local fontinfo;
+	
+	fontinfo:=FontInfo(text!.font);
+    return Concatenation("4 0 ", FigColour(text!.color), " 50 -1 5 ", 
+	                     String(fontinfo[1]+fontinfo[2]), " 0 0 ",
+						 String(fontinfo[1]+fontinfo[2]), " ", String(fontinfo[3]*Length(text!.text)), " ",
+						 String(text!.x), " ", String(text!.y), " ",
+						 text!.text, "\\001\n");
 end );
 
 
@@ -2973,6 +3117,20 @@ end );
 #M  PSString( <vertex> )  . . . . . . . . . . . . . . . . . . . .  do nothing
 ##
 InstallMethod( PSString,
+    "for a vertex",
+    true,
+    [ IsGraphicObject and IsVertexObjectRep ],
+    0,
+function(vertex)
+    return "";
+end );
+
+
+#############################################################################
+##
+#M  FigString( <vertex> )  . . . . . . . . . . . . . . . . . . . .  do nothing
+##
+InstallMethod( FigString,
     "for a vertex",
     true,
     [ IsGraphicObject and IsVertexObjectRep ],

@@ -56,6 +56,21 @@ end );
 
 #############################################################################
 ##
+#M  FigColour( <color> )  . . . . . . . . . . . . Fig colour string
+##
+InstallMethod( FigColour,
+    "for color",
+    true,
+    [ IsColor and IsColorRep ],
+    0,
+
+function( color )
+    return color!.figColour;
+end );
+
+
+#############################################################################
+##
 #M  ViewObj( <color> )  . . . . . . . . . . . . . . . .  pretty print a color
 ##
 InstallMethod( ViewObj,
@@ -131,15 +146,19 @@ InstallGlobalFunction( CreateColors, function()
     color           := rec();
     color.black     := Objectify( type,
                              rec( colorId := 0, name := "black",
-                                  psColour := "0.0 0.0 0.0" ) );
+                                  psColour := "0.0 0.0 0.0",
+								  figColour := "0" ) );
      color.white     := Objectify( type,
                              rec( colorId := 1, name := "white",
-                                  psColour := "1.0 1.0 1.0" ) );
+                                  psColour := "1.0 1.0 1.0",
+								  figColour := "7" ) );
     color.lightGray := false;
     color.dimGray   := false;
     color.red       := false;
     color.blue      := false;
     color.green     := false;
+
+    # Xfig doesn't support grays out-of-the-box, so we use light/dark brown instead
 
     # check for other colors
     model := WindowCmd(["XCN"])[1];
@@ -149,38 +168,48 @@ InstallGlobalFunction( CreateColors, function()
         color.model     := "gray";
         color.lightGray := Objectify( type,
                                  rec( colorId := 2, name := "light gray",
-                                      psColour := "0.83 0.83 0.83" ) );
+                                      psColour := "0.83 0.83 0.83",
+									  figColour := "32" ) );  
          color.dimGray   := Objectify( type,
                                  rec( colorId := 3, name := "dim gray",
-                                      psColour := "0.41 0.41 0.41" ) );
+                                      psColour := "0.41 0.41 0.41",
+									  figColour := "33" ) ); 
     elif model = 3  then
         color.model     := "color3";
         color.red       := Objectify( type,
                                  rec( colorId := 4, name := "red",
-                                      psColour := "1.0 0.0 0.0" ) );
+                                      psColour := "1.0 0.0 0.0", 
+									  figColour := "4" ) );
          color.blue      := Objectify( type,
                                  rec( colorId := 5, name := "blue",
-                                      psColour := "0.0 0.0 1.0" ) );
+                                      psColour := "0.0 0.0 1.0",
+									  figColour := "1" ) );
          color.green     := Objectify( type,
                                  rec( colorId := 6, name := "green",
-                                      psColour := "0.0 1.0 0.0" ) );
+                                      psColour := "0.0 1.0 0.0",
+									  figColour := "2" ) );
     elif model = 4  then
         color.model     := "color5";
         color.lightGray := Objectify( type,
                                  rec( colorId := 2, name := "light gray",
-                                      psColour := "0.83 0.83 0.83" ) );
+                                      psColour := "0.83 0.83 0.83",
+									  figColour := "32" ) );
          color.dimGray   := Objectify( type,
                                  rec( colorId := 3, name := "dim gray",
-                                      psColour := "0.41 0.41 0.41" ) );
+                                      psColour := "0.41 0.41 0.41",
+									  figColour := "33" ) );
          color.red       := Objectify( type,
                                  rec( colorId := 4, name := "red",
-                                      psColour := "1.0 0.0 0.0" ) );
+                                      psColour := "1.0 0.0 0.0",
+									  figColour := "4" ) );
          color.blue      := Objectify( type,
                                  rec( colorId := 5, name := "blue",
-                                      psColour := "0.0 0.0 1.0" ) );
+                                      psColour := "0.0 0.0 1.0",
+									  figColour := "1" ) );
          color.green     := Objectify( type,
                                  rec( colorId := 6, name := "green",
-                                      psColour := "0.0 1.0 0.0" ) );
+                                      psColour := "0.0 1.0 0.0",
+									  figColour := "2" ) );
     fi;
 
     # fix spelling of grey
