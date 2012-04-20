@@ -388,7 +388,7 @@ DeclareOperation( "GMSaveAsFig", [ IsGraphicSheet, IsObject, IsString ] );
 
 #############################################################################
 ##
-#O  SaveAsPS( <sheet>, <filename> ) . . . . . . . .  save sheet as postscript
+#O  SaveAsFig( <sheet>, <filename> ) . . . . . . .  save sheet as postscript
 ##
 ##  Saves the graphics in the sheet <sheet> in fig format into the file
 ##  <filename>, which is overwritten, if it exists.
