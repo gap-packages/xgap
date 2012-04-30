@@ -12,8 +12,6 @@ AC_CONFIG_AUX_DIR([cnf])
 AC_CANONICAL_SYSTEM
 AC_PROG_CC
 AC_PROG_MAKE_SET
-AC_SUBST(gapdir)
-gapdir=`(cd ../..;pwd)`
 
 #Allow the user to specify a configname:
 AC_MSG_CHECKING([for CONFIGNAME])
@@ -73,6 +71,9 @@ else
   AC_MSG_ERROR([Unable to find GAP root directory])
 fi
       
+gapdir=$GAPROOT
+AC_SUBST(gapdir)
+
 #####################################
 # Now find the architecture
       
