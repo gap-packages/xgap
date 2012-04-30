@@ -1,80 +1,81 @@
 This file is created from the TeX-manual by throwing away some TeX-Macro-Calls.
 
-
-                              Installing XGAP
+Installing XGAP
 
 Installing XGAP should be easy once you have installed GAP itself. We
 assume here that you want to install XGAP in its standard location,
-which is in the "pkg" subdirectory of the main GAP4 installation.
+which is in the ``pkg'' subdirectory of the main GAP4 installation.
 
-
-\Section{Overview}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Overview
 
 You have to perform the following steps to install XGAP:
 
 -- Get the sources
--- Unpack the sources with the <unzoo> utility
+-- Unpack the sources
 -- Use the <configure> script to adjust everything to your specific system
 -- Compile the C part of XGAP
--- Edit a certain startup script and install it in an executable
-   location in your system
+-- Edit a certain startup script (if necessary) and install it in 
+   an executable location in your system
 
-\Section{What you need to install XGAP}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+What you need to install XGAP
 
 Being a graphical user interface to GAP, XGAP of course needs
 graphics. At the moment this means that you need the X window system in the 
 Version 11 Release 5 or newer. On the other hand the type of Unix you use 
-should not matter. Please contact Max Neunhoeffer (email:
-`neunhoef@mcs.st-and.ac.uk') or post to the gap-trouble  
+should not matter. Please contact Max Neunh\accent127offer (email:
+`neunhoef@mcsmst-and.ac.uk') or post to the gap-trouble  
 mailing list, if you encounter problems with certain system configurations.
+Note that usage on 
+a computer running Microsoft Windows is not officially supported. 
+See the file `xgap/README.Windows' for a report how it could
+still work on Windows. 
 
 Because XGAP contains a C-part you need a C compiler.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Getting and unpacking the sources
 
-\Section{Getting and unpacking the sources}
+You can download the sources from the same places as GAP. In most cases,
+the XGAP package will already be included in the main distribution.
+Otherwise, the main FTP server is:
 
-You can download the sources from the same places as GAP. So the main
-FTP servers are:
+ftp://ftp.gap-system.org/pub/gap/gap4/
 
-ftp://ftp-gap.dcs.st-and.ac.uk/pub/gap/gap4/
-ftp://ftp.math.rwth-aachen.de/pub/gap4/
-
-
-You need only one file with the name "xgap-4.22.tar.gz" which is in the
-subdirectory for the packages. 
+You need only one file with the name ``xgap-4.23.tar.gz''
+which is in the subdirectory for the packages.
 You now change your current directory to the `pkg' subdirectory of the 
-location where you installed GAP. The standard location would be:
-
-# cd /usr/local/lib/gap4r5/pkg
-(do not type the prompt character #)
-
+location where you installed
+GAP
 Now you extract the sources for the XGAP package:
 
-# tar xzvf xgap-4.22.tar.gz
+# tar xzvf xgap-4.23.tar.gz
+...
 
-The tar utility unpacks the files and stores them into the apropriate
+The <tar> utility unpacks the files and stores them into the apropriate
 subdirectories. XGAP resides completely in the following subdirectory
 (assuming standard location):
 
-/usr/local/lib/gap4/pkg/xgap
+gap4r5/pkg/xgap
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Configuring and Compiling the C part
 
-\Section{Configuring and Compiling the C part}
-
-You have to change your current working directory to the "xgap"
+You have to change your current working directory to the ``xgap''
 subdirectory. You do this by
 
 # cd xgap
 
 if your current working directory is the one, where you used
-<unzoo>. There you invoke the <configure> script by:
+<tar>. There you invoke the <configure> script by:
 
 # ./configure
 creating cache ./config.cache
 checking for make... make
-checking host system type... i686-unknown-linux2.0.34
-checking target system type... i686-unknown-linux2.0.34
-checking build system type... i686-unknown-linux2.0.34
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking target system type... x86_64-unknown-linux-gnu
 checking for gcc... gcc
 checking whether the C compiler (gcc  ) works... yes
 checking whether the C compiler (gcc  ) is a cross-compiler... no
@@ -85,33 +86,34 @@ creating ./config.status
 creating Makefile
 creating xgap.sh
 
-"..." indicate omissions. 
+$\ldots$ indicate omissions. 
 This script tries to determine, which kind of operating system and
 libraries you have installed and configures the source
 accordingly. Normally this should produce some output but no error
-messages. The last step of the script produces some makefiles which are
+messages. 
+
+Note that you can add ``CONFIGNAME=default64'' after the <./configure>
+command (with ``default64'' replaced by a configuration name you used
+to compile GAP with) to compile for a different than the standard
+configuration.
+
+The last step of the script produces some makefiles which are
 used to compile the code. You do this by typing
 
 # make
-if test ! -d bin;  then mkdir bin;  fi
-if test ! -d bin/i686-unknown-linux2.0.34-gcc; \ # line broken for this manual!
-                then mkdir bin/i686-unknown-linux2.0.34-gcc;  fi
-cp cnf/configure.out bin/i686-unknown-linux2.0.34-gcc/configure
-( cd bin/i686-unknown-linux2.0.34-gcc ; CC=gcc \ # line broken for this manual!
-                ./configure --target=i686-unknown-linux2.0.34  )
-creating cache ./config.cache
+mkdir -p bin/x86_64-unknown-linux-gnu-gcc
+cp cnf/configure.out bin/x86_64-unknown-linux-gnu-gcc/configure
+( cd bin/x86_64-unknown-linux-gnu-gcc ; CC=gcc ./configure  )
 checking for gcc... gcc
-checking whether the C compiler (gcc  ) works... yes
-checking whether the C compiler (gcc  ) is a cross-compiler... no
-checking whether we are using GNU C... yes
+checking whether the C compiler works... yes
 ...
 creating ./config.status
 creating Makefile
 creating config.h
-make[1]: Entering directory \                   # line broken for this manual!
-     `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
-gcc -I. -g -O2 -I/usr/X11R6/include  -o xcmds.o -c ../../src.x11/xcmds.c
-gcc -I. -g -O2 -I/usr/X11R6/include  -o utils.o -c ../../src.x11/utils.c
+( cd bin/x86_64-unknown-linux-gnu-gcc ; make CC=gcc )
+make[1]: Entering directory 
+`/scratch/neunhoef/4.0/pkg/xgap/bin/x86_64-unknown-linux-gnu-gcc'
+gcc -I. -g -O2   -o xcmds.o -c ../../src.x11/xcmds.c
 ...
 make[1]: Leaving directory \                    # line broken for this manual!
      `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
@@ -120,24 +122,24 @@ make[1]: Leaving directory \                    # line broken for this manual!
 position is marked by a backslash) 
 
 Now all C sources are compiled and a binary executable is built. It is
-stored in a subdirectory of the "bin" subdirectory in your "xgap"
+stored in a subdirectory of the ``bin'' subdirectory in your ``xgap''
 directory. The name of this location has something to do with your
 installation. It could for example be
 
-bin/i686-unknown-linux2.0.34-gcc/xgap
+bin/x86_64-unknown-linux-gnu-gcc/xgap
 
-if you compile on a Linux system using the GNU-C-Compiler.
+if you compile on a 64-bit Linux system using the GNU-C-Compiler.
 
-
-\Section{Installing the Startup Script}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Installing the Startup Script
 
 To make the startup of XGAP more convenient there is a startup script
 which contains also some configuration information like the position of
-your GAP installation. It is in the "bin" directory within the
-"xgap" tree and is called "xgap.sh". This file is automatically generated
+your GAP installation. It is in the ``xgap'' directory
+and is called ``xgap.sh''. This file is automatically generated
 by the `configure' script and normally you should *not* have to change 
 anything in it. Just copy it to some location that people have in their
-"PATH" environment variable, for example to "/usr/local/bin".
+``PATH'' environment variable, for example to ``/usr/local/bin''.
 This completes the installation.
 
 If you want to change anything in the installation, you
@@ -145,56 +147,55 @@ can also edit the script until the line
 
 ##  STOP EDITING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-You can specify the directory where GAP is installed "GAP_DIR", 
+You can specify the directory where GAP is installed (``GAP_DIR''), 
 the amount of memory that GAP should use as initial workspace
-("GAP_MEM"), the name of the GAP-executable ("GAP_PRG") and the
-name of the XGAP-executable ("XGAP_PRG"). The first three are exactly 
+(``GAP_MEM''), the name of the GAP-executable (``GAP_PRG'') and the
+name of the XGAP-executable (``XGAP_PRG''). The first three are exactly 
 the same things that you could edit in the main GAP startup script.
-After that you have the possibility to control the behaviour of the XGAP
+After that you have the possibility to control the behaviour of the
+XGAP
 startup script. You can specify whether XGAP goes into the background
-("DAEMON") and whether it prints out information about its parameters
-("VERBOSE"). Note that it is possible to combine "DAEMON=YES"
-and "VERBOSE=YES" because the script actually runs in the foreground and
+(``DAEMON'') and whether it prints out information about its parameters
+(``VERBOSE''). Note that it is possible to combine ``DAEMON=YES''
+and ``VERBOSE=YES'' because the script actually runs in the foreground and
 only the C program is put into the background.
 
 
-\Section{Installing in a different than the standard location}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Installing in a different than the standard location
 
 It could happen that you do not want to install XGAP in its
 standard location, perhaps because you do not want to bother your
 system administrator and have no access to the GAP directory. In
 this case you can unpack XGAP in any other location within a
-"pkg" directory with the <unzoo> command as described above. Let us
-call this directory "pkg" for the moment. You get an "xgap"
+``pkg'' directory with the <tar> command as described above. Let us
+call this directory ``pkg'' for the moment. You get an ``xgap''
 subdirectory with all the files of XGAP in it. You follow the
-standard procedure with two exceptions:
+standard procedure with one exception:
 
-Before you can configure and compile XGAP you need a symbolic link
-"cnf" which is in the directory where "pkg" is and points to the "cnf"
-directory in the main GAP directory. You can install this link directly
-after unzooing by (remember: you are in the "pkg" directory!):
+In the ``./configure'' command, add the following option:
 
-ln -s /usr/local/lib/gap4/cnf ..
+./configure --with-gaproot=/usr/local/lib/gap4r5
 
-if "/usr/local/lib/gap4" is the location of the main GAP installation.
+if ``/usr/local/lib/gap4r5'' is the location of the main GAP installation.
 
-You can find out where the main GAP4 installation is by starting
-GAP as you usual and looking at the variable `GAP_ROOT_PATHS'
+You can find out where the main GAP4 installation is by starting 
+GAP as usual and looking at the variable `GAP_ROOT_PATHS' 
 within GAP.
 
-Note that you have to edit the startup script "xgap.sh" (see previous
-section) to adjust the paths for "XGAP_DIR" and "GAP_DIR", and
-possibly the name of the GAP executable "GAP_PRG".  Enter your GAP
-installation directory for the variable "GAP_DIR" and the name of the
-directory that contains "pkg" for the variable "XGAP_DIR". The
-variable "GAP_PRG" has to contain the path to the GAP executable
-relative to the "bin" subdirectory of the main GAP installation. In
-most cases this value will already be correct. Note however that if
-GAP and XGAP are compiled on different machines, then it is possible
-that these directory names differ for the GAP and XGAP executables
-respectively.
+Note that you have to edit the startup script ``xgap.sh'' (see previous 
+section) to
+adjust the paths for ``XGAP_DIR'' and ``GAP_DIR'', and possibly the
+name of the GAP executable ``GAP_PRG''.  Enter your GAP
+installation directory for the variable ``GAP_DIR'' and the name of
+the directory that contains ``pkg'' for the variable ``XGAP_DIR''. The 
+variable ``GAP_PRG'' has to contain the path to the GAP executable relative
+to the ``bin'' subdirectory of the main GAP installation. In most cases
+this value will already be correct. Note however that if GAP and
+XGAP 
+are compiled on different machines, then it is possible that these directory
+names differ for the GAP and XGAP executables respectively. 
 
 The script will automatically launch GAP with two directories as
 library path such that all GAP and XGAP libraries will be found.
-
 

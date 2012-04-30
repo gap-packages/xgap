@@ -107,21 +107,20 @@ Persons := [
     WWWHome       := "http://celler.de/"
   ),
   rec( 
-    LastName      := "Neunhöffer",
+    LastName      := "Neunhoeffer",
     FirstNames    := "Max",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "max.neunhoeffer@math.rwth-aachen.de",
-    WWWHome       := "http://www.math.rwth-aachen.de/~Max.Neunhoeffer",
+    Email         := "neunhoef@mcs.st-and.ac.uk",
+    WWWHome       := "http://www-groups.mcs.st-and.ac.uk/~neunhoef/",
     PostalAddress := Concatenation( [
-                       "Max Neunhöffer\n",
-                       "Lehrstuhl D für Mathematik\n",
-                       "RWTH Aachen\n",
-                       "Templergraben 64\n",
-                       "52062 Aachen\n",
-                       "Germany" ] ),
-    Place         := "Aachen",
-    Institution   := "Lehrstuhl D für Mathematik, RWTH Aachen"
+                       "School of Mathematics and Statistics\n",
+                       "Mathematical Institute\n",
+                       "North Haugh\n",
+                       "St Andrews, Fife KY16 9SS\n",
+                       "Scotland, UK" ] ),
+    Place         := "St Andrews",
+    Institution   := "University of St Andrews"
   )
 # provide such a record for each author and/or maintainer ...
   
