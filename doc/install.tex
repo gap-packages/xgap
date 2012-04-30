@@ -83,9 +83,9 @@ if your current working directory is the one, where you used
 # ./configure
 creating cache ./config.cache
 checking for make... make
-checking build system type... x86\_64-unknown-linux-gnu
-checking host system type... x86\_64-unknown-linux-gnu
-checking target system type... x86\_64-unknown-linux-gnu
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking target system type... x86_64-unknown-linux-gnu
 checking for gcc... gcc
 checking whether the C compiler (gcc  ) works... yes
 checking whether the C compiler (gcc  ) is a cross-compiler... no
@@ -113,18 +113,18 @@ used to compile the code. You do this by typing
 
 \begintt
 # make
-mkdir -p bin/x86\_64-unknown-linux-gnu-gcc
-cp cnf/configure.out bin/x86\_64-unknown-linux-gnu-gcc/configure
-( cd bin/x86\_64-unknown-linux-gnu-gcc ; CC=gcc ./configure  )
+mkdir -p bin/x86_64-unknown-linux-gnu-gcc
+cp cnf/configure.out bin/x86_64-unknown-linux-gnu-gcc/configure
+( cd bin/x86_64-unknown-linux-gnu-gcc ; CC=gcc ./configure  )
 checking for gcc... gcc
 checking whether the C compiler works... yes
 ...
 creating ./config.status
 creating Makefile
 creating config.h
-( cd bin/x86\_64-unknown-linux-gnu-gcc ; make CC=gcc )
+( cd bin/x86_64-unknown-linux-gnu-gcc ; make CC=gcc )
 make[1]: Entering directory 
-`/scratch/neunhoef/4.0/pkg/xgap/bin/x86\_64-unknown-linux-gnu-gcc'
+`/scratch/neunhoef/4.0/pkg/xgap/bin/x86_64-unknown-linux-gnu-gcc'
 gcc -I. -g -O2   -o xcmds.o -c ../../src.x11/xcmds.c
 ...
 make[1]: Leaving directory \                    # line broken for this manual!
@@ -140,7 +140,7 @@ directory. The name of this location has something to do with your
 installation. It could for example be
 
 \begintt
-bin/x86\_64-unknown-linux-gnu-gcc/xgap
+bin/x86_64-unknown-linux-gnu-gcc/xgap
 \endtt
 
 if you compile on a 64-bit Linux system using the GNU-C-Compiler.
@@ -195,7 +195,7 @@ In the ``./configure'' command, add the following option:
 ./configure --with-gaproot=/usr/local/lib/gap4r5
 \endtt
 
-if ``/usr/local/lib/gap4r5'' is the location of the main {\GAP} installation.
+if `/usr/local/lib/gap4r5' is the location of the main {\GAP} installation.
 
 You can find out where the main {\GAP4} installation is by starting 
 {\GAP} as usual and looking at the variable `GAP_ROOT_PATHS' 
