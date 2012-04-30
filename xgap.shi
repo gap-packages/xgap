@@ -321,6 +321,8 @@ fi
 XGAP=$XGAP_DIR/pkg/xgap/bin/$XGAP_PRG
 GAP=$GAP_DIR/bin/$GAP_PRG
                                                                                 
+export TERM=dumb
+
 if [ $DAEMON = "YES" ];  then
   $XGAP -G $GAP $XP -- -l $LIBARG -m $GAP_MEM $GP &
 else

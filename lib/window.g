@@ -417,3 +417,21 @@ MakeReadOnlyGVar("PAGER_BUILTIN");
 
 #HELP_PRINT_LINES:=HELP_PRINT_LINES_XGAP;
 
+# some more settings don't make sense in the xgap window:
+ColorPrompt(false);
+if IsBound(SetUserPreference) then
+    SetUserPreference( "UseColorsInTerminal", false );
+    SetUserPreference( "UseColorPrompt", false );
+
+    # no good terminal capabilities, so we must use our sloooow one
+    SetUserPreference( "Pager", "builtin" );
+
+    # Browse related:
+    SetUserPreference("Browse", "SelectHelpMatches", false);
+    SetUserPreference("Browse", "SelectPackageName", false);
+fi;
+
+GAPInfo.TermEncoding := "ASCII";
+
+SetHelpViewer("firefox");
+

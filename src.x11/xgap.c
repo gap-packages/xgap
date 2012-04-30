@@ -1214,9 +1214,6 @@ int main ( argc,  argv )
     /* force a garbage collection in the beginning */
     StoreInput( "GASMAN(\"collect\");\n", 19 );
 
-    /* set help viewer to firefox */
-    StoreInput( "SetHelpViewer(\"firefox\");\n",26 );
-
     /* talk window is drawn only partial during start up otherwise (why?) */
     /*XFlush( GapDisplay );
     sleep(1);
