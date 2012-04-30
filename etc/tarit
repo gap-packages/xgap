@@ -6,7 +6,7 @@
 
 # Change this for the latest revision:
 # (Last digit is patchlevel) 
-TARFILE=xgap-4.22
+TARFILE=xgap-4.23
 
 rm -f $TARFILE.tar.gz
 
