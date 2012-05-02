@@ -2,7 +2,6 @@
 ##
 #W  puzzle.g                    GAP library                     Thomas Breuer
 ##
-#H  @(#)$Id: puzzle.g,v 1.4 2000/09/26 17:34:34 gap Exp $
 ##
 #Y  Copyright (C)  1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  (C) 1998 School Math and Comp. Sci., University of St.  Andrews, Scotland

@@ -2,7 +2,6 @@
 **
 *W  pty.c                       XGAP source                      Frank Celler
 **
-*H  @(#)$Id: pty.c,v 1.16 2012/04/19 13:32:27 neunhoef Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany

@@ -2,7 +2,6 @@
 **
 *W  xcmds.h                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: xcmds.h,v 1.2 1997/12/05 17:31:11 frank Exp $
 **
 *Y  Copyright 1995-1998,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany

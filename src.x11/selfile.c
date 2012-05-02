@@ -3,7 +3,6 @@
 *W  selfile.c                   XGAP Source              Erik M. van der Poel
 *W                                                   modified by Frank Celler
 **
-*H  @(#)$Id: selfile.c,v 1.7 2012/04/19 12:41:05 neunhoef Exp $
 **
 **  This file is based on the file selector  distributed with  ghostview,  it
 **  contained the following notice:

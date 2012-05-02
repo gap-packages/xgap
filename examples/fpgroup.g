@@ -1,6 +1,5 @@
 # This is the fifth example from the XGAP manual:
 # A finitely presented group.
-# $Id:
 f := FreeGroup(2);
 g := f/[f.1^6];
 s := GraphicSubgroupLattice(g);

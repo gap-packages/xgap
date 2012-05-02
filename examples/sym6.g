@@ -1,6 +1,5 @@
 # This is the second example from the XGAP manual:
 # The symmetric group on 6 points.
-# $Id:
 s6 := SymmetricGroup(6);
 SetName(s6,"S6");
 cc := ConjugacyClassesSubgroups(s6);;

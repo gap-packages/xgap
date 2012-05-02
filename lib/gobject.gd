@@ -2,15 +2,11 @@
 ##
 #W  gobject.gd                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gd,v 1.11 2002/04/23 10:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-Revision.pkg_xgap_lib_gobject_gd :=
-    "@(#)$Id: gobject.gd,v 1.11 2002/04/23 10:45:18 gap Exp $";
-
 #############################################################################
 #1
 ##  All graphics within graphic sheets are so called graphic objects. They 

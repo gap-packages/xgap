@@ -2,15 +2,11 @@
 ##
 #W  meataxe.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: meataxe.gd,v 1.1 1998/12/18 17:02:15 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains declarations for meataxe posets
 ##
-Revision.pkg_xgap_lib_meataxe_gd :=
-    "@(#)$Id: meataxe.gd,v 1.1 1998/12/18 17:02:15 gap Exp $";
-
 
 ## a new filter:
 

@@ -2,15 +2,11 @@
 ##
 #W  gobject.gi                 	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: gobject.gi,v 1.14 2002/04/19 09:07:31 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-Revision.pkg_xgap_lib_gobject_gi :=
-    "@(#)$Id: gobject.gi,v 1.14 2002/04/19 09:07:31 gap Exp $";
-
 
 #############################################################################
 ##

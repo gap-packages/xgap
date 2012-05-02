@@ -2,7 +2,6 @@
 **
 *W  popdial.c			XGAP source	                 Frank Celler
 **
-*H  @(#)$Id: popdial.c,v 1.5 2012/04/19 12:41:04 neunhoef Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany

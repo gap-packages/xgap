@@ -2,15 +2,11 @@
 ##
 #W  ilatgrp.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: ilatgrp.gd,v 1.14 1999/04/26 21:58:46 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code to display a subgroup lattice interactively.
 ##
-Revision.pkg_xgap_lib_ilatgrp_gd :=
-    "@(#)$Id: ilatgrp.gd,v 1.14 1999/04/26 21:58:46 gap Exp $";
-
 
 #############################################################################
 ##

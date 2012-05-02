@@ -2,7 +2,6 @@
 ##
 #W  sheet.gd                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gd,v 1.16 2002/04/23 10:45:18 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -10,9 +9,6 @@
 ##
 ##  This file contains all operations for graphic sheets.
 ##
-Revision.pkg_xgap_lib_sheet_gd :=
-    "@(#)$Id: sheet.gd,v 1.16 2002/04/23 10:45:18 gap Exp $";
-
 
 #############################################################################
 #1

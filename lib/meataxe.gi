@@ -2,15 +2,11 @@
 ##
 #W  meataxe.gi                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: meataxe.gi,v 1.3 1999/05/26 16:59:22 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains code for MeatAxe posets
 ##
-Revision.pkg_xgap_lib_meataxe_gi :=
-    "@(#)$Id: meataxe.gi,v 1.3 1999/05/26 16:59:22 gap Exp $";
-
 
 #############################################################################
 ##

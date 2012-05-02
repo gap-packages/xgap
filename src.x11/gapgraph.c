@@ -2,7 +2,6 @@
 **
 *W  gapgraph.c                  XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: gapgraph.c,v 1.3 1998/12/18 18:58:08 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany

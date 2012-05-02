@@ -3,7 +3,6 @@
 *W  selfile.h                   XGAP Source              Erik M. van der Poel
 *W                                                   modified by Frank Celler
 **
-*H  @(#)$Id: selfile.h,v 1.2 1997/12/05 17:31:07 frank Exp $
 **
 **  This file is based on the file selector  distributed with  ghostview,  it
 **  contained the following notice:
