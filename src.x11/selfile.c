@@ -73,6 +73,7 @@
 # endif
 #endif
 
+#include <unistd.h>
 
 #include "selfile.h"
 
@@ -165,15 +166,6 @@ extern int errno;
 #define MAXPATHLEN 1024
 #endif /* ndef MAXPATHLEN */
 
-#if !defined(SVR4) && !defined(SYSV) && !defined(USG)
-extern char *getwd();
-#endif /* !defined(SVR4) && !defined(SYSV) && !defined(USG) */
-
-#if defined(SVR4) || defined(SYSV) || defined(USG)
-extern uid_t getuid();
-extern void qsort();
-#endif /* defined(SVR4) || defined(SYSV) || defined(USG) */
-
 static int SFstatus = SEL_FILE_NULL;
 
 static char
@@ -234,10 +226,6 @@ static XtIntervalId SFdirModTimerId;
 
 static int (*SFfunc)( String, String*, struct stat* ) = 0;
 
-
-#if defined(SVR4) || defined(SYSV) || defined(USG)
-extern void qsort();
-#endif /* defined(SVR4) || defined(SYSV) || defined(USG) */
 
 static SFDir *SFdirs = NULL;
 
@@ -327,11 +315,7 @@ static int SFgetDir( SFDir *dir )
 	i++;
     }
 
-#if defined(SVR4) || defined(SYSV) || defined(USG)
-    qsort((char *) result, (unsigned) i, sizeof(SFEntry), SFcompareEntries);
-#else /* defined(SVR4) || defined(SYSV) || defined(USG) */
-    qsort((char *) result, i, sizeof(SFEntry), SFcompareEntries);
-#endif /* defined(SVR4) || defined(SYSV) || defined(USG) */
+    qsort(result, i, sizeof(SFEntry), SFcompareEntries);
 
     dir->entries = result;
     dir->nEntries = i;
@@ -1512,13 +1496,8 @@ SFgetHomeDirs()
 	SFhomeDir.beginSelection	= -1		;
 	SFhomeDir.endSelection		= -1		;
 
-#if defined(SVR4) || defined(SYSV) || defined(USG)
-	qsort((char *) entries, (unsigned)i, sizeof(SFEntry), SFcompareEntries);
-	qsort((char *) SFlogins, (unsigned)i, sizeof(SFLogin), SFcompareLogins);
-#else /* defined(SVR4) || defined(SYSV) || defined(USG) */
-	qsort((char *) entries, i, sizeof(SFEntry), SFcompareEntries);
-	qsort((char *) SFlogins, i, sizeof(SFLogin), SFcompareLogins);
-#endif /* defined(SVR4) || defined(SYSV) || defined(USG) */
+	qsort(entries, i, sizeof(SFEntry), SFcompareEntries);
+	qsort(SFlogins, i, sizeof(SFLogin), SFcompareLogins);
 
 	for (i--; i >= 0; i--) {
 		(void) strcat(entries[i].real, "/");
@@ -2441,17 +2420,10 @@ Boolean XsraSelFile ( Widget toplevel, String prompt, String init_path,
     XtMapWidget(selFile);
 
     /* get current directory */
-#   if defined(SVR4) || defined(SYSV) || defined(USG) || defined(__GLIBC__)
 	if ( !getcwd(SFstartDir, MAXPATHLEN) ) {
 	    *SFstartDir = 0;
 	    XtAppWarning( SFapp, "XsraSelFile: can't get current directory" );
         }
-#   else
-	if ( !getwd(SFstartDir) ) {
-	    *SFstartDir = 0;
-	    XtAppWarning( SFapp, "XsraSelFile: can't get current directory" );
-        }
-#   endif
     (void) strcat(SFstartDir, "/");
     (void) strcpy(SFcurrentDir, SFstartDir);
 
