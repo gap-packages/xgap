@@ -51,11 +51,7 @@ static XColor GcColors[C_LAST+1];
 
 *F  GapGraphInitialize( <request>, <new>, <args>, <nums> )  open a new window
 */
-static void GapGraphInitialize ( request, new, args, nums )
-    Widget              request;
-    Widget              new;
-    ArgList             args;
-    Cardinal          * nums;
+static void GapGraphInitialize ( Widget request, Widget new, ArgList args, Cardinal *nums )
 {
     GapGraphicWidget	w = (GapGraphicWidget) new;
     XRectangle          rec[1];
@@ -120,8 +116,7 @@ static void GapGraphInitialize ( request, new, args, nums )
 **
 *F  GapGraphDestroy( <w> )  . . . . . . . . . . . . . . . .  destroy a window
 */
-static void GapGraphDestroy ( w )
-    Widget              w;
+static void GapGraphDestroy ( Widget w )
 {
     GGFreeGapGraphicObjects(w);
 }
@@ -131,8 +126,7 @@ static void GapGraphDestroy ( w )
 **
 *F  GapGraphResize( <w> ) . . . . . . . . . . . . . .  ignore resize requests
 */
-static void GapGraphResize ( w )
-    Widget              w;
+static void GapGraphResize ( Widget w )
 {
     GapGraphicWidget	gap = (GapGraphicWidget) w;
 
@@ -291,8 +285,7 @@ static String ColorName[C_LAST+1] = {
   "black", "white", "light grey", "dim grey", "red", "blue", "green"
 };
 
-Int GCColorModel ( dis )
-    Display   * dis;
+Int GCColorModel ( Display *dis )
 {
     Int         diff,  a;
     Short       i;
@@ -356,10 +349,7 @@ Int GCColorModel ( dis )
 **
 *F  GCSetColorModel( <dis>, <mod> ) . . . . . . . . . . . . . set color model
 */
-void GCSetColorModel ( dis, mod, colors )
-    Display   * dis;
-    Int         mod;
-    String      colors;
+void GCSetColorModel ( Display *dis, Int mod, String colors )
 {
     Int         e[10];
     Int         i,  j;		/* loop variables */
@@ -446,10 +436,7 @@ void GCSetColorModel ( dis, mod, colors )
 
 *F  GGDrawObject( <w>, <obj>, <flag> )  . . . . . . . . . . .  draw an object
 */
-void GGDrawObject ( w, obj, flag )
-    Widget	            w;
-    TypeGapGraphicObject  * obj;
-    Boolean                 flag;
+void GGDrawObject ( Widget w, TypeGapGraphicObject *obj, Boolean flag )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     GC                      gc;
@@ -524,9 +511,7 @@ void GGDrawObject ( w, obj, flag )
 **
 *F  GGAddObject( <w>, <obj> )	. . . . . . . . . . add to widget and draw it
 */
-Int GGAddObject ( w, obj )
-    Widget	            w;
-    TypeGapGraphicObject  * obj;
+Int GGAddObject ( Widget w, TypeGapGraphicObject *obj )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     TypeList                objs = gap->gap_graphic.objs;
@@ -555,8 +540,7 @@ Int GGAddObject ( w, obj )
 **
 *F  GGFreeObject( <obj> )  . . . . . . . . . . . . free memory used by <obj>
 */
-void GGFreeObject ( obj )
-    TypeGapGraphicObject      * obj;
+void GGFreeObject ( TypeGapGraphicObject *obj )
 {
     switch ( obj->type )
     {
@@ -576,9 +560,7 @@ void GGFreeObject ( obj )
 **
 *F  GGRemoveObject( <w>, <pos> ) . . . . . . . . . . remove and undraw <obj>
 */
-Boolean GGRemoveObject ( w, pos )
-    Widget	            w;
-    Int                     pos;
+Boolean GGRemoveObject ( Widget w, Int pos )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     TypeList                objs = gap->gap_graphic.objs;
@@ -633,8 +615,7 @@ Boolean GGRemoveObject ( w, pos )
 **
 *F  GGStartRemove( <w> ) . . . . . . . . . . . . start a sequence of removes
 */
-void GGStartRemove ( w )
-    Widget	            w;
+void GGStartRemove ( Widget w )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
 
@@ -650,8 +631,7 @@ void GGStartRemove ( w )
 **
 *F  GGStopRemove( <w> )  . . .  stop a sequence of removes and update window
 */
-void GGStopRemove ( w )
-    Widget	            w;
+void GGStopRemove ( Widget w )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     XExposeEvent            evt;
@@ -669,9 +649,7 @@ void GGStopRemove ( w )
 **
 *F  GGFastUpdate( <w>, <flag> ) . . . . . . . . . . .  en/disable fast update
 */
-void GGFastUpdate ( w, flag )
-    Widget		w;
-    Boolean             flag;
+void GGFastUpdate ( Widget w, Boolean flag )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     XExposeEvent            evt;
@@ -702,8 +680,7 @@ void GGFastUpdate ( w, flag )
 **
 *F  GGFreeAllObjects( <w> )  . . . . .  remove and undraw all window objects
 */
-void GGFreeAllObjects ( w )
-    Widget	        w;
+void GGFreeAllObjects ( Widget w )
 {
     GapGraphicWidget    gap = (GapGraphicWidget) w;
     TypeList            objs = gap->gap_graphic.objs;
@@ -722,8 +699,7 @@ void GGFreeAllObjects ( w )
 **
 *F  GGFreeGapGraphicObjects( <w> ) free all objects/list associated with <w>
 */
-void GGFreeGapGraphicObjects ( w )
-    Widget	w;
+void GGFreeGapGraphicObjects ( Widget w )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     TypeList                objs = gap->gap_graphic.objs;
@@ -741,10 +717,7 @@ void GGFreeGapGraphicObjects ( w )
 **
 *F  GGResize( <w> )  . . . . . . . . . . . . . . . . . . . . . .  resize <w>
 */
-void GGResize ( w, width, height )
-    Widget	            w;
-    Int                     width;
-    Int                     height;
+void GGResize ( Widget w, Int width, Int height )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     XtWidgetGeometry        req;
