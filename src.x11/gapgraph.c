@@ -153,9 +153,7 @@ static void GapGraphResize ( Widget w )
 **    } XExposeEvent;
 **
 **/
-static void GapGraphExpose ( w, evt )
-    Widget                  w;
-    XExposeEvent          * evt;
+static void GapGraphExpose ( Widget w, XExposeEvent *evt, Region region )
 {
     GapGraphicWidget        gap = (GapGraphicWidget) w;
     TypeList                objs = gap->gap_graphic.objs;
@@ -229,7 +227,7 @@ GapGraphicClassRec gapGraphicClassRec =
     /* resize			*/	XtInheritResize,
         /* FIXME: Dirty Hack by Max, replaced: GapGraphResize,
            I absolutely do *not* know what that means! */
-    /* expose			*/	GapGraphExpose,
+    /* expose			*/	(XtExposeProc)GapGraphExpose,
     /* set_values		*/	NULL,
     /* set_values_hook		*/	NULL,
     /* set_values_almost	*/	XtInheritSetValuesAlmost,
@@ -591,7 +589,7 @@ Boolean GGRemoveObject ( Widget w, Int pos )
 	evt.y      = obj->y;
 	evt.width  = obj->w;
 	evt.height = obj->h;
-	GapGraphExpose( w, &evt );
+	GapGraphExpose( w, &evt, 0 );
     }
     else
     {
@@ -641,7 +639,7 @@ void GGStopRemove ( Widget w )
     evt.y      = gap->gap_graphic.ly;
     evt.width  = gap->gap_graphic.hx - gap->gap_graphic.lx + 1;
     evt.height = gap->gap_graphic.hy - gap->gap_graphic.ly + 1;
-    GapGraphExpose( w, &evt );
+    GapGraphExpose( w, &evt, 0 );
 }
 
 
@@ -663,7 +661,7 @@ void GGFastUpdate ( Widget w, Boolean flag )
 	evt.y      = gap->gap_graphic.ly;
 	evt.width  = gap->gap_graphic.hx - gap->gap_graphic.lx + 1;
 	evt.height = gap->gap_graphic.hy - gap->gap_graphic.ly + 1;
-	GapGraphExpose( w, &evt );
+	GapGraphExpose( w, &evt, 0 );
     }
     else
     {
