@@ -2,7 +2,6 @@
 ##
 #W  sheet.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: sheet.gi,v 1.15 2001/03/13 08:48:14 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -14,9 +13,6 @@
 ##
 
 ##
-Revision.pkg_xgap_lib_sheet_gi :=
-    "@(#)$Id: sheet.gi,v 1.15 2001/03/13 08:48:14 gap Exp $";
-
 
 #############################################################################
 ##

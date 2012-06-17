@@ -2,15 +2,11 @@
 ##
 #W  font.gd                 	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: font.gd,v 1.2 1999/06/30 09:13:03 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-Revision.pkg_xgap_lib_font_gd :=
-    "@(#)$Id: font.gd,v 1.2 1999/06/30 09:13:03 gap Exp $";
-
 
 #############################################################################
 ##

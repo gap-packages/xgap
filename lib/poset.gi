@@ -2,15 +2,11 @@
 ##
 #W  poset.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: poset.gi,v 1.19 1999/11/25 18:06:57 gap Exp $
 ##
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
 ##  This file contains the implementations for graphs and posets
 ##
-Revision.pkg_xgap_lib_poset_gd :=
-    "@(#)$Id: poset.gi,v 1.19 1999/11/25 18:06:57 gap Exp $";
-
 
 
 #############################################################################

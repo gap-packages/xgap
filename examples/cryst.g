@@ -1,5 +1,4 @@
 # An example using cryst-GAP:
-# $Id:
 RequirePackage("crystcat");
 RequirePackage("cryst");
 g := SpaceGroupBBNWZ(4,6,3,1,2);

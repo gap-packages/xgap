@@ -2,15 +2,11 @@
 ##
 #W  font.gi                  	XGAP library                  Max Neunhoeffer
 ##
-#H  @(#)$Id: font.gi,v 1.1 1998/11/27 14:50:48 ahulpke Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-Revision.pkg_xgap_lib_font_gi :=
-    "@(#)$Id: font.gi,v 1.1 1998/11/27 14:50:48 ahulpke Exp $";
-
 
 #############################################################################
 ##

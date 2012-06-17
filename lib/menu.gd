@@ -2,7 +2,6 @@
 ##
 #W  menu.gd                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gd,v 1.9 1999/11/25 18:06:57 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
@@ -13,9 +12,6 @@
 ##  window functions are  in "window.g", the high  level window  functions in
 ##  "sheet.gi".
 ##
-Revision.pkg_xgap_lib_menu_gd :=
-    "@(#)$Id: menu.gd,v 1.9 1999/11/25 18:06:57 gap Exp $";
-
 
 #############################################################################
 ##

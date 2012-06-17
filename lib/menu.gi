@@ -2,15 +2,11 @@
 ##
 #W  menu.gi                     XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: menu.gi,v 1.9 1999/07/01 15:02:29 gap Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-Revision.pkg_xgap_lib_menu_gi :=
-    "@(#)$Id: menu.gi,v 1.9 1999/07/01 15:02:29 gap Exp $";
-
 
 #############################################################################
 ##

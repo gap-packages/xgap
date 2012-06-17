@@ -2,15 +2,11 @@
 ##
 #W  color.gi                  	XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: color.gi,v 1.5 2000/09/12 02:13:13 gap Exp $
 ##
 #Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-Revision.pkg_xgap_lib_color_gi :=
-    "@(#)$Id: color.gi,v 1.5 2000/09/12 02:13:13 gap Exp $";
-
 
 #############################################################################
 ##

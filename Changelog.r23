@@ -1,7 +1,0 @@
-This file describes the changes from xgap4r22 to xgap-4.23:
-
- * XGAP now reports "4.23" as version number instead of "4.22".
-
- * Follow Frank Luebeck's suggestions for some startup calls.
-
- * Fix manual documentation for installation.

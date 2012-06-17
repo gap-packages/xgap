@@ -2,7 +2,6 @@
 **
 *W  utils.h                     XGAP Source                      Frank Celler
 **
-*H  @(#)$Id: utils.h,v 1.4 1999/07/09 00:02:41 gap Exp $
 **
 *Y  Copyright 1995-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 *Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany

@@ -2,7 +2,6 @@
 ##
 #W  Makefile                    GAP source                       Frank Celler
 ##
-#H  @(#)$Id: Makefile,v 1.2 1997/11/25 16:29:15 frank Exp $
 ##
 #Y  Copyright (C)  1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 ##

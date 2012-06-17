@@ -2,15 +2,11 @@
 ##
 #W  window.g                    XGAP library                     Frank Celler
 ##
-#H  @(#)$Id: window.g,v 1.13 2012/04/20 09:55:44 neunhoef Exp $
 ##
 #Y  Copyright 1993-1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 #Y  Copyright 1997,       Frank Celler,                 Huerth,       Germany
 #Y  Copyright 1998,       Max Neunhoeffer,              Aachen,       Germany
 ##
-Revision.pkg_xgap_lib_window_g :=
-    "@(#)$Id: window.g,v 1.13 2012/04/20 09:55:44 neunhoef Exp $";
-
 
 #############################################################################
 ##
