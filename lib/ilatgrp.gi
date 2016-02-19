@@ -1490,8 +1490,8 @@ function(sheet,grp)
                                        String(fis),")"),-len);
     elif st{[1..3]} = "Lib" then
       # Epis onto a group of our library:
-      path := ShallowCopy(GAP_ROOT_PATHS[1]);
-      Append(path,"pkg/xgap/pmg/");
+      path := ShallowCopy(Filename(DirectoriesPackageLibrary("xgap", ""), ""));
+      Append(path,"pmg/"); # pkg/xgap/pmg/
       res := Query(Dialog("Filename","Which group?"),path);
       if res = false then
         return fail;
