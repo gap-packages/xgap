@@ -1,102 +1,91 @@
 #############################################################################
 ##  
-##  Demo PackageInfo.g for the GitHubPagesForGAP
-##
+##  PackageInfo.g for the GAP package xgap
+##  
 
 SetPackageInfo( rec(
 
-PackageName := "GitHubPagesForGAP",
-
-Subtitle := "A GitHubPages generator for GAP packages",
-Version := "0.1",
-Date := "21/03/2014", # dd/mm/yyyy format
+PackageName := "XGAP",
+Subtitle := "a graphical user interface for GAP",
+Version := "4.23",
+Date := "30/04/2012",
 
 Persons := [
-  rec(
-    LastName      := "Horn",
-    FirstNames    := "Max",
-    IsAuthor      := true,
-    IsMaintainer  := true,
-    Email         := "max.horn@math.uni-giessen.de",
-    WWWHome       := "http://www.quendi.de/math",
-    PostalAddress := Concatenation(
-                       "AG Algebra\n",
-                       "Mathematisches Institut\n",
-                       "Justus-Liebig-Universit‰t Gieﬂen\n",
-                       "Arndtstraﬂe 2\n",
-                       "35392 Gieﬂen\n",
-                       "Germany" ),
-    Place         := "Gieﬂen",
-    Institution   := "Justus-Liebig-Universit‰t Gieﬂen"
-  ),
-
-  rec(
-    LastName      := "Thor",
-    FirstNames    := "A. U.",
+  rec( 
+    LastName      := "Celler",
+    FirstNames    := "Frank",
     IsAuthor      := true,
     IsMaintainer  := false,
-    #Email         := "author@example.com",
+    Email         := "Frank@Celler.DE",
+    WWWHome       := "http://celler.de/"
   ),
-
-  rec(
-    LastName      := "Itor",
-    FirstNames    := "Jan",
-    IsAuthor      := false,
-    IsMaintainer  := true,
-    #Email         := "janitor@example.com",
-  ),
+  rec( 
+    LastName      := "Neunhoeffer",
+    FirstNames    := "Max",
+    IsAuthor      := true,
+    IsMaintainer  := false,
+    Email         := "neunhoef@mcs.st-and.ac.uk",
+    WWWHome       := "http://www-groups.mcs.st-and.ac.uk/~neunhoef/",
+    PostalAddress := Concatenation( [
+                       "School of Mathematics and Statistics\n",
+                       "Mathematical Institute\n",
+                       "North Haugh\n",
+                       "St Andrews, Fife KY16 9SS\n",
+                       "Scotland, UK" ] ),
+    Place         := "St Andrews",
+    Institution   := "University of St Andrews"
+  )
 ],
 
-Status := "other",
+Status := "accepted",
+CommunicatedBy := "Gerhard Hi√ü (Aachen)",
+AcceptDate := "07/1999",
 
-# The following are not strictly necessary in your own PackageInfo.g
-# (in the sense that update.g only looks at the usual fields
-# like PackageWWWHome, ArchiveURL etc.). But they are convenient
-# if you use exactly the scheme for your package website that we propose.
-GithubUser := "fingolfin",
-GithubRepository := ~.PackageName,
-GithubWWW := Concatenation("https://github.com/", ~.GithubUser, "/", ~.GithubRepository),
-
-PackageWWWHome := Concatenation("http://", ~.GithubUser, ".github.io/", ~.GithubRepository, "/"),
-README_URL     := Concatenation( ~.PackageWWWHome, "README" ),
-PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
-# The following assumes you are using the Github releases system. If not, adjust
-# it accordingly.
-ArchiveURL     := Concatenation(~.GithubWWW,
-                    "/releases/download/v", ~.Version, "/",
-                    ~.GithubRepository, "-", ~.Version),
-
-ArchiveFormats := ".tar.gz .tar.bz2",
+SourceRepository := rec(
+    Type := "git",
+    URL := Concatenation( "https://github.com/gap-packages/", ~.PackageName ),
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", ~.PackageName ),
+README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
+PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
+ArchiveURL      := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
+                                 "/", ~.PackageName ,"-", ~.Version ),
+ArchiveFormats := ".tar.gz",
 
 AbstractHTML := 
-  "This is a pseudo package that contains no actual\
-  <span class=\"pkgname\">GAP</span> code. Instead, it is a template for other\
-  GAP packages that allows to quickly setup GitHub pages.",
+  "The <span class=\"pkgname\">XGAP</span> package allows to use graphics in GAP.",
 
 PackageDoc := rec(
-  BookName  := "GitHubPagesForGAP",
-  ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0.html",
+  # use same as in GAP            
+  BookName  := "XGap",
+  ArchiveURLSubset := ["htm","doc"],
+  HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
+  # the path to the .six file used by GAP's help system
   SixFile   := "doc/manual.six",
-  LongTitle := "A GitHubPages generator for GAP packages",
+  # a longer title of the book, this together with the book name should
+  # fit on a single text line (appears with the '?books' command in GAP)
+  # LongTitle := "Elementary Divisors of Integer Matrices",
+  LongTitle := "XGAP - a graphical user interface for GAP",
+  # Should this help book be autoloaded when GAP starts up? This should
+  # usually be 'true', otherwise say 'false'. 
+  Autoload  := true
 ),
 
-# The following dependencies are fake and for testing / demo purposes
+
 Dependencies := rec(
-  GAP := ">=4.5.5",
-  NeededOtherPackages := [
-    ["GAPDoc", ">= 1.2"],
-    ["IO", ">= 4.1"],
-  ],
-  SuggestedOtherPackages := [["orb", ">= 4.2"]],
+  GAP := ">=4.7",
+  NeededOtherPackages := [],
+  SuggestedOtherPackages := [],
   ExternalConditions := []
 ),
 
-AvailabilityTest := ReturnTrue,
+AvailabilityTest := function() return GAPInfo.CommandLineOptions.p; end,
 
-Keywords := ["GitHub pages", "GAP"]
+#TestFile := "tst/testall.g",
+
+#Keywords := []
 
 ));
-
-
