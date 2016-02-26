@@ -1,6 +1,6 @@
 # An example using cryst-GAP:
-RequirePackage("crystcat");
-RequirePackage("cryst");
+LoadPackage("crystcat");
+LoadPackage("cryst");
 g := SpaceGroupBBNWZ(4,6,3,1,2);
 s := GraphicSubgroupLattice(g);
 m := MaximalSubgroupClassReps(g,rec(latticeequal := true));;

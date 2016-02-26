@@ -577,14 +577,14 @@ gap> u := SelectedGroups( s );
       b*a*b^3*a^-1*b^-1 ]) ]
 \endtt
 
-`FactorCosetOperation' computes for each of  these subgroups $u_i$  the
+`FactorCosetAction' computes for each of  these subgroups $u_i$  the
 operation of  $C_2$ on its cosets. It returns the result as a homomorphism
 of $C_2$ onto a permutation group. The  operation on $u_i$ is therefore a
 permutation representation of the factor group $$C_2 / Core(u_i).$$ Using
 `DisplayCompositionSeries' we can identify these factor groups.
 
 \begintt
-gap> p := List( u, x -> FactorCosetOperation( c2, x ) );;
+gap> p := List( u, x -> FactorCosetAction( c2, x ) );;
 gap> l := List( p, Image );;
 gap> for x  in l  do DisplayCompositionSeries(x);  Print("\n");  od;
 G (2 gens, size 95040)
@@ -835,8 +835,8 @@ Load the packages, define the group and open the subgroup
 lattice window: 
 
 \begintt
-gap> RequirePackage("crystcat");;
-gap> RequirePackage("cryst");;
+gap> LoadPackage("crystcat");;
+gap> LoadPackage("cryst");;
 gap> g := SpaceGroupBBNWZ(4,6,3,1,2);
 SpaceGroupOnRightBBNWZ( 4, 6, 3, 1, 2 )
 gap> s := GraphicSubgroupLattice(g);
