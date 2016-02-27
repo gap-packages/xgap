@@ -39,10 +39,10 @@ AcceptDate := "07/1999",
 
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/gap-packages/xgap" ),
+    URL := "https://github.com/gap-packages/xgap",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://gap-packages.github.io/xgap" ),
+PackageWWWHome  := "https://gap-packages.github.io/xgap",
 README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
