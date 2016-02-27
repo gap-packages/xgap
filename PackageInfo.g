@@ -39,22 +39,22 @@ AcceptDate := "07/1999",
 
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/gap-packages/", ~.PackageName ),
+    URL := Concatenation( "https://github.com/gap-packages/xgap" ),
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", ~.PackageName ),
+PackageWWWHome  := Concatenation( "https://gap-packages.github.io/xgap" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
                                  "/releases/download/v", ~.Version,
-                                 "/", ~.PackageName ,"-", ~.Version ),
+                                 "/xgap-", ~.Version ),
 ArchiveFormats := ".tar.gz",
 
 AbstractHTML := 
   "The <span class=\"pkgname\">XGAP</span> package allows to use graphics in GAP.",
 
 PackageDoc := rec(
-  BookName  := "XGap",
+  BookName  := "XGAP",
   ArchiveURLSubset := ["htm","doc"],
   HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
