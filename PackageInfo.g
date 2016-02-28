@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "XGAP",
 Subtitle := "a graphical user interface for GAP",
-Version := "4.23",
-Date := "30/04/2012",
+Version := "4.24",
+Date := "28/02/2016",
 
 Persons := [
   rec( 
@@ -19,6 +19,25 @@ Persons := [
     Email         := "Frank@Celler.DE",
     WWWHome       := "http://celler.de/"
   ),
+
+  rec(
+    LastName      := "Horn",
+    FirstNames    := "Max",
+    IsAuthor      := false,
+    IsMaintainer  := true,
+    Email         := "max.horn@math.uni-giessen.de",
+    WWWHome       := "http://www.quendi.de/math",
+    PostalAddress := Concatenation(
+                       "AG Algebra\n",
+                       "Mathematisches Institut\n",
+                       "Justus-Liebig-Universität Gießen\n",
+                       "Arndtstraße 2\n",
+                       "35392 Gießen\n",
+                       "Germany" ),
+    Place         := "Gießen",
+    Institution   := "Justus-Liebig-Universität Gießen"
+  ),
+
   rec( 
     LastName      := "Neunhöffer",
     FirstNames    := "Max",
