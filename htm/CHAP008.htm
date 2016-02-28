@@ -1,4 +1,4 @@
-<html><head><title>[ACE] 8 Graphic Posets</title></head>
+<html><head><title>[XGAP] 8 Graphic Posets</title></head>
 <body text="#000000" bgcolor="#ffffff">
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP007.htm">Previous</a>] [<a href ="CHAP009.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <h1>8 Graphic Posets</h1><p>
@@ -72,13 +72,14 @@ the actual position. You can use the generic routines or install your own
 methods for all of those decisions. In this case you just set a new filter
 for your posets and overload the generic methods by special routines for
 objects with your new filter set. You can see this approach in the example
-in <a href="badlink:ACE:An Example">An Example</a>.
+in <a href="CHAP008.htm#SECT003">An Example</a>.
 <p>
 <p>
 <h2><a name="SECT002">8.2 Operations</a></h2>
 <p><p>
 <strong>Constructors:</strong>
 <p>
+<a name = "SSEC002.1"></a>
 <li><code>GraphicPoset( </code><var>name</var><code>, </code><var>width</var><code>, </code><var>height</var><code> ) O</code>
 <p>
 creates a new graphic poset which is a specialization of a graphic graph
@@ -86,6 +87,7 @@ mainly because per definition a poset comes in ``levels'' or ``layers''.
 This leads to some algorithms that are more efficient than the general 
 ones for graphs.
 <p>
+<a name = "SSEC002.2"></a>
 <li><code>CreateLevel( </code><var>poset</var><code>, </code><var>levelparam</var><code> ) O</code>
 <li><code>CreateLevel( </code><var>poset</var><code>, </code><var>levelparam</var><code>, </code><var>lptext</var><code> ) O</code>
 <p>
@@ -109,6 +111,7 @@ well.
 The second method allows to specify which text appears for the level at
 the right edge of the sheet.
 <p>
+<a name = "SSEC002.3"></a>
 <li><code>CreateClass( </code><var>poset</var><code>, </code><var>levelparam</var><code>, </code><var>classparam</var><code> ) O</code>
 <p>
 A class in a graphic poset is a collection of vertices within a level
@@ -124,6 +127,7 @@ level with level parameter <var>levelparam</var> in the graphic poset
 <var>levelparam</var> or there is already a class in this level with class
 parameter <var>classparam</var>. <code>CreateClass</code> returns <var>classparam</var> otherwise.
 <p>
+<a name = "SSEC002.4"></a>
 <li><code>Vertex( </code><var>graph</var><code>, </code><var>data</var><code>[, </code><var>inf</var><code>] ) O</code>
 <p>
 Creates a new vertex. <var>inf</var> is a record in which additional info can be
@@ -150,6 +154,7 @@ one of the choose functions return <code>fail</code> or no possible value, for
 example a non-existing level or class parameter. <code>Vertex</code> returns a
 vertex object if everything went well.
 <p>
+<a name = "SSEC002.5"></a>
 <li><code>Edge( </code><var>graph</var><code>, </code><var>vertex1</var><code>, </code><var>vertex2</var><code> ) O</code>
 <li><code>Edge( </code><var>graph</var><code>, </code><var>vertex1</var><code>, </code><var>vertex2</var><code>, </code><var>defaults</var><code> ) O</code>
 <p>
@@ -166,13 +171,17 @@ levels, meaning that the line width and color are modified.
 <p>
 <strong>Destructors:</strong>
 <p>
+<a name = "SSEC002.6"></a>
 <li><code>Delete( </code><var>poset</var><code>, </code><var>vertex1</var><code>, </code><var>vertex2</var><code> )</code>
+<a name = "SSEC002.6"></a>
 <li><code>Delete( </code><var>poset</var><code>, </code><var>vertex1</var><code>)</code>
+<a name = "SSEC002.6"></a>
 <li><code>Delete( </code><var>poset</var><code>, </code><var>levelparam</var><code>, </code><var>classparam</var><code> )</code>
 <p>
 These three variants of the <code>Delete</code> operation delete an edge, a vertex and 
 a class respectively.
 <p>
+<a name = "SSEC002.7"></a>
 <li><code>DeleteLevel( </code><var>poset</var><code>, </code><var>levelparam</var><code> ) O</code>
 <p>
 The following method applies to a level. It returns <code>fail</code> if no level
@@ -181,6 +190,7 @@ is deleted and all classes within it are also deleted! <code>DeleteLevel</code>
 returns <code>true</code> if the level is successfully deleted.
 <p>
 <strong>Operations to change a poset:</strong>
+<a name = "SSEC002.8"></a>
 <li><code>ResizeLevel( </code><var>poset</var><code>, </code><var>levelparam</var><code>, </code><var>height</var><code> ) O</code>
 <p>
 Changes the height of a level. The y coordinate can only be changed by
@@ -189,6 +199,7 @@ Attention: This can increase the size of the sheet!
 Returns <code>fail</code> if no level with level parameter <var>levelparam</var> exists and
 <code>true</code> otherwise. 
 <p>
+<a name = "SSEC002.9"></a>
 <li><code>MoveLevel( </code><var>poset</var><code>, </code><var>levelparam</var><code>, </code><var>position</var><code> ) O</code>
 <p>
 Moves a level to another position. <var>position</var> is an absolute index in
@@ -202,6 +213,7 @@ the new position. If there is a contradiction, nothing happens and the
 method returns <code>fail</code>. If everything works the operation returns
 <code>true</code>.
 <p>
+<a name = "SSEC002.10"></a>
 <li><code>Relabel( </code><var>graph</var><code>, </code><var>vertex</var><code>, </code><var>label</var><code> ) O</code>
 <li><code>Relabel( </code><var>graph</var><code>, </code><var>vertex</var><code> ) O</code>
 <li><code>Relabel( </code><var>poset</var><code>, </code><var>vertex1</var><code>, </code><var>vertex2</var><code>, </code><var>label</var><code> ) O</code>
@@ -214,6 +226,7 @@ label is specified the new label is chosen functionally: the operation
 otherwise.  This operation already exists in XGAP for graphic
 objects.
 <p>
+<a name = "SSEC002.11"></a>
 <li><code>Move( </code><var>graph</var><code>, </code><var>vertex</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
 <li><code>Move( </code><var>graph</var><code>, </code><var>vertex</var><code> ) O</code>
 <p>
@@ -223,6 +236,7 @@ coordinates are specified the operation <code>ChoosePosition</code> is
 called. <code>Move</code> returns <code>fail</code> if an error occurs and <code>true</code> otherwise.
 This operation already exists in XGAP for graphic objects.
 <p>
+<a name = "SSEC002.12"></a>
 <li><code>Reshape( </code><var>graph</var><code>, </code><var>vertex</var><code> ) O</code>
 <li><code>Reshape( </code><var>graph</var><code>, </code><var>vertex</var><code>, </code><var>shape</var><code> ) O</code>
 <p>
@@ -233,6 +247,7 @@ for the corresponding data.  <code>Reshape</code> returns <code>fail</code> if a
 occurs and <code>true</code> otherwise.  This operation already exists in XGAP
 for graphic objects.
 <p>
+<a name = "SSEC002.13"></a>
 <li><code>Recolor( </code><var>graph</var><code>, </code><var>vertex</var><code> ) O</code>
 <li><code>Recolor( </code><var>graph</var><code>, </code><var>vertex</var><code>, </code><var>color</var><code> ) O</code>
 <li><code>Recolor( </code><var>poset</var><code>, </code><var>vertex1</var><code>, </code><var>vertex2</var><code>, </code><var>color</var><code> ) O</code>
@@ -245,6 +260,7 @@ functionally: <code>ChooseColor</code> is called for the corresponding
 data. <code>Recolor</code> returns <code>fail</code> if an error occurs and <code>true</code>
 otherwise. This operation already exists in XGAP for graphic objects.
 <p>
+<a name = "SSEC002.14"></a>
 <li><code>SetWidth( </code><var>graph</var><code>, </code><var>vertex1</var><code>, </code><var>vertex2</var><code>, </code><var>width</var><code> ) O</code>
 <li><code>SetWidth( </code><var>graph</var><code>, </code><var>vertex1</var><code>, </code><var>vertex2</var><code> ) O</code>
 <p>
@@ -255,6 +271,7 @@ the corresponding data pair. Returns <code>fail</code> if an error occurs and
 <code>true</code> otherwise. This operation already exists in XGAP for graphic
 objects.
 <p>
+<a name = "SSEC002.15"></a>
 <li><code>Highlight( </code><var>graph</var><code>, </code><var>vertex</var><code> ) O</code>
 <li><code>Highlight( </code><var>graph</var><code>, </code><var>vertex</var><code>, </code><var>flag</var><code> ) O</code>
 <p>
@@ -265,6 +282,7 @@ called for the corresponding data. Returns <code>fail</code> if an error occurs
 and <code>true</code> otherwise. This operation already exists in XGAP for
 graphic objects.
 <p>
+<a name = "SSEC002.16"></a>
 <li><code>Select( </code><var>graph</var><code>, </code><var>vertex</var><code>, </code><var>flag</var><code> ) O</code>
 <li><code>Select( </code><var>graph</var><code>, </code><var>vertex</var><code> ) O</code>
 <p>
@@ -273,15 +291,18 @@ vertex object in <var>graph</var>. The flag determines whether the vertex
 should be selected or deselected. This operation already exists in
 XGAP for graphic objects.  The method without flags assumes <code>true</code>.
 <p>
+<a name = "SSEC002.17"></a>
 <li><code>DeselectAll( </code><var>graph</var><code> ) O</code>
 <p>
 Deselects all vertices in the graph or poset <var>graph</var>.
 <p>
+<a name = "SSEC002.18"></a>
 <li><code>Selected( </code><var>graph</var><code> ) O</code>
 <p>
 Returns a (shallow-)copy of the set of all selected vertices.
 <p>
 <strong>Operations for decisions:</strong>
+<a name = "SSEC002.19"></a>
 <li><code>ChooseLabel( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <li><code>ChooseLabel( </code><var>graph</var><code>, </code><var>data</var><code>, </code><var>data</var><code> ) O</code>
 <p>
@@ -292,6 +313,7 @@ new vertex is not generated! The generic method just returns the empty
 string, so no label is generated.  This method is also called in the
 <code>Relabel</code> method without label parameter.
 <p>
+<a name = "SSEC002.20"></a>
 <li><code>ChooseLevel( </code><var>poset</var><code>, </code><var>data</var><code> ) O</code>
 <p>
 This operation is called during vertex creation, if the caller didn't
@@ -299,6 +321,7 @@ specify a level to which the vertex belongs. It has to return a level
 parameter which exists in the poset. If it returns <code>fail</code> the new
 vertex is not generated!
 <p>
+<a name = "SSEC002.21"></a>
 <li><code>ChooseClass( </code><var>poset</var><code>, </code><var>data</var><code>, </code><var>levelparam</var><code> ) O</code>
 <p>
 This operation is called during vertex creation, if the caller didn't
@@ -306,6 +329,7 @@ specify a class to which the vertex belongs. It has to return a
 class parameter which exists in the poset in the level with parameter
 <var>levelparam</var>. If it returns <code>fail</code> the new vertex is not generated!
 <p>
+<a name = "SSEC002.22"></a>
 <li><code>ChooseColor( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <li><code>ChooseColor( </code><var>graph</var><code>, </code><var>data1</var><code>, </code><var>data2</var><code> ) O</code>
 <p>
@@ -313,6 +337,7 @@ This operation is called during vertex or edge creation. It has to return a
 color. If it returns <code>fail</code> the new vertex is not generated!
 It is also called in the <code>Recolor</code> method without color parameter.
 <p>
+<a name = "SSEC002.23"></a>
 <li><code>ChooseHighlight( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <p>
 This operation is called during vertex creation. It has to return a
@@ -320,6 +345,7 @@ flag which indicates, whether the vertex is highlighted or not. If it
 returns <code>fail</code> the new vertex is not generated!
 It is also called in the <code>Highlight</code> method without flag parameter.
 <p>
+<a name = "SSEC002.24"></a>
 <li><code>ChoosePosition( </code><var>poset</var><code>, </code><var>data</var><code>, </code><var>levelparam</var><code>, </code><var>classparam</var><code>, </code><var>hints</var><code> ) O</code>
 <li><code>ChoosePosition( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <p>
@@ -329,6 +355,7 @@ to the level the vertex resides in.  If it returns <code>fail</code> the new
 vertex is not generated! The parameters <var>levelparam</var> and <var>classparam</var>
 are level and class parameters respectively.
 <p>
+<a name = "SSEC002.25"></a>
 <li><code>ChooseShape( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <p>
 This operation is called during vertex creation.
@@ -336,6 +363,7 @@ It has to return a string out of the following list:
 <code>circle</code>, <code>diamond</code>, <code>rectangle</code>.
 If it returns <code>fail</code> the new vertex is not generated!
 <p>
+<a name = "SSEC002.26"></a>
 <li><code>ChooseWidth( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <li><code>ChooseWidth( </code><var>graph</var><code>, </code><var>data1</var><code>, </code><var>data2</var><code> ) O</code>
 <p>
@@ -344,6 +372,7 @@ It has to return a line width.
 If it returns <code>fail</code> the new vertex or edge is not generated!
 This is also called by the <code>SetWidth</code> operation without width parameter.
 <p>
+<a name = "SSEC002.27"></a>
 <li><code>CompareLevels( </code><var>poset</var><code>, </code><var>levelparam1</var><code>, </code><var>levelparam2</var><code> ) O</code>
 <p>
 Compare two level parameters. -1 means that the level with parameter
@@ -352,11 +381,13 @@ Compare two level parameters. -1 means that the level with parameter
 that they are not comparable.
 <p>
 <strong>Operations to get information:</strong>
+<a name = "SSEC002.28"></a>
 <li><code>WhichLevel( </code><var>poset</var><code>, </code><var>y</var><code> ) O</code>
 <p>
 Determines the level in which position <var>y</var> is. <code>WhichLevel</code> returns the
 level parameter or <code>fail</code>.
 <p>
+<a name = "SSEC002.29"></a>
 <li><code>WhichClass( </code><var>poset</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
 <p>
 Determines a class with a vertex which contains the position
@@ -364,6 +395,7 @@ Determines a class with a vertex which contains the position
 list with the level parameter as first and the class parameter as
 second element.  <code>WhichClass</code> returns <code>fail</code> if no such class is found.
 <p>
+<a name = "SSEC002.30"></a>
 <li><code>WhichVertex( </code><var>graph</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
 <li><code>WhichVertex( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <li><code>WhichVertex( </code><var>graph</var><code>, </code><var>data</var><code>, </code><var>func</var><code> ) O</code>
@@ -376,6 +408,7 @@ vertex being found or not.  The function can for example consider just
 one record component of data records.  <code>WhichVertex</code> returns <code>fail</code> in
 case no vertex is found.
 <p>
+<a name = "SSEC002.31"></a>
 <li><code>WhichVertices( </code><var>graph</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
 <li><code>WhichVertices( </code><var>graph</var><code>, </code><var>data</var><code> ) O</code>
 <li><code>WhichVertices( </code><var>graph</var><code>, </code><var>data</var><code>, </code><var>func</var><code> ) O</code>
@@ -389,17 +422,20 @@ The function can for example consider just one record component of
 data records.
 Returns the empty list in case no vertex is found.
 <p>
+<a name = "SSEC002.32"></a>
 <li><code>Levels( </code><var>poset</var><code> ) O</code>
 <p>
 Returns the list of level parameters in descending order meaning
 highest to lowest. 
 <p>
+<a name = "SSEC002.33"></a>
 <li><code>Classes( </code><var>poset</var><code>, </code><var>levelparam</var><code> ) O</code>
 <p>
 Returns the list of class parameters in the level with parameter
 <var>levelparam</var>. <code>Classes</code> Returns <code>fail</code> if no level with parameter
 <var>levelparam</var> exists. 
 <p>
+<a name = "SSEC002.34"></a>
 <li><code>Vertices( </code><var>poset</var><code>, </code><var>levelparam</var><code>, </code><var>classparam</var><code> ) O</code>
 <p>
 Returns the list of vertices in the class with parameter <var>classparam</var>
@@ -407,14 +443,17 @@ in the level with parameter <var>levelparam</var>. Returns <code>fail</code> if 
 with parameter <var>levelparam</var> or no class with parameter <var>classparam</var>
 exists in the level.
 <p>
+<a name = "SSEC002.35"></a>
 <li><code>Maximals( </code><var>poset</var><code>, </code><var>vertex</var><code> ) O</code>
 <p>
 Returns the list of maximal subvertices in <var>vertex</var>. 
 <p>
+<a name = "SSEC002.36"></a>
 <li><code>MaximalIn( </code><var>poset</var><code>, </code><var>vertex</var><code> ) O</code>
 <p>
 Returns the list of vertices, in which <var>vertex</var> is maximal.  
 <p>
+<a name = "SSEC002.37"></a>
 <li><code>PositionLevel( </code><var>poset</var><code>, </code><var>levelparam</var><code> ) O</code>
 <p>
 Returns the y position of the level relative to the graphic
@@ -422,6 +461,7 @@ sheet and the height. Returns <code>fail</code> if no level with parameter
 <var>levelparam</var> exists.
 <p>
 <strong>Operations for user communication:</strong>
+<a name = "SSEC002.38"></a>
 <li><code>Menu( </code><var>graph</var><code>, </code><var>title</var><code>, </code><var>entrylist</var><code>, </code><var>typelist</var><code>, </code><var>functionslist</var><code> ) O</code>
 <p>
 This operation already exists in XGAP for graphic sheets.
@@ -455,6 +495,7 @@ types are supported:
 graphic sheets.
 The <code>IsMenu</code> object is returned. It is also stored in the sheet.
 <p>
+<a name = "SSEC002.39"></a>
 <li><code>ModifyEnabled( </code><var>graph</var><code>, </code><var>from</var><code>, </code><var>to</var><code> ) O</code>
 <p>
 Modifies the ``Enabledness'' of menu entries according to their type and
@@ -463,12 +504,14 @@ of some menus: <var>from</var> is the first menu to work on and
 <var>to</var> the last one (indices). Only menus with the property <code>IsAlive</code> are
 considered. <code>ModifyEnabled</code> returns nothing.
 <p>
+<a name = "SSEC002.40"></a>
 <li><code>InstallPopup( </code><var>graph</var><code>, </code><var>func</var><code> ) O</code>
 <p>
 Installs a function that is called if the user clicks with the right
 button on a vertex. The function gets as parameters:
  <var>poset</var>,<var>vertex</var>,<var>x</var>,<var>y</var>        (click position)
 <p>
+<a name = "SSEC002.41"></a>
 <li><code>PosetLeftClick( </code><var>poset</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
 <p>
 This operation is called when the user does a left click in the poset
@@ -477,6 +520,7 @@ and <var>y</var>. The generic method for <code>PosetLeftClick</code> lets the us
 select and deselect vertices or edges. An edge is selected as pair of
 vertices. 
 <p>
+<a name = "SSEC002.42"></a>
 <li><code>PosetCtrlLeftClick( </code><var>poset</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
 <p>
 This operation is called when the user does a left click in a poset
@@ -489,6 +533,7 @@ Moving does not move the whole class but only one vertex. This allows
 for permuting the vertices within a class. An edge is selected as pair
 of vertices.
 <p>
+<a name = "SSEC002.43"></a>
 <li><code>PosetRightClick( </code><var>poset</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
 <p>
 This operation is called when the user does a right click in the graph
@@ -498,35 +543,41 @@ is a component in the <font face="Gill Sans,Helvetica,Arial">GAP</font> object. 
 can be called with <code>fail</code> if no vertex is hit.
 <p>
 <strong>Operations for user actions:</strong>
+<a name = "SSEC002.44"></a>
 <li><code>UserDeleteVerticesOp( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Delete vertices</code>.
 The generic method actually deletes the selected vertices including all
 their edges.
 <p>
+<a name = "SSEC002.45"></a>
 <li><code>UserDeleteEdgeOp( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Delete edge</code>.
 The generic method deletes the edge with no further warning!
 <p>
+<a name = "SSEC002.46"></a>
 <li><code>UserMergeClassesOp( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Merge Classes</code>.
 The generic method walks through all levels and merges all classes that
 contain a selected vertex. Afterwards <code>UserRearrangeClasses</code> is called.
 <p>
+<a name = "SSEC002.47"></a>
 <li><code>UserMagnifyLattice( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Magnify Lattice</code>. 
 The generic method scales everything by <var>144/100</var> including the sheet,
 all heights of levels and positions of vertices.
 <p>
+<a name = "SSEC002.48"></a>
 <li><code>UserShrinkLattice( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Shrink Lattice</code>. 
 The generic method scales everything by 100/144 including the sheet,
 all heights of levels and positions of vertices.
 <p>
+<a name = "SSEC002.49"></a>
 <li><code>UserResizeLattice( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Resize Lattice</code>. 
@@ -534,6 +585,7 @@ The generic method asks the user for an x and a y factor and scales
 everything including the sheet, all heights of levels and positions of 
 vertices.
 <p>
+<a name = "SSEC002.50"></a>
 <li><code>UserResizeSheet( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Resize Sheet</code>. 
@@ -541,6 +593,7 @@ The generic method asks the user for an x and a y pixel number and
 changes the width and height of the sheet. No positions of levels and
 vertices are changed. If the user asks for trouble he gets it!
 <p>
+<a name = "SSEC002.51"></a>
 <li><code>UserMoveLattice( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Move Lattice</code>. 
@@ -548,18 +601,21 @@ The generic method asks the user for a pixel number and
 changes the position of all vertices horizontally. No positions of 
 levels are changed. 
 <p>
+<a name = "SSEC002.52"></a>
 <li><code>UserChangeLabels( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Change Labels</code>. 
 The user is prompted for every selected vertex, which label it should
 have.
 <p>
+<a name = "SSEC002.53"></a>
 <li><code>UserAverageY( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Average Y Positions</code>.
 In all levels the average y coordinate is calculated and all vertices are
 moved to this y position.
 <p>
+<a name = "SSEC002.54"></a>
 <li><code>UserAverageX( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Average X Positions</code>.
@@ -567,6 +623,7 @@ The average of all x coordinates of the selected vertices is calculated.
 Then all classes with a selected vertex are moved such that the first
 selected vertex in this class has the calculated position as x position.
 <p>
+<a name = "SSEC002.55"></a>
 <li><code>UserRearrangeClasses( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Rearrange Classes</code>.
@@ -574,21 +631,25 @@ All classes with a selected vertex are rearranged: The vertices are
 lined up neatly one after the other, sorted according to their current
 x position.
 <p>
+<a name = "SSEC002.56"></a>
 <li><code>UserUseBlackWhite( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This is called if the user selects <code>Use Black and White</code> in the menu.
 <p>
+<a name = "SSEC002.57"></a>
 <li><code>PosetShowLevels( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Show Levels</code> in the menu.
 Switches the display of the little boxes for level handling on and off.
 <p>
+<a name = "SSEC002.58"></a>
 <li><code>PosetShowLevelparams( </code><var>sheet</var><code>, </code><var>menu</var><code>, </code><var>entry</var><code> ) O</code>
 <p>
 This operation is called when the user selects <code>Show Level Parameters</code> in 
 the menu. Switches the display of the level parameters at the right of
 the screen on and off.
 <p>
+<a name = "SSEC002.59"></a>
 <li><code>DoRedraw( </code><var>graph</var><code> ) O</code>
 <p>
 Redraws all vertices and connections.
@@ -716,5 +777,5 @@ gap&gt; p := Puzzle(4,4);
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP007.htm">Previous</a>] [<a href ="CHAP009.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>ACE manual<br>February 2016
+<address>XGAP manual<br>February 2016
 </address></body></html>

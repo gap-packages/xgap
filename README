@@ -1,5 +1,10 @@
-This file is created from the TeX-manual by throwing away some TeX-Macro-Calls.
+The GAP 4 package 'XGAP'
+------------------------
 
+XGAP provides a graphical user interface for GAP based on the X Window system.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Installing XGAP
 
 Installing XGAP should be easy once you have installed GAP itself. We
@@ -24,9 +29,9 @@ What you need to install XGAP
 Being a graphical user interface to GAP, XGAP of course needs
 graphics. At the moment this means that you need the X window system in the 
 Version 11 Release 5 or newer. On the other hand the type of Unix you use 
-should not matter. Please contact Max Neunh\accent127offer (email:
-`neunhoef@mcsmst-and.ac.uk') or post to the gap-trouble  
-mailing list, if you encounter problems with certain system configurations.
+should not matter. Please file an issue report on
+  https://github.com/gap-packages/xgap/issues
+if you encounter problems with certain system configurations.
 Note that usage on 
 a computer running Microsoft Windows is not officially supported. 
 See the file `xgap/README.Windows' for a report how it could
@@ -37,27 +42,27 @@ Because XGAP contains a C-part you need a C compiler.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Getting and unpacking the sources
 
-You can download the sources from the same places as GAP. In most cases,
-the XGAP package will already be included in the main distribution.
-Otherwise, the main FTP server is:
+In most cases, the XGAP package will already be included in the main
+distribution. However, you can also download the sources of the latest
+version from
 
-ftp://ftp.gap-system.org/pub/gap/gap4/
+https://gap-packages.github.io/xgap/
 
-You need only one file with the name ``xgap-4.23.tar.gz''
+You need only one file with the name ``xgap-4.24.tar.gz''
 which is in the subdirectory for the packages.
 You now change your current directory to the `pkg' subdirectory of the 
 location where you installed
 GAP
 Now you extract the sources for the XGAP package:
 
-# tar xzvf xgap-4.23.tar.gz
+# tar xzvf xgap-4.24.tar.gz
 ...
 
 The <tar> utility unpacks the files and stores them into the apropriate
 subdirectories. XGAP resides completely in the following subdirectory
 (assuming standard location):
 
-gap4r5/pkg/xgap
+gap4r8/pkg/xgap
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Configuring and Compiling the C part
@@ -175,9 +180,9 @@ standard procedure with one exception:
 
 In the ``./configure'' command, add the following option:
 
-./configure --with-gaproot=/usr/local/lib/gap4r5
+./configure --with-gaproot=/usr/local/lib/gap4r8
 
-if ``/usr/local/lib/gap4r5'' is the location of the main GAP installation.
+if ``/usr/local/lib/gap4r8'' is the location of the main GAP installation.
 
 You can find out where the main GAP4 installation is by starting 
 GAP as usual and looking at the variable `GAPInfo.RootPaths' 

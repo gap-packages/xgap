@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "XGAP",
 Subtitle := "a graphical user interface for GAP",
-Version := "4.23",
-Date := "30/04/2012",
+Version := "4.24",
+Date := "28/02/2016",
 
 Persons := [
   rec( 
@@ -19,21 +19,36 @@ Persons := [
     Email         := "Frank@Celler.DE",
     WWWHome       := "http://celler.de/"
   ),
+
+  rec(
+    LastName      := "Horn",
+    FirstNames    := "Max",
+    IsAuthor      := false,
+    IsMaintainer  := true,
+    Email         := "max.horn@math.uni-giessen.de",
+    WWWHome       := "http://www.quendi.de/math",
+    PostalAddress := Concatenation(
+                       "AG Algebra\n",
+                       "Mathematisches Institut\n",
+                       "Justus-Liebig-Universität Gießen\n",
+                       "Arndtstraße 2\n",
+                       "35392 Gießen\n",
+                       "Germany" ),
+    Place         := "Gießen",
+    Institution   := "Justus-Liebig-Universität Gießen"
+  ),
+
   rec( 
-    LastName      := "Neunhoeffer",
+    LastName      := "Neunhöffer",
     FirstNames    := "Max",
     IsAuthor      := true,
     IsMaintainer  := false,
-    Email         := "neunhoef@mcs.st-and.ac.uk",
-    WWWHome       := "http://www-groups.mcs.st-and.ac.uk/~neunhoef/",
+    Email         := "max@9hoeffer.de",
+    WWWHome       := "http://www-groups.mcs.st-and.ac.uk/~neunhoef",
     PostalAddress := Concatenation( [
-                       "School of Mathematics and Statistics\n",
-                       "Mathematical Institute\n",
-                       "North Haugh\n",
-                       "St Andrews, Fife KY16 9SS\n",
-                       "Scotland, UK" ] ),
-    Place         := "St Andrews",
-    Institution   := "University of St Andrews"
+                       "Gustav-Freytag-Straße 40\n",
+                       "50354 Hürth\n",
+                       "Germany" ] ),
   )
 ],
 
@@ -43,34 +58,27 @@ AcceptDate := "07/1999",
 
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/gap-packages/", ~.PackageName ),
+    URL := "https://github.com/gap-packages/xgap",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", ~.PackageName ),
+PackageWWWHome  := "https://gap-packages.github.io/xgap",
 README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
                                  "/releases/download/v", ~.Version,
-                                 "/", ~.PackageName ,"-", ~.Version ),
+                                 "/xgap-", ~.Version ),
 ArchiveFormats := ".tar.gz",
 
 AbstractHTML := 
   "The <span class=\"pkgname\">XGAP</span> package allows to use graphics in GAP.",
 
 PackageDoc := rec(
-  # use same as in GAP            
-  BookName  := "XGap",
+  BookName  := "XGAP",
   ArchiveURLSubset := ["htm","doc"],
   HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
-  # the path to the .six file used by GAP's help system
   SixFile   := "doc/manual.six",
-  # a longer title of the book, this together with the book name should
-  # fit on a single text line (appears with the '?books' command in GAP)
-  # LongTitle := "Elementary Divisors of Integer Matrices",
   LongTitle := "XGAP - a graphical user interface for GAP",
-  # Should this help book be autoloaded when GAP starts up? This should
-  # usually be 'true', otherwise say 'false'. 
   Autoload  := true
 ),
 

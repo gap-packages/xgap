@@ -1,23 +1,27 @@
 name: XGAP
-version: 4.23
-date: 30/04/2012
+version: 4.24
+date: 28/02/2016
 description: a graphical user interface for GAP
 
 authors:
     - name: Frank Celler
       url: http://celler.de/
-    - name: Max Neunhoeffer
-      url: http://www-groups.mcs.st-and.ac.uk/~neunhoef/
+    - name: Max Neunhöffer
+      url: http://www-groups.mcs.st-and.ac.uk/~neunhoef
+
+maintainers:
+    - name: Max Horn
+      url: http://www.quendi.de/math
 
 GAP: ">=4.7"
 
-www: https://gap-packages.github.io/XGAP
-readme: https://gap-packages.github.io/XGAP/README
-packageinfo: https://gap-packages.github.io/XGAP/PackageInfo.g
+www: https://gap-packages.github.io/xgap
+readme: https://gap-packages.github.io/xgap/README
+packageinfo: https://gap-packages.github.io/xgap/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/XGAP/releases/download/v4.23/XGAP-4.23.tar.gz
+      url: https://github.com/gap-packages/xgap/releases/download/v4.24/xgap-4.24.tar.gz
 
 abstract: The <span class="pkgname">XGAP</span> package allows to use graphics in GAP.
 

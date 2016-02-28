@@ -1,4 +1,4 @@
-<html><head><title>[ACE] 3 Installing XGAP</title></head>
+<html><head><title>[XGAP] 3 Installing XGAP</title></head>
 <body text="#000000" bgcolor="#ffffff">
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <h1>3 Installing XGAP</h1><p>
@@ -38,9 +38,11 @@ You have to perform the following steps to install XGAP:
 Being a graphical user interface to <font face="Gill Sans,Helvetica,Arial">GAP</font>, XGAP of course needs
 graphics. At the moment this means that you need the X window system in the 
 Version 11 Release 5 or newer. On the other hand the type of Unix you use 
-should not matter. Please contact Max Neunh&ouml;ffer (email:
-<code>neunhoef@mcsmst-and.ac.uk</code>) or post to the gap-trouble  
-mailing list, if you encounter problems with certain system configurations.
+should not matter. Please file an issue report on
+<pre>
+https://github.com/gap-packages/xgap/issues
+</pre>
+if you encounter problems with certain system configurations.
 Note that usage on 
 a computer running Microsoft Windows is not officially supported. 
 See the file <code>xgap/README.Windows</code> for a report how it could
@@ -51,15 +53,15 @@ Because XGAP contains a C-part you need a C compiler.
 <p>
 <h2><a name="SECT003">3.3 Getting and unpacking the sources</a></h2>
 <p><p>
-You can download the sources from the same places as <font face="Gill Sans,Helvetica,Arial">GAP</font>. In most cases,
-the XGAP package will already be included in the main distribution.
-Otherwise, the main FTP server is:
+In most cases, the XGAP package will already be included in the main
+distribution. However, you can also download the sources of the latest
+version from
 <p>
 <pre>
-ftp://ftp.gap-system.org/pub/gap/gap4/
+https://gap-packages.github.io/xgap/
 </pre>
 <p>
-You need only one file with the name ``xgap-4.23.tar.gz''
+You need only one file with the name ``xgap-4.24.tar.gz''
 which is in the subdirectory for the packages.
 You now change your current directory to the <code>pkg</code> subdirectory of the 
 location where you installed
@@ -67,7 +69,7 @@ location where you installed
 Now you extract the sources for the XGAP package:
 <p>
 <pre>
-# tar xzvf xgap-4.23.tar.gz
+# tar xzvf xgap-4.24.tar.gz
 ...
 </pre>
 <p>
@@ -76,7 +78,7 @@ subdirectories. XGAP resides completely in the following subdirectory
 (assuming standard location):
 <p>
 <pre>
-gap4r5/pkg/xgap
+gap4r8/pkg/xgap
 </pre>
 <p>
 <p>
@@ -204,10 +206,10 @@ standard procedure with one exception:
 In the ``./configure'' command, add the following option:
 <p>
 <pre>
-./configure --with-gaproot=/usr/local/lib/gap4r5
+./configure --with-gaproot=/usr/local/lib/gap4r8
 </pre>
 <p>
-if <code>/usr/local/lib/gap4r5</code> is the location of the main <font face="Gill Sans,Helvetica,Arial">GAP</font> installation.
+if <code>/usr/local/lib/gap4r8</code> is the location of the main <font face="Gill Sans,Helvetica,Arial">GAP</font> installation.
 You can find out where the main <font face="Gill Sans,Helvetica,Arial">GAP</font>4 installation is by starting 
 <font face="Gill Sans,Helvetica,Arial">GAP</font> as usual and looking at the variable <code>GAPInfo.RootPaths</code> 
 within <font face="Gill Sans,Helvetica,Arial">GAP</font>.
@@ -230,5 +232,5 @@ library path such that all <font face="Gill Sans,Helvetica,Arial">GAP</font> and
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP002.htm">Previous</a>] [<a href ="CHAP004.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>ACE manual<br>February 2016
+<address>XGAP manual<br>February 2016
 </address></body></html>

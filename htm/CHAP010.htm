@@ -1,4 +1,4 @@
-<html><head><title>[ACE] 10 Differences to XGAP 3</title></head>
+<html><head><title>[XGAP] 10 Differences to XGAP 3</title></head>
 <body text="#000000" bgcolor="#ffffff">
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP009.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
 <h1>10 Differences to XGAP 3</h1><p>
@@ -42,7 +42,7 @@ amount of data that is known about some finitely presented groups. The
 reason for this is, that the generic poset routines cannot know that the
 vertices stand for groups at all. So sometimes one has to trigger the
 comparison of subgroups of finitely presented groups manually (see section
-<a href="badlink:ACE:Compare Subgroups">Compare Subgroups</a> for a description how to do this).
+<a href="CHAP005.htm#SSEC012.4">Compare Subgroups</a> for a description how to do this).
 <p>
 In the old <font face="Gill Sans,Helvetica,Arial">GAP</font>3 version of XGAP there were three different programs
 for the full subgroup lattice of a (finite) group (<code>GraphicLattice</code>), the
@@ -54,13 +54,13 @@ is only one generic program to display subgroup lattices interactively
 <p>
 XGAP can now handle subgroups of infinite index. They are either
 placed in a ``finite size'' level or in an ``infinity'' level. See
-<a href="badlink:ACE:levelsintro">levelsintro</a> for details.
+<a href="CHAP005.htm#SECT003">levelsintro</a> for details.
 <p>
 A new logging facility allows to automatically produce a protocol of
 the actions the user performs via mouse clicks. This is convenient
 because the normal <font face="Gill Sans,Helvetica,Arial">GAP</font> command script contains no useful
 information about the selected entries in the menus. See
-<a href="badlink:ACE:loggingfacility">loggingfacility</a> for details.
+<a href="CHAP005.htm#SECT002">loggingfacility</a> for details.
 <p>
 There is a new layer to display generic posets that do not have to be
 subgroup lattices. It can be used to display posets interactively very
@@ -100,7 +100,7 @@ structures will no longer work!
 <p>
 The operation <code>InstallGSMethod</code> is no longer present. It is replaced by the 
 ``callback'' mechanism with the operations <code>InstallCallback</code>,
-<code>RemoveCallback</code> and <code>Callback</code> (see <a href="badlink:ACE:GraphicSheet">GraphicSheet</a> for details). This
+<code>RemoveCallback</code> and <code>Callback</code> (see <a href="CHAP006.htm#SSEC001.1">GraphicSheet</a> for details). This
 means, that mouse events are handled differently. This was changed
 deliberately because there is a big difference: In XGAP4 you can install 
 more than one function for one type of mouse event. All such callback
@@ -109,7 +109,7 @@ method for each event in XGAP3. So you can <strong>not</strong> just change the 
 the operation to install the callback. You have to think about this
 difference! 
 <p>
-See the section <a href="badlink:ACE:Operations for Graphic Objects">Operations for Graphic Objects</a> for an overview
+See the section <a href="CHAP006.htm#SECT004">Operations for Graphic Objects</a> for an overview
 which operations exist now for which graphic objects. The main difference
 is the introduction of <code>Revive</code>, <code>ViewObj</code> and <code>WindowId</code> together with the 
 concept of the <code>IsAlive</code> filter.
@@ -120,10 +120,10 @@ entry. This disturbed the numbering of the menu entries, such that <code>Enable<
 and <code>Check</code> did not work on the correct entry. This bug is fixed in
 XGAP4 so code which contained a workaround for this bug has to be
 changed. <code>Enable</code> and <code>Check</code> behave now like expected and documented in
-<a href="badlink:ACE:Enable">Enable</a> and <a href="badlink:ACE:Check">Check</a>.
+<a href="CHAP007.htm#SSEC001.3">Enable</a> and <a href="CHAP007.htm#SSEC001.2">Check</a>.
 <p>
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP009.htm">Previous</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>ACE manual<br>February 2016
+<address>XGAP manual<br>February 2016
 </address></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>[ACE] 4 Subgroup Lattices - Examples</title></head>
+<html><head><title>[XGAP] 4 Subgroup Lattices - Examples</title></head>
 <body text="#000000" bgcolor="#ffffff">
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP003.htm">Previous</a>] [<a href ="CHAP005.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <h1>4 Subgroup Lattices - Examples</h1><p>
@@ -21,10 +21,10 @@ types of groups  it provides easy access to  many of  the group functions
 (for example, the normalizer, normal subgroups, and Sylow subgroups).
 <p>
 This chapter explains  how to use this  interface by way of examples.  
-Chapter  <a href="badlink:ACE:Subgroup Lattices - Systematic Description">Subgroup  Lattices - Systematic  Description</a> gives
+Chapter  <a href="CHAP005.htm">Subgroup  Lattices - Systematic  Description</a> gives
 details about the   various  options and menus available.    These two
 chapters  will not  describe how to  write  your own programs using the
-graphic extensions supplied by XGAP, see chapters <a href="badlink:ACE:Graphic Sheets - Basic graphic operations">Graphic Sheets - Basic graphic operations</a> to <a href="badlink:ACE:Graphic Graphs">Graphic Graphs</a> for details.
+graphic extensions supplied by XGAP, see chapters <a href="CHAP006.htm">Graphic Sheets - Basic graphic operations</a> to <a href="CHAP009.htm">Graphic Graphs</a> for details.
 <p>
 It is assumed that you have already started XGAP.  On most systems you
 do this by typing
@@ -64,7 +64,7 @@ by hand as suggested in the next few sections of this manual.
 <h2><a name="SECT001">4.1 The Subgroup Lattice of the Dihedral Group of Order 8</a></h2>
 <p><p>
 This  section   gives  you an   example    on how  to    use the function
-<code>GraphicSubgroupLattice</code> (see <a href="badlink:ACE:GraphicSubgroupLattice">GraphicSubgroupLattice</a> for  details), which 
+<code>GraphicSubgroupLattice</code> (see <a href="CHAP005.htm#SECT001">GraphicSubgroupLattice</a> for  details), which 
 will  display the Hasse diagram of the subgroup lattice of a given group.
 <p>
 Using the dihedral group of size <var>8</var> as example the following will show you
@@ -92,7 +92,7 @@ XGAP will open a window containing a new graphic sheet, a menu bar
 systems the title will be either below the graphic sheet or above the menu
 bar.  The dimension of the graphic sheet is fixed, changing the size of the
 window will <strong>not</strong> change the size of the graphic sheet, see
-<a href="badlink:ACE:GraphicSubgroupLattice, Poset Menu">GraphicSubgroupLattice, Poset Menu</a> how to resize the graphic sheet.  It
+<a href="CHAP005.htm#SECT008">GraphicSubgroupLattice, Poset Menu</a> how to resize the graphic sheet.  It
 is possible that the graphic sheet is larger (depending on the lattice it
 might be much larger) than the window.  In this case the window will
 contain so called scrollbars which allow you to select the portion of the
@@ -126,9 +126,9 @@ representation of the subgroup lattice:
   have size 2, and the subgroups of <var>3</var>, <var>6</var>, and <var>7</var> have size <var>4</var>. The
   default behaviour is to place a vertex above another one if the size of
   the subgroup represented by the first vertex is larger than the size of
-  the subgroup of the second, but see <a href="badlink:ACE:GraphicSubgroupLattice">GraphicSubgroupLattice</a> for details. At
+  the subgroup of the second, but see <a href="CHAP005.htm#SECT001">GraphicSubgroupLattice</a> for details. At
   the right edge of the graphic sheet each level is labeled with the index
-  of the subgroups contained. See <a href="badlink:ACE:levelsintro">levelsintro</a> for details on the
+  of the subgroups contained. See <a href="CHAP005.htm#SECT003">levelsintro</a> for details on the
   labelling of levels.
 <p>
 <dt>--<dd>Vertices belonging to the same conjugacy class are placed closely
@@ -158,7 +158,7 @@ around <var>G</var>, press the <strong>left</strong> mouse button  and release i
 Do  not move the  mouse  while you hold down  the  left mouse button.  
 Vertex <var>G</var> now has a slightly thicker boundary and is  red if you have
 a color screen.  There are two different ways  to select more than one
-vertex,  see <a href="badlink:ACE:A Partial Subgroup Lattice of the Symmetric Group on 6 Points">A Partial  Subgroup Lattice of  the Symmetric Group on 6 Points</a> or <a href="badlink:ACE:GraphicSubgroupLattice, Selecting Vertices">GraphicSubgroupLattice, Selecting Vertices</a>.
+vertex,  see <a href="CHAP004.htm#SECT002">A Partial  Subgroup Lattice of  the Symmetric Group on 6 Points</a> or <a href="CHAP005.htm#SECT005">GraphicSubgroupLattice, Selecting Vertices</a>.
 <p>
 On the top of the window, above the graphic sheet, you  can see a list
 of  menu names:  <code>Sheet</code>,  <code>Poset</code>, and <code>Subgroups</code>.   In order to
@@ -195,7 +195,7 @@ There will also be a message  in the <font face="Gill Sans,Helvetica,Arial">GAP<
 <p>
 Most of  the menu entries  in <code>Subgroups</code> should be self-explanatory, for
 details and  the   difference   between  <code>Closure</code>  and    <code>Closures</code> see
-<a href="badlink:ACE:GraphicSubgroupLattice, Subgroups Menu">GraphicSubgroupLattice, Subgroups Menu</a>.
+<a href="CHAP005.htm#SECT009">GraphicSubgroupLattice, Subgroups Menu</a>.
 <p>
 If you  have  selected  some  vertices (in  the   example <var>D8</var> is  now
 selected), and you want to investigate  the subgroups corresponding to
@@ -231,8 +231,8 @@ example, the subgroups are not yet depicted in the lattice, a warning
 appears in the <font face="Gill Sans,Helvetica,Arial">GAP</font> command window. You have to use <code>InsertVertex</code>
 to insert a new vertex into the lattice (note that you can also
 achieve this by selecting <code>InsertVertices from GAP</code> in the
-<code>Subgroups</code> menu, see section <a href="badlink:ACE:InsertVertex">InsertVertex</a> for the complete
-description of this function or section <a href="badlink:ACE:xgapgap">xgapgap</a> for an example).
+<code>Subgroups</code> menu, see section <a href="CHAP005.htm#SSEC006.1">InsertVertex</a> for the complete
+description of this function or section <a href="CHAP004.htm#SECT002">xgapgap</a> for an example).
 <p>
 To  summarize the above: the  function <code>SelectedGroups</code> can be used to
 transfer information  from   the  diagram  to  <font face="Gill Sans,Helvetica,Arial">GAP</font>, the   functions
@@ -250,8 +250,8 @@ transfer information between the Hasse diagram and <font face="Gill Sans,Helveti
 and <code>SelectedGroups</code>.
 <p>
 In order to learn more about the menus <code>Sheet</code> and <code>Poset</code>, which were only
-mentioned very briefly, see <a href="badlink:ACE:GraphicSubgroupLattice, Sheet Menu">GraphicSubgroupLattice, Sheet Menu</a>, and
-<a href="badlink:ACE:GraphicSubgroupLattice, Poset Menu">GraphicSubgroupLattice, Poset Menu</a>.  
+mentioned very briefly, see <a href="CHAP005.htm#SECT007">GraphicSubgroupLattice, Sheet Menu</a>, and
+<a href="CHAP005.htm#SECT008">GraphicSubgroupLattice, Poset Menu</a>.  
 <p>
 <p>
 <h2><a name="SECT002">4.2 A Partial Subgroup Lattice of the Symmetric Group on 6 Points</a></h2>
@@ -271,10 +271,10 @@ As there are <var>1455</var> subgroups,  displaying  the whole lattice of  subgr
 would not  be helpful because  there are simply  too many.   Therefore this
 example builds only a partial  subgroup lattice.   We  assume that you  are
 familiar with  the  general ideas,  mouse   actions and  menus, which  were
-discussed in <a href="badlink:ACE:The Subgroup Lattice of the Dihedral Group of Order 8">The Subgroup Lattice of the Dihedral Group of Order 8</a>.
+discussed in <a href="CHAP004.htm#SECT001">The Subgroup Lattice of the Dihedral Group of Order 8</a>.
 <p>
 We again start to build a partial lattice, by using
-<code>GraphicSubgroupLattice</code> (see <a href="badlink:ACE:GraphicSubgroupLattice">GraphicSubgroupLattice</a>).  After you have
+<code>GraphicSubgroupLattice</code> (see <a href="CHAP005.htm#SECT001">GraphicSubgroupLattice</a>).  After you have
 entered
 <p>
 <pre>
@@ -292,7 +292,7 @@ actions you perform via mouse clicks. This is convenient because in
 comparison to normal <font face="Gill Sans,Helvetica,Arial">GAP</font> sessions you do not have the script of
 typed commands. You can activate this feature by selecting <code>Start
 Logging</code> from the <code>Subgroups</code> menu. XGAP prompts you for a filename 
-via a file selector box. See <a href="badlink:ACE:loggingfacility">loggingfacility</a> for details about this
+via a file selector box. See <a href="CHAP005.htm#SECT002">loggingfacility</a> for details about this
 feature. 
 <p>
 In order  to  find all subgroups   of size <var>60</var>, we  cannot   not use the
@@ -306,7 +306,7 @@ gap&gt; s60 := List(c60,Representative);
 </pre>
 <p>
 labelxgapgap
-We now use the function <code>InsertVertex</code> (see <a href="badlink:ACE:InsertVertex">InsertVertex</a>) to add
+We now use the function <code>InsertVertex</code> (see <a href="CHAP005.htm#SSEC006.1">InsertVertex</a>) to add
 these two subgroups to your partial lattice.
 <p>
 <pre>
@@ -315,7 +315,7 @@ gap&gt; for g in s60 do InsertVertex(s,g); od;
 <p>
 Note  that  we  could have    achieved   this result  with the   entry
 <code>InsertVertices from GAP</code>  in   the    <code>Subgroups</code>  menu,   see
-<a href="badlink:ACE:InsertVertex">InsertVertex</a>.  The  Hasse diagram now  contains  four vertices.  The
+<a href="CHAP005.htm#SSEC006.1">InsertVertex</a>.  The  Hasse diagram now  contains  four vertices.  The
 new  vertices are  <strong>not</strong> selected automatically.   You can do  this as
 mentioned above  by clicking with  the <strong>left</strong>  mouse button on  them.  
 Selecting <code>Conjugate Subgroups</code> from the <code>Subgroups</code> menu adds the
@@ -361,7 +361,7 @@ isomorphism type we can get from <font face="Gill Sans,Helvetica,Arial">GAP</fon
 the ``Information'' menu.  Repeat this with vertex <var>2</var>, you will see that the
 subgroup of vertex <var>2</var> is also isomorphic to <var>A<sub>5</sub></var>, however these two <var>A<sub>5</sub></var>
 inside <var>S<sub>6</sub></var> are not conjugate in <var>S<sub>6</sub></var>.  The ``Information'' menu is described
-in detail in <a href="badlink:ACE:GraphicSubgroupLattice, Information Menu">GraphicSubgroupLattice, Information Menu</a>.
+in detail in <a href="CHAP005.htm#SECT010">GraphicSubgroupLattice, Information Menu</a>.
 <p>
 Now we want to compute the normalizers of the elements of the conjugacy
 class containing the subgroup of vertex <var>3</var>.  You could either select
@@ -446,7 +446,7 @@ gap&gt; SetName(c2,"c2");
 </pre>
 <p>
 We again assume that you are familiar with the general ideas, mouse actions
-and menus, which were discussed in <a href="badlink:ACE:The Subgroup Lattice of the Dihedral Group of Order 8">The Subgroup Lattice of the Dihedral Group of Order 8</a> and <a href="badlink:ACE:A Partial Subgroup Lattice of the Symmetric Group on 6 Points">A Partial Subgroup Lattice of the Symmetric Group on 6 Points</a>.
+and menus, which were discussed in <a href="CHAP004.htm#SECT001">The Subgroup Lattice of the Dihedral Group of Order 8</a> and <a href="CHAP004.htm#SECT002">A Partial Subgroup Lattice of the Symmetric Group on 6 Points</a>.
 <p>
 In order  to build a  partial lattice of a  finitely presented group, you
 again use the function  <code>GraphicSubgroupLattice</code>.  But if the first  argument
@@ -478,7 +478,7 @@ group is.   In  order  to  compute the abelian    invariants pop  up  the
 ``Information'' menu.   This is done in exactly  the same manner  as in the
 previous section.  Place the pointer inside vertex <var>G</var>, press the <strong>right</strong>
 mouse button and release   it  immediately.  This ``Information'' menu   is
-described  in   detail in  <a href="badlink:ACE:GraphicSubgroupLattice for FpGroups, Information Menu">GraphicSubgroupLattice  for FpGroups, Information Menu</a>.
+described  in   detail in  <a href="CHAP005.htm#SECT013">GraphicSubgroupLattice  for FpGroups, Information Menu</a>.
 <p>
 <pre>
 Index              1
@@ -515,7 +515,7 @@ Close the ``Information'' window and select <code>Low Index Subgroups</code> fro
 the index.  Type in <var>12</var> and press <var>return</var> or click on <code>OK</code>.  In general
 it  is hard to say what   kind of index  limit  will still work, for some
 groups even <var>5</var> might be too  much while for others  <var>20</var> works fine, see
-also <a href="../../../doc/htm/ref/chap47.html#X85C5151380E19122">LowIndexSubgroupsFpGroup</a>.
+also <a href="badlink:ref:LowIndexSubgroupsFpGroup">LowIndexSubgroupsFpGroup</a>.
 <p>
 <font face="Gill Sans,Helvetica,Arial">GAP</font> computes <var>10</var> subgroups  of index <var>11</var>  and <var>8</var> subgroups of index
 <var>12</var>.  If you now start to check the abelian invariants of the index <var>12</var>
@@ -537,14 +537,14 @@ gap&gt; u := SelectedGroups( s );
       b*a*b^3*a^-1*b^-1 ]) ]
 </pre>
 <p>
-<code>FactorCosetOperation</code> computes for each of  these subgroups <var>u<sub>i</sub></var>  the
+<code>FactorCosetAction</code> computes for each of  these subgroups <var>u<sub>i</sub></var>  the
 operation of  <var>C<sub>2</sub></var> on its cosets. It returns the result as a homomorphism
 of <var>C<sub>2</sub></var> onto a permutation group. The  operation on <var>u<sub>i</sub></var> is therefore a
 permutation representation of the factor group <p><var>C<sub>2</sub> / Core(u<sub>i</sub>).<p></var> Using
 <code>DisplayCompositionSeries</code> we can identify these factor groups.
 <p>
 <pre>
-gap&gt; p := List( u, x -&gt; FactorCosetOperation( c2, x ) );;
+gap&gt; p := List( u, x -&gt; FactorCosetAction( c2, x ) );;
 gap&gt; l := List( p, Image );;
 gap&gt; for x  in l  do DisplayCompositionSeries(x);  Print("\n");  od;
 G (2 gens, size 95040)
@@ -578,7 +578,7 @@ gap&gt; s := GraphicSubgroupLattice(c2);
 <p>
 Select  <code>Epimorphisms (GQuotients)</code> from  the  <code>Subgroups</code> menu.  This
 pops  up   a   menu   similar  to    the  ``Information''   menu    (see
-<a href="badlink:ACE:GraphicSubgroupLattice for FpGroups, Subgroups Menu">GraphicSubgroupLattice for FpGroups, Subgroups Menu</a>).
+<a href="CHAP005.htm#SECT012">GraphicSubgroupLattice for FpGroups, Subgroups Menu</a>).
 <p>
 <pre>
 Sym(n)
@@ -792,8 +792,8 @@ Load the packages, define the group and open the subgroup
 lattice window: 
 <p>
 <pre>
-gap&gt; RequirePackage("crystcat");;
-gap&gt; RequirePackage("cryst");;
+gap&gt; LoadPackage("crystcat");;
+gap&gt; LoadPackage("cryst");;
 gap&gt; g := SpaceGroupBBNWZ(4,6,3,1,2);
 SpaceGroupOnRightBBNWZ( 4, 6, 3, 1, 2 )
 gap&gt; s := GraphicSubgroupLattice(g);
@@ -863,7 +863,7 @@ from the <code>Subgroups</code> menu. You
 will get four different new vertices representing groups with infinite
 index <strong>and</strong> infinite size.  Each such vertex is placed into a level on
 its own, which is marked by <code>[ H1, </code><var>n</var><code>]</code> where <var>n</var> is replaced
-with subsequent natural numbers (see section <a href="badlink:ACE:levelsintro">levelsintro</a> for details
+with subsequent natural numbers (see section <a href="CHAP005.htm#SECT003">levelsintro</a> for details
 about levels). ``H1'' means Hirsch length 1, that is, each subnormal series
 of the group contains one and only one infinite cycle. In fact, since
 these are subgroups of space groups, it indicates that the translation
@@ -896,5 +896,5 @@ graphic sheet</code> from the <code>Sheet</code> menu.
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href ="CHAP003.htm">Previous</a>] [<a href ="CHAP005.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>ACE manual<br>February 2016
+<address>XGAP manual<br>February 2016
 </address></body></html>
