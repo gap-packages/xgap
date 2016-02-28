@@ -1,8 +1,15 @@
 ===========================================================================
- This file describes changes in the GAP package 'polycyclic'.
+ This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
-4.23 (30/04/2012)
+4.24 (2016-02-28)
+  * Package homepage now is on GitHub
+  * Add Max Horn as package maintainer, removed maintainer flag from
+    Max Neunhöffer
+  * Update C code from K&R to ANSI C, fix various warnings
+  * Replace uses of obsolete GAP_ROOT_PATHS by GAPInfo.RootPaths
+
+4.23 (2012-04-30)
  * XGAP now reports "4.23" as version number instead of "4.22".
 
  * Follow Frank Luebeck's suggestions for some startup calls.
@@ -19,7 +26,7 @@
 
  * Include "Save As XFig" kindly donated by Russ Woodroofe
 
-4.21 (22/05/2004)
+4.21 (2004-05-22)
  * The handling of pseudo terminals is fixed for newer versions of Linux
    using devfs filesystems. Now functions getpt, grantpt and ptsname_r
    are used in this case.
@@ -30,7 +37,7 @@
  * Fixed a bug in CompareLevels for graphic subgroup lattices, which came
    into existence because some filters changed in the main library.
 
-4.20 (20/02/2004)
+4.20 (2004-02-20)
  * Deleted a line in src.x11/selfile.c offending the compiler on Mac OS/X.
    Seems to work under Linux/i386 also.
 
@@ -40,12 +47,12 @@
 4.19 (~2003)
  * Fixed behaviour when the small groups library is not around. 
 
-4.18 (20/05/2003)
+4.18 (2003-05-20)
  * Fix display of help pages (bug reported by Walter Neumann).
    Note that this probably will make this version incompatible with
    GAP 4.2 and earlier versions (not tested).
 
-4.17 (17/05/2003)
+4.17 (2003-05-17)
  * PackageInfo.g file is now supplied.
 
  * The new package loading mechanism is therefore supported.
