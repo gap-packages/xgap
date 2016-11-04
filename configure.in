@@ -106,4 +106,4 @@ if test "x$GAPARCH" = "xUnknown" -o ! -d $GAPROOT/bin/$GAPARCH ; then
   AC_MSG_ERROR([Unable to find plausible GAParch information.])
 fi  
 AC_SUBST(GAPARCH)
-AC_OUTPUT(Makefile xgap.sh:xgap.shi)
+AC_OUTPUT(Makefile xgap.sh)

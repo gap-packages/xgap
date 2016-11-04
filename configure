@@ -2917,7 +2917,7 @@ if test "x$GAPARCH" = "xUnknown" -o ! -d $GAPROOT/bin/$GAPARCH ; then
   as_fn_error $? "Unable to find plausible GAParch information." "$LINENO" 5
 fi
 
-ac_config_files="$ac_config_files Makefile xgap.sh:xgap.shi"
+ac_config_files="$ac_config_files Makefile xgap.sh"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3625,7 +3625,7 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "xgap.sh") CONFIG_FILES="$CONFIG_FILES xgap.sh:xgap.shi" ;;
+    "xgap.sh") CONFIG_FILES="$CONFIG_FILES xgap.sh" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
