@@ -2,6 +2,12 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
+4.25 (2016-11-04)
+  * Fixed more compiler warnings
+  * Fixed problem with xgap.sh that could prevent it from working
+    on some systems
+  * Some minor tweaks to the build system
+
 4.24 (2016-02-28)
   * Package homepage now is on GitHub
   * Add Max Horn as package maintainer, removed maintainer flag from
