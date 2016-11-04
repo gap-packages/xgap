@@ -467,7 +467,7 @@ void ProcessStoredInput ( state )
 	return;
 
     /* if no input is waiting return */
-    if ( Storage.len == 0 && ScreenSizeBuffer == 0 )
+    if ( Storage.len == 0 && *ScreenSizeBuffer == 0 )
 	return;
 
     /* otherwise make sure that gap does not want to tell use something */
