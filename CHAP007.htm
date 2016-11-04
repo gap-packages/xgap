@@ -1,0 +1,282 @@
+<html><head><title>[XGAP] 7 User Communication</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP006.htm">Previous</a>] [<a href ="CHAP008.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>7 User Communication</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP007.htm#SECT001">Menus in Graphic Sheets</a>
+<li> <A HREF="CHAP007.htm#SECT002">Mouse Events</a>
+<li> <A HREF="CHAP007.htm#SECT003">Dialogs</a>
+<li> <A HREF="CHAP007.htm#SECT004">Popups</a>
+</ol><p>
+<p>
+XGAP has two main means to communicate with the user. The first is the
+normal command processing: The user types commands, they are transmitted to 
+<font face="Gill Sans,Helvetica,Arial">GAP</font>, are executed, and produce output, which is displayed in the command
+window. The second is the mouse and the other parts of the graphical user
+interface. This latter part can be divided into menus, mouse events,
+dialogs, and popups.
+<p>
+<p>
+<dl compact>
+<dt>Menus <dd> Most of the windows of XGAP have menus. The user can select
+entries in them and this information is transformed to a function call in
+<font face="Gill Sans,Helvetica,Arial">GAP</font>. Menu entries can be checked or not, so menus can also display
+information. 
+<p>
+<dt>Mouse Events <dd> A mouse event is the pressing or releasing of a mouse
+button, together with the position where the mouse pointer is in the exact
+moment this happens and the state of certain keyboard keys (mainly shift
+and control). Such events also trigger <font face="Gill Sans,Helvetica,Arial">GAP</font> function calls and the
+corresponding functions can react on these events and for example wait for
+others. 
+<p>
+<dt>Dialogs <dd> Dialogs are windows which display information and into which
+the user can enter information for example in form of text fields.
+<p>
+<dt>Popups <dd> Popups are special dialogs where the user can not type text but
+can only click on certain buttons. XGAP has so called ``text selectors'' 
+which are a convenient construct to display textual information and let the
+user select parts of it.
+</dl>
+<p>
+Most of those graphical objects have corresponding <font face="Gill Sans,Helvetica,Arial">GAP</font> objects, which
+are created by constructors and can be used later on by operations.
+<p>
+<p>
+<h2><a name="SECT001">7.1 Menus in Graphic Sheets</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>Menu( </code><var>sheet</var><code>, </code><var>title</var><code>, </code><var>ents</var><code>, </code><var>fncs</var><code> ) O</code>
+<li><code>Menu( </code><var>sheet</var><code>, </code><var>title</var><code>, </code><var>zipped</var><code> ) O</code>
+<p>
+<code>Menu</code> returns a pulldown menu. It is attached to the sheet <var>sheet</var>
+under the title <var>title</var>. In the first form <var>ents</var> is a list of strings
+consisting of the names of the menu entries. <var>fncs</var> is a list of
+functions. They are called when the corresponding menu entry is selected
+by the user. The parameters they get are the graphic sheet as first
+parameter, the menu object as second, and the name of the selected entry
+as third parameter. In the second form the entry names and functions are
+all in one list <var>zipped</var> in alternating order, meaning first a menu entry,
+then the corresponding function and so on.
+Note that you can delete menus but it is not possible to modify them,
+once they are attached to the sheet.
+If a name of a menu entry begins with a minus sign or the list entry
+in <var>ents</var> is not bound, a dummy menu entry is generated, which can sort
+the menu entries within a menu in blocks. The corresponding function
+does not matter.
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>Check( </code><var>menu</var><code>, </code><var>entry</var><code>, </code><var>flag</var><code> ) O</code>
+<p>
+Modifies the ``checked'' state of a menu entry. This is visualized by a 
+small check mark behind the menu entry. <var>menu</var> must be a menu object,
+<var>entry</var> the string exactly as in the definition of the menu, and <var>flag</var>
+a boolean value.
+<p>
+<a name = "SSEC001.3"></a>
+<li><code>Enable( </code><var>menu</var><code>, </code><var>entry</var><code>, </code><var>flag</var><code> ) O</code>
+<li><code>Enable( </code><var>menu</var><code>, </code><var>boollist</var><code> ) O</code>
+<p>
+Modifies the ``enabled'' state of a menu entries. Only enabled menu entries
+can be selected by the user. Disabled menu entries are visualized
+by grey or shaded letters in the menu. <var>menu</var> must be a menu object,
+<var>entry</var> the string exactly as in the definition of the menu, and <var>flag</var>
+a boolean value. <var>entry</var> can also be a natural number meaning the index
+of the corresponding menu entry.
+In the second form <var>boollist</var> must be a list where each
+entry has either a boolean value or the value <code>fail</code> 
+The list must be as long as the 
+number of menu entries in the menu <var>menu</var>. All menu entries where a 
+boolean value is provided are enabled or disabled according to this
+value.
+<p>
+See the explanation of <code>GraphicSheet</code> (<a href="CHAP006.htm#SSEC001.2">Close!Callback</a>) for the ``Close''
+event, which occurs when the user selects the menu entry 
+<code>close graphic sheet</code> in the <code>Sheet</code> menu.
+<p>
+<p>
+<h2><a name="SECT002">7.2 Mouse Events</a></h2>
+<p><p>
+When a mouse event occurs, this is communicated to <font face="Gill Sans,Helvetica,Arial">GAP</font> via a function
+call which in turn triggers a callback. As described in <a href="CHAP006.htm#SSEC001.1">GraphicSheet</a> to
+<a href="CHAP006.htm#SSEC001.8">CtrlRightPBDown</a> the following callback keys are predefined as reactions
+on mouse events: <code>LeftPBDown</code>, <code>RightPBDown</code>, <code>ShiftLeftPBDown</code>,
+<code>ShiftRightPBDown</code>, <code>CtrlLeftPBDown</code>, <code>CtrlRightPBDown</code>.
+<p>
+Note that when your function gets called, the mouse button will still be
+pressed. So it can react and for example wait for the release. There is an 
+easy way to find out about the state of the mouse buttons after the event:
+<p>
+<a name = "SSEC002.1"></a>
+<li><code>WcQueryPointer( </code><var>id</var><code> ) F</code>
+<p>
+<var>id</var> must be a <code>WindowId</code> of an XGAP sheet. This function returns a
+vector of four integers. The first two are the coordinates of the mouse 
+pointer relative to the XGAP sheet. Values outside the window are 
+represented by <font face="symbol">-</font>1. The third element is a number where the pressed      
+buttons are coded. If no mouse button is pressed, the value is zero.
+<code>BUTTONS.left</code> is added to the value, if the left mouse button is pressed
+and <code>BUTTONS.right</code> is added, if the right mouse button is pressed. The
+fourth value codes the state of the shift and control. Here the values
+<code>BUTTONS.shift</code> and <code>BUTTONS.ctrl</code> are used.
+<p>
+This function is used in
+<p>
+<a name = "SSEC002.2"></a>
+<li><code>Drag( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>bt</var><code>, </code><var>func</var><code> ) O</code>
+<p>
+Call this function when a button event has occurred, so the button <var>bt</var>
+is still pressed. It waits until the user releases the mouse button and
+calls <var>func</var> for every change of the mouse position with the new x and
+y position as two integer parameters. You can implement a dragging
+procedure in this way as in the following example: (we assume that a
+<code>LeftPBDown</code> event just occurred and x and y contain the current mouse
+pointer position):
+<p>
+<pre>
+  storex := x;
+  storey := y;
+  box := Rectangle(sheet,x,y,0,0);
+  if Drag(sheet,x,y,BUTTONS.left,
+          function(x,y)
+            local bx,by,bw,bh;
+            if x &lt; storex then
+              bx := x;
+              bw := storex - x;
+            else
+              bx := storex;
+              bw := x - storex;
+            fi;
+            if y &lt; storey then
+              by := y;
+              bh := storey - y;
+            else
+              by := storey;
+              bh := y - storey;
+            fi;
+            if bx &lt;&gt; box!.x or by &lt;&gt; box!.y then
+              Move(box,bx,by);
+            fi;
+            if bw &lt;&gt; box!.w or bh &lt;&gt; box!.h then
+              Reshape(box,bw,bh);
+            fi;
+          end) then
+    the box had at one time at least a certain size
+    ... work with box ...
+  else
+    the box was never big enough, we do nothing
+  fi;
+  Delete(box);
+</pre>
+<p>
+<p>
+<h2><a name="SECT003">7.3 Dialogs</a></h2>
+<p><p>
+<a name = "SSEC003.1"></a>
+<li><code>Dialog( </code><var>type</var><code>, </code><var>text</var><code> ) O</code>
+<p>
+creates a dialog box and returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> object describing it. There are
+currently two types of dialogs: A file selector dialog (called
+<code>Filename</code>) and a dialog type called <code>OKcancel</code>. <var>text</var> is a text that
+appears as a title in the dialog box.
+<p>
+<a name = "SSEC003.2"></a>
+<li><code>Query( </code><var>obj</var><code> ) O</code>
+<li><code>Query( </code><var>obj</var><code>, </code><var>default</var><code> ) O</code>
+<p>
+Puts a dialog on screen. Returns <code>false</code> if the user clicks ``Cancel'' and
+a string value or filename, if the user clicks ``OK'', depending on the
+type of dialog. <var>default</var> is an optional initialization value for the 
+string.
+<p>
+<p>
+<h2><a name="SECT004">7.4 Popups</a></h2>
+<p><p>
+<a name = "SSEC004.1"></a>
+<li><code>PopupMenu( </code><var>name</var><code>, </code><var>labels</var><code> ) O</code>
+<p>
+creates a new popup menu and returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> object describing it.
+<var>name</var> is the title of the menu and <var>labels</var> is a list of strings for
+the entries. Use <code>Query</code> to actually put the popup on the screen.
+<p>
+<a name = "SSEC004.2"></a>
+<li><code>Query</code>
+<p>
+actually puts a popup on screen. <code>Query</code> returns the string of the
+selected entry or <code>false</code> if the user clicks outside the popup. 
+See also <code>Query</code> for dialogs in <a href="CHAP007.htm#SSEC003.2">Query</a>.
+<p>
+<a name = "SSEC004.3"></a>
+<li><code>TextSelector( </code><var>name</var><code>, </code><var>list</var><code>, </code><var>buttons</var><code> ) O</code>
+<p>
+creates a new text selector and returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> object describing it.
+<var>name</var> is a title. <var>list</var> is an alternating list of strings and
+functions. The strings are displayed and can be selected by the user.
+If this happens the corresponding function is called with two
+parameters.  The first is the text selector object itself, the second
+the string that is selected. A selected string is highlighted and all
+other strings are reset at the same time. Use <code>Reset</code> to reset all
+entries.
+<p>
+<var>buttons</var> is an analogous list for the buttons that are 
+displayed at the bottom of the text selector. The text selector is 
+displayed immediately and stays on screen until it is closed (use the
+<code>Close</code> operation). Buttons can be enabled and disabled by the <code>Enable</code>
+operation and the string of a text can be changed via <code>Relabel</code>.
+<p>
+<a name = "SSEC004.4"></a>
+<li><code>Enable( </code><var>sel</var><code>,</code><var>bt</var><code>,</code><var>flag</var><code> )</code>
+<li><code>Enable( </code><var>sel</var><code>,</code><var>btindex</var><code>,</code><var>flag</var><code> )</code>
+<p>
+Enables or disables the button <var>bt</var> (string value) or <var>btindex</var>
+(integer index)  of the text selector <var>sel</var>, according to <var>flag</var>.
+<p>
+<a name = "SSEC004.5"></a>
+<li><code>Relabel( </code><var>sel</var><code>, </code><var>list</var><code> )</code>
+<li><code>Relabel( </code><var>sel</var><code>, </code><var>index</var><code>, </code><var>text</var><code> )</code>
+<p>
+Changes the strings that are displayed in the text selector. In the
+first form <var>list</var> must be a list of strings. The second form only
+changes the text at index <var>index</var>.
+<p>
+<a name = "SSEC004.6"></a>
+<li><code>SetName( </code><var>sel</var><code>, </code><var>index</var><code>, </code><var>string</var><code> )</code>
+<p>
+Every string in a text selector has a name. The names are stored in
+the list <code>names</code> component of the text selector. So <code>sel!.names</code> ist a 
+list containing the names. The names are initialized with the strings
+from the creation of the text selector.
+<p>
+<a name = "SSEC004.7"></a>
+<li><code>Reset( </code><var>sel</var><code> )</code>
+<p>
+Resets all strings of a text selector, such that they are no longer
+selected. 
+<p>
+<a name = "SSEC004.8"></a>
+<li><code>Close( </code><var>sel</var><code> )</code>
+<p>
+Closes a text selector. It vanishes from screen.
+<p>
+Note that you have access to the indices and names of strings and
+buttons:
+<p>
+<a name = "SSEC004.9"></a>
+<li><code>IndexOfSelectedText</code>
+<p>
+Whenever the user clicks on a text in a text selector, the global
+variable is set to the index of the text in the text
+selector. 
+<p>
+<a name = "SSEC004.10"></a>
+<li><code>IndexOfSelectedButton</code>
+<p>
+Whenever the user clicks on a button in a text selector, the global
+variable is set to the index of the button in the text selector.
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP006.htm">Previous</a>] [<a href ="CHAP008.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>XGAP manual<br>November 2016
+</address></body></html>

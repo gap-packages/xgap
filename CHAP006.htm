@@ -1,0 +1,606 @@
+<html><head><title>[XGAP] 6 Graphic Sheets - Basic graphic operations</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP005.htm">Previous</a>] [<a href ="CHAP007.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>6 Graphic Sheets - Basic graphic operations</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP006.htm#SECT001">Graphic Sheet Objects</a>
+<li> <A HREF="CHAP006.htm#SECT002">Graphic Objects in Sheets</a>
+<li> <A HREF="CHAP006.htm#SECT003">Colors in XGAP</a>
+<li> <A HREF="CHAP006.htm#SECT004">Operations for Graphic Objects</a>
+<li> <A HREF="CHAP006.htm#SECT005">Global Information</a>
+</ol><p>
+<p>
+This chapter describes how graphics are accessed in XGAP via the lowest
+library functions for graphic sheets. These functions are used in all other 
+parts of XGAP and you normally only need to know them if you want to
+display other things than graphic posets and subgroup lattices.
+<p>
+<p>
+<h2><a name="SECT001">6.1 Graphic Sheet Objects</a></h2>
+<p><p>
+To access any graphics in XGAP you first have to create a <strong>graphic</strong>
+<strong>sheet</strong> object. Such objects are linked internally to windows on the
+screen. You do <strong>not</strong> have to think about redrawing, resizing and other
+organizing stuff. The graphic sheet object is a <font face="Gill Sans,Helvetica,Arial">GAP</font> object
+in the category <code>IsGraphicSheet</code> and should be saved because it is needed
+later on for all graphic operations.
+<p>
+<a name = "SSEC001.1"></a>
+<li><code>GraphicSheet( </code><var>title</var><code>, </code><var>width</var><code>, </code><var>height</var><code> ) O</code>
+<p>
+creates  a  graphic  sheet with  title  <var>title</var> and dimension <var>width</var>  by
+<var>height</var>.  A graphic sheet  is the basic  tool  to draw something,  it is
+like a piece of  paper on which you can  put your graphic objects, and to
+which you  can attach your  menus.   The coordinate (0,0) is  the upper
+left corner, (<i>width</i> <font face="symbol">-</font>1,<i>height</i> <font face="symbol">-</font>1) the lower right.
+<p>
+It is  possible to  change the  default behaviour of   a graphic sheet by
+installing methods (or   sometimes  called callbacks) for   the following
+events.  In order to  avoid  confusion with  the <font face="Gill Sans,Helvetica,Arial">GAP</font> term  ``method'' the
+term ``callback'' will be used in the following.  For example, to install
+the function <code>MyLeftPBDownCallback</code> as callback for the left mouse button
+down  event of a graphic sheet <var>sheet</var>,  you have  to call
+<code>InstallCallback</code> as follows.
+<p>
+<pre>
+gap&gt; InstallCallback( sheet, "LeftPBDown", MyLeftPBDownCallback );
+</pre>
+<p>
+XGAP stores for each graphic sheet a list of callback keys and a list
+of callback functions for each key. That means that when a certain 
+callback key is triggered for a graphic sheet then the corresponding
+list of callback functions is called one function after the other. The
+following keys have predefined meanings which are explained below:
+  <code>Close</code>, <code>LeftPBDown</code>, <code>RightPBDown</code>, <code>ShiftLeftPBDown</code>, 
+  <code>ShiftRightPBDown</code>, <code>CtrlLeftPBDown</code>, <code>CtrlRightPBDown</code>.
+All of these keys are strings. You can install your own callback 
+functions for new keys, however they will not be triggered automatically.
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>Close( </code><var>sheet</var><code> )</code>
+<p>
+  the function will be called as soon as the user selects ``close graphic
+  sheet'',  the installed  function gets  the graphic sheet <var>sheet</var> to
+  close as argument.
+<p>
+<a name = "SSEC001.3"></a>
+<li><code>LeftPBDown( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code> )</code>
+<p>
+  the function will be called as soon as  the user presses the left mouse
+  button inside  the   graphic sheet, the  installed   function  gets the
+  graphic sheet <var>sheet</var>,  the <var>x</var> coordinate and  <var>y</var> coordinate of the
+  pointer as arguments.
+<p>
+<a name = "SSEC001.4"></a>
+<li><code>RightPBDown( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code> )</code>
+<p>
+  same  as <code>LeftPBDown</code> except that the  user has pressed the right mouse
+  button.
+<p>
+<a name = "SSEC001.5"></a>
+<li><code>ShiftLeftPBDown( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code> )</code>
+<p>
+  same  as <code>LeftPBDown</code> except that the  user has  pressed the left mouse
+  button together with the <i>SHIFT</i> key on the keyboard.
+<p>
+<a name = "SSEC001.6"></a>
+<li><code>ShiftRightPBDown( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code> )</code>
+<p>
+  same as  <code>LeftPBDown</code> except that the  user has pressed the right mouse
+  button together with the <i>SHIFT</i> key on the keyboard.
+<p>
+<a name = "SSEC001.7"></a>
+<li><code>CtrlLeftPBDown( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code> )</code>
+<p>
+  same  as <code>LeftPBDown</code> except that the  user has pressed  the left mouse
+  button together with the <i>CTRL</i> key on the keyboard.
+<p>
+<a name = "SSEC001.8"></a>
+<li><code>CtrlRightPBDown( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code> )</code>
+<p>
+  same as <code>LeftPBDown</code>  except that the  user has pressed the right mouse
+  button together with the <i>CTRL</i> key on the keyboard.
+<p>
+Here is the documentation for the operations to control the callback 
+functions:
+<p>
+<a name = "SSEC001.9"></a>
+<li><code>InstallCallback( </code><var>sheet</var><code>, </code><var>key</var><code>, </code><var>func</var><code> ) O</code>
+<p>
+Installs a new callback function for the sheet <var>sheet</var> for the key <var>key</var>.
+Note that the old functions for this key are <strong>not</strong> deleted.
+<p>
+<a name = "SSEC001.10"></a>
+<li><code>RemoveCallback( </code><var>sheet</var><code>, </code><var>func</var><code>, </code><var>call</var><code> ) O</code>
+<p>
+Removes an old callback. Note that you have to specify not only the 
+<var>key</var> but also explicitly the <var>func</var> which should be removed from the 
+list!
+<p>
+<a name = "SSEC001.11"></a>
+<li><code>Callback( </code><var>sheet</var><code>, </code><var>key</var><code>, </code><var>args</var><code> ) O</code>
+<p>
+Executes all callback functions of the sheet <var>sheet</var> that are stored under
+the key <var>func</var> with the argument list <var>args</var>.
+<p>
+Every graphic object in XGAP can be <var>alive</var> or not. This is controlled
+by the filter <code>IsAlive</code>. Being <var>alive</var> means that the object can be used
+for further operations. If for example the user closes a window by a 
+mouse operation the corresponding graphic sheet object is no longer 
+<var>alive</var>.
+<p>
+<a name = "SSEC001.12"></a>
+<li><code>IsAlive( </code><var>gobj</var><code> ) F</code>
+<p>
+This filter controls if a graphic object is <var>alive</var>, meaning that it can
+be used for further graphic operations.
+<p>
+The following operations apply to graphic sheets:
+<p>
+<a name = "SSEC001.13"></a>
+<li><code>Close( </code><var>sheet</var><code> ) O</code>
+<p>
+The graphic sheet <var>sheet</var> is closed which means that the corresponding
+window is closed and the sheet becomes <var>not alive</var>.
+<p>
+<a name = "SSEC001.14"></a>
+<li><code>Resize( </code><var>sheet</var><code>, </code><var>width</var><code>, </code><var>height</var><code> ) O</code>
+<p>
+The <var>width</var> and <var>height</var> of the sheet <var>sheet</var> are changed. That does <strong>not</strong> 
+automatically mean that the window size is changed. It may also happen
+that only the scrollbars are changed.
+<p>
+<a name = "SSEC001.15"></a>
+<li><code>WindowId( </code><var>sheet</var><code> ) A</code>
+<p>
+Every graphic sheet has a unique number, its <var>window id</var>. This is mainly
+used internally.
+<p>
+<a name = "SSEC001.16"></a>
+<li><code>SetTitle( </code><var>sheet</var><code>, </code><var>title</var><code> ) O</code>
+<p>
+Every graphic sheet has a title which appears somewhere on the window.
+It is initially set via the call to the constructor <code>GraphicSheet</code> and
+can be changed later with this operation.
+<p>
+<a name = "SSEC001.17"></a>
+<li><code>SaveAsPS( </code><var>sheet</var><code>, </code><var>filename</var><code> ) O</code>
+<p>
+Saves the graphics in the sheet <var>sheet</var> as postscript into the file
+<var>filename</var>, which is overwritten, if it exists.
+<p>
+<a name = "SSEC001.18"></a>
+<li><code>FastUpdate( </code><var>sheet</var><code>, </code><var>flag</var><code> ) O</code>
+<p>
+Switches the <code>UseFastUpdate</code> filter for the sheet <var>sheet</var> to the
+boolean value of <var>flag</var>. If this filter is set for a sheet, the screen
+is no longer updated completely if a graphic object is moved or
+deleted.  You should call <code>FastUpdate( </code><var>sheet</var><code>, true )</code> before you
+start large rearrangements of the graphic objects and 
+<code>FastUpdate( </code><var>sheet</var><code>, false )</code> at the end.
+<p>
+<p>
+<h2><a name="SECT002">6.2 Graphic Objects in Sheets</a></h2>
+<p><p>
+All graphics within graphic sheets are so called graphic objects. They 
+are <font face="Gill Sans,Helvetica,Arial">GAP</font> objects in the category <code>IsGraphicObject</code>. These objects are
+linked internally to the actual graphics within the window. You can 
+modify these objects via certain operations which leads to the
+corresponding change of the real graphics on the screen. The types of
+graphic objects supported in XGAP are: boxes, circles, discs, diamonds,
+rectangles, lines, texts, vertices and connections. Vertices are compound
+objects consisting of a circle, rectangle oder diamond with a short text
+inside. They remember their connections to other vertices. That means
+that if for example the position of a vertex is changed, the line which 
+makes the connection to some other vertex is also changed automatically.
+For every graphic object there is a constructor which has the same name 
+as the graphic object (e.g. <code>Box</code> is the constructor for boxes).
+<p>
+<a name = "SSEC002.1"></a>
+<li><code>IsGraphicObject( </code><var>gobj</var><code> ) C</code>
+<p>
+This is the category in which all graphic objects are.
+<p>
+<strong>Constructors:</strong>
+<p>
+<a name = "SSEC002.2"></a>
+<li><code>Box( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code> ) O</code>
+<li><code>Box( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+creates a new graphic object,  namely a filled black  box, in the graphic
+sheet <var>sheet</var> and  returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> record describing  this  object.  The
+four   corners     of  the    box    are   (<i>x</i> ,<i>y</i> ),  (<i>x</i> +<i>w</i> ,<i>y</i> ),
+(<i>x</i> +<i>w</i> ,<i>y</i> +<i>h</i> ), and (<i>x</i> ,<i>y</i> +<i>h</i> ).
+<p>
+Note that the box is <i>w</i> +1 pixel wide and <i>h</i> +1 pixels high.
+<p>
+If a record <var>defaults</var> is given and contains a component <code>color</code> of value
+<var>color</var>, the  function works like the first version  of  <code>Box</code>, except 
+that the color of the box will be <var>color</var>.  See <a href="CHAP006.htm#SECT003">Color Models</a> for how 
+to select a <var>color</var>.
+<p>
+See <a href="CHAP006.htm#SECT004">operations for graphic objects</a> for a list of operations
+that apply to boxes.
+<p>
+Note that <code>Reshape</code> for boxes takes three parameters, namely the box
+object, the new width, and the new height of the box.
+<p>
+<a name = "SSEC002.3"></a>
+<li><code>Circle( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>r</var><code> ) O</code>
+<li><code>Circle( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>r</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+creates a new graphic object, namely a black circle, in the graphic sheet
+<var>sheet</var> and returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> record describing this object. The center
+of the circle is (<i>x</i> ,<i>y</i> ) and the radius is <i>r</i> .
+<p>
+If a record <var>defaults</var> is given and contains a component <code>color</code> of value
+<var>color</var>, the  function works like the first version  of  <code>Circle</code>, except 
+that the color of the circle will be <var>color</var>.  See <a href="CHAP006.htm#SECT003">Color Models</a> for how 
+to select a <var>color</var>. If the record contains a component <code>width</code> of value
+<var>width</var>, the line width of the circle is set accordingly.
+<p>
+See <a href="CHAP006.htm#SECT004">operations for graphic objects</a> for a list of operations
+that apply to circles.
+<p>
+Note that <code>Reshape</code> for circles takes two parameters, namely the circle
+object, and the new radius of the circle.
+<p>
+<a name = "SSEC002.4"></a>
+<li><code>Disc( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>r</var><code> ) O</code>
+<li><code>Disc( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>r</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+creates a new graphic object, namely a disc (a black filled circle), 
+in the graphic sheet
+<var>sheet</var> and returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> record describing this object. The center
+of the disc is (<i>x</i> ,<i>y</i> ) and the radius is <i>r</i> .
+<p>
+If a record <var>defaults</var> is given and contains a component <code>color</code> of value
+<var>color</var>, the  function works like the first version  of  <code>Disc</code>, except 
+that the color of the disc will be <var>color</var>.  See <a href="CHAP006.htm#SECT003">Color Models</a> for how 
+to select a <var>color</var>. 
+<p>
+See <a href="CHAP006.htm#SECT004">operations for graphic objects</a> for a list of operations
+that apply to discs.
+<p>
+Note that <code>Reshape</code> for discs takes two parameters, namely the disc
+object, and the new radius.
+<p>
+<a name = "SSEC002.5"></a>
+<li><code>Diamond( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code> ) O</code>
+<li><code>Diamond( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+creates a new graphic object, namely a black diamond, in the graphic sheet
+<var>sheet</var> and returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> record describing this object. The left
+corner of the diamond is (<i>x</i> ,<i>y</i> ), the others are (<i>x</i> +<i>w</i> ,<i>y</i> <font face="symbol">-</font><i>h</i> ),
+(<i>x</i> +<i>w</i> ,<i>y</i> +<i>h</i> ), and (<i>x</i> +2<i>w</i> ,<i>y</i> ).
+<p>
+If a record <var>defaults</var> is given and contains a component <code>color</code> of value
+<var>color</var>, the  function works like the first version  of  <code>Diamond</code>, except 
+that the color of the diamond will be <var>color</var>.  See <a href="CHAP006.htm#SECT003">Color Models</a> for how 
+to select a <var>color</var>. If the record contains a component <code>width</code> with 
+integer value <var>width</var>, the line width is set accordingly.
+<p>
+See <a href="CHAP006.htm#SECT004">operations for graphic objects</a> for a list of operations
+that apply to diamonds.
+<p>
+Note that <code>Reshape</code> for diamonds takes three parameters, namely the diamond
+object, and the new <var>width</var> and <var>height</var> values.
+<p>
+<a name = "SSEC002.6"></a>
+<li><code>Rectangle( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code> ) O</code>
+<li><code>Rectangle( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+creates a new graphic object,  namely a black  rectangle, in the graphic
+sheet <var>sheet</var> and  returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> record describing  this  object.  The
+four   corners     of  the    box    are   (<i>x</i> ,<i>y</i> ),  (<i>x</i> +<i>w</i> ,<i>y</i> ),
+(<i>x</i> +<i>w</i> ,<i>y</i> +<i>h</i> ), and (<i>x</i> ,<i>y</i> +<i>h</i> ).
+<p>
+Note that the rectangle is <i>w</i> +1 pixel wide and <i>h</i> +1 pixels high.
+<p>
+If a record <var>defaults</var> is given and contains a component <code>color</code> of value
+<var>color</var>, the  function works like the first version  of  <code>Rectangle</code>, 
+except 
+that the color of the rectangle will be <var>color</var>.  See <a href="CHAP006.htm#SECT003">Color Models</a> for 
+how 
+to select a <var>color</var>. If the record contains a component <code>width</code> with 
+integer value <var>width</var>, the line width is set accordingly.
+<p>
+See <a href="CHAP006.htm#SECT004">operations for graphic objects</a> for a list of operations
+that apply to rectangles.
+<p>
+Note that <code>Reshape</code> for rectangles takes three parameters, namely the 
+rectangle object, and the new <var>width</var> and <var>height</var> values.
+<p>
+<a name = "SSEC002.7"></a>
+<li><code>Line( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code> ) O</code>
+<li><code>Line( </code><var>sheet</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>w</var><code>, </code><var>h</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+creates a new graphic object,  namely a black  line, in the graphic
+sheet <var>sheet</var> and  returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> record describing  this  object.  The
+line has the end points (<i>x</i> ,<i>y</i> ) and (<i>x</i> +<i>w</i> ,<i>y</i> +<i>h</i> ).
+<p>
+If a record <var>defaults</var> is given and contains a component <code>color</code> of value
+<var>color</var>, the  function works like the first version  of  <code>Line</code>, except 
+that the color of the line will be <var>color</var>.  See <a href="CHAP006.htm#SECT003">Color Models</a> for how 
+to select a <var>color</var>. If the record contains a component <code>width</code> with 
+integer value <var>width</var>, the line width is set accordingly. If the record
+contains a component <code>label</code> with a string value <var>label</var>, a text object
+is attached as a label to the line.
+<p>
+See <a href="CHAP006.htm#SECT004">operations for graphic objects</a> for a list of operations
+that apply to lines.
+<p>
+Note that <code>Reshape</code> for lines takes three parameters, namely the 
+line object, and the new <var>w</var> and <var>h</var> value. <code>Change</code> for
+lines in contrast takes five parameters, namely the line object and all 
+four coordinates like in the original call.
+<p>
+<a name = "SSEC002.8"></a>
+<li><code>Text( </code><var>sheet</var><code>, </code><var>font</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>str</var><code> ) O</code>
+<li><code>Text( </code><var>sheet</var><code>, </code><var>font</var><code>, </code><var>x</var><code>, </code><var>y</var><code>, </code><var>str</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+creates a new graphic object, namely the string <var>str</var> as a black text,
+in the graphic sheet <var>sheet</var> and returns a <font face="Gill Sans,Helvetica,Arial">GAP</font> record describing
+this object.  The text has the baseline of the first character at
+(<i>x</i>,<i>y</i>).
+<p>
+If a record <var>defaults</var> is given and contains a component <code>color</code> of value
+<var>color</var>, the  function works like the first version  of  <code>Text</code>, except 
+that the color of the text will be <var>color</var>.  See <a href="CHAP006.htm#SECT003">Color Models</a> for how 
+to select a <var>color</var>. 
+<p>
+See <a href="CHAP006.htm#SECT004">operations for graphic objects</a> for a list of operations
+that apply to texts.
+<p>
+Note that <code>Reshape</code> for texts takes two parameters, namely the 
+text object, and the new font. Use <code>Relabel</code> to change the string of the
+text.
+<p>
+<strong>Operations for graphic objects:</strong>
+<p>
+<a name = "SSEC002.9"></a>
+<li><code>Connection( </code><var>vertex</var><code>, </code><var>vertex</var><code> ) O</code>
+<li><code>Connection( </code><var>vertex</var><code>, </code><var>vertex</var><code>, </code><var>defaults</var><code> ) O</code>
+<p>
+Connects two vertices with a line.
+The second variation can get a <var>defaults</var> record for the actual line. The
+same entries as in the <var>defaults</var> record for lines are allowed.
+<p>
+<a name = "SSEC002.10"></a>
+<li><code>Disconnect( </code><var>vertex</var><code>, </code><var>vertex</var><code> ) O</code>
+<p>
+Deletes connection between two vertices.
+<p>
+<a name = "SSEC002.11"></a>
+<li><code>Draw( </code><var>object</var><code> ) O</code>
+<p>
+This operation (re-)draws a graphic object on the screen. You normally
+do not need to call this yourself. But in some rare cases of object
+overlaps you could find it useful.
+<p>
+<a name = "SSEC002.12"></a>
+<li><code>Delete( </code><var>sheet</var><code>, </code><var>object</var><code> ) O</code>
+<li><code>Delete( </code><var>object</var><code> ) O</code>
+<p>
+Deletes a graphic object. Calls <code>Destroy</code> first, so the graphic object
+is no more <var>alive</var> afterwards. The object is deleted from the list of
+objects in its graphic sheet. There is no way to reactivate such an
+object afterwards.
+<p>
+<a name = "SSEC002.13"></a>
+<li><code>Destroy( </code><var>object</var><code> ) O</code>
+<p>
+Destroys a graphic object. It disappears from the screen and will not be 
+<var>alive</var> any more after this call.
+Note that <var>object</var> is <strong>not</strong> deleted from the list of objects in its
+graphic sheet <var>sheet</var>.  
+This makes it possible to <code>Revive</code> it again.
+In order to delete <var>object</var> from <var>sheet</var>,
+use <code>Delete( </code><var>sheet</var><code>, </code><var>obj</var><code> )</code>, which calls <code>Destroy</code> for <var>obj</var>.
+<p>
+<a name = "SSEC002.14"></a>
+<li><code>Revive( </code><var>object</var><code> ) O</code>
+<p>
+Note that <var>object</var> must be in the list of objects in its graphic sheet!
+So this is only possible for <code>Destroyed</code>, not
+for <code>Deleted</code> graphic objects.
+<p>
+<a name = "SSEC002.15"></a>
+<li><code>Move( </code><var>object</var><code>, </code><var>x</var><code>, </code><var>y</var><code> ) O</code>
+<p>
+Changes the position of a graphic object absolutely. It must be <var>alive</var>
+and will be moved at once on the screen.
+<p>
+<a name = "SSEC002.16"></a>
+<li><code>MoveDelta( </code><var>object</var><code>, </code><var>dx</var><code>, </code><var>dy</var><code> ) O</code>
+<p>
+Changes the position of a graphic object relatively. It must be <var>alive</var>
+and will be moved at once on the screen.
+<p>
+<a name = "SSEC002.17"></a>
+<li><code>PSString( </code><var>object</var><code> ) O</code>
+<p>
+Creates a postscript string which describes the graphic object. Normally
+you do not need to call this because it is only used internally if the
+user exports the whole graphic sheet to encapsulated postscript.
+<p>
+<a name = "SSEC002.18"></a>
+<li><code>PrintInfo( </code><var>object</var><code> ) O</code>
+<p>
+This operation prints debugging info about a graphic object.
+<p>
+<a name = "SSEC002.19"></a>
+<li><code>Recolor( </code><var>object</var><code>, </code><var>col</var><code> ) O</code>
+<p>
+Changes the color of a graphic object. See <a href="CHAP006.htm#SECT003">Color Models</a> for how 
+to select a <var>color</var>. 
+<p>
+<a name = "SSEC002.20"></a>
+<li><code>Reshape( </code><var>object</var><code>, ... ) O</code>
+<p>
+Changes the shape of a graphic object. The parameters depend on the type
+of the object. See the descriptions of the constructors for the actual
+usage.
+<p>
+<a name = "SSEC002.21"></a>
+<li><code>\in</code>
+<p>
+This infix operation needs a vector of two integers to its left and a graphic
+object to its right (``vector of two integers'' means a list of two
+integers e.g. <code>[15,9]</code>). It determines, if the position given by the two
+integer coordinates is inside (e.g. for boxes) or on (e.g. for lines) the
+graphic objects. Returns a boolean value.
+<a name = "SSEC002.22"></a>
+<li><code>Change( </code><var>object</var><code>, ... ) O</code>
+<p>
+Changes the shape of a graphic object. The parameters depend on the type
+of the object. See the descriptions of the constructors for the actual
+usage.
+<p>
+<a name = "SSEC002.23"></a>
+<li><code>Relabel( </code><var>object</var><code>, </code><var>str</var><code> ) O</code>
+<p>
+Changes the label of a graphic object. The second argument must always
+be a string.
+<p>
+<a name = "SSEC002.24"></a>
+<li><code>SetWidth( </code><var>object</var><code>, </code><var>w</var><code> ) O</code>
+<p>
+Changes the line width of the graphic object. The line width <var>w</var> must be
+a relatively small integer.
+<p>
+<a name = "SSEC002.25"></a>
+<li><code>Highlight( </code><var>vertex</var><code> ) O</code>
+<li><code>Highlight( </code><var>vertex</var><code>, </code><var>flag</var><code> ) O</code>
+<p>
+In the first form this operation switches the highlighting status of a
+vertex to ON. In the second form the <var>flag</var> decides about ON or OFF.
+Highlighting normally means a thicker line width and a change in color.
+<p>
+<p>
+<h2><a name="SECT003">6.3 Colors in XGAP</a></h2>
+<p><p>
+labelColor Models
+<p>
+Depending on the type of display you are using, there may be more or
+fewer colors available. You should write your programs always such that
+they work even on monochrome displays. In XGAP these differences can
+be read off from the so called ``color model''. The global variable
+<code>COLORS</code> contains all available information.
+<p>
+<a name = "SSEC003.1"></a>
+<li><code>COLORS V</code>
+<p>
+The variable  <code>COLORS</code> contains a list  of available colors.  If an entry
+is <code>false</code> this  color is not available  on your screen.  Possible colors
+are: <code>"black"</code>, <code>"white"</code>, <code>"lightGrey"</code>, <code>"dimGrey"</code>, <code>"red"</code>, <code>"blue"</code>,
+and <code>"green"</code>.
+<p>
+The  following example opens   a new graphic sheet  (see <a href="CHAP006.htm#SSEC001.1">GraphicSheet</a>),
+puts  a black box (see  <a href="CHAP006.htm#SSEC002.2">Box</a>) onto it and  changes its color.  Obviously
+you need a color display for this example.
+<p>
+<pre>
+gap&gt; sheet := GraphicSheet( "Nice Sheet", 300, 300 );
+&lt;graphic sheet "Nice Sheet"&gt;
+gap&gt; box := Box( sheet, 10, 10, 290, 290 );
+&lt;box&gt;
+gap&gt; Recolor( box, COLORS.green );
+gap&gt; Recolor( box, COLORS.blue );
+gap&gt; Recolor( box, COLORS.red );
+gap&gt; Recolor( box, COLORS.lightGrey );
+gap&gt; Recolor( box, COLORS.dimGrey );
+gap&gt; Close(sheet);
+</pre>
+<p>
+The component <code>model</code> is always a string. It is <code>monochrome</code>, if the 
+display does not support colors. It is <code>gray</code> if we only have gray shades
+and <code>colorX</code> if we have colors. The ``X'' can be either 3 or 5, depending
+on how many colors are available.
+<p>
+<p>
+<h2><a name="SECT004">6.4 Operations for Graphic Objects</a></h2>
+<p><p>
+The following table gives an overview over the supported graphic objects and 
+the functions which are applicable respectively:
+<p>
+Here are the supported graphic object types: <code>Box</code>, <code>Circle</code>, <code>Disc</code>, 
+<code>Diamond</code>, <code>Rectangle</code>, <code>Line</code>, <code>Text</code>, <code>Vertex</code>.
+<p>
+These functions apply to all graphic object types:
+<code>Draw</code>, <code>Delete</code>, <code>Destroy</code>, <code>Revive</code>, <code>Move</code>, <code>MoveDelta</code>, <code>PSString</code>,
+<code>PrintInfo</code>, <code>ViewObj</code>, <code>Recolor</code>, <code>Reshape</code>, <code>\in</code>, <code>WindowId</code>
+<p>
+In addition, the operation <code>Relabel</code> applies to objects of types <code>Line</code>,
+<code>Text</code>, and <code>Vertex</code>; the operation <code>SetWidth</code> applies to objects of types
+<code>Diamond</code>, <code>Rectangle</code>, <code>Circle</code>, and <code>Line</code>. There is also <code>Change</code> for a
+<code>Line</code> and <code>Highlight</code> for a <code>Vertex</code>.
+<p>
+<p>
+<h2><a name="SECT005">6.5 Global Information</a></h2>
+<p><p>
+There are some global data structures which can and should be consulted if 
+certain information is needed. The first (about color handling) was already 
+described in section <a href="CHAP006.htm#SECT003">Color Models</a>. The second is for vertices:
+<p>
+<a name = "SSEC005.1"></a>
+<li><code>VERTEX V</code>
+<p>
+  This globally bound record contains the following components:
+<p>
+<p>
+<dl compact>
+<dt><code>circle</code> <dd> integer value for the vertex type ``circle''
+<p>
+<dt><code>diamond</code> <dd> integer value for the vertex type ``diamond''
+<p>
+<dt><code>rectangle</code> <dd> integer value for the vertex type ``rectangle''
+<p>
+<dt><code>radius</code> <dd> radius in pixels of a vertex on the screen
+<p>
+<dt><code>diameter</code> <dd> diameter in pixels of a vertex on the screen
+</dl>
+<p>
+The third structure is about the available fonts. 
+<p>
+<a name = "SSEC005.2"></a>
+<li><code>FONTS V</code>
+<p>
+This globally bound record has the following components: <code>tiny</code>, <code>small</code>, 
+<code>normal</code>, <code>large</code>, <code>huge</code> and <code>fonts</code>. The first 5 are itself records each
+for one available font. They have components <code>name</code> for the name of the font
+and <code>fontInfo</code>, which is a list of 3 integers. The first is the maximal size
+of a character above the baseline in pixels, the second is the maximal size
+of a character below the baseline in pixels, and the third is the width
+in pixels of <strong>all</strong> characters, because it is always assumed, that the
+fonts are non-proportional.
+<p>
+<a name = "SSEC005.3"></a>
+<li><code>FontInfo( </code><var>font</var><code> ) O</code>
+<p>
+Returns the information about the font <var>font</var>. The result is a triple
+of integers. The first number is the maximal size
+of a character above the baseline in pixels, the second is the maximal size
+of a character below the baseline in pixels, and the third is the width
+in pixels of <strong>all</strong> characters, because it is always assumed, that the
+fonts are non-proportional. Use this function rather than accessing
+the component <code>fontInfo</code> of a font object directly!
+<p>
+There is another global structure:
+<p>
+<a name = "SSEC005.4"></a>
+<li><code>BUTTONS V</code>
+<p>
+This record contains the following components: <code>left</code> and <code>right</code> contain a
+number for the left resp. right mouse button. <code>shift</code> and <code>ctrl</code> contain
+codes for the respective keys on the keyboard.
+<p>
+You should always use these global data instead of hardwiring any integers into
+your code.
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP005.htm">Previous</a>] [<a href ="CHAP007.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>XGAP manual<br>November 2016
+</address></body></html>

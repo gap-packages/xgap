@@ -1,0 +1,995 @@
+<html><head><title>[XGAP] 5 Subgroup Lattices - Systematic Description</title></head>
+<body text="#000000" bgcolor="#ffffff">
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP004.htm">Previous</a>] [<a href ="CHAP006.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<h1>5 Subgroup Lattices - Systematic Description</h1><p>
+<P>
+<H3>Sections</H3>
+<oL>
+<li> <A HREF="CHAP005.htm#SECT001">GraphicSubgroupLattice</a>
+<li> <A HREF="CHAP005.htm#SECT002">GraphicSubgroupLattice, Protocol of Group Theoretic Constructions</a>
+<li> <A HREF="CHAP005.htm#SECT003">GraphicSubgroupLattice, Labelling of Levels</a>
+<li> <A HREF="CHAP005.htm#SECT004">GraphicSubgroupLattice, Moving Vertices</a>
+<li> <A HREF="CHAP005.htm#SECT005">GraphicSubgroupLattice, Selecting Vertices</a>
+<li> <A HREF="CHAP005.htm#SECT006">GraphicSubgroupLattice, Inserting Vertices</a>
+<li> <A HREF="CHAP005.htm#SECT007">GraphicSubgroupLattice, Sheet Menu</a>
+<li> <A HREF="CHAP005.htm#SECT008">GraphicSubgroupLattice, Poset Menu</a>
+<li> <A HREF="CHAP005.htm#SECT009">GraphicSubgroupLattice, Subgroups Menu</a>
+<li> <A HREF="CHAP005.htm#SECT010">GraphicSubgroupLattice, Information Menu</a>
+<li> <A HREF="CHAP005.htm#SECT011">Vertex Shapes</a>
+<li> <A HREF="CHAP005.htm#SECT012">GraphicSubgroupLattice for FpGroups, Subgroups Menu</a>
+<li> <A HREF="CHAP005.htm#SECT013">GraphicSubgroupLattice for FpGroups, Information Menu</a>
+</ol><p>
+<p>
+In this chapter we give details about the various options and menus
+available in a systematic way.
+<p>
+<p>
+<h2><a name="SECT001">5.1 GraphicSubgroupLattice</a></h2>
+<p><p>
+<a name = "SSEC001.1"></a>
+<li><code>GraphicSubgroupLattice( </code><var>g</var><code> )</code>
+<p>
+<code>GraphicSubgroupLattice</code> creates a new graphic sheet for the Hasse
+diagram of the subgroup lattice of <var>g</var>.  The next sections describe
+how to select and move vertices and the following sections describe the
+available menus.
+<p>
+<pre>
+gap&gt; GraphicSubgroupLattice( DihedralGroup(8) );
+&lt;graphic subgroup lattice "GraphicSubgroupLattice"&gt;
+</pre>
+<p>
+<a name = "SSEC001.2"></a>
+<li><code>GraphicSubgroupLattice( </code><var>g</var><code>, </code><var>width</var><code>, </code><var>height</var><code> )</code>
+<p>
+In this form <code>GraphicSubgroupLattice</code> creates a graphic sheet of initial
+dimensions <var>width</var> times <var>height</var>.  However it is still possible to change
+these dimensions later using either the menu (described in
+<a href="CHAP005.htm#SECT008">GraphicSubgroupLattice, Poset Menu</a>) or the operation <code>Resize</code> for graphic 
+sheets (see <a href="CHAP006.htm#SSEC001.14">Resize</a>).
+<p>
+This function is the same for all types of groups. It only behaves differently
+according to some properties of the group. For example finitely presented
+groups are treated differently because other algorithms apply in this case
+and some of the standard ones are not feasible to be carried out. 
+<p>
+In contrast to the <font face="Gill Sans,Helvetica,Arial">GAP</font>3 version of XGAP all graphic subgroup lattices 
+are interactive so you can always remove vertices. For a finite group you 
+can still get the full lattice by choosing <code>All Subgroups</code> for the whole 
+group.
+<p>
+<p>
+<h2><a name="SECT002">5.2 GraphicSubgroupLattice, Protocol of Group Theoretic Constructions</a></h2>
+<p><p>
+labelloggingfacility
+XGAP offers the possibility to write a protocol of the group
+theoretic constructions you perform via mouse clicks. This is
+convenient because otherwise you have no record of what you did. The
+normal <font face="Gill Sans,Helvetica,Arial">GAP</font> command script cannot supply this because the menu
+entries you select do not produce useful output there.
+<p>
+You start the protocol facility by selecting <code>Start logging</code> from the
+<code>Subgroups</code> menu. You are prompted for the file name of the protocol with 
+a file selector box. After selecting <code>OK</code> in this box, all subsequent
+actions are logged in the protocol file. You can switch this feature
+off by selecting <code>Stop logging</code> from the <code>Subgroups</code> menu.
+<p>
+Note that when you select <code>SelectedGroups to GAP</code> from the <code>Subgroups</code> 
+menu, the usual <font face="Gill Sans,Helvetica,Arial">GAP</font> logging is also directed to the XGAP log
+  file. This is stopped when you select <code>InsertVertices from GAP</code> from 
+  the <code>Subgroups</code> menu. The idea of this is that you also see the
+  <font face="Gill Sans,Helvetica,Arial">GAP</font> commands you issue within an XGAP session in the XGAP
+  protocol file, if you temporarily work with the keyboard instead of
+  the mouse. See <a href="CHAP005.htm#SSEC009.21">Start logging</a> and <a href="CHAP005.htm#SSEC009.22">Stop logging</a> for a description
+  of the menu entries.
+<p>
+<p>
+<h2><a name="SECT003">5.3 GraphicSubgroupLattice, Labelling of Levels</a></h2>
+<p><p>
+labellevelsintro
+We intend to represent subgroups of the same index at the same height
+of the graphic lattice. For this purpose we introduce ``levels'' as 
+horizontal slices of a graphic subgroup lattice. 
+<p>
+All vertices for subgroups of a certain finite index are
+placed in exactly one common level. But what about infinite indices?
+<p>
+Every level has a ``level parameter''.
+There are three types of levels: ``finite index'', ``finite size'', and 
+``infinity''. ``finite index'' means, that the index of the subgroups
+in this level is a certain, finite natural number, the level parameter 
+is exactly this number. ``finite size'' means, that the size of the
+subgroups in this level is finite <strong>and</strong> the index is either not known
+(to <font face="Gill Sans,Helvetica,Arial">GAP</font>) or <code>infinity</code>. The level parameter is the size but with a
+negative sign. If the index is <code>infinity</code> and the size is
+not known, the third type applies: ``infinity''. In each ``infinity''
+level only one vertex can exist.
+<p>
+This means that ``finite index'' takes precedence over ``finite size'' 
+and ``infinity'', and ``finite size'' takes precedence over
+``infinity'' if XGAP is in doubt which level to choose for a new
+vertex. 
+<p>
+If the group in question is a space group provided by the CRYST 
+package, levels of type ``infinity'' are also labelled by the Hirsch 
+length of the subgroup, which is the number of infinite cyclic factors
+in any given subnormal series. Note that this is only implemented for 
+space groups as of this writing, although the Hirsch length is defined for
+a wider range of groups.
+<p>
+For every graphic subgroup lattice the levels are partially ordered by
+the following rules:
+<p>
+<ul>
+<li> A ``finite index'' level is greater than an ``infinity'' level.
+<p>
+<li> An ``infinity'' is greater than a ``finite size'' level.
+<p>
+<li> The ``finite index'' levels are totally ordered by descending indices.
+<p>
+<li> The ``finite size'' levels are totally ordered by ascending sizes. 
+<p>
+<li> For space groups the ``infinity'' levels are partially ordered by
+     the Hirsch lengths of the subgroups.
+</ul>
+<p>
+Note that in general different ``infinity'' levels are not comparable in this
+partial order!
+<p>
+On the screen, the levels are of course always totally ordered with respect
+to their height. XGAP ensures that this total ordering is always
+compatible with the abovementioned partial ordering. This means, that the
+user can permute ``infinity'' levels, as long as this does not violate the
+partial order by the Hirsch lengths and the
+principle, that a vertex ``containing'' another one is drawn higher on
+the screen.
+<p>
+Note that the level a vertex belongs to will be changed, when new
+information about the subgroup is available. This happens if the user
+chooses any entry in the information menu and new information is
+available thereafter.
+<p>
+<p>
+<h2><a name="SECT004">5.4 GraphicSubgroupLattice, Moving Vertices</a></h2>
+<p><p>
+In order to move a vertex, place the  pointer inside the vertex using the
+mouse, and press the <strong>left</strong> mouse button.  Hold the mouse button pressed,
+and start moving  the pointer by moving  the mouse.  The  vertex will now
+follow the pointer, but it is not possible to move the vertex out of
+the boundaries of its level.
+or lower than a vertex of a group of smaller
+size.
+As soon as you release the left mouse
+button the vertex will stop following the pointer  and, if the vertex was
+a member of a  conjugacy class, the remaining elements  of the class  are
+moved.
+<p>
+If you hold  down  the <var>SHIFT</var> key before  moving  a vertex as  described
+above then  only the selected vertex is moved but not all members of the
+same class. You can realign the vertices of a class by selecting one of
+them and choose <code>Rearrange Classes</code> in the <code>Poset</code> menu 
+(see <a href="CHAP005.htm#SSEC008.14">Rearrange Classes</a>).
+<p>
+<p>
+<h2><a name="SECT005">5.5 GraphicSubgroupLattice, Selecting Vertices</a></h2>
+<p><p>
+Selected vertices are represented by a slightly thicker circle and, if
+your screen supports color, are colored red.  There are five different
+ways to select or deselect a vertex or a bunch of vertices.
+<p>
+Place the  pointer inside  a  vertex and press   the <strong>left</strong> mouse button.
+Release   the button immediately   without  moving the  mouse.  This will
+deselect all other vertices  and select this vertex.   If the vertex  was
+already the only selected vertex it is deselected.
+<p>
+Place the  pointer inside a vertex, hold  down the <var>SHIFT</var> key, and press
+the  <strong>left</strong> mouse button.   Release the button immediately without moving
+the    mouse, release the   <var>SHIFT</var> key  afterwards.   If  the vertex was
+deselected this action will  select it in  addition to any other selected
+vertices. If the vertex was already selected it will be deselected.
+<p>
+Place the pointer  outside any vertex  and press the <strong>left</strong> mouse button.
+Keep the button pressed and start moving the pointer.  This will create a
+rubber band rectangle.  One corner at the position  where you pressed the
+mouse button, the opposite corner following  the pointer.  As soon as you
+release the left mouse button,   all  vertices inside the rectangle   are
+selected, all vertices outside the rectangle are deselected.
+<p>
+Place the pointer outside any vertex, hold down the <var>SHIFT</var> key and press
+the <strong>left</strong>  mouse button.  Again  you see a rubber  band, however, now as
+soon as you release  the mouse button,  all vertices inside the rectangle
+are selected in addition to any other selected vertices.
+<p>
+To select vertices from the <font face="Gill Sans,Helvetica,Arial">GAP</font> command window call the function
+<code>SelectGroups</code> with a subgroup or a list of subgroups to select.
+<p>
+<p>
+<h2><a name="SECT006">5.6 GraphicSubgroupLattice, Inserting Vertices</a></h2>
+<p><p>
+To insert new vertices into a graphic sheet one has to use the
+following operation:
+<p>
+<a name = "SSEC006.1"></a>
+<li><code>InsertVertex( </code><var>sheet</var><code>, </code><var>grp</var><code>, </code><var>conj</var><code>, </code><var>hint</var><code> )</code>
+<li><code>InsertVertex( </code><var>sheet</var><code>, </code><var>grp</var><code> )</code>
+<p>
+Inserts the group <var>grp</var> as a new vertex into the sheet. If the lattice
+is <strong>not</strong>  the   subgroup lattice  of a  finitely  presented  group, it
+checks, if the group is already in the lattice  or if there is already
+a conjugate  subgroup.  Further,  the new  vertex is  sorted into  the
+poset. So  <code>InsertVertex</code>  checks for  all vertices  on higher levels,
+whether the new vertex  is contained,  and  for all vertices on  lower
+levels, whether they are contained in the new vertex. It then tries to
+add edges to the appropriate vertices.  If  the lattice is the lattice
+of a  finitely presented group,  nothing is  done with respect  to the
+connections of any vertex.  <code>InsertVertex</code> returns a list with the new
+vertex as first entry and  a flag as  second, which says, whether this
+vertex was inserted right now or has already  been there.  
+<p>
+<var>hint</var> is a list of <i>x</i> coordinates which should give some hint for
+the choice of the new <i>x</i> coordinate. It can for example be the <i>x</i>
+coordinates of those groups which were parameter for the operation
+which calculated the group. <var>hints</var> can be empty but must always be a
+list!
+<p>
+If <var>conj</var> is a vertex we put the new vertex into the class of this
+vertex.  Otherwise <var>conj</var> should either be <code>false</code> or <code>fail</code>.
+<p>
+You have access to the simpler form of the above functions via the
+<code>Subgroups</code> menu and the mouse. If you select 
+<code>InsertVertices from GAP</code>
+in the <code>Subgroups</code> menu, the function <code>InsertVertex</code> is called 
+for the group in the (automatic) variable <code>last</code>, or, if <code>last</code>
+contains a list of subgroups, for all of those subgroups. This is an
+easy way to insert results of calculations with <font face="Gill Sans,Helvetica,Arial">GAP</font> into the
+lattice. If <code>last</code> is neither a subgroup nor a list of subgroups,
+nothing happens.
+<p>
+<p>
+<h2><a name="SECT007">5.7 GraphicSubgroupLattice, Sheet Menu</a></h2>
+<p><p>
+The <code>Sheet</code> menu will  be pulled down if  you place the pointer inside  the
+<code>Sheet</code> button  and press the left mouse  button.  Keep the button down and
+choose an entry by moving the pointer on  top of this entry.  Release the
+mouse button to select an entry.
+<p>
+<a name = "SSEC007.1"></a>
+<li><code>save as postscript</code>
+<p>
+Selecting this entry pops up a file  selector.  If you  enter a file name
+and click on <var>OK</var>, this will save a  description of the graphic sheet and
+graphic objects on  the sheet as encapsulated postscript  output. This
+output should be imported easily into other documents.
+<p>
+<a name = "SSEC007.2"></a>
+<li><code>close graphic sheet</code>
+<p>
+This entry will close the current graphic sheet and the window containing
+the sheet  and all  ``Information'' menus related  to  this sheet.  On some
+window system or using  some window manager the window  itself has also a
+close button or menu entry.  However,  using the window close method will
+not close associated ``Information'' menus.
+<p>
+<p>
+<h2><a name="SECT008">5.8 GraphicSubgroupLattice, Poset Menu</a></h2>
+<p><p>
+The <code>Poset</code> menu will be pulled down if you place the pointer inside the
+<code>Poset</code> button and  press the left mouse  button.  Keep  the button down
+and choose an entry by moving the pointer on top of  this entry.  Release
+the mouse button to select an entry.
+<p>
+This menu is a generic menu for any graphic poset and is not specific to
+subgroup lattices. So you find here options for the handling of general
+posets. 
+<p>
+<a name = "SSEC008.1"></a>
+<li><code>Redraw</code>
+<p>
+  The whole lattice will be redrawn. Use this option if some manipulation
+  has disturbed the window.
+<p>
+<a name = "SSEC008.2"></a>
+<li><code>Show Levels</code>
+<p>
+  If this menu entry is activated (after clicking it will have a small
+  check sign at its right, clicking again deactivates it), there will be a
+  little blue box under each level at the left edge of the graphic
+  sheet. You can use these little boxes to change the height of a level by
+  moving it up or down like a vertex. In cases where the order of the
+  levels is not given by some ``external source'' like the index of the
+  subgroups you can move levels by moving the corresponding blue box with
+  pressed <var>SHIFT</var> button.
+<p>
+<a name = "SSEC008.3"></a>
+<li><code>Show Levelparameters</code>
+<p>
+  This menu entry controls the display of the level parameters at the right 
+  edge of the graphic sheet. Normally these are displayed but you can
+  switch it off with this menu entry.
+<p>
+<a name = "SSEC008.4"></a>
+<li><code>Delete Vertices</code>
+<p>
+  Selecting the entry will delete all selected vertices. All edges from or
+  to one of these are also deleted. However, inclusion information is
+  preserved. This means that new edges are created from all vertices which
+  were maximal in the deleted one to all vertices in which the deleted
+  vertex was maximal. So you get the Hasse diagram of the poset which is
+  the restriction of the former one to the not selected vertices.
+<p>
+<a name = "SSEC008.5"></a>
+<li><code>Delete Edge</code>
+<p>
+  This menu entry is normally not selectable because it would destroy the
+  Hasse diagram.
+<p>
+<a name = "SSEC008.6"></a>
+<li><code>Merge Classes</code>
+<p>
+This menu  entry merges all  classes within each  level that contain a
+selected  vertex.    Afterwards  <code>RearrangeClasses</code>  (see   below)  is
+performed.  Use <code>Merge Classes</code> to  unite classes within a level,  but
+use it  with care: No further test  is performed! If you unite classes
+of subgroups that are not conjugate, other  errors may follow, because
+conjugacy tests  are later on only  performed by  looking at the first
+subgroup in a given class!
+<p>
+<a name = "SSEC008.7"></a>
+<li><code>Magnify Lattice</code>
+<p>
+  Selecting the entry will multiply the dimensions of the graphic sheet by
+  the square root of 2 and enlarge the lattice accordingly.
+<p>
+<a name = "SSEC008.8"></a>
+<li><code>Shrink Lattice</code>
+<p>
+  Selecting  the entry will divide the  dimensions  of the graphic sheet by 
+  the square root of 2 and shrink the lattice accordingly.
+<p>
+<a name = "SSEC008.9"></a>
+<li><code>Resize Lattice</code>
+<p>
+Selecting this entry will pop up a dialog box asking for an x and y factor
+separated by a comma.  You can enter integers or quotients. If you enter
+only one number this is used for x and y.  The graphic sheet is then
+enlarged or shrinked and the lattice is resized accordingly.
+<p>
+<a name = "SSEC008.10"></a>
+<li><code>Resize Sheet</code>
+<p>
+This  entry is similar to <code>Resize  Lattice</code> except that  only the graphic
+sheet is changed, the lattice remains unchanged. The numbers you enter must 
+be integers and mean pixel numbers.
+<p>
+<a name = "SSEC008.11"></a>
+<li><code>Change Labels</code>
+<p>
+Selecting  this entry will pop  up a dialog  box for each selected vertex
+asking for a new label.  Clicking on <var>CANCEL</var>  will cancel the relabelling
+of the remaining vertices but will not reset the already changed labels.
+<p>
+<a name = "SSEC008.12"></a>
+<li><code>Average Y Positions</code>
+<p>
+Selecting this entry will average the y coordinates of all vertices
+belonging to the same level. For graphic subgroup lattices this means all
+subgroups with the same index in the whole group.
+<p>
+<a name = "SSEC008.13"></a>
+<li><code>Average X Positions</code>
+<p>
+Selecting this entry  will  average the x   coordinates  of two or   more
+selected vertices.  This will only work if the corresponding subgroups do
+not have the same size and is used to align certain vertices
+vertically.
+<p>
+<a name = "SSEC008.14"></a>
+<li><code>Rearrange Classes</code>
+<p>
+Selecting this entry will clean up all classes which contain a selected
+vertex. You need this option if you have moved a vertex without its class
+(holding down the <var>SHIFT</var> key). The vertices in a class are arranged one
+next to the other horizontally without changing the order of the x
+coordinates. So you can permute the vertices within a class carelessly and
+then again get a nice picture with the new order by selecting this menu
+entry.
+<p>
+<a name = "SSEC008.15"></a>
+<li><code>Use Black&amp;White</code>
+<p>
+Switches to black and white in case of a color screen or back to colors.
+<p>
+<p>
+<h2><a name="SECT009">5.9 GraphicSubgroupLattice, Subgroups Menu</a></h2>
+<p><p>
+The <code>Subgroups</code> menu will be pulled down  if you place the pointer inside
+the <code>Subgroups</code> button and press the left mouse  button.  Keep the button
+down and choose an entry   by moving the pointer  on  top of this  entry.
+Release the mouse button to select an entry.
+<p>
+Note that you can also get the <code>Subgroups</code> menu as a popup menu by
+clicking with the right mouse button into the graphic sheet of the subgroup
+lattice, but <strong>not</strong> on a vertex.
+<p>
+The result   of a computation from   any of the  following  entries is
+colored green, if your screen supports color.  There will also be a short
+information message in the <font face="Gill Sans,Helvetica,Arial">GAP</font> window about the result.
+<p>
+In the following descriptions   we use ``vertices'' as abbreviation  for
+``subgroups associated with vertices''.
+<p>
+The following descriptions do not apply to the case of finitely presented
+groups. See <a href="CHAP005.htm#SECT012">GraphicSubgroupLattice for FpGroups, Subgroups Menu</a> for this
+case. 
+<p>
+<a name = "SSEC009.1"></a>
+<li><code>All Subgroups</code>
+<p>
+For each selected vertex <code>All Subgroups</code> computes and displays all its
+subgroups. Requires at least one selected vertex. Use with care! This can
+cause huge computations!  See also <a href="../../../doc/ref/chap39.html#X7B104E2C86166188">LatticeSubgroups</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.2"></a>
+<li><code>Centralizers</code>
+<p>
+For each selected vertex <code>Centralizers</code> computes and displays its
+centralizer with respect to the whole group.  Requires at least one
+selected vertex.  See also <a href="badlink:ref:Centralizer">Centralizer</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.3"></a>
+<li><code>Centres</code>
+<p>
+For each selected vertex <code>Centres</code> computes and displays its centre.
+Requires at least one selected vertex. See also <a href="../../../doc/ref/chap35.html#X847ABE6F781C7FE8">Centre</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.4"></a>
+<li><code>Closure</code>
+<p>
+computes and displays the common closure of the selected vertices.
+Requires at least one selected vertex. See also <a href="../../../doc/ref/chap39.html#X7D13FC1F8576FFD8">ClosureGroup</a> in the
+<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual.
+<p>
+<a name = "SSEC009.5"></a>
+<li><code>Closures</code>
+<p>
+computes and displays the closure of each pair of selected vertices.
+Requires at least two selected vertices. See also <a href="../../../doc/ref/chap39.html#X7D13FC1F8576FFD8">ClosureGroup</a> in the
+<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual.
+<p>
+<a name = "SSEC009.6"></a>
+<li><code>Commutator Subgroups</code>
+<p>
+computes and displays  the commutator  subgroup of each pair of selected
+vertices.    Requires  at  least    two   selected  vertices. See    also
+<a href="../../../doc/ref/chap39.html#X7A9A3D5578CE33A0">CommutatorSubgroup</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.7"></a>
+<li><code>Conjugate Subgroups</code>
+<p>
+computes and displays the conjugacy  class (with  respect to the  whole
+group) of each  selected vertex.  Requires  at least one selected vertex.
+See also <a href="../../../doc/ref/chap39.html#X7B2F207F7F85F5B8">ConjugacyClass</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.8"></a>
+<li><code>Cores</code>
+<p>
+For each selected vertex <code>Cores</code> computes and displays its core with
+respect to the whole group.  Requires at least one selected vertex. See
+also <a href="../../../doc/ref/chap39.html#X7C4E00297E37AA44">Core</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.9"></a>
+<li><code>Derived Series</code>
+<p>
+For   each  selected vertex  <code>Derived  Series</code>  computes and displays its
+derived series.   Requires  at   least  one selected vertex.    See  also
+<a href="../../../doc/ref/chap39.html#X7A879948834BD889">DerivedSeriesOfGroup</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.10"></a>
+<li><code>Derived Subgroups</code>
+<p>
+For each selected vertex <code>Derived Subgroups</code> computes and displays its
+derived subgroup.  Requires at least one selected vertex.  See also
+<a href="../../../doc/ref/chap39.html#X7CC17CF179ED7EF2">DerivedSubgroup</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.11"></a>
+<li><code>Fitting Subgroups</code>
+<p>
+For each selected vertex <code>Fitting Subgroups</code> computes and displays its
+Fitting subgroup.  Requires at least one selected vertex.  See also
+<a href="../../../doc/ref/chap39.html#X780552B57C30DD8F">FittingSubgroup</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.12"></a>
+<li><code>Intermediate Subgroups</code>
+<p>
+computes and displays all intermediate subgroups between two selected
+groups. Requires exactly two selected vertices. See also
+<a href="../../../doc/ref/chap39.html#X781661FB78DC83B5">IntermediateSubgroups</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual. 
+<p>
+<a name = "SSEC009.13"></a>
+<li><code>Intersection</code>
+<p>
+computes and displays the common intersection of the selected vertices.
+Requires at least one selected vertex.  See also <a href="../../../doc/ref/chap30.html#X851069107CACF98E">Intersection</a> in the
+<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual.
+<p>
+<a name = "SSEC009.14"></a>
+<li><code>Intersections</code>
+<p>
+For each pair of selected vertices <code>Intersections</code> computes and displays
+the intersection of the two vertices.  Requires at least two selected
+vertices.  See also <a href="../../../doc/ref/chap30.html#X851069107CACF98E">Intersection</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.15"></a>
+<li><code>Normalizers</code>
+<p>
+For each selected vertex <code>Normalizers</code> computes and displays its normalizer
+with respect to the whole group.  Requires at least one selected vertex.
+See also <a href="../../../doc/ref/chap39.html#X804F0F037F06E25E">Normalizer</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.16"></a>
+<li><code>Normal Closures</code>
+<p>
+For each selected vertex <code>Normal Closure</code> computes and displays its normal
+closure with respect to the whole group.  Requires at least one selected
+vertex.  See also <a href="../../../doc/ref/chap39.html#X7BDEA0A98720D1BB">NormalClosure</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.17"></a>
+<li><code>Normal Subgroups</code>
+<p>
+For   each selected vertex <code>Normal  Subgroups</code>  computes and displays the
+normal subgroups of the subgroup associated  with this vertex.  These new
+subgroups are not  necessarily  normal in the  whole  group.  Requires at
+least one selected vertex.  See also <a href="../../../doc/ref/chap39.html#X80237A847E24E6CF">NormalSubgroups</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.18"></a>
+<li><code>Sylow Subgroups</code>
+<p>
+pops  up a dialog  box asking   for a prime.   After entering  a  prime <i>p</i> 
+and pressing  <var>return</var> or  clicking  <var>OK</var> it computes   and displays  a Sylow
+<i>p</i>-subgroup  for   each selected vertex.  Requires   at   least one selected
+vertex.  See also <a href="../../../doc/ref/chap39.html#X7AA351308787544C">SylowSubgroup</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC009.19"></a>
+<li><code>SelectedGroups to GAP</code>
+<p>
+If  the  user  selects  this menu entry,  the  subgroups   belonging to the
+selected  vertices are put into a  list which  is  stored into the variable
+<code>last</code>.  This is equivalent  to the  statement <code>SelectedGroups(sheet);;</code> if
+<code>sheet</code> contains the graphic sheet  object. If XGAP  logging is on, then
+the normal <font face="Gill Sans,Helvetica,Arial">GAP</font> logging via <code>LogTo</code>  is also directed  to the XGAP log
+file.
+<p>
+<a name = "SSEC009.20"></a>
+<li><code>InsertVertices from GAP</code>
+<p>
+If the user selects this  menu entry, the  value of the variable <code>last</code>  is
+used to insert new vertices into the graphic sheet.  If  <code>last</code> is equal to
+one subgroup, it  is inserted via  <code>InsertVertex</code>. If <code>last</code>  is a list  of
+subgroups, <code>InsertVertex</code> is  called for all  those subgroups. There is  no
+error  issued if one of  the entries of <code>last</code>   is no subgroup. If XGAP
+logging is on, then the normal <font face="Gill Sans,Helvetica,Arial">GAP</font> logging via <code>LogTo</code>  is switched off! 
+The idea of this is to switch  the logging temporarily from XGAP logging
+to normal  <font face="Gill Sans,Helvetica,Arial">GAP</font> logging between two clicks  to  <code>SelectedGroups to GAP</code>
+and <code>InsertVertices from GAP</code> respectively.
+<p>
+<a name = "SSEC009.21"></a>
+<li><code>Start Logging</code>
+<p>
+After clicking on this menu entry the user is prompted for a filename. From 
+this point on all commands issued via mouse clicks in the subgroup menu are 
+logged into that file, such that one can afterwards see ``what happened''
+in the XGAP session. The information displayed is the same as in the
+info displays in the <font face="Gill Sans,Helvetica,Arial">GAP</font> window. 
+<p>
+<a name = "SSEC009.22"></a>
+<li><code>Stop Logging</code>
+<p>
+A click onto this menu entry stops the XGAP logging.
+<p>
+These menu entries represent only a small selection of the functions
+of <font face="Gill Sans,Helvetica,Arial">GAP</font> which the authors of XGAP considered most frequently
+used. You can calculate other subgroups like for example prefrattini
+subgroups from the <font face="Gill Sans,Helvetica,Arial">GAP</font> command window. See sections <a href="CHAP004.htm#SECT001">gapxgap</a> and
+<a href="CHAP004.htm#SECT002">xgapgap</a> for examples how to transfer information from the graphical
+lattice of XGAP to <font face="Gill Sans,Helvetica,Arial">GAP</font> (via <code>SelectedGroups</code>, see
+<a href="CHAP005.htm#SECT005">GraphicSubgroupLattice, Selecting Vertices</a>) and vice versa (via
+<code>SelectGroups</code>, see <a href="CHAP005.htm#SECT005">GraphicSubgroupLattice, Selecting Vertices</a>, and
+<code>InsertVertex</code>, see <a href="CHAP005.htm#SECT006">GraphicSubgroupLattice, Inserting Vertices</a>).
+<p>
+<p>
+<h2><a name="SECT010">5.10 GraphicSubgroupLattice, Information Menu</a></h2>
+<p><p>
+Note that this section does not deal with the case of a finitely presented
+group. See <a href="CHAP005.htm#SECT013">GraphicSubgroupLattice for FpGroups, Information Menu</a> for this 
+case.
+<p>
+Placing the pointer  inside a vertex (selected  or not)  and pressing the
+<strong>right</strong> mouse button pops up the  ``Information'' menu.  Clicking on any of
+the text  lines will compute  the corresponding  property of the subgroup
+<i>u</i> associated  with  this vertex.  Clicking   on <code>all</code> will  compute all
+properties, clicking on <code>close</code> will close the ``Information'' menu.
+<p>
+<a name = "SSEC010.1"></a>
+<li><code>Size</code>
+<p>
+computes and displays the size of <i>u</i>.  See also <a href="../../../doc/ref/chap30.html#X858ADA3B7A684421">Size</a> in the
+<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual.
+<p>
+<a name = "SSEC010.2"></a>
+<li><code>Index</code>
+<p>
+computes and displays the  index  of <i>u</i> in   the whole group.  See  also
+<a href="../../../doc/ref/chap39.html#X8014135884DCC53E">IndexInWholeGroup</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual.
+<p>
+<a name = "SSEC010.3"></a>
+<li><code>IsAbelian</code>
+<p>
+<a name = "SSEC010.4"></a>
+<li><code>IsCyclic</code>
+<p>
+<a name = "SSEC010.5"></a>
+<li><code>IsNilpotent</code>
+<p>
+<a name = "SSEC010.6"></a>
+<li><code>IsPerfect</code>
+<p>
+<a name = "SSEC010.7"></a>
+<li><code>IsSimple</code>
+<p>
+<a name = "SSEC010.8"></a>
+<li><code>IsSolvable</code>
+<p>
+computes and displays the corresponding property of <i>u</i>.  See also
+<a href="../../../doc/ref/chap35.html#X830A4A4C795FBC2D">IsAbelian</a>, <a href="../../../doc/ref/chap39.html#X7DA27D338374FD28">IsCyclic</a>, <a href="../../../doc/ref/chap39.html#X87D062608719F2CD">IsNilpotentGroup</a>, <a href="../../../doc/ref/chap39.html#X8755147280C84DBB">IsPerfectGroup</a>,
+<a href="../../../doc/ref/chap39.html#X7A6685D7819AEC32">IsSimpleGroup</a>, and <a href="../../../doc/ref/chap39.html#X809C78D5877D31DF">IsSolvableGroup</a>  in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC010.9"></a>
+<li><code>IsCentral</code>
+<p>
+<a name = "SSEC010.10"></a>
+<li><code>IsNormal</code>
+<p>
+computes and displays the corresponding  property of <i>u</i> with respect  to
+the whole group.  See also <a href="../../../doc/ref/chap35.html#X857B0E507D745ADB">IsCentral</a> and <a href="../../../doc/ref/chap39.html#X838186F9836F678C">IsNormal</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual.
+<p>
+<a name = "SSEC010.11"></a>
+<li><code>Isomorphism</code>
+<p>
+computes and displays  the isomorphism type of  <i>u</i>.  This will only work
+if the size of <i>u</i> is small.  See <a href="../../../doc/ref/chap50.html#X83044B9D7E3BDF35">IdGroup</a>  in the <font face="Gill Sans,Helvetica,Arial">GAP</font>
+reference manual for details.
+<p>
+Note that the exact result of all these information displays is stored in
+the global variable <code>LastResultOfInfoDisplay</code> after each operation. So you
+can access this easily from the <font face="Gill Sans,Helvetica,Arial">GAP</font> command prompt. It is also returned
+as <code>last</code> value.
+<p>
+<p>
+<h2><a name="SECT011">5.11 Vertex Shapes</a></h2>
+<p><p>
+The following vertex shapes can appear in an interactive lattice:
+<p>
+<a name = "SSEC011.1"></a>
+<li><code>circle</code>
+<p>
+  Subgroup is not normal in whole group.
+<p>
+<a name = "SSEC011.2"></a>
+<li><code>diamond</code>
+<p>
+  Subgroup is normal in whole group.
+<p>
+<a name = "SSEC011.3"></a>
+<li><code>rectangle</code>
+<p>
+  Subgroup has an index that is too big for automatic calculation of
+  normality. So it is not yet known whether this group is normal.
+<p>
+Automatic calculation is controlled by the following variable:
+<p>
+<a name = "SSEC011.4"></a>
+<li><code>GGLLimitForIsNormalCalc V</code>
+<p>
+  Only for subgroups with index smaller than this number an automatic
+  <code>IsNormal</code> test is performed when the vertex is added to the sheet.
+<p>
+<p>
+<h2><a name="SECT012">5.12 GraphicSubgroupLattice for FpGroups, Subgroups Menu</a></h2>
+<p><p>
+The <code>Subgroups</code> menu will be pulled down  if you place the pointer inside
+the <code>Subgroups</code> button and press the  left mouse button.  Keep the button
+down and  choose an entry by  moving  the pointer on   top of this entry.
+Release the mouse button to select an entry.
+<p>
+Note that you can also get the <code>Subgroups</code> menu as a popup menu by
+clicking with the right mouse button into the graphic sheet of the subgroup
+lattice, but <strong>not</strong> on a vertex.
+<p>
+The result of  a computation  from any  of  the following entries  is
+colored green, if  your screen supports color.   In most cases there will
+also be short information message in the <font face="Gill Sans,Helvetica,Arial">GAP</font> window about the result.
+<p>
+Note that  some of   the menu entries  make  it  necessary  to compute
+presentations of subgroups   using a modified Todd-Coxeter  algorithm. 
+This can be very time consuming and  in some cases even impossible, if
+the index is too high.
+<p>
+In  the following descriptions, we  use ``vertices'' as abbreviation for
+``subgroups associated with vertices''.
+<p>
+<a name = "SSEC012.1"></a>
+<li><code>Abelian Prime Quotient</code>
+<p>
+pops  up a dialog  box asking  for a  prime  <i>p</i>.  It  then computes  and
+displays the largest elementary   abelian  <i>p</i> quotient of  the  selected
+vertex.  If no presentation for the  subgroup associated to the vertex is
+known   a presentation is  first computed  using  a modified Todd-Coxeter
+algorithm.     It then calls    <code>PrimeQuotient</code> to   compute  the largest
+elementary abelian quotient.  <code>Abelian PrimeQuotient</code> requires exactly one
+selected vertex. 
+<p>
+<a name = "SSEC012.2"></a>
+<li><code>All Overgroups</code>
+<p>
+computes and   displays all overgroups   of the selected vertex.   It first
+computes the permutation  action of the whole group  on  the cosets of  the
+subgroup  associated with  the selected vertex  and then  searches for  all
+block  systems. If the   subgroup of the   selected vertex is  normal, then
+everything is   calculated within the  (finite) factor  group in   a better
+representation. <code>All Overgroups</code> requires exactly one selected vertex.
+<p>
+<a name = "SSEC012.3"></a>
+<li><code>Closure</code>
+<p>
+computes and displays the common closure of the selected vertices.
+Requires at least one selected vertex. See also <a href="../../../doc/ref/chap39.html#X7D13FC1F8576FFD8">ClosureGroup</a> in the
+<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual.
+<p>
+<a name = "SSEC012.4"></a>
+<li><code>Compare Subgroups</code>
+<p>
+A non-empty set of vertices must be selected to choose this menu entry. All
+subgroups belonging to these vertices are compared pairwise, and the inclusion
+information is displayed in the lattice. It may happen that two or more
+vertices are merged if <font face="Gill Sans,Helvetica,Arial">GAP</font> notices, that the subgroups are
+equal. 
+<p>
+<a name = "SSEC012.5"></a>
+<li><code>Conjugacy Class</code>
+<p>
+computes and  displays  the   conjugacy  class of  the   selected vertex.
+<code>Conjugacy Class</code> requires  exactly  one selected vertex.  
+<p>
+<a name = "SSEC012.6"></a>
+<li><code>Cores</code>
+<p>
+computes and  displays the cores  of the selected vertices.   <code>Cores</code>
+requires at least one selected vertex.
+<p>
+<a name = "SSEC012.7"></a>
+<li><code>Derived Subgroups</code>
+<p>
+computes and displays the derived subgroups of  the selected vertices. 
+If applied   to a proper subgroup  of   the whole group it   will only
+display  those derived  subgroups  whose  index is  finite.   <code>Derived
+Subgroups</code> requires at least one selected vertex.
+<p>
+<a name = "SSEC012.8"></a>
+<li><code>Epimorphisms (GQuotients)</code>
+<p>
+pops up another menu. Requires exactly one selected vertex.
+<p>
+<pre>
+Sym(n)
+Alt(n)
+PSL(d,q)
+Library
+User Defined 
+</pre>
+<p>
+Click on any of these entries to try to find a quotient isomorphic to the
+symmetric group (<code>Sym(n)</code>), the alternating group (<code>Alt(n)</code>), the projective
+special linear group (<code>PSL(d,q)</code>), a group in a library supplied with
+XGAP (this will pop up a file selector), or a user defined group stored
+in the variable <code>IMAGE_GROUP</code>.  After supplying additional parameters, for
+example, the degree of the symmetric group or the dimension and field of
+<i>PSL</i> using dialog boxes, the corresponding entry will change, for example
+to something like
+<p>
+<pre>
+Sym(3)        3 found
+</pre>
+<p>
+After one or more quotients were found click <var>display</var> to display them.
+<p>
+Note that in XGAP4 in fact the kernel of the epimorphism is marked whereas 
+in XGAP3 this was not the case, even though the XGAP3 manual stated
+this.  
+<p>
+In fact in XGAP3 a stabilizer of a permutation action on an orbit was
+put into the lattice.
+<p>
+In case that the image of the epimorphism is a permutation group you can
+get this functionality by clicking on <var>display point stabilizer</var> instead of 
+<var>display</var>. 
+<p>
+<a name = "SSEC012.9"></a>
+<li><code>Intermediate Subgroups</code>
+<p>
+computes and displays all intermediate subgroups between two selected
+groups. Requires exactly two selected vertices. See also
+<a href="../../../doc/ref/chap39.html#X781661FB78DC83B5">IntermediateSubgroups</a> in the <font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual. 
+<p>
+<a name = "SSEC012.10"></a>
+<li><code>Intersection</code>
+<p>
+computes and displays the common intersection of the selected vertices.
+Requires at least one selected vertex.  See also <a href="../../../doc/ref/chap30.html#X851069107CACF98E">Intersection</a> in the
+<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual.
+<p>
+<a name = "SSEC012.11"></a>
+<li><code>Intersections</code>
+<p>
+computes and   displays   the pairwise   intersections  of  the  selected
+vertices.  <code>Intersections</code> requires at least two selected vertices.
+<p>
+<a name = "SSEC012.12"></a>
+<li><code>Low Index Subgroups</code>
+<p>
+pops up a dialog box asking for index  limit <i>k</i>.  It  will then do a low
+index subgroup search for  subgroups of index at  most <i>k</i> of the selected
+vertex using <code>LowIndexSubgroupsFpGroup</code>.    If no  presentation  for  the
+subgroup   associated to  the vertex  is  known a  presentation  is first
+computed using a  modified  Todd-Coxeter algorithm. <code>Low Index Subgroups</code>
+requires  exactly one selected vertex.
+<p>
+<a name = "SSEC012.13"></a>
+<li><code>Normalizers</code>
+<p>
+computes and displays the normalizers of the selected vertices.
+<code>Normalizers</code> requires at least one selected vertex.
+<p>
+<a name = "SSEC012.14"></a>
+<li><code>Prime Quotient</code>
+<p>
+pops up a dialog box asking for a prime <i>p</i> and another dialog box asking
+for a class <i>c</i>.  It then  computes and displays the largest <i>p</i>-quotient
+of class <i>c</i> of the selected vertex.  If no presentation for the subgroup
+associated to the vertex is known a  presentation is first computed using
+a   modified  Todd-Coxeter algorithm.   It    then calls <code>PrimeQuotient</code>.
+<code>Prime Quotient</code> requires exactly one selected vertex.
+<p>
+<a name = "SSEC012.15"></a>
+<li><code>Test Conjugacy</code>
+<p>
+walks through all levels and tests for all pairs of classes, that contain a 
+selected vertex, whether the groups in the classes are conjugates. If so,
+the classes are merged. After these calculations <code>Rearrange Classes</code> is
+called. Note that conjugacy calculations can take lots of time for finitely 
+presented groups!
+<p>
+<a name = "SSEC012.16"></a>
+<li><code>SelectedGroups to GAP</code>
+<p>
+If  the  user  selects  this menu entry,  the  subgroups   belonging to the
+selected  vertices are put into a  list which  is  stored into the variable
+<code>last</code>.  This is equivalent  to the  statement <code>SelectedGroups(sheet);;</code> if
+<code>sheet</code> contains the graphic sheet  object. If XGAP  logging is on, then
+the normal <font face="Gill Sans,Helvetica,Arial">GAP</font> logging via <code>LogTo</code>  is also directed  to the XGAP log
+file.
+<p>
+<a name = "SSEC012.17"></a>
+<li><code>InsertVertices from GAP</code>
+<p>
+If the user selects this  menu entry, the  value of the variable <code>last</code>  is
+used to insert new vertices into the graphic sheet.  If  <code>last</code> is equal to
+one subgroup, it  is inserted via  <code>InsertVertex</code>. If <code>last</code>  is a list  of
+subgroups, <code>InsertVertex</code> is  called for all  those subgroups. There is  no
+error  issued if one of  the entries of <code>last</code>   is no subgroup. If XGAP
+logging is on, then the normal <font face="Gill Sans,Helvetica,Arial">GAP</font> logging via <code>LogTo</code>  is switched off! 
+The idea of this is to switch  the logging temporarily from XGAP logging
+to normal  <font face="Gill Sans,Helvetica,Arial">GAP</font> logging between two clicks  to  ``SelectedGroups to GAP''
+and ``InsertVertices from GAP'' respectively.
+<p>
+<a name = "SSEC012.18"></a>
+<li><code>Start Logging</code>
+<p>
+After clicking on this menu entry the user is prompted for a filename. From 
+this point on all commands issued via mouse clicks in the subgroup menu are 
+logged into that file, such that one can afterwards see ``what happened''
+in the XGAP session. The information displayed is the same as in the
+info displays in the <font face="Gill Sans,Helvetica,Arial">GAP</font> window. 
+<p>
+<a name = "SSEC012.19"></a>
+<li><code>Stop Logging</code>
+<p>
+A click onto this menu entry stops the XGAP logging.
+<p>
+These menu entries represent only a small selection of the functions of
+<font face="Gill Sans,Helvetica,Arial">GAP</font> which the authors of XGAP considered most frequently used. You
+can calculate other subgroups from
+the <font face="Gill Sans,Helvetica,Arial">GAP</font> command window. See sections <a href="CHAP004.htm#SECT001">gapxgap</a> and
+<a href="CHAP004.htm#SECT002">xgapgap</a> for examples how to transfer information from the graphical
+lattice of XGAP to <font face="Gill Sans,Helvetica,Arial">GAP</font> (via <code>SelectedGroups</code>, see
+<a href="CHAP005.htm#SECT005">GraphicSubgroupLattice, Selecting Vertices</a>) and vice versa (via
+<code>SelectGroups</code>, see <a href="CHAP005.htm#SECT005">GraphicSubgroupLattice, Selecting Vertices</a>, and
+<code>InsertVertex</code>, see <a href="CHAP005.htm#SECT006">GraphicSubgroupLattice, Inserting Vertices</a>).
+<p>
+<p>
+<h2><a name="SECT013">5.13 GraphicSubgroupLattice for FpGroups, Information Menu</a></h2>
+<p><p>
+Placing the pointer  inside a vertex (selected  or not) and  pressing the
+<strong>right</strong> mouse button pops up the ``Information''  menu.  Clicking on any of
+the text  lines will compute the corresponding   property of the subgroup
+<i>u</i>  associated  with this  vertex. Clicking  on <code>close</code>  will  close the
+``Information'' menu.
+<p>
+<a name = "SSEC013.1"></a>
+<li><code>Index</code>
+<p>
+displays  the index of  <i>u</i> in the whole  group.
+<p>
+<a name = "SSEC013.2"></a>
+<li><code>IsNormal</code>
+<p>
+checks  if <i>u</i> is  normal  in the  whole group.
+<p>
+<a name = "SSEC013.3"></a>
+<li><code>IsFpGroup</code>
+<p>
+checks if <i>u</i> is a finitely presented group. Note that a subgroup of a
+finitely presented group that is defined by a coset table or as kernel
+of an epimorphism is <strong>not</strong> automatically known to <font face="Gill Sans,Helvetica,Arial">GAP</font> as a finitely
+presented group. This means, that certain algorithms can not be
+applied. Use <code>IsomorphismFpGroup</code> (see <a href="../../../doc/ref/chap47.html#X7F28268F850F454E">IsomorphismFpGroup</a> in the
+<font face="Gill Sans,Helvetica,Arial">GAP</font> reference manual) to calculate a finitely presented group and
+an isomorphism onto it, if some calculation does not work automatically.
+<p>
+<a name = "SSEC013.4"></a>
+<li><code>Abelian Invariants</code>
+<p>
+computes  and  displays  the  abelian invariants  of  <i>u</i>.
+<p>
+<a name = "SSEC013.5"></a>
+<li><code>Coset Table</code>
+<p>
+computes   a   coset table for   <i>u</i>.
+<p>
+<a name = "SSEC013.6"></a>
+<li><code>IsomorphismFpGroup</code>
+<p>
+computes a finitely presented group that is isomorphic to <i>u</i> and displays
+the number of generators and relators of it.
+<p>
+<a name = "SSEC013.7"></a>
+<li><code>Factor Fp Group</code>
+<p>
+computes the factor group  of the whole group by <i>u</i>, if <i>u</i> is normal.
+<p>
+Note that the exact result of all these information displays is stored in
+the global variable <code>LastResultOfInfoDisplay</code> after each operation. So you
+can access this easily from the <font face="Gill Sans,Helvetica,Arial">GAP</font> command prompt. It is also returned
+as <code>last</code> value.
+<p>
+<p>
+[<a href = "chapters.htm">Up</a>] [<a href ="CHAP004.htm">Previous</a>] [<a href ="CHAP006.htm">Next</a>] [<a href = "theindex.htm">Index</a>]
+<P>
+<address>XGAP manual<br>November 2016
+</address></body></html>
