@@ -53,21 +53,6 @@ fi
 
 #############################################################################
 ##
-##  GAP_MEM . . . . . . . . . . . . . . . . . . . amount of initial workspace
-##
-##  Set 'GAP_MEM' to the amount of memory GAP shall use as initial workspace.
-##  The default is 70 MB,  which is  a reasonable amount of memory  to start.
-##  You have to change it if you want  GAP to use a larger initial workspace.
-##  If you are not going to run  GAP  in parallel with other programs you may
-##  want to set this value close to the  amount of memory your  computer has.
-##
-if [ "x$GAP_MEM" = "x" ];  then
-GAP_MEM=70m
-fi
-
-
-#############################################################################
-##
 ##  GAP_PRG . . . . . . . . . . . . . . . . .  name of the executable program
 ##
 ##  Set 'GAP_PRG' to the  name of the executable  program of the  GAP kernel.
@@ -218,7 +203,6 @@ while [ $# -gt 0 ];  do
     -b|-q|-e|-f|-n|-g|-r|-D|-M|-N|-X|-Y) GP="$GP $1"                 ;;
     -x|-y|-o|-c|-a|-B|-i|-L)             GP="$GP $1 $2"; shift       ;;
     -l|--gap-lib)              GAP_DIR="$2";             shift       ;;
-    -m|--gap-mem)              GAP_MEM="$2";             shift       ;;
 
     # XGAP options
     -display|--display)        XP="$XP -display $2";     shift       ;;
@@ -300,9 +284,9 @@ fi
 export TERM=dumb
 
 if [ $DAEMON = "YES" ];  then
-  $XGAP -G $GAP $XP -- -l $LIBARG -m $GAP_MEM $GP &
+  $XGAP -G $GAP $XP -- -l $LIBARG $GP &
 else
-  $XGAP -G $GAP $XP -- -l $LIBARG -m $GAP_MEM $GP
+  $XGAP -G $GAP $XP -- -l $LIBARG $GP
 fi
 
 exit 0
