@@ -2204,9 +2204,9 @@ static void SFcreateWidgets ( Widget toplevel )
                      XtNright,             (XtArgVal)XtChainLeft,
 		     (String)NULL );
     XtAddCallback( selFileHScroll, XtNjumpProc,
-		   SFpathSliderMovedCallback, (XtPointer) NULL);
+		   (XtCallbackProc)SFpathSliderMovedCallback, (XtPointer) NULL);
     XtAddCallback( selFileHScroll, XtNscrollProc,
-		   SFpathAreaSelectedCallback, (XtPointer) NULL);
+		   (XtCallbackProc)SFpathAreaSelectedCallback, (XtPointer) NULL);
 
     selFileLists[0] = XtVaCreateManagedWidget(
 		     "selFileList1", compositeWidgetClass, selFileForm,
@@ -2261,9 +2261,9 @@ static void SFcreateWidgets ( Widget toplevel )
                      XtNborderColor,       (XtArgVal)SFfore,
 		     (String)NULL );
 	XtAddCallback( selFileVScrolls[n], XtNjumpProc,
-		       SFvFloatSliderMovedCallback, (XtPointer) n );
+		       (XtCallbackProc)SFvFloatSliderMovedCallback, (XtPointer) n );
 	XtAddCallback( selFileVScrolls[n], XtNscrollProc,
-			SFvAreaSelectedCallback, (XtPointer) n );
+			(XtCallbackProc)SFvAreaSelectedCallback, (XtPointer) n );
 
 	selFileHScrolls[n] = XtVaCreateManagedWidget(
 		     "selFileHScroll", scrollbarWidgetClass, selFileLists[n],
@@ -2275,9 +2275,9 @@ static void SFcreateWidgets ( Widget toplevel )
                      XtNborderColor,       (XtArgVal)SFfore,
                      (String)NULL );
 	XtAddCallback( selFileHScrolls[n], XtNjumpProc,
-		       SFhSliderMovedCallback, (XtPointer) n );
+		       (XtCallbackProc)SFhSliderMovedCallback, (XtPointer) n );
 	XtAddCallback( selFileHScrolls[n], XtNscrollProc,
-		       SFhAreaSelectedCallback, (XtPointer) n );
+		       (XtCallbackProc)SFhAreaSelectedCallback, (XtPointer) n );
     }
 
     selFileOK = XtVaCreateManagedWidget(
@@ -2350,17 +2350,17 @@ static void SFcreateWidgets ( Widget toplevel )
     for ( n = 0;  n < 3;  n++ )
     {
 	XtAddEventHandler( selFileLists[n], ExposureMask, True,
-			   SFexposeList, (XtPointer) n );
+			   (XtEventHandler)SFexposeList, (XtPointer) n );
 	XtAddEventHandler( selFileLists[n], EnterWindowMask, False,
-			   SFenterList, (XtPointer) n );
+			   (XtEventHandler)SFenterList, (XtPointer) n );
 	XtAddEventHandler( selFileLists[n], LeaveWindowMask, False,
-			   SFleaveList, (XtPointer) n );
+			   (XtEventHandler)SFleaveList, (XtPointer) n );
 	XtAddEventHandler( selFileLists[n], PointerMotionMask, False,
-			   SFmotionList, (XtPointer) n );
+			   (XtEventHandler)SFmotionList, (XtPointer) n );
 	XtAddEventHandler( selFileLists[n], ButtonPressMask, False,
-			   SFbuttonPressList, (XtPointer) n );
+			   (XtEventHandler)SFbuttonPressList, (XtPointer) n );
 	XtAddEventHandler( selFileLists[n], ButtonReleaseMask, False,
- 			   SFbuttonReleaseList, (XtPointer) n );
+ 			   (XtEventHandler)SFbuttonReleaseList, (XtPointer) n );
     }
     XtAddEventHandler( selFileField, KeyPressMask, False,
 		       SFmodVerifyCallback, (XtPointer) NULL);

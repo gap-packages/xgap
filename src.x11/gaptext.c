@@ -859,6 +859,9 @@ static XawTextPosition GapSrcScan (
 	case XawstPositions: 
 	    pos += cnt * inc;
 	    break;
+
+	default:
+	    break;
     }
     if ( dir == XawsdLeft )
 	pos++;
@@ -940,8 +943,7 @@ WidgetClass gapSrcObjectClass = (WidgetClass)&gapSrcClassRec;
 #if 0
 static char * CheckTextBlockTmp = 0;
 
-static void CheckTextBlock ( block )
-    XawTextBlock *   block;
+static void CheckTextBlock ( XawTextBlock * block )
 {
     unsigned char *  p;
     unsigned char *  q;
@@ -978,8 +980,7 @@ static void CheckTextBlock ( block )
 **
 *F  GTPosition( <w> ) . . . . . . . . . . . . . . . .  return insertion point
 */
-Int GTPosition ( w )
-    Widget  w;
+Int GTPosition ( Widget w )
 {
     GapTextWidget       gap = (GapTextWidget) w;
 
@@ -991,9 +992,7 @@ Int GTPosition ( w )
 **
 *F  GTSetPosition( <w>, <pos> ) . . . . . . . . . . . .  set insertion point
 */
-void GTSetPosition ( w, pos )
-    Widget  w;
-    Int     pos;
+void GTSetPosition ( Widget w, Int pos )
 {
     XawTextSetInsertionPoint( w, pos );
 }
@@ -1003,10 +1002,7 @@ void GTSetPosition ( w, pos )
 **
 *F  GTDelete( <w>, <dir>, <type> )  . . . . . . . . .  delete a piece of text
 */
-void GTDelete ( w, dir, type )
-    Widget	            w;
-    XawTextScanDirection    dir;
-    XawTextScanType         type;
+void GTDelete ( Widget w, XawTextScanDirection dir, XawTextScanType type )
 {
     GapTextWidget           gap = (GapTextWidget) w;
     XawTextBlock            text;
@@ -1059,10 +1055,7 @@ error:
 **    the gap text  widget at the current position.  It is the responsibility
 **    of the caller to set the current insertion position.
 */
-void GTInsertText ( w, str, len )
-    Widget	        w;
-    String              str;
-    Int                 len;
+void GTInsertText ( Widget w, String str, Int len )
 {
     GapTextWidget       gap = (GapTextWidget) w;
     XawTextBlock        block;
@@ -1093,10 +1086,7 @@ void GTInsertText ( w, str, len )
 **    pointed  to by <str> of length <len>.  It is the responsibility of  the
 **    caller to set the current insertion position.
 */
-void GTReplaceText ( w, str, len )
-    Widget	        w;
-    String              str;
-    Int                 len;
+void GTReplaceText ( Widget w, String str, Int len )
 {
     GapTextWidget       gap = (GapTextWidget) w;
     XawTextBlock        block;
@@ -1122,9 +1112,7 @@ void GTReplaceText ( w, str, len )
 **
 *F  GTMoveCaret( <w>, <rpos> )	. . . move caret relative to current position
 */
-void GTMoveCaret ( w, rpos )
-    Widget		w;
-    Int                 rpos;
+void GTMoveCaret ( Widget w, Int rpos )
 {
     GapTextWidget       gap = (GapTextWidget) w;
     Int                 pos;
@@ -1142,8 +1130,7 @@ void GTMoveCaret ( w, rpos )
 **
 *F  GTDeleteLeft( <w> )	. . . . . . . . . . . delete a char left of the caret
 */
-void GTDeleteLeft ( w )
-    Widget             	w;
+void GTDeleteLeft ( Widget w )
 {
     GapTextWidget       gap = (GapTextWidget) w;
 
@@ -1160,8 +1147,7 @@ void GTDeleteLeft ( w )
 **
 *F  GTDeleteRight( <w> )  . . . . . . . . .  delete a char right of the caret
 */
-void GTDeleteRight ( w )
-    Widget             	w;
+void GTDeleteRight ( Widget w )
 {
     GapTextWidget       gap = (GapTextWidget) w;
 
@@ -1180,8 +1166,7 @@ void GTDeleteRight ( w )
 **
 *F  GTBell( <w> ) . . . . . . . . . . . . . . . . . . . . . . .  ring my bell
 */
-void GTBell ( w )
-    Widget  w;
+void GTBell ( Widget w )
 {
     XBell( XtDisplay(w), 50 );
 }
@@ -1191,9 +1176,7 @@ void GTBell ( w )
 **
 *F  GTDropGapPrompt( <w>, <flag> )  . . . . . . . .  set drop gap prompt flag
 */
-void GTDropGapPrompt ( w, flag )
-    Widget          w;
-    Boolean         flag;
+void GTDropGapPrompt ( Widget w, Boolean flag )
 {
     GapTextWidget   gap = (GapTextWidget) w;
 
