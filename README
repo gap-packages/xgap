@@ -152,17 +152,15 @@ can also edit the script until the line
 
 ##  STOP EDITING HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-You can specify the directory where GAP is installed (``GAP_DIR''), 
-the amount of memory that GAP should use as initial workspace
-(``GAP_MEM''), the name of the GAP-executable (``GAP_PRG'') and the
-name of the XGAP-executable (``XGAP_PRG''). The first three are exactly 
-the same things that you could edit in the main GAP startup script.
-After that you have the possibility to control the behaviour of the
-XGAP
-startup script. You can specify whether XGAP goes into the background
+You can specify the directory where GAP is installed (``GAP_DIR''), the
+name of the GAP-executable (``GAP_PRG'') and the name of the
+XGAP-executable (``XGAP_PRG''). The first three are exactly the same
+things that you could edit in the main GAP startup script. After that
+you have the possibility to control the behaviour of the XGAP startup
+script. You can specify whether XGAP goes into the background
 (``DAEMON'') and whether it prints out information about its parameters
-(``VERBOSE''). Note that it is possible to combine ``DAEMON=YES''
-and ``VERBOSE=YES'' because the script actually runs in the foreground and
+(``VERBOSE''). Note that it is possible to combine ``DAEMON=YES'' and
+``VERBOSE=YES'' because the script actually runs in the foreground and
 only the C program is put into the background.
 
 
@@ -187,20 +185,3 @@ if ``/usr/local/lib/gap4r8'' is the location of the main GAP installation.
 You can find out where the main GAP4 installation is by starting 
 GAP as usual and looking at the variable `GAPInfo.RootPaths' 
 within GAP.
-
-Note that you have to edit the startup script ``xgap.sh'' (see previous 
-section) to
-adjust the paths for ``XGAP_DIR'' and ``GAP_DIR'', and possibly the
-name of the GAP executable ``GAP_PRG''.  Enter your GAP
-installation directory for the variable ``GAP_DIR'' and the name of
-the directory that contains ``pkg'' for the variable ``XGAP_DIR''. The 
-variable ``GAP_PRG'' has to contain the path to the GAP executable relative
-to the ``bin'' subdirectory of the main GAP installation. In most cases
-this value will already be correct. Note however that if GAP and
-XGAP 
-are compiled on different machines, then it is possible that these directory
-names differ for the GAP and XGAP executables respectively. 
-
-The script will automatically launch GAP with two directories as
-library path such that all GAP and XGAP libraries will be found.
-
