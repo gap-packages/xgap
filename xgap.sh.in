@@ -35,24 +35,6 @@ fi
 
 #############################################################################
 ##
-##  XGAP_DIR . . . . . . . . . . . . . . . . . . . directory where XGAP lives
-##
-##  Set 'XGAP_DIR' to the name of the directory where you have unpacked XGAP
-##  The default is '$GAP_DIR', which is a standard location.
-##  You have to change this unless you have installed XGAP in this  location.
-##  Comment:
-##  Note that this path should *not* contain the part 'pkg/xgap' because
-##  this is added automatically when needed. We need this information without
-##  the last part for the GAP library path when XGAP is not installed in
-##  the standard location!
-##
-if [ "x$XGAP_DIR" = "x" ];  then
-XGAP_DIR="$GAP_DIR"
-fi
-
-
-#############################################################################
-##
 ##  GAP_PRG . . . . . . . . . . . . . . . . .  name of the executable program
 ##
 ##  Set 'GAP_PRG' to the  name of the executable  program of the  GAP kernel.
@@ -244,18 +226,9 @@ fi;
 
 
 #############################################################################
-##  We calculate the library path argument for GAP:
-##
-if [ "$XGAP_DIR" = "$GAP_DIR" ]; then
-  LIBARG="$GAP_DIR"
-else
-  LIBARG="$XGAP_DIR;$GAP_DIR"
-fi
-
-#############################################################################
 ##
 ##
-XGAP=$XGAP_DIR/pkg/xgap/bin/$XGAP_PRG
+XGAP=@abs_top_srcdir@/bin/$XGAP_PRG
 GAP=$GAP_DIR/bin/$GAP_PRG
 
 #############################################################################
@@ -264,7 +237,6 @@ GAP=$GAP_DIR/bin/$GAP_PRG
 ##
 if [ $VERBOSE = "YES" ];  then
   echo
-  echo "XGAP path:         $XGAP_DIR"
   echo "XGAP executable:   $XGAP"
   echo "GAP path:          $GAP_DIR"
   echo "GAP executable:    $GAP"
@@ -284,9 +256,9 @@ fi
 export TERM=dumb
 
 if [ $DAEMON = "YES" ];  then
-  $XGAP -G $GAP $XP -- -l $LIBARG $GP &
+  $XGAP -G $GAP $XP -- -l "$GAP_DIR" $GP &
 else
-  $XGAP -G $GAP $XP -- -l $LIBARG $GP
+  $XGAP -G $GAP $XP -- -l "$GAP_DIR" $GP
 fi
 
 exit 0
