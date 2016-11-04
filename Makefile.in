@@ -45,7 +45,6 @@ bin/$(GAParch)/Makefile: bin/$(GAParch)/configure cnf/config.hin
 
 compile: bin/$(GAParch)/configure bin/$(GAParch)/Makefile
 	( cd bin/$(GAParch) ; $(MAKE) CC=$(CC) )
-	chmod +x xgap.sh
 	cp xgap.sh bin/xgap.sh
 
 clean:
