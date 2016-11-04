@@ -268,6 +268,11 @@ else
   LIBARG="$XGAP_DIR;$GAP_DIR"
 fi
 
+#############################################################################
+##
+##
+XGAP=$XGAP_DIR/pkg/xgap/bin/$XGAP_PRG
+GAP=$GAP_DIR/bin/$GAP_PRG
 
 #############################################################################
 ##
@@ -276,9 +281,9 @@ fi
 if [ $VERBOSE = "YES" ];  then
   echo
   echo "XGAP path:         $XGAP_DIR"
-  echo "XGAP executable:   $XGAP_DIR/pkg/xgap/bin/$XGAP_PRG"
+  echo "XGAP executable:   $XGAP"
   echo "GAP path:          $GAP_DIR"
-  echo "GAP executable:    $GAP_DIR/bin/$GAP_PRG"
+  echo "GAP executable:    $GAP"
   echo "GAP library arg:   $LIBARG"
   echo "Display:           $DISPLAY"
   echo "XGAP parameters:   $XP"
@@ -291,8 +296,6 @@ fi
 ##
 #F  XGAP  . . . . . . . . . . . . . . . . . . . . . . . . . . . .  start XGAP
 ##
-XGAP=$XGAP_DIR/pkg/xgap/bin/$XGAP_PRG
-GAP=$GAP_DIR/bin/$GAP_PRG
                                                                                 
 export TERM=dumb
 
