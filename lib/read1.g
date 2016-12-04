@@ -2,33 +2,33 @@
 ##
 #X  declaration part
 ##
-ReadPkg( "xgap", "lib/color.gd"   );
-ReadPkg( "xgap", "lib/font.gd"    );
-ReadPkg( "xgap", "lib/sheet.gd"   );
-ReadPkg( "xgap", "lib/gobject.gd" );
-ReadPkg( "xgap", "lib/menu.gd"    );
-ReadPkg( "xgap", "lib/poset.gd"   );
-ReadPkg( "xgap", "lib/ilatgrp.gd" );
-ReadPkg( "xgap", "lib/meataxe.gd" );
+ReadPackage( "xgap", "lib/color.gd"   );
+ReadPackage( "xgap", "lib/font.gd"    );
+ReadPackage( "xgap", "lib/sheet.gd"   );
+ReadPackage( "xgap", "lib/gobject.gd" );
+ReadPackage( "xgap", "lib/menu.gd"    );
+ReadPackage( "xgap", "lib/poset.gd"   );
+ReadPackage( "xgap", "lib/ilatgrp.gd" );
+ReadPackage( "xgap", "lib/meataxe.gd" );
 
 #############################################################################
 ##
 #X  interface to `WindowCmd'
 ##
-ReadPkg( "xgap", "lib/window.g"   );
+ReadPackage( "xgap", "lib/window.g"   );
 
 #############################################################################
 ##
 #X  implementation part
 ##
-ReadPkg( "xgap", "lib/color.gi"   );
-ReadPkg( "xgap", "lib/font.gi"    );
-ReadPkg( "xgap", "lib/sheet.gi"   );
-ReadPkg( "xgap", "lib/gobject.gi" );
-ReadPkg( "xgap", "lib/menu.gi"    );
-ReadPkg( "xgap", "lib/poset.gi"   );
-ReadPkg( "xgap", "lib/ilatgrp.gi" );
-ReadPkg( "xgap", "lib/meataxe.gi" );
+ReadPackage( "xgap", "lib/color.gi"   );
+ReadPackage( "xgap", "lib/font.gi"    );
+ReadPackage( "xgap", "lib/sheet.gi"   );
+ReadPackage( "xgap", "lib/gobject.gi" );
+ReadPackage( "xgap", "lib/menu.gi"    );
+ReadPackage( "xgap", "lib/poset.gi"   );
+ReadPackage( "xgap", "lib/ilatgrp.gi" );
+ReadPackage( "xgap", "lib/meataxe.gi" );
 
 #############################################################################
 ##
