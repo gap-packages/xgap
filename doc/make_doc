@@ -2,7 +2,7 @@
 
 echo "TeXing documentation"
 
-../../../etc/buildman.pe -f buildman.config
+./buildman.pe -f buildman.config
 
 # TeX the manual
 tex manual

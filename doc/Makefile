@@ -6,7 +6,7 @@ gd: 	../lib/window.g ../lib/gobject.gd ../lib/sheet.gd \
 
 msk: 		gd gobject.msk posetops.msk xgap.msk usercomm.msk Makefile
 	@echo "*** Building TeX files ..."
-	../../../etc/buildman.pe -f buildman.config
+	./buildman.pe -f buildman.config
 
 manual.bbl: 	msk diffgap3.tex graphs.tex install.tex savetime.tex \
 		sgrplats.tex sglatsys.tex whatis.tex manual.bib
