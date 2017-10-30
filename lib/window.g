@@ -407,9 +407,9 @@ BindGlobal( "HELP_PRINT_LINES_XGAP", function(lines)
   InstallCallback(HELP_XGAP_SHEET,"LeftPBDown",HELP_XGAP_HYPERLINK);
 end);
 
-MakeReadWriteGVar("PAGER_BUILTIN");
+MakeReadWriteGlobal("PAGER_BUILTIN");
 PAGER_BUILTIN := HELP_PRINT_LINES_XGAP;
-MakeReadOnlyGVar("PAGER_BUILTIN");
+MakeReadOnlyGlobal("PAGER_BUILTIN");
 
 #HELP_PRINT_LINES:=HELP_PRINT_LINES_XGAP;
 
