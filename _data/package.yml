@@ -1,7 +1,8 @@
 name: XGAP
 version: 4.26
-date: 06/11/2016
-description: a graphical user interface for GAP
+date: 2016-11-06
+description: |
+    a graphical user interface for GAP
 
 authors:
     - name: Frank Celler
@@ -16,14 +17,15 @@ maintainers:
 GAP: ">=4.7"
 
 www: https://gap-packages.github.io/xgap
-readme: https://gap-packages.github.io/xgap/README
+readme: README
 packageinfo: https://gap-packages.github.io/xgap/PackageInfo.g
 
 downloads:
     - name: .tar.gz
       url: https://github.com/gap-packages/xgap/releases/download/v4.26/xgap-4.26.tar.gz
 
-abstract: The <span class="pkgname">XGAP</span> package allows to use graphics in GAP.
+abstract: |
+    The <span class="pkgname">XGAP</span> package allows to use graphics in GAP.
 
 status: accepted
 doc-html: htm/chapters.htm
