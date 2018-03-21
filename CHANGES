@@ -2,8 +2,10 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
-XXX (YYYY-MM-DD)
+4.27 (2018-03-21)
   * Replace references to obsolete ReadPkg by ReadPackage
+  * Replace calls to MakeReadWriteGVar and MakeReadOnlyGVar by calls to their
+    documented counterparts MakeReadWriteGlobal and MakeReadOnlyGlobal
 
 4.26 (2016-11-06)
   * Fixed a problem with the 4.25 release tarball (a file was missing
