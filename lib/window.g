@@ -427,7 +427,4 @@ if IsBound(SetUserPreference) then
     SetUserPreference("Browse", "SelectPackageName", false);
 fi;
 
-GAPInfo.TermEncoding := "ASCII";
-
-SetHelpViewer("firefox");
-
+GAPInfo.TermEncoding := "latin1";
