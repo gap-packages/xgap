@@ -1,6 +1,6 @@
 name: XGAP
-version: 4.27
-date: 2018-03-21
+version: 4.28
+date: 2018-09-12
 description: |
     a graphical user interface for GAP
 
@@ -22,7 +22,7 @@ packageinfo: https://gap-packages.github.io/xgap/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/xgap/releases/download/v4.27/xgap-4.27.tar.gz
+      url: https://github.com/gap-packages/xgap/releases/download/v4.28/xgap-4.28.tar.gz
 
 abstract: |
     The <span class="pkgname">XGAP</span> package allows to use graphics in GAP.
