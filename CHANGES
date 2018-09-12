@@ -2,6 +2,10 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
+4.28 (2018-09-12)
+  * Set TermEncoding to latin1
+  * Don't change the user's helpviewer to 'firefox'
+
 4.27 (2018-03-21)
   * Replace references to obsolete ReadPkg by ReadPackage
   * Replace calls to MakeReadWriteGVar and MakeReadOnlyGVar by calls to their
