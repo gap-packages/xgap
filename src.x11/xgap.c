@@ -591,17 +591,17 @@ void UpdateMemoryInfo ( type, val )
     switch ( type )
     {
 	case 1:
-	    sprintf( tmp, "Objects: %-5d ", val );
+	    snprintf( tmp, sizeof(tmp), "Objects: %-5d ", val );
   	    XtVaSetValues( LabelLiveObjects, XtNlabel, (XtArgVal)tmp, 
                            (String)NULL );
 	    break;
 	case 2:
-            sprintf( tmp, "KB used: %-5d ", val );
+            snprintf( tmp, sizeof(tmp), "MB used: %.1f ", val/(float)1024 );
             XtVaSetValues( LabelLiveKB, XtNlabel, (XtArgVal)tmp, 
                            (String)NULL );
 	    break;
 	case 6:
-            sprintf( tmp, "MBytes total: %-4d ", val/1024 );
+	    snprintf( tmp, sizeof(tmp), "MB total: %.1f ", val/(float)1024 );
             XtVaSetValues( LabelTotalKBytes, XtNlabel, (XtArgVal)tmp, 
                            (String)NULL );
 	    break;
