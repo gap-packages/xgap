@@ -210,7 +210,6 @@ static char *FallbackResources[] =
     "*xgapMenu.runButton*interrupt.label:     Interrupt",
     "*xgapMenu.runButton*garbColl.label:      Collect Garbage",
     "*xgapMenu.runButton*garbMesg.label:      Toggle GC Messages",
-    "*xgapMenu.runButton*infoRead.label:      Toggle Library Read Mesg",
 
     /* help menu */
     "*xgapMenu.helpButton.label:              Help",
@@ -378,8 +377,6 @@ static void MenuQuitBreak () { SimulateInput( "quit;\n" );                }
 static void MenuContBreak () { SimulateInput( "return;\n" );              }
 static void MenuGarbColl ()  { SimulateInput( "GASMAN(\"collect\");\n" ); }
 static void MenuGarbMesg ()  { SimulateInput( "GASMAN(\"message\");\n" ); }
-static void MenuInfoRead ()  { SimulateInput(
-"if InfoRead1=Print then InfoRead1:=Ignore; else InfoRead1:=Print; fi;\n"); }
 
 static TypeMenuItem RunMenu[] =
 {
@@ -390,7 +387,6 @@ static TypeMenuItem RunMenu[] =
     { "---------",      0,                      0,              0 },
     { "garbColl",       MenuGarbColl,           S_INPUT_ONLY,   0 }, 
     { "garbMesg",       MenuGarbMesg,           S_INPUT_ONLY,   0 },
-    { "infoRead",       MenuInfoRead,           S_INPUT_ONLY,   0 },
     { 0,                0,             	        0,              0 }
 };
 
