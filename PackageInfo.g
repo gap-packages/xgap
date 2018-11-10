@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "XGAP",
 Subtitle := "a graphical user interface for GAP",
-Version := "4.28",
-Date := "12/09/2018",
+Version := "4.29",
+Date := "10/11/2018",
 
 Persons := [
   rec( 

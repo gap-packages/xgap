@@ -48,14 +48,14 @@ version from
 
 https://gap-packages.github.io/xgap/
 
-You need only one file with the name `xgap-4.28.tar.gz`
+You need only one file with the name `xgap-4.29.tar.gz`
 which is in the subdirectory for the packages.
 You now change your current directory to the `pkg' subdirectory of the 
 location where you installed
 GAP
 Now you extract the sources for the XGAP package:
 
-# tar xzvf xgap-4.28.tar.gz
+# tar xzvf xgap-4.29.tar.gz
 ...
 
 The <tar> utility unpacks the files and stores them into the apropriate
