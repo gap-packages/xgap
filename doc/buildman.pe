@@ -578,7 +578,7 @@ sub make_tex {
 
       SCANMSK: while ( $line = <MSK> ) {
             # treat the {{...}} replacements
-            while ( $line =~ /{{([^}]*)}}/ ) {
+            while ( $line =~ /\{\{([^}]*)\}\}/ ) {
                 $key = $1;
                 if ( $key =~ /date/ ) {
                     $replace=`date +"%d %B %Y"`;
