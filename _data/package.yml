@@ -1,6 +1,6 @@
 name: XGAP
-version: 4.29
-date: 2018-11-10
+version: 4.30
+date: 2019-04-16
 description: |
     a graphical user interface for GAP
 
@@ -12,7 +12,7 @@ authors:
 
 maintainers:
     - name: Max Horn
-      url: http://www.quendi.de/math
+      url: https://www.quendi.de/math
 
 GAP: ">=4.7"
 
@@ -22,7 +22,7 @@ packageinfo: https://gap-packages.github.io/xgap/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/xgap/releases/download/v4.29/xgap-4.29.tar.gz
+      url: https://github.com/gap-packages/xgap/releases/download/v4.30/xgap-4.30.tar.gz
 
 abstract: |
     The <span class="pkgname">XGAP</span> package allows to use graphics in GAP.
