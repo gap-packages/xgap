@@ -38,6 +38,16 @@
 
 #include    "pty.h"
 
+#ifdef HAVE_OPENPTY
+  #if defined(HAVE_UTIL_H)
+    #include <util.h>     /* for openpty() on Mac OS X, OpenBSD and NetBSD */
+  #elif defined(HAVE_LIBUTIL_H)
+    #include <libutil.h>  /* for openpty() on FreeBSD */
+  #elif defined(HAVE_PTY_H)
+    #include <pty.h>      /* for openpty() on Cygwin, Interix, OSF/1 4 and 5 */
+  #endif
+#endif
+
 
 /****************************************************************************
 **
@@ -1178,143 +1188,84 @@ void InterruptGap ()
 
 /****************************************************************************
 **
-*F  GetMasterPty( <fid> ) . . . . . . . . .  open a master pty (from "xterm")
+*F  OpenPty( <master>, <slave> ) . . . . . .  open a pty master/slave pair
 */
-static String ptydev = 0;
-static String ttydev = 0;
 
-#ifndef SYS_PTYDEV
-#  ifdef hpux
-#    define SYS_PTYDEV          "/dev/ptym/ptyxx"
-#  else
-#    define SYS_PTYDEV          "/dev/ptyxx"
-#  endif
-#endif
+#ifdef HAVE_OPENPTY
 
-#ifndef SYS_TTYDEV
-#  ifdef hpux
-#    define SYS_TTYDEV          "/dev/pty/ttyxx"
-#  else
-#    define SYS_TTYDEV          "/dev/ttyxx"
-#  endif
-#endif
-
-#ifndef SYS_PTYCHAR1
-#  ifdef hpux
-#    define SYS_PTYCHAR1        "zyxwvutsrqp"
-#  else
-#    define SYS_PTYCHAR1        "pqrstuvwxyz"
-#  endif
-#endif
-
-#ifndef SYS_PTYCHAR2
-#  ifdef hpux
-#    define SYS_PTYCHAR2        "fedcba9876543210"
-#  else
-#    define SYS_PTYCHAR2        "0123456789abcdef"
-#  endif
-#endif
-
-
-static Boolean GetMasterPty ( pty )
-    int   * pty;
+static UInt OpenPty(int * master, int * slave)
 {
-#if HAVE_GETPT && HAVE_PTSNAME_R
-  if ((*pty = getpt()) > 0 )
-    {
-      if (grantpt(*pty) || unlockpt(*pty))
-        return True;
-      ptsname_r(*pty, ttydev, 80); 
-      return False;
-    }
-  return True;
-#else
-#   ifdef att
-        if ( (*pty = open( "/dev/ptmx", O_RDWR )) < 0 )
-            return True;
-        return False;
-
-#   else
-#   ifdef __CYGWIN__
-        static int  slave    = 0;
-
-        sprintf(ptydev, "/dev/ptmx");
-        if ( (*pty = open( ptydev, O_RDWR )) >= 0 ) {   
-            /* O_NONBLOCK | O_NOCTTY */
-            strcpy(ttydev, ptsname(*pty));
-            revoke(ttydev);     /* ???? NECESSARY ???? */
-            return False;
-        }
-        errno = ENOENT; /* out of ptys */
-        perror(" Failed on open CYGWIN pty");
-        return True;
-#   else
-#   if HAVE_GETPSEUDOTTY
-        return (*pty = getpseudotty( &ttydev, &ptydev )) >= 0 ? False : True;
-
-#   else
-#   if HAVE__GETPTY
-    char  * line;
-
-	line = _getpty(pty, O_RDWR|O_NDELAY, 0600, 0) ;
-        if (0 == line)
-            return True;
-	strcpy( ttydev, line );
-	return False;
-
-#   else
-#   if defined(sgi) || (defined(umips) && defined(USG))
-        struct stat fstat_buf;
-
-        *pty = open( "/dev/ptc", O_RDWR );
-        if ( *pty < 0 || (fstat (*pty, &fstat_buf)) < 0 )
-            return True;
-        sprintf( ttydev, "/dev/ttyq%d", minor(fstat_buf.st_rdev) );
-#       if !defined(sgi)
-            sprintf( ptydev, "/dev/ptyq%d", minor(fstat_buf.st_rdev) );
-            if ( (*tty = open (ttydev, O_RDWR)) < 0 ) 
-            {
-                close (*pty);
-                return True;
-            }
-#       endif
-        return False;
-
-#   else
-        static int  devindex = 0;
-        static int  letter   = 0;
-        static int  slave    = 0;
-
-        while ( SYS_PTYCHAR1[letter] )
-        {
-            ttydev[strlen(ttydev)-2] = SYS_PTYCHAR1[letter];
-            ptydev[strlen(ptydev)-2] = SYS_PTYCHAR1[letter];
-
-            while ( SYS_PTYCHAR2[devindex] )
-            {
-                ttydev[strlen(ttydev)-1] = SYS_PTYCHAR2[devindex];
-                ptydev[strlen(ptydev)-1] = SYS_PTYCHAR2[devindex];
-                        
-                if ( (*pty = open( ptydev, O_RDWR )) >= 0 )
-                    if ( (slave = open( ttydev, O_RDWR, 0 )) >= 0 )
-                    {
-                        close(slave);
-                        (void) devindex++;
-                        return False;
-                    }
-                devindex++;
-            }
-            devindex = 0;
-            (void) letter++;
-        }
-        return True;
-#   endif
-#   endif
-#   endif
-#   endif
-#   endif
-#endif
+    /* openpty is available on OpenBSD, NetBSD and FreeBSD, Mac OS X,
+       Cygwin, Interix, OSF/1 4 and 5, and glibc (since 1998), and hence
+       on most modern Linux systems. See also:
+       http://www.gnu.org/software/gnulib/manual/html_node/openpty.html */
+    return (openpty(master, slave, NULL, NULL, NULL) < 0);
 }
+
+#elif defined(HAVE_POSIX_OPENPT)
+
+static UInt OpenPty(int * master, int * slave)
+{
+    /* Attempt to use POSIX 98 pseudo ttys. Opening a master tty is done
+       via posix_openpt, which is available on virtually every current
+       UNIX system; indeed, according to gnulib, it is available on at
+       least the following systems:
+         - glibc >= 2.2.1 (released January 2001; but is a stub on GNU/Hurd),
+         - Mac OS X >= 10.4 (released April 2005),
+         - FreeBSD >= 5.1 (released June 2003),
+         - NetBSD >= 3.0 (released December 2005),
+         - AIX >= 5.2 (released October 2002),
+         - HP-UX >= 11.31 (released February 2007),
+         - Solaris >= 10 (released January 2005),
+         - Cygwin >= 1.7 (released December 2009).
+       Systems lacking posix_openpt (in addition to older versions of
+       the systems listed above) include:
+         - OpenBSD
+         - Minix 3.1.8
+         - IRIX 6.5
+         - OSF/1 5.1
+         - mingw
+         - MSVC 9
+         - Interix 3.5
+         - BeOS
+       */
+    *master = posix_openpt(O_RDWR | O_NOCTTY);
+    if (*master < 0) {
+        fputs("OpenPty: posix_openpt failed\n");
+        return 1;
+    }
+
+    if (grantpt(*master)) {
+        fputs("OpenPty: grantpt failed\n");
+        goto error;
+    }
+    if (unlockpt(*master)) {
+        close(*master);
+        fputs("OpenPty: unlockpt failed\n");
+        goto error;
+    }
+
+    *slave = open(ptsname(*master), O_RDWR, 0);
+    if (*slave < 0) {
+        fputs("OpenPty: opening slave tty failed\n");
+        goto error;
+    }
+    return 0;
+
+error:
+    close(*master);
+    return 1;
+}
+
+#else
+
+static UInt OpenPty(int * master, int * slave)
+{
+    fputs("no pseudo tty support available\n");
+    return 1;
+}
+
+#endif
 
 
 /****************************************************************************
@@ -1361,30 +1312,12 @@ int StartGapProcess ( name, argv )
 #     endif
 #   endif
 
-    /* construct the name of the pseudo terminal */
-    /* was:
-      ttydev = XtMalloc(strlen(SYS_TTYDEV)+1);  strcpy( ttydev, SYS_TTYDEV );
-      ptydev = XtMalloc(strlen(SYS_PTYDEV)+1);  strcpy( ptydev, SYS_PTYDEV );
-      changed by Max 2.5.2004 because this might be too short! */
-    ttydev = XtMalloc(81);  strcpy( ttydev, SYS_TTYDEV );
-    ptydev = XtMalloc(81);  strcpy( ptydev, SYS_PTYDEV );
-
     /* open pseudo terminal for communication with gap */
-    if ( GetMasterPty(&master) )
+    if (OpenPty(&master, &slave))
     {
-        fputs( "open master failed\n", stderr );
+        fprintf( stderr, "open pty failed (errno %d)\n", errno );
         exit(1);
     }
-    if ( (slave  = open( ttydev, O_RDWR, 0 )) < 0 )
-    {
-        fputs( "open slave failed\n", stderr );
-        exit(1);
-    }
-#   if defined(DEBUG_ON) && !defined(att)
-        DEBUG( D_COMM, ("StartGapProcess: master='%s', slave='%s'\n",
-		ptydev ? ptydev : "unknown",
-		ttydev ? ttydev : "unkown") );
-#   endif
 #   if HAVE_TERMIOS_H
         if ( tcgetattr( slave, &tst ) == -1 )
         {
