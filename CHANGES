@@ -2,6 +2,11 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
+4.30 (2016-04-16)
+  * Fix compatibility with GAP 4.11 by not writing to `last`
+  * Fix a bug that prevented XGAP from working on macOS 10.14
+  * Some janitorial changes
+
 4.29 (2018-11-10)
   * remove "Toggle Library Read Mesg" command
   * improve memory display (thanks to Russ Woodroofe)
