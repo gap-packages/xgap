@@ -1295,7 +1295,7 @@ int StartGapProcess ( name, argv )
     String          argv[];
 {
     Int             j;       /* loop variables                  */
-    char            c[8];    /* buffer for communication        */
+    char            c[10];   /* buffer for communication        */
     int             master;  /* pipe to GAP                     */
     int             n;       /* return value of 'select'        */
     int             slave;   /* pipe from GAP                   */
