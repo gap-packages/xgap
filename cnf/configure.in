@@ -167,6 +167,14 @@ case "$target" in
 esac
 
 
+dnl #########################################################################
+dnl ##
+dnl ## Ignore --with-gaproot coming from parent configure script
+dnl ##
+
+AC_ARG_WITH(gaproot, [], [])
+
+
 
 
 dnl #########################################################################
