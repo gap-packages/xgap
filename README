@@ -70,7 +70,7 @@ Configuring and Compiling the C part
 You have to change your current working directory to the ``xgap''
 subdirectory. You do this by
 
-# cd xgap
+# cd xgap-4.30
 
 if your current working directory is the one, where you used
 <tar>. There you invoke the <configure> script by:
