@@ -1,151 +1,171 @@
-/****************************************************************************
-**
-*D  check for the compiler features
-*/
+/* ../cnf/config.hin.  Generated from configure.in by autoheader.  */
 
-/* define as empty if `const' does not work                                */
+/* Define to 1 if the `closedir' function returns void instead of `int'. */
+#undef CLOSEDIR_VOID
+
+/* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_DIRENT_H
+
+/* Define to 1 if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
+/* Define to 1 if you have the `grantpt' function. */
+#undef HAVE_GRANTPT
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the <libc.h> header file. */
+#undef HAVE_LIBC_H
+
+/* Define to 1 if you have the <libutil.h> header file. */
+#undef HAVE_LIBUTIL_H
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
+#undef HAVE_NDIR_H
+
+/* define as 1 if you have `openpty' */
+#undef HAVE_OPENPTY
+
+/* Define to 1 if you have the `posix_openpt' function. */
+#undef HAVE_POSIX_OPENPT
+
+/* Define to 1 if you have the `ptsname' function. */
+#undef HAVE_PTSNAME
+
+/* Define to 1 if you have the <pty.h> header file. */
+#undef HAVE_PTY_H
+
+/* Define to 1 if you have the <sgtty.h> header file. */
+#undef HAVE_SGTTY_H
+
+/* Define to 1 if you have the `signal' function. */
+#undef HAVE_SIGNAL
+
+/* Define to 1 if you have the <signal.h> header file. */
+#undef HAVE_SIGNAL_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if `st_rdev' is a member of `struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_RDEV
+
+/* Define to 1 if your `struct stat' has `st_rdev'. Deprecated, use
+   `HAVE_STRUCT_STAT_ST_RDEV' instead. */
+#undef HAVE_ST_RDEV
+
+/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_SYS_DIR_H
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
+#undef HAVE_SYS_IOCTL_H
+
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_SYS_NDIR_H
+
+/* Define to 1 if you have the <sys/select.h> header file. */
+#undef HAVE_SYS_SELECT_H
+
+/* Define to 1 if you have the <sys/signal.h> header file. */
+#undef HAVE_SYS_SIGNAL_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have <sys/wait.h> that is POSIX.1 compatible. */
+#undef HAVE_SYS_WAIT_H
+
+/* Define to 1 if you have the <termios.h> header file. */
+#undef HAVE_TERMIOS_H
+
+/* Define to 1 if you have the <termio.h> header file. */
+#undef HAVE_TERMIO_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `unlockpt' function. */
+#undef HAVE_UNLOCKPT
+
+/* Define to 1 if you have the <util.h> header file. */
+#undef HAVE_UTIL_H
+
+/* Define to 1 if you have the `wait3' system call. Deprecated, you should no
+   longer depend upon `wait3'. */
+#undef HAVE_WAIT3
+
+/* Define to 1 if your C compiler doesn't accept -c and -o together. */
+#undef NO_MINUS_C_MINUS_O
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define as the return type of signal handlers (`int' or `void'). */
+#undef RETSIGTYPE
+
+/* The size of `int', as computed by sizeof. */
+#undef SIZEOF_INT
+
+/* The size of `long', as computed by sizeof. */
+#undef SIZEOF_LONG
+
+/* The size of `short', as computed by sizeof. */
+#undef SIZEOF_SHORT
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+#undef TIME_WITH_SYS_TIME
+
+/* Define to 1 if the X Window System is missing or not being used. */
+#undef X_DISPLAY_MISSING
+
+/* Define to empty if `const' does not conform to ANSI C. */
 #undef const
 
-/* define as size of `short int' in bytes                                  */
-#define SIZEOF_SHORT		@SIZEOF_SHORT@
-
-/* define as size of `int' in bytes                                        */
-#define SIZEOF_INT		@SIZEOF_INT@
-
-/* define as size of `long int' in bytes                                   */
-#define SIZEOF_LONG		@SIZEOF_LONG@
-
-
-/****************************************************************************
-**
-*D  check for structs and typedefs
-*/
-
-/* define as 1 if `struct stat' contains a memeber `rdev'                  */
-#define HAVE_ST_RDEV		0
-
-/* define as `int' if not defined                                          */
-#undef uid_t
+/* Define to `int' if <sys/types.h> doesn't define. */
 #undef gid_t
 
-
-/****************************************************************************
-**
-*D  check for "the" standard include files
-*/
-
-/* define as 1 if you have the ANSI C include file "stdlib.h", "stdarg.h"  */
-#define STDC_HEADERS 		0
-
-/* define as 1 if you have the include file "libc.h"                       */
-#define HAVE_LIBC_H		0
-
-/* define as 1 if you have the include file "unistd.h"                     */
-#define HAVE_UNISTD_H		0
-
-
-/****************************************************************************
-**
-*D  check for timing functions
-*/
-
-/* define as 1 if you may include both "time.h" and "sys/time.h"           */
-#define TIME_WITH_SYS_TIME	0
-
-/* define as 1 if you have the include file "sys/time.h"                   */
-#define HAVE_SYS_TIME_H		0
-
-
-/****************************************************************************
-**
-*D  check for fork, wait, execute functions
-*/
-
-/* define as 1 if you have a posix include file "sys/wait.h"               */
-#define HAVE_SYS_WAIT_H		0
-
-/* define as 1 if you have `wait3' which fills the thrid argument          */
-#define HAVE_WAIT3		0
-
-/* define to `int' if <sys/types.h> doesn't define                         */
+/* Define to `int' if <sys/types.h> does not define. */
 #undef pid_t
 
-
-/****************************************************************************
-**
-*D  check for tty and pseudo tty functions
-*/
-
-/* define as 1 if you have the include file "termios.h"                    */
-#define HAVE_TERMIOS_H           0
-
-/* define as 1 if you have the include file "termio.h"                     */
-#define HAVE_TERMIO_H           0
-
-/* define as 1 if you have the include file "sgtty.h"                      */
-#define HAVE_SGTTY_H            0
-
-/* define as 1 if you have the include file "fcntl.h"                      */
-#define HAVE_FCNTL_H            0
-
-/* define as 1 if you have the include file "sys/ioctl.h"                  */
-#define HAVE_SYS_IOCTL_H        0
-
-/* define as 1 if you have the include file "sys/select.h"                 */
-#define HAVE_SYS_SELECT_H       0
-
-/* define as 1 if you have `select'                                        */
-#define HAVE_SELECT		0
-
-/* define as 1 if you have `getpseudotty'                                  */
-#define HAVE_GETPSEUDOTTY	0
-
-/* define as 1 if you have `_getpty'                                       */
-#define HAVE__GETPTY		0
-
-#define HAVE_GETPT              0
-#define HAVE_PTSNAME_R         0
-
-/****************************************************************************
-**
-*D  check for signal handling
-*/
-
-/* define as 1 if you have the include file "signal.h"                     */
-#define HAVE_SIGNAL_H           0
-
-/* define as the return type of the signal handler                         */
-#define RETSIGTYPE              @RETSIGTYPE@
-
-/* define as 1 if <RTSIGTYPE> is void                                      */
-#define HAVE_SIGNAL_VOID        0
-
-
-/****************************************************************************
-**
-*D  check for directory handling
-*/
-
-/* define as 1 if `closedir' returns void                                  */
-#define CLOSEDIR_VOID		0
-
-/* define as 1 if you have the include file "dirent.h"                     */
-#define HAVE_DIRENT_H		0
-
-/* define as 1 if you have the include file "sys/ndir.h"                   */
-#define HAVE_SYS_NDIR_H         0
-
-/* define as 1 if you have the include file "sys/dir.h"                    */
-#define HAVE_SYS_DIR_H          0
-
-/* define as 1 if you have the include file "ndir.h"                       */
-#define HAVE_NDIR_H             0
-
-
-/****************************************************************************
-**
-*D  check for XWindows features
-*/
-
-/* define as 1 if your OpenWindows does not deal with compressed exposures */
-#define HAVE_BROKEN_TEXT_EXPORE_COMPRESS	0
+/* Define to `int' if <sys/types.h> doesn't define. */
+#undef uid_t

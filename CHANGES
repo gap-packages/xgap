@@ -2,6 +2,19 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
+4.30 (2016-04-16)
+  * Fix compatibility with GAP 4.11 by not writing to `last`
+  * Fix a bug that prevented XGAP from working on macOS 10.14
+  * Some janitorial changes
+
+4.29 (2018-11-10)
+  * remove "Toggle Library Read Mesg" command
+  * improve memory display (thanks to Russ Woodroofe)
+
+4.28 (2018-09-12)
+  * Set TermEncoding to latin1 (thanks to Russ Woodroofe)
+  * Don't change the user's helpviewer to 'firefox' (thanks to Russ Woodroofe)
+
 4.27 (2018-03-21)
   * Replace references to obsolete ReadPkg by ReadPackage
   * Replace calls to MakeReadWriteGVar and MakeReadOnlyGVar by calls to their

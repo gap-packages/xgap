@@ -5,8 +5,6 @@
 #Y  Copyright (C) 1993,  Lehrstuhl D fuer Mathematik,  RWTH, Aachen,  Germany
 ##
 
-last := 0;    # to make GAP happy when this package is autoloaded
-
 #############################################################################
 ##
 #X  declaration part

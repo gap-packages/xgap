@@ -210,7 +210,6 @@ static char *FallbackResources[] =
     "*xgapMenu.runButton*interrupt.label:     Interrupt",
     "*xgapMenu.runButton*garbColl.label:      Collect Garbage",
     "*xgapMenu.runButton*garbMesg.label:      Toggle GC Messages",
-    "*xgapMenu.runButton*infoRead.label:      Toggle Library Read Mesg",
 
     /* help menu */
     "*xgapMenu.helpButton.label:              Help",
@@ -378,8 +377,6 @@ static void MenuQuitBreak () { SimulateInput( "quit;\n" );                }
 static void MenuContBreak () { SimulateInput( "return;\n" );              }
 static void MenuGarbColl ()  { SimulateInput( "GASMAN(\"collect\");\n" ); }
 static void MenuGarbMesg ()  { SimulateInput( "GASMAN(\"message\");\n" ); }
-static void MenuInfoRead ()  { SimulateInput(
-"if InfoRead1=Print then InfoRead1:=Ignore; else InfoRead1:=Print; fi;\n"); }
 
 static TypeMenuItem RunMenu[] =
 {
@@ -390,7 +387,6 @@ static TypeMenuItem RunMenu[] =
     { "---------",      0,                      0,              0 },
     { "garbColl",       MenuGarbColl,           S_INPUT_ONLY,   0 }, 
     { "garbMesg",       MenuGarbMesg,           S_INPUT_ONLY,   0 },
-    { "infoRead",       MenuInfoRead,           S_INPUT_ONLY,   0 },
     { 0,                0,             	        0,              0 }
 };
 
@@ -595,17 +591,17 @@ void UpdateMemoryInfo ( type, val )
     switch ( type )
     {
 	case 1:
-	    sprintf( tmp, "Objects: %-5d ", val );
+	    snprintf( tmp, sizeof(tmp), "Objects: %-5d ", val );
   	    XtVaSetValues( LabelLiveObjects, XtNlabel, (XtArgVal)tmp, 
                            (String)NULL );
 	    break;
 	case 2:
-            sprintf( tmp, "KB used: %-5d ", val );
+            snprintf( tmp, sizeof(tmp), "MB used: %.1f ", val/(float)1024 );
             XtVaSetValues( LabelLiveKB, XtNlabel, (XtArgVal)tmp, 
                            (String)NULL );
 	    break;
 	case 6:
-            sprintf( tmp, "MBytes total: %-4d ", val/1024 );
+	    snprintf( tmp, sizeof(tmp), "MB total: %.1f ", val/(float)1024 );
             XtVaSetValues( LabelTotalKBytes, XtNlabel, (XtArgVal)tmp, 
                            (String)NULL );
 	    break;
