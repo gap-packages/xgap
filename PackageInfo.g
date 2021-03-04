@@ -92,7 +92,7 @@ Dependencies := rec(
 
 AvailabilityTest := function() return GAPInfo.CommandLineOptions.p; end,
 
-#TestFile := "tst/testall.g",
+TestFile := "tst/testall.g",
 
 #Keywords := []
 
