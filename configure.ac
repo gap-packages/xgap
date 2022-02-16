@@ -85,22 +85,17 @@ if test "x$GAParch" != "x"; then
   GAPARCH=$GAParch
 fi
 
-AC_ARG_WITH(gaparch, 
-  [AS_HELP_STRING([--with-gaparch=<path>], [override GAP architecture string])],
-  [GAPARCH=$withval])
 AC_MSG_RESULT([${GAPARCH}])
 
-if test "x$GAPARCH" = "xUnknown" -o ! -d $GAPROOT/bin/$GAPARCH ; then
+if test "x$GAPARCH" = "xUnknown" ; then
   echo ""
   echo "********************************************************************"
   echo "  ERROR"
   echo ""
   echo "  Found a GAP installation at $GAPROOT but could not find"
   echo "  information about GAP's architecture in the"
-  echo "  file ${GAPROOT}/${SYSINFO} or did not find the directory"
-  echo "  ${GAPROOT}/bin/${GAPARCH}."
-  echo "  This file and directory should be present: please check your"
-  echo "  GAP installation."
+  echo "  ${GAPROOT}/${SYSINFO} file."
+  echo "  This file be present: please check your GAP installation."
   echo "********************************************************************"
   echo ""
   
