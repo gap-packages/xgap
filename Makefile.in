@@ -50,4 +50,8 @@ compile: bin/$(GAParch)/configure bin/$(GAParch)/Makefile
 clean:
 	rm -rf bin/$(GAParch)
 	rm -f xgap.sh bin/xgap.sh
+
+distclean: clean
 	rm -f config.cache config.log config.status Makefile
+
+.PHONY: default config compile clean distclean
