@@ -3,8 +3,9 @@ dnl ##
 dnl ## check for a unique program in the source directory
 dnl ##
 
-AC_INIT(xgap.c)
-AC_CONFIG_AUX_DIR(../../cnf)
+AC_INIT
+AC_CONFIG_SRCDIR([xgap.c])
+AC_CONFIG_AUX_DIR(../cnf)
 
 
 dnl #########################################################################
@@ -12,7 +13,7 @@ dnl ##
 dnl ## create a config file from "config.hin"
 dnl ##
 
-AC_CONFIG_HEADER(config.h:../cnf/config.hin)
+AC_CONFIG_HEADERS([config.h:../cnf/config.hin])
 
 
 dnl #########################################################################
@@ -23,18 +24,6 @@ dnl ##
 AC_PROG_CC
 AC_PROG_CC_C_O
 AC_C_CONST
-AC_CHECK_SIZEOF(short) # no space between 'short' and ')'
-AC_CHECK_SIZEOF(int) # no space between 'int' and ')'
-AC_CHECK_SIZEOF(long) # no space between 'long' and ')'
-
-
-dnl #########################################################################
-dnl ##
-dnl ## check for structs and typedefs
-dnl ##
-
-AC_STRUCT_ST_RDEV
-AC_TYPE_UID_T
 
 
 dnl #########################################################################
@@ -42,16 +31,7 @@ dnl ##
 dnl ## find a canonical name for the system
 dnl ##
 
-AC_CANONICAL_SYSTEM
-
-
-dnl #########################################################################
-dnl ##
-dnl ## check for the existence of various header files
-dnl ##
-
-AC_HEADER_STDC
-AC_CHECK_HEADERS( libc.h unistd.h )
+AC_CANONICAL_TARGET
 
 
 dnl #########################################################################
@@ -59,8 +39,7 @@ dnl ##
 dnl ## check for timing functions
 dnl ##
 
-AC_HEADER_TIME
-AC_CHECK_HEADERS( sys/time.h )
+AC_CHECK_HEADERS_ONCE([sys/time.h])
 
 
 dnl #########################################################################
@@ -69,8 +48,6 @@ dnl ## check for fork, wait, execute functions
 dnl ##
 
 AC_HEADER_SYS_WAIT
-AC_FUNC_WAIT3
-AC_TYPE_PID_T
 
 
 dnl #########################################################################
@@ -98,7 +75,7 @@ dnl ##
 dnl ## check for tty and pseudo tty functions
 dnl ##
 
-AC_CHECK_HEADERS( fcntl.h sgtty.h termios.h termio.h sys/ioctl.h sys/select.h )
+AC_CHECK_HEADERS( sgtty.h termios.h termio.h sys/ioctl.h sys/select.h )
 
 
 dnl #########################################################################
@@ -108,10 +85,6 @@ dnl ##
 
 AC_CHECK_HEADERS( signal.h sys/signal.h )
 AC_CHECK_FUNCS( signal )
-AC_TYPE_SIGNAL
-if test "$ac_cv_type_signal" = "void"; then
-  AC_DEFINE( HAVE_SIGNAL_VOID )
-fi
 
 
 dnl #########################################################################
@@ -142,30 +115,6 @@ if test "$have_x" != yes;  then
     be called differently.])
 fi
 
-AC_MSG_CHECKING(for broken exposure compress in open windows)
-case "$target" in
-
-  *-*-sunos*)
-    case "$x_libraries" in
-      *openwin*)
-	AC_DEFINE( HAVE_BROKEN_TEXT_EXPORE_COMPRESS )
-	X_EXTRA_LIBS="$X_EXTRA_LIBS -lm $x_libraries/libXmu.a"
-	AC_MSG_RESULT([yes (let's hope it works)])
-        ;;
-
-      *)
-	AC_MSG_RESULT([no (good)])
-	;;
-
-    esac
-    ;;
-
-  *)
-    AC_MSG_RESULT([no (good)])
-    ;;
-
-esac
-
 
 dnl #########################################################################
 dnl ##
@@ -176,10 +125,10 @@ AC_ARG_WITH(gaproot, [], [])
 
 
 
-
 dnl #########################################################################
 dnl ##
 dnl ## generate a makefile
 dnl ##
 
-AC_OUTPUT(Makefile:../cnf/Makegap.in)
+AC_CONFIG_FILES([Makefile:../cnf/Makegap.in])
+AC_OUTPUT

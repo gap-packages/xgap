@@ -54,55 +54,31 @@
 **
 *F  Include . . . . . . . . . . . . . . . . . . . . . .  system include files
 */
-#include <config.h>
+#include "config.h"
 
 #if HAVE_TERMIO_H
 #undef  HAVE_SGTTY_H
 #define HAVE_SGTTY_H	0
 #endif
 
-#include    <stdio.h>                   /* standard C i/o library          */
+#include <stdio.h>
 
-#if STDC_HEADERS
-# include   <stdlib.h>                  /* standard C library              */
-# include   <stdarg.h>                  /* variable argument list          */
-#endif
+#include <stdlib.h>
+#include <stdarg.h>
+#include <unistd.h>
 
-#if HAVE_LIBC_H
-# include   <libc.h>                    /* standard NeXT C library         */
-#endif
+#include <pwd.h>
 
-#if HAVE_UNISTD_H
-# include   <unistd.h>                  /* another standard C library      */
-#endif
+#include <signal.h>
+#include <time.h>
 
-#include    <pwd.h>
-
-#if TIME_WITH_SYS_TIME
-# include   <sys/time.h>
-# include   <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include  <sys/time.h>
-# else
-#  include  <time.h>
-# endif
-#endif
-
-#if HAVE_FCNTL_H
-#include    <fcntl.h>
-#endif
-
-#include    <sys/errno.h>
-#include    <sys/stat.h>
-#include    <sys/types.h>
-#include    <sys/resource.h>
-
-#if HAVE_SYS_WAIT_H
-# include   <sys/wait.h>
-#endif
-
-#include    <sys/param.h>
+#include <sys/errno.h>
+#include <sys/param.h>
+#include <sys/resource.h>
+#include <sys/select.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #if HAVE_TERMIOS_H
 # include   <termios.h>
@@ -112,14 +88,6 @@
 #else
 # include   <sgtty.h>
 #endif
-#endif
-
-#if HAVE_SIGNAL_H
-# include   <signal.h>
-#endif
-
-#if HAVE_SYS_SELECT_H
-# include   <sys/select.h>
 #endif
 
 
@@ -164,23 +132,6 @@
 #include    <X11/Xaw/Viewport.h>
 #include    <X11/Xaw/ViewportP.h>
 #include    <X11/Xaw/XawInit.h>
-
-
-/****************************************************************************
-**
-*F  Prototypes  . . . . . . . . . . . . . . . . . . . . . . system prototypes
-*/
-#if ! HAVE_UNISTD_H && ! HAVE_LIBC_H
-extern int write();
-#endif
-
-extern pid_t wait3();
-extern int   select();
-
-/* IRIX System V.4 running IRIX Release 5.3 already defines ioctl and  */
-/* therefore doesn't like the declaration of ioctl                     */
-
-/* extern int ioctl(); */
 
 
 /****************************************************************************
