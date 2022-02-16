@@ -1,10 +1,14 @@
 /Makefile
+/autom4te.cache/
 /bin/
+/cnf/autom4te.cache/
+/cnf/config.hin
+/cnf/configure.out
 /config.log
 /config.status
+/configure
+/htm/
 /xgap.sh
-/cnf/autom4te.cache/
-
 
 /doc/manual.aux
 /doc/manual.bbl
@@ -24,8 +28,6 @@
 /doc/tthmacros.tex
 /doc/tthout
 /doc/usercomm.tex
-
-/htm
 
 /gh-pages/
 /tmp/
