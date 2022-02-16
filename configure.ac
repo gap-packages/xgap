@@ -1,4 +1,5 @@
-AC_INIT(configure)
+AC_INIT
+AC_CONFIG_SRCDIR([configure])
 gp_configure_options=$*
 AC_CHECK_PROGS( MAKE, make )
 if test -z "$MAKE";  then
@@ -9,7 +10,7 @@ AC_MSG_ERROR([cannot find make])
 fi
 AC_SUBST(gp_configure_options)
 AC_CONFIG_AUX_DIR([cnf])
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 AC_PROG_CC
 AC_PROG_MAKE_SET
 
@@ -35,7 +36,7 @@ DEFAULT_GAPROOTS="../.."
 #Allow the user to specify the location of GAP
 #
 AC_ARG_WITH(gaproot, 
-  [AC_HELP_STRING([--with-gaproot=<path>], [specify root of GAP installation])],
+  [AS_HELP_STRING([--with-gaproot=<path>], [specify root of GAP installation])],
   [DEFAULT_GAPROOTS="$withval"])
 
 havesysinfo=0
@@ -85,7 +86,7 @@ if test "x$GAParch" != "x"; then
 fi
 
 AC_ARG_WITH(gaparch, 
-  [AC_HELP_STRING([--with-gaparch=<path>], [override GAP architecture string])],
+  [AS_HELP_STRING([--with-gaparch=<path>], [override GAP architecture string])],
   [GAPARCH=$withval])
 AC_MSG_RESULT([${GAPARCH}])
 
@@ -106,4 +107,6 @@ if test "x$GAPARCH" = "xUnknown" -o ! -d $GAPROOT/bin/$GAPARCH ; then
   AC_MSG_ERROR([Unable to find plausible GAParch information.])
 fi  
 AC_SUBST(GAPARCH)
-AC_OUTPUT([Makefile xgap.sh],[chmod +x xgap.sh])
+AC_CONFIG_FILES([Makefile xgap.sh])
+AC_CONFIG_COMMANDS([default],[chmod +x xgap.sh],[])
+AC_OUTPUT

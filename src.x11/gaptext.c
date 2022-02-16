@@ -579,11 +579,7 @@ GapTextClassRec gapTextClassRec =
     /* num_resource       */    XtNumber(GapTextResources),
     /* xrm_class          */    NULLQUARK,
     /* compress_motion    */    TRUE,
-#if HAVE_BROKEN_TEXT_EXPORE_COMPRESS
-    /* compress_exposure  */    XtExposeNoCompress,
-#else
     /* compress_exposure  */    XtExposeGraphicsExpose | XtExposeNoExpose,
-#endif
     /* compress_enterleave*/	TRUE,
     /* visible_interest   */    FALSE,
     /* destroy            */    GapTextDestroy,

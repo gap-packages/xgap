@@ -1274,14 +1274,10 @@ static UInt OpenPty(int * master, int * slave)
 */
 static void GapStatusHasChanged ()
 {
-#   ifdef SYS_HAS_UNION_WAIT
-        union wait	w;
-#   else
-        int             w;
-#   endif
+    int             w;
 
     /* if the child was stopped return */
-    if ( wait3( &w, WNOHANG | WUNTRACED, 0 ) != GapPID || WIFSTOPPED(w) )
+    if ( waitpid( -1, &w, WNOHANG | WUNTRACED ) != GapPID || WIFSTOPPED(w) )
 	return;
 #   ifdef DEBUG_ON
         fputs( "gap status has changed, leaving xgap\n", stderr );

@@ -5,22 +5,9 @@
 ##
 #Y  Copyright (C)  1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 ##
-##  This file creates the `configure' scripts using `autoconf'.
-##
 CC=cc
 
 SOURCE=xcmds utils gapgraph gaptext pty popdial xgap selfile
-
-default: configure.out ../configure
-
-configure.out: configure.in
-	autoconf
-	sed -e 's%^srcdir=$$%srcdir=../../src.x11%' < configure > configure.out
-	chmod 755 configure.out
-	rm configure
-
-../configure: ../configure.in
-	( cd .. ; autoconf )
 
 Makegap.in: AlwaysMakegap.in
 
