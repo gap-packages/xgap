@@ -2,7 +2,13 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
-4.30 (2016-04-16)
+4.31 (2022-02-17)
+  * Add missing escapes to buildman.pe
+  * Enlarge the 'c' array in StartGapProcess to prevent overruns
+  * Improve the build system
+  * Add some basic test files
+
+4.30 (2019-04-16)
   * Fix compatibility with GAP 4.11 by not writing to `last`
   * Fix a bug that prevented XGAP from working on macOS 10.14
   * Some janitorial changes
