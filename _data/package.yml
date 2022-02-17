@@ -1,6 +1,6 @@
 name: XGAP
-version: "4.30"
-date: 2019-04-16
+version: "4.31"
+date: 2022-02-17
 description: |
     a graphical user interface for GAP
 
@@ -22,7 +22,7 @@ packageinfo: https://gap-packages.github.io/xgap/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/xgap/releases/download/v4.30/xgap-4.30.tar.gz
+      url: https://github.com/gap-packages/xgap/releases/download/v4.31/xgap-4.31.tar.gz
 
 abstract: |
     The <span class="pkgname">XGAP</span> package allows to use graphics in GAP.
@@ -32,23 +32,26 @@ doc-html: htm/chapters.htm
 doc-pdf: doc/manual.pdf
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>CHN19</span>]   <b class='BibAuthor'>Celler, F., Horn, M. and Neunhöffer, M.</b>,
+    [<span class='BibKey'>CHN22</span>]   <b class='BibAuthor'>Celler, F., Horn, M. and Neunhöffer, M.</b>,
      <i class='BibTitle'>XGAP, a graphical user interface for GAP,
-             Version 4.30</i>
-     (<span class='BibYear'>2019</span>)<br />
+             Version 4.31</i>
+     (<span class='BibYear'>2022</span>)<br />
     (<span class='BibNote'>Refereed GAP package</span>),
     <span class='BibHowpublished'><a href="https://gap-packages.github.io/xgap">https://gap-packages.github.io/xgap</a></span>.
     </p>
     
 
 bibtex: |
-    @misc{ XGAP4.30,
+    @misc{ XGAP4.31,
       author =           {Celler, F. and Horn, M. and Neunh{\"o}ffer, M.},
-      title =            {{XGAP}, a graphical user interface for GAP, {V}ersion 4.30},
-      month =            {Apr},
-      year =             {2019},
+      title =            {{XGAP},  a graphical user interface for GAP, {V}ersion
+                          4.31},
+      month =            {Feb},
+      year =             {2022},
       note =             {Refereed GAP package},
-      howpublished =     {\href {https://gap-packages.github.io/xgap} {\texttt{https://gap-packages.github.io/}\discretionary {}{}{}\texttt{xgap}}},
-      printedkey =       {CHN19}
+      howpublished =     {\href            {https://gap-packages.github.io/xgap}
+                          {\texttt{https://gap-packages.github.io/}\discretionary
+                          {}{}{}\texttt{xgap}}},
+      printedkey =       {CHN22}
     }
 
