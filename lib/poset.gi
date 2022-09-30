@@ -3184,7 +3184,7 @@ end);
 ## This is used by the following three methods:
 ##
 BindGlobal("PosetScaleLattice",function(poset,factorx,factory)
-  local   l,  pos,  cl,  v,  newx,  newy,  diffx,  diffy;
+  local   l,  pos,  cl,  v,  newx,  newy,  diffx,  diffy, t;
   
   FastUpdate(poset,true);  
   Resize(poset, Int(poset!.width*factorx), Int(poset!.height*factory));
@@ -3204,6 +3204,16 @@ BindGlobal("PosetScaleLattice",function(poset,factorx,factory)
       fi;
     od;
   od;
+
+  # Keep level labels at the right side of the window
+  for t in poset!.lptexts do
+    if IsAlive(t) then
+      Move(t, poset!.width - 24 - Length(t!.text)*FontInfo(FONTS.normal)[3], t!.y);
+    else
+      t!.x := poset!.width - 24 - Length(t!.text)*FontInfo(FONTS.normal)[3];
+    fi;
+  od;
+
   FastUpdate(poset,false);
 end);
 
