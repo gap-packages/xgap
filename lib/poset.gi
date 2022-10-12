@@ -798,7 +798,7 @@ function( poset, v1, v2, def )
   fi;
   
   # now we know that there is no direct or indirect inclusion of v2 in v1.
-  # we can savely put v2 "into" v1.
+  # we can safely put v2 "into" v1.
   Add(v1!.maximals,v2);
   Add(v2!.maximalin,v1);
   Connection(v1!.obj,v2!.obj,def);                                               
@@ -1707,8 +1707,8 @@ end);
 
 #############################################################################
 ##
-#M  Highlight(<graph>,<vertex>)  . . . . . . . change highlightning of vertex
-#M  Highlight(<graph>,<vertex>,<flag>) . . . . change highlightning of vertex
+#M  Highlight(<graph>,<vertex>)  . . . . . . . change highlighting of vertex
+#M  Highlight(<graph>,<vertex>,<flag>) . . . . change highlighting of vertex
 ##
 ##  Changes the highlighting status of the vertex <vertex>. <vertex> must
 ##  be a vertex object in <graph>. For the method where no flag is
@@ -2460,7 +2460,7 @@ end);
 #M  Vertices(<poset>,<levelparam>,<classparam>)  . . . . . . returns vertices
 ##
 ##  Returns the list of vertices in class classparams in level
-##  levelparam. Returns fail no level with paramter <levelparam> or no
+##  levelparam. Returns fail no level with parameter <levelparam> or no
 ##  class with parameter <classparam> in the level.
 ##
 InstallMethod( Vertices,
@@ -3139,7 +3139,7 @@ function( poset, menu, entry )
     # the current level:
     level := poset!.levels[Position(poset!.levelparams,lps[i])];
     
-    # Now we collect all classes occuring:
+    # Now we collect all classes occurring:
     cps := [];
     cpos := [];
     cls := [];

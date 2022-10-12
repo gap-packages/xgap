@@ -29,7 +29,7 @@
 /****************************************************************************
 **
 
-*V  AppContext	. . . . . . . . . . . . . . . . . . . . .  aplication context
+*V  AppContext	. . . . . . . . . . . . . . . . . . . . .  application context
 */
 XtAppContext AppContext;
 
@@ -923,7 +923,7 @@ static void MySignalHandler ()
 /****************************************************************************
 **
 
-*F  ParseArgs( <argc>, <argv> ) . . . create argument arry for gap subprocess
+*F  ParseArgs( <argc>, <argv> ) . . . create argument array for gap subprocess
 */
 static char * nargv[1024];
 
@@ -1190,7 +1190,7 @@ int main ( argc,  argv )
 	mod = -1;
     else
     {
-	fputs( "XGAP: unkown color model '", stderr );
+	fputs( "XGAP: unknown color model '", stderr );
 	fputs( color, stderr );
 	fputs( "'\n", stderr );
 	mod = -1;

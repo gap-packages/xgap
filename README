@@ -58,7 +58,7 @@ Now you extract the sources for the XGAP package:
 # tar xzvf xgap-4.31.tar.gz
 ...
 
-The <tar> utility unpacks the files and stores them into the apropriate
+The <tar> utility unpacks the files and stores them into the appropriate
 subdirectories. XGAP resides completely in the following subdirectory
 (assuming standard location):
 

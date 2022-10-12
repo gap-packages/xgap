@@ -16,7 +16,7 @@
 ##
 ##  to compile and link XGAP.
 ##
-##  The "default" traget:
+##  The "default" target:
 ##    - creates a subdirectory CPU-VENDOR-OS in the directory `bin',
 ##    - copies the configuration script into this directory,
 ##    - it switches into this directory and executes the configure script,

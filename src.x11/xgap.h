@@ -42,7 +42,7 @@ TypeMenuItem;
 /****************************************************************************
 **
 
-*V  AppContext	. . . . . . . . . . . . . . . . . . . . .  aplication context
+*V  AppContext	. . . . . . . . . . . . . . . . . . . . .  application context
 */
 extern XtAppContext AppContext;
 

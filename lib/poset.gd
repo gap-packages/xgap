@@ -459,7 +459,7 @@ DeclareOperation("CompareLevels",[IsGraphicSheet,IsObject,IsObject]);
 
 #############################################################################
 ##
-##  Operations for aquiring information about the poset:
+##  Operations for acquiring information about the poset:
 ##
 #############################################################################
 

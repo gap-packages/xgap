@@ -160,7 +160,7 @@ a) Menus:
 
    where entry is the string of the entry. <ents> is a list of
    strings. Strings starting with a "-" will become delimiters and are NOT
-   stored as seperate entries. The corresponding function is ignored. This
+   stored as separate entries. The corresponding function is ignored. This
    corrects a bug in XGAP3 because now "Enable" and "Check" change the
    correct entry, if it is after a delimiter. Code that contains already a
    workaround for this bug has to be changed!

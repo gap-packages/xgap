@@ -68,7 +68,7 @@ file with wordpad (notepad apparently does not read some of the line break
 characters making it near impossible to edit).  Now scroll down and input
 the following value:
 For GAP_DIR, /usr/local/lib/gap4r4
-For XGAP_PRG, you need to look in the XGAP/bin folder.  The exectuable is
+For XGAP_PRG, you need to look in the XGAP/bin folder.  The executable is
 in a folder that is called something like i686-pc-cygwin-gcc, but it may
 vary.  Then you input something like i686-pc-cygwin-gcc/xgap.exe.
 Save and close the file.

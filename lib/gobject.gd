@@ -16,7 +16,7 @@
 ##  corresponding change of the real graphics on the screen. The types of
 ##  graphic objects supported in {\XGAP} are: boxes, circles, discs, diamonds,
 ##  rectangles, lines, texts, vertices and connections. Vertices are compound
-##  objects consisting of a circle, rectangle oder diamond with a short text
+##  objects consisting of a circle, rectangle or diamond with a short text
 ##  inside. They remember their connections to other vertices. That means
 ##  that if for example the position of a vertex is changed, the line which 
 ##  makes the connection to some other vertex is also changed automatically.

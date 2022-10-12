@@ -2169,7 +2169,7 @@ function( sheet, grp, conjugclass, hints )
   
   Walkdown := function(v)
     local   w, list;
-    # first check if there are superfluos connections:
+    # first check if there are superfluous connections:
     # we need a copy because `Delete' changes v!.maximalin:
     list := ShallowCopy(v!.maximalin);
     for w in list do
@@ -2760,7 +2760,7 @@ function(G,def)
   fi;
   
   # create one or two initial vertices (G itself and trivial subgroup):
-  # we seperate the mathematical data and the graphical data:
+  # we separate the mathematical data and the graphical data:
   vmath := rec(group := G,
                info := rec(Index := 1, IsNormal := true));
   vmath.class := [vmath];
