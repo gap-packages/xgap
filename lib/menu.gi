@@ -509,7 +509,7 @@ function( name, lbs, bts )
     # Store it globally to find it again:
     WcStoreTs(id,sel);
             
-    # force lables to be real strings
+    # force labels to be real strings
     if not ForAll( sel!.labels, IsString ) then
         Print( "warning (TextSelector): all labels must be strings\n" );
     fi;
@@ -699,7 +699,7 @@ end );
 
 #############################################################################
 ##
-#M  Reset( <sel> )  . . . . . . . . . . . . . . . . . . . . . remove highligh
+#M  Reset( <sel> )  . . . . . . . . . . . . . . . . . . . . . remove highlight
 ##
 InstallMethod( Reset,
     "for a text selector",

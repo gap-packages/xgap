@@ -862,7 +862,7 @@ void GapOutput ( cld, fid, id )
 			    fwrite( TBuf, 1, len, stderr );
 		    }
 
-		    /* collect ouptut 'TBuf' in case it is not "mAgIc" */
+		    /* collect output 'TBuf' in case it is not "mAgIc" */
 		    len = 0;
 		    TBuf[len++] = '@';
 		    TBuf[len++] = 'm';
@@ -1177,7 +1177,7 @@ void KillGap ()
 
 /****************************************************************************
 **
-*F  InterruptGap()  . . . . . . . . . . . . . . . .  interupt the running gap
+*F  InterruptGap()  . . . . . . . . . . . . . . . .  interrupt the running gap
 */
 void InterruptGap ()
 {

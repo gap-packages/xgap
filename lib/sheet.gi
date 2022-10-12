@@ -680,12 +680,12 @@ end );
 ##
 #F  Drag( <sheet>, <x>, <y>, <bt>, <func> ) . . . . . . . . .  drag something
 ##
-##  Call this function when a button event has occured, so the button <bt>
+##  Call this function when a button event has occurred, so the button <bt>
 ##  is still pressed. It waits until the user releases the mouse button and
 ##  calls <func> for every change of the mouse position with the new x and
 ##  y position as two integer parameters. You can implement a dragging
 ##  procedure in this way as in the following example: (we assume that a
-##  LeftPBDown event just occured and x and y contain the current mouse
+##  LeftPBDown event just occurred and x and y contain the current mouse
 ##  pointer position):
 ##
 ##  \begintt

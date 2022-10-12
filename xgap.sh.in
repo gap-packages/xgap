@@ -101,7 +101,7 @@ VERBOSE="NO"
 ##
 ##  GAP accepts the following options:
 ##
-##  -b          toggle banner supression
+##  -b          toggle banner suppression
 ##  -q          toggle quiet mode
 ##  -e          toggle quitting on <ctr>-D
 ##  -f          force line editing
@@ -117,7 +117,7 @@ VERBOSE="NO"
 ##              postfix 'k' = *1024, 'm' = *1024*1024
 ##  -l <paths>  set the GAP root paths
 ##  -r          toggle reading of the '.gaprc' file 
-##  -D          toggle debuging the loading of library files
+##  -D          toggle debugging the loading of library files
 ##  -B <name>   current architecture
 ##  -M          toggle loading of compiled modules
 ##  -N          toggle check for completion files

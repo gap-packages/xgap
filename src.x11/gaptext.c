@@ -740,7 +740,7 @@ static int GapSrcReplaceText (
 *F  GapSrcScan( <w>, <pos>, <type>, <dir>, <cnt>, <inc> ) . . . . . scan text
 **
 **  DESCRIPTION
-**    Scan the text in <w>.buffer for the <cnt>.th occurance of a boundary of
+**    Scan the text in <w>.buffer for the <cnt>.th occurrence of a boundary of
 **    type <type>.  Start  the scan at position <pos>. If  <include> is  true
 **    include the boundary in the returned position.
 **

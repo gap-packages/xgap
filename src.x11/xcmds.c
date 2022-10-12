@@ -1000,7 +1000,7 @@ static Boolean FunShowDialog (
 #       endif
     }
 
-    /* unkown dialog */
+    /* unknown dialog */
     else
 	return ANSWER_GAP("esd","illegal popup dialog ",arg->iargs[0],0,0);
 
@@ -2020,7 +2020,7 @@ static XtActionsRec PrivateActions[] =
 
 /****************************************************************************
 **
-*F  InitXCMDS()	. . . . . . . . . . . . . . .  initalize all global variables
+*F  InitXCMDS()	. . . . . . . . . . . . . . .  initialize all global variables
 */
 void InitXCMDS ()
 {
