@@ -38,10 +38,6 @@ fi
 ##  GAP_PRG . . . . . . . . . . . . . . . . .  name of the executable program
 ##
 ##  Set 'GAP_PRG' to the  name of the executable  program of the  GAP kernel.
-##  The  default is  '`hostname'/gap'.    You  can   either change this    to
-##  '<target>/gap' where <target> is the  target you have selected during the
-##  compilation or create  a symbolic link  from <target> to  '`hostname`' in
-##  the 'bin' directory.
 ##
 if [ "x$GAP_PRG" = "x" ];  then
 GAP_PRG=@GAPARCH@/gap
@@ -53,13 +49,9 @@ fi
 ##  XGAP_PRG . . . . . . . . . . . . . . . . . name of the executable program
 ##
 ##  Set 'XGAP_PRG' to the  name of the executable program of the XGAP kernel.
-##  The  default is  '`hostname'/gap'.    You  can   either change this    to
-##  '<target>/gap' where <target> is the  target you have selected during the
-##  compilation or create  a symbolic link  from <target> to  '`hostname`' in
-##  the 'bin' directory.
 ##
 if [ "x$XGAP_PRG" = "x" ];  then
-XGAP_PRG=@target@-@CC@/xgap
+XGAP_PRG=@GAPARCH@/xgap
 fi
 
 
