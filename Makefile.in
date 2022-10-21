@@ -29,7 +29,7 @@
 SHELL=/bin/sh
 CC=@CC@
 @SET_MAKE@
-GAParch=@target@-@CC@
+GAParch=@GAPARCH@
 
 default: config compile
 
