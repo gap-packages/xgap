@@ -712,7 +712,7 @@ static Boolean FunChangeList (
     text[i] = 0;
 
     /* change list */
-    XawListChange( arg->sel->list, text, 0, 0, True );
+    XawListChange( arg->sel->list, (const char **)text, 0, 0, True );
 
     /* clear old text */
     for ( i = 0;  arg->sel->text[i];  i++ )
