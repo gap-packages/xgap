@@ -2,6 +2,16 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
+4.32 (2024-02-09)
+  * When resizing a GAP poset sheet via the Magnify command or similar,
+    the level labels were not getting moved correctly. They should stay
+    by the right side of the window. This should be fixed now (thanks to
+    Russ Woodroofe for the fix)
+  * Fix a bug in the build system where 'make clean && make' would
+    run into an error because `xgap.sh` got deleted by `make clean` and
+    then `make` to use it (now `make` just regenerates it if missing)
+  * Various janitorial changes
+
 4.31 (2022-02-17)
   * Add missing escapes to buildman.pe
   * Enlarge the 'c' array in StartGapProcess to prevent overruns
