@@ -48,17 +48,17 @@ version from
 
 https://gap-packages.github.io/xgap/
 
-You need only one file with the name `xgap-4.31.tar.gz`
+You need only one file with the name `xgap-4.32.tar.gz`
 which is in the subdirectory for the packages.
 You now change your current directory to the `pkg' subdirectory of the 
 location where you installed
 GAP
 Now you extract the sources for the XGAP package:
 
-# tar xzvf xgap-4.31.tar.gz
+# tar xzvf xgap-4.32.tar.gz
 ...
 
-The <tar> utility unpacks the files and stores them into the apropriate
+The <tar> utility unpacks the files and stores them into the appropriate
 subdirectories. XGAP resides completely in the following subdirectory
 (assuming standard location):
 
@@ -70,7 +70,7 @@ Configuring and Compiling the C part
 You have to change your current working directory to the ``xgap''
 subdirectory. You do this by
 
-# cd xgap-4.31
+# cd xgap-4.32
 
 if your current working directory is the one, where you used
 <tar>. There you invoke the <configure> script by:
