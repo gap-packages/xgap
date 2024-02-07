@@ -43,9 +43,12 @@ bin/$(GAParch)/configure: cnf/configure.out
 bin/$(GAParch)/Makefile: bin/$(GAParch)/configure cnf/config.hin
 	( cd bin/$(GAParch) ; CC=$(CC) ./configure @gp_configure_options@ )
 
-compile: bin/$(GAParch)/configure bin/$(GAParch)/Makefile
+compile: bin/$(GAParch)/configure bin/$(GAParch)/Makefile xgap.sh
 	( cd bin/$(GAParch) ; $(MAKE) CC=$(CC) )
 	cp xgap.sh bin/xgap.sh
+
+xgap.sh:
+	./config.status xgap.sh
 
 clean:
 	rm -rf bin/$(GAParch)
