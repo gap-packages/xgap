@@ -167,5 +167,6 @@ XGT_Test:=function(cmd)
   XGT_ParseUntilInput(stream);
 
   CloseStream(stream);
+  return true;
 end;
 
