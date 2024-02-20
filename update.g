@@ -69,6 +69,9 @@ GeneratePackageYML:=function(pkg)
     
     AppendTo(stream, "name: ", pkg.PackageName, "\n");
     AppendTo(stream, "version: \"", pkg.Version, "\"\n");
+    if IsBound(pkg.License) then
+        AppendTo(stream, "license: \"", pkg.License, "\"\n");
+    fi;
 
     # convert date from DD/MM/YYYY to ISO 8601, i.e. YYYY-MM-DD
     #
@@ -167,8 +170,6 @@ GeneratePackageYML:=function(pkg)
             Print("Warning, this package has more than one help book!\n");
         fi;
     fi;
-
-    # TODO: use Keywords?
 
     if IsBound(pkg.Keywords) and
         Length(pkg.Keywords) > 0 then

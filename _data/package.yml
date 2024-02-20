@@ -1,5 +1,6 @@
 name: XGAP
 version: "4.32"
+license: "GPL-2.0-or-later"
 date: 2024-02-08
 description: |
     a graphical user interface for GAP
