@@ -1243,14 +1243,19 @@ static void SFsetText(char *path)
 static void
 SFreplaceText(SFDir *dir, char *str)
 {
-	int	len;
+	size_t len;
 
 	*(dir->path) = 0;
 	len = strlen(str);
-	if (str[len - 1] == '/') {
-		(void) strcat(SFcurrentPath, str);
+	if (len == 0) {
+	} else if (str[len - 1] == '/') {
+		snprintf(SFcurrentPath + strlen(SFcurrentPath),
+			sizeof(SFcurrentPath) - strlen(SFcurrentPath),
+			"%s", str);
 	} else {
-		(void) strncat(SFcurrentPath, str, len - 1);
+		snprintf(SFcurrentPath + strlen(SFcurrentPath),
+			sizeof(SFcurrentPath) - strlen(SFcurrentPath),
+			"%.*s", (int)(len - 1), str);
 	}
 	if (strncmp(SFcurrentPath, SFstartDir, strlen(SFstartDir))) {
 		SFsetText(SFcurrentPath);
