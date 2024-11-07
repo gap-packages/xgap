@@ -79,7 +79,6 @@ PackageDoc := rec(
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "XGAP - a graphical user interface for GAP",
-  Autoload  := true
 ),
 
 
