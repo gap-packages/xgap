@@ -14,11 +14,11 @@
 #include    "utils.h"
 #include    "gaptext.h"
 
-extern void _XawTextPrepareToUpdate();
-extern int  _XawTextReplace();
-extern void _XawTextSetScrollBars();
-extern void _XawTextCheckResize();
-extern void _XawTextExecuteUpdate();
+extern void _XawTextPrepareToUpdate(TextWidget);
+extern int  _XawTextReplace(TextWidget, XawTextPosition, XawTextPosition, XawTextBlock *);
+extern void _XawTextSetScrollBars(TextWidget);
+extern void _XawTextCheckResize(TextWidget);
+extern void _XawTextExecuteUpdate(TextWidget);
 
 
 /****************************************************************************
@@ -666,7 +666,7 @@ static XawTextPosition GapSrcReadText (
     Widget              w,
     XawTextPosition     pos,
     XawTextBlock      * text,
-    unsigned long       length )
+    Int                 length )
 {
     GapSrcObject        src = (GapSrcObject) w;
 
@@ -913,9 +913,9 @@ GapSrcClassRec gapSrcClassRec =
     /* extension                */      NULL
   },
   { /* textSrc_class fields     */
-    /* Read                     */      (XawTextPosition (*)())GapSrcReadText,
-    /* Replace                  */      (int (*)()) GapSrcReplaceText,
-    /* Scan                     */      (XawTextPosition (*)()) GapSrcScan,
+    /* Read                     */      GapSrcReadText,
+    /* Replace                  */      GapSrcReplaceText,
+    /* Scan                     */      GapSrcScan,
     /* Search                   */      XtInheritSearch,
     /* SetSelection             */      XtInheritSetSelection,
     /* ConvertSelection         */      XtInheritConvertSelection
@@ -1006,7 +1006,7 @@ void GTDelete ( Widget w, XawTextScanDirection dir, XawTextScanType type )
     Int                     from;
 
     /* prepare text for update */
-    _XawTextPrepareToUpdate(gap);
+    _XawTextPrepareToUpdate((TextWidget)gap);
     gap->text.time = CurrentTime;
 
     /* find <to> and <from> */
@@ -1025,19 +1025,19 @@ void GTDelete ( Widget w, XawTextScanDirection dir, XawTextScanType type )
     /* remove text */
     text.length = 0;
     text.firstPos = 0;
-    if ( _XawTextReplace( gap, from, to, &text ) )
+    if ( _XawTextReplace( (TextWidget)gap, from, to, &text ) )
     {
 	XBell(XtDisplay(gap), 50);
 	goto error;
     }
     gap->text.insertPos = from;
     gap->text.showposition = TRUE;
-    _XawTextSetScrollBars(gap);
+    _XawTextSetScrollBars((TextWidget)gap);
 
     /* do update */
 error:
-    _XawTextCheckResize(gap);
-    _XawTextExecuteUpdate(gap);
+    _XawTextCheckResize((TextWidget)gap);
+    _XawTextExecuteUpdate((TextWidget)gap);
     gap->text.mult = 1;
 }
 

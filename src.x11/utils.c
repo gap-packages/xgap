@@ -62,13 +62,13 @@ Int Debug = 0;
 *F  List( <len> )   . . . . . . . . . . . . . . . . . . .   create a new list
 */
 #ifdef DEBUG_ON
-TypeList LIST ( file, line, len )
-    String	file;
-    Int         line;
-    UInt        len;
+TypeList LIST (
+    String      file,
+    Int         line,
+    UInt        len)
 #else
-TypeList List ( len )
-    UInt        len;
+TypeList List (
+    UInt        len)
 #endif
 {
     TypeList    list;
@@ -95,15 +95,15 @@ TypeList List ( len )
 *F  AddList( <lst>, <elm> ) . . . . . . . .  add list element <elm> to <list>
 */
 #ifdef DEBUG_ON
-void ADD_LIST ( file, line, lst, elm )
-    String	file;
-    Int         line;
-    TypeList    lst;
-    Pointer     elm;
+void ADD_LIST (
+    String      file,
+    Int         line,
+    TypeList    lst,
+    Pointer     elm)
 #else
-void AddList ( lst, elm )
-    TypeList    lst;
-    Pointer     elm;
+void AddList (
+    TypeList    lst,
+    Pointer     elm)
 #endif
 {
     /* give some debug information */

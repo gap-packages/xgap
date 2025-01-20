@@ -2056,8 +2056,8 @@ void InitXCMDS ()
 **
 *F  UpdateXCMDS( <state> )  . . . . . . . . . .  gap is/isn't accepting input
 */
-void UpdateXCMDS ( state )
-    Boolean             state;
+void UpdateXCMDS (
+    Boolean             state)
 {
     TypeGapWindow *	win;
     Int                 i;

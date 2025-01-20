@@ -129,7 +129,7 @@ TypePaneData;
 */
 extern void     InitXCMDS( void );
 extern void     ExitXMCDS( void );
-extern void     UpdateXCMDS( Int );
+extern void     UpdateXCMDS( Boolean );
 extern Boolean  GapWindowCmd( String, Int );
 
 #endif
