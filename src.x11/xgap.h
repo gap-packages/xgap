@@ -25,7 +25,7 @@
 typedef struct _menu_item
 {
   char 	  * label;
-  void      (*click)();
+  void      (*click)(struct _menu_item *);
   int       sensitive;
   Widget    entry;
 }

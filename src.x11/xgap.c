@@ -255,8 +255,15 @@ static char *FallbackResources[] =
 *V  GapMenu . . . . . . . . . . . . . . . . . . . . . . . . xgap's "GAP" menu
 **
 */
-static void MenuQuitGap ()   { KeyboardInput( "@C@A@Kquit;\nquit;\n", 18 ); }
-static void MenuKillGap ()   { KillGap();                                   }
+static void MenuQuitGap (TypeMenuItem *item)
+{
+    KeyboardInput( "@C@A@Kquit;\nquit;\n", 18 );
+}
+
+static void MenuKillGap (TypeMenuItem *item)
+{
+    KillGap();
+}
 
 #ifdef DEBUG_ON
 static void MenuResyncGap ()
@@ -269,8 +276,8 @@ static void MenuResyncGap ()
 }
 #endif
 
-static void MenuPastePrompt ( item )
-    TypeMenuItem *      item;
+static void MenuPastePrompt (
+    TypeMenuItem *      item)
 {
     static Boolean	paste = False;
 
@@ -284,8 +291,8 @@ static void MenuPastePrompt ( item )
                        (String)NULL );
 }
 
-static void MenuQuitGapCTRD ( item )
-    TypeMenuItem *      item;
+static void MenuQuitGapCTRD (
+    TypeMenuItem *      item)
 {
     QuitGapCtrlD = !QuitGapCtrlD;
     if ( QuitGapCtrlD )
@@ -297,8 +304,8 @@ static void MenuQuitGapCTRD ( item )
 }
 
 #ifndef NO_FILE_SELECTOR
-void MenuReadFile ( item )
-    TypeMenuItem *	item;
+void MenuReadFile (
+    TypeMenuItem *	item)
 {
     Int			res;
     String              str;
@@ -341,14 +348,14 @@ static TypeMenuItem GapMenu[] =
 *V  HelpMenu  . . . . . . . . . . . . . . . . . . . . . .  xgap's "Help" menu
 **
 */
-static void MenuChapters ()     { SimulateInput( "?Chapters\n" ); }
-static void MenuSections ()     { SimulateInput( "?Sections\n" ); }
-static void MenuCopyright ()    { SimulateInput( "?Copyright\n" );}
-static void MenuHelp ()         { SimulateInput( "?Help\n" );     }
-static void MenuNextHelp ()     { SimulateInput( "?>\n" );        }
-static void MenuNextChapter ()  { SimulateInput( "?>>\n" );       }
-static void MenuPrevChapter ()  { SimulateInput( "?<<\n" );       }
-static void MenuPrevHelp ()     { SimulateInput( "?<\n" );        }
+static void MenuChapters (TypeMenuItem *item)     { SimulateInput( "?Chapters\n" ); }
+static void MenuSections (TypeMenuItem *item)     { SimulateInput( "?Sections\n" ); }
+static void MenuCopyright (TypeMenuItem *item)    { SimulateInput( "?Copyright\n" );}
+static void MenuHelp (TypeMenuItem *item)         { SimulateInput( "?Help\n" );     }
+static void MenuNextHelp (TypeMenuItem *item)     { SimulateInput( "?>\n" );        }
+static void MenuNextChapter (TypeMenuItem *item)  { SimulateInput( "?>>\n" );       }
+static void MenuPrevChapter (TypeMenuItem *item)  { SimulateInput( "?<<\n" );       }
+static void MenuPrevHelp (TypeMenuItem *item)     { SimulateInput( "?<\n" );        }
 
 
 static TypeMenuItem HelpMenu[] =
@@ -372,11 +379,11 @@ static TypeMenuItem HelpMenu[] =
 *V  RunMenu . . . . . . . . . . . . . . . . . . . . . . . . xgap's "Run" menu
 **
 */
-static void MenuInterrupt () { InterruptGap();                            }
-static void MenuQuitBreak () { SimulateInput( "quit;\n" );                }
-static void MenuContBreak () { SimulateInput( "return;\n" );              }
-static void MenuGarbColl ()  { SimulateInput( "GASMAN(\"collect\");\n" ); }
-static void MenuGarbMesg ()  { SimulateInput( "GASMAN(\"message\");\n" ); }
+static void MenuInterrupt (TypeMenuItem *item) { InterruptGap();                            }
+static void MenuQuitBreak (TypeMenuItem *item) { SimulateInput( "quit;\n" );                }
+static void MenuContBreak (TypeMenuItem *item) { SimulateInput( "return;\n" );              }
+static void MenuGarbColl (TypeMenuItem *item)  { SimulateInput( "GASMAN(\"collect\");\n" ); }
+static void MenuGarbMesg (TypeMenuItem *item)  { SimulateInput( "GASMAN(\"message\");\n" ); }
 
 static TypeMenuItem RunMenu[] =
 {
@@ -497,8 +504,8 @@ static void MenuSelected (
 **
 *F  UpdateMenus( <state> )  . . . . . .  update menus in case of state change
 */
-void UpdateMenus ( state )
-    Int         state;
+void UpdateMenus (
+    Int         state)
 {
     TypeList	l;
     Int         i;
@@ -581,9 +588,9 @@ static Widget LabelLiveObjects;
 static Widget LabelLiveKB;
 static Widget LabelTotalKBytes;
 
-void UpdateMemoryInfo ( type, val )
-    Int		type;
-    Int         val;
+void UpdateMemoryInfo (
+    Int         type,
+    Int         val)
 {
     char        tmp[30];
 
@@ -806,11 +813,11 @@ static void CreateGapWindow ( void )
 
 *F  MyErrorHandler(<dis>) . . . . . . . . . . . . kill gap in case of X error
 */
-static int (*OldErrorHandler)();
+static int (*OldErrorHandler)(Display *, XErrorEvent *);
 
-static int MyErrorHandler ( dis, evt )
-    Display       * dis;
-    XErrorEvent	    evt;
+static int MyErrorHandler (
+    Display       * dis,
+    XErrorEvent   * evt)
 {
 #   ifdef DEBUG_ON
         fputs( "killing gap because of X error\n", stderr );
@@ -824,10 +831,10 @@ static int MyErrorHandler ( dis, evt )
 **
 *F  MyIOErrorHandler(<dis>) . . . . . . . . . . . kill gap in case of X error
 */
-static int (*OldIOErrorHandler)();
+static int (*OldIOErrorHandler)(Display *);
 
-static int MyIOErrorHandler ( dis )
-    Display   * dis;
+static int MyIOErrorHandler (
+    Display   * dis)
 {
 #   ifdef DEBUG_ON
         fputs( "killing gap because of X IO error\n", stderr );
@@ -843,68 +850,68 @@ static int MyIOErrorHandler ( dis )
 */
 #ifdef DEBUG_ON
 
-static void (*OldSignalHandlerHUP)();
-static void (*OldSignalHandlerINT)();
-static void (*OldSignalHandlerQUIT)();
-static void (*OldSignalHandlerILL)();
-static void (*OldSignalHandlerIOT)();
-static void (*OldSignalHandlerBUS)();
-static void (*OldSignalHandlerSEGV)();
+static void (*OldSignalHandlerHUP)(int);
+static void (*OldSignalHandlerINT)(int);
+static void (*OldSignalHandlerQUIT)(int);
+static void (*OldSignalHandlerILL)(int);
+static void (*OldSignalHandlerIOT)(int);
+static void (*OldSignalHandlerBUS)(int);
+static void (*OldSignalHandlerSEGV)(int);
 
-static void MySignalHandlerHUP ()
+static void MySignalHandlerHUP (int signo)
 {
     fputs( "killing gap because of signal HUP\n", stderr );
     KillGap();
-    OldSignalHandlerHUP();
+    OldSignalHandlerHUP(signo);
     exit(1);
 }
-static void MySignalHandlerINT ()
+static void MySignalHandlerINT (int signo)
 {
     fputs( "killing gap because of signal INT\n", stderr );
     KillGap();
-    OldSignalHandlerINT();
+    OldSignalHandlerINT(signo);
     exit(1);
 }
-static void MySignalHandlerQUIT ()
+static void MySignalHandlerQUIT (int signo)
 {
     fputs( "killing gap because of signal QUIT\n", stderr );
     KillGap();
-    OldSignalHandlerQUIT();
+    OldSignalHandlerQUIT(signo);
     exit(1);
 }
-static void MySignalHandlerILL ()
+static void MySignalHandlerILL (int signo)
 {
     fputs( "killing gap because of signal ILL\n", stderr );
     KillGap();
-    OldSignalHandlerILL();
+    OldSignalHandlerILL(signo);
     exit(1);
 }
-static void MySignalHandlerIOT ()
+static void MySignalHandlerIOT (int signo)
 {
     fputs( "killing gap because of signal IOT\n", stderr );
     KillGap();
-    OldSignalHandlerIOT();
+    OldSignalHandlerIOT(signo);
     exit(1);
 }
-static void MySignalHandlerBUS ()
+static void MySignalHandlerBUS (int signo)
 {
     fputs( "killing gap because of signal BUS\n", stderr );
     KillGap();
-    OldSignalHandlerBUS();
+    OldSignalHandlerBUS(signo);
     exit(1);
 }
 
-static void MySignalHandlerSEGV ()
+static void MySignalHandlerSEGV (int signo)
 {
     fputs( "killing gap because of signal SEGV\n", stderr );
     KillGap();
-    OldSignalHandlerSEGV();
+    OldSignalHandlerSEGV(signo);
     exit(1);
 }
 
 #else
 
-static void MySignalHandler ()
+static void MySignalHandler (int signo)
 {
     KillGap();
     exit(1);
@@ -927,9 +934,9 @@ static void MySignalHandler ()
 */
 static char * nargv[1024];
 
-static void ParseArgs ( argc, argv )
-    Int         argc;
-    char     ** argv;
+static void ParseArgs (
+    Int         argc,
+    char     ** argv)
 {
     Int		nargc;
     Int         i,  j;
@@ -1072,9 +1079,9 @@ fullusage:
 #include "bitmaps/exmark.bm"
 #include "bitmaps/menusym.bm"
 
-int main ( argc,  argv )
-    int         argc;
-    char     ** argv;
+int main (
+    int         argc,
+    char     ** argv)
 {
     String      color;
     String      colors;

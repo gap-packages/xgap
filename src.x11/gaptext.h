@@ -96,10 +96,10 @@ extern GapTextClassRec gapTextClassRec;
 typedef struct
 {
     /* function to call when receiving input */
-    void 		(*input_callback)();
+    void 		(*input_callback)(String, Int);
 
     /* function to position caret */
-    Int 		(*check_caret_pos)();
+    Int 		(*check_caret_pos)(Int, Int);
 
     /* input buffer for unprocessed input */
     String              buffer;
