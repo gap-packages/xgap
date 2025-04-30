@@ -71,10 +71,10 @@ static struct { String name;  Int flag; } buttons[] =
     { "overwrite",  PD_OVERWRITE }
 };
 
-static void ButtonSelected ( w, cld, cd )
-    Widget	    w;
-    XtPointer       cld;
-    XtPointer       cd;
+static void ButtonSelected (
+    Widget          w,
+    XtPointer       cld,
+    XtPointer       cd)
 {
     Int             i;
     Int           * res = (int*) cld;
@@ -96,13 +96,13 @@ static void ButtonSelected ( w, cld, cd )
 
 static Boolean BrokenWM = False;
 
-TypePopupDialog CreatePopupDialog ( app, top, name, bt, def, pix )
-    XtAppContext        app;
-    Widget	        top;
-    String              name;
-    Int                 bt;
-    Int                 def;
-    Pixmap              pix;
+TypePopupDialog CreatePopupDialog (
+    XtAppContext        app,
+    Widget              top,
+    String              name,
+    Int                 bt,
+    Int                 def,
+    Pixmap              pix)
 {
     Display           * dp;
     TypePopupDialog     dialog;
@@ -198,11 +198,11 @@ void PopupDialogBrokenWM ( )
 */
 static Cursor BlobCursor = 0;
 
-Int PopupDialog ( dialog, message, deflt, result )
-    TypePopupDialog	dialog;
-    String              message;
-    String              deflt;
-    String *            result;
+Int PopupDialog (
+    TypePopupDialog     dialog,
+    String              message,
+    String              deflt,
+    String *            result)
 {
     Display *           display;
     Position            x1,  y1,  tmp;
