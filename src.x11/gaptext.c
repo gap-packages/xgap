@@ -14,11 +14,11 @@
 #include    "utils.h"
 #include    "gaptext.h"
 
-extern void _XawTextPrepareToUpdate();
-extern int  _XawTextReplace();
-extern void _XawTextSetScrollBars();
-extern void _XawTextCheckResize();
-extern void _XawTextExecuteUpdate();
+extern void _XawTextPrepareToUpdate(GapTextWidget);
+extern int  _XawTextReplace(GapTextWidget, Int, Int, XawTextBlock *);
+extern void _XawTextSetScrollBars(GapTextWidget);
+extern void _XawTextCheckResize(GapTextWidget);
+extern void _XawTextExecuteUpdate(GapTextWidget);
 
 
 /****************************************************************************
@@ -666,7 +666,7 @@ static XawTextPosition GapSrcReadText (
     Widget              w,
     XawTextPosition     pos,
     XawTextBlock      * text,
-    unsigned long       length )
+    int                 length )
 {
     GapSrcObject        src = (GapSrcObject) w;
 
@@ -913,9 +913,9 @@ GapSrcClassRec gapSrcClassRec =
     /* extension                */      NULL
   },
   { /* textSrc_class fields     */
-    /* Read                     */      (XawTextPosition (*)())GapSrcReadText,
-    /* Replace                  */      (int (*)()) GapSrcReplaceText,
-    /* Scan                     */      (XawTextPosition (*)()) GapSrcScan,
+    /* Read                     */      GapSrcReadText,
+    /* Replace                  */      GapSrcReplaceText,
+    /* Scan                     */      GapSrcScan,
     /* Search                   */      XtInheritSearch,
     /* SetSelection             */      XtInheritSetSelection,
     /* ConvertSelection         */      XtInheritConvertSelection

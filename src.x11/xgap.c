@@ -255,8 +255,8 @@ static char *FallbackResources[] =
 *V  GapMenu . . . . . . . . . . . . . . . . . . . . . . . . xgap's "GAP" menu
 **
 */
-static void MenuQuitGap ()   { KeyboardInput( "@C@A@Kquit;\nquit;\n", 18 ); }
-static void MenuKillGap ()   { KillGap();                                   }
+static void MenuQuitGap (const TypeMenuItem *mi)   { KeyboardInput( "@C@A@Kquit;\nquit;\n", 18 ); }
+static void MenuKillGap (const TypeMenuItem *mi)   { KillGap();                                   }
 
 #ifdef DEBUG_ON
 static void MenuResyncGap ()
@@ -341,14 +341,14 @@ static TypeMenuItem GapMenu[] =
 *V  HelpMenu  . . . . . . . . . . . . . . . . . . . . . .  xgap's "Help" menu
 **
 */
-static void MenuChapters ()     { SimulateInput( "?Chapters\n" ); }
-static void MenuSections ()     { SimulateInput( "?Sections\n" ); }
-static void MenuCopyright ()    { SimulateInput( "?Copyright\n" );}
-static void MenuHelp ()         { SimulateInput( "?Help\n" );     }
-static void MenuNextHelp ()     { SimulateInput( "?>\n" );        }
-static void MenuNextChapter ()  { SimulateInput( "?>>\n" );       }
-static void MenuPrevChapter ()  { SimulateInput( "?<<\n" );       }
-static void MenuPrevHelp ()     { SimulateInput( "?<\n" );        }
+static void MenuChapters (const TypeMenuItem *mi)     { SimulateInput( "?Chapters\n" ); }
+static void MenuSections (const TypeMenuItem *mi)     { SimulateInput( "?Sections\n" ); }
+static void MenuCopyright (const TypeMenuItem *mi)    { SimulateInput( "?Copyright\n" );}
+static void MenuHelp (const TypeMenuItem *mi)         { SimulateInput( "?Help\n" );     }
+static void MenuNextHelp (const TypeMenuItem *mi)     { SimulateInput( "?>\n" );        }
+static void MenuNextChapter (const TypeMenuItem *mi)  { SimulateInput( "?>>\n" );       }
+static void MenuPrevChapter (const TypeMenuItem *mi)  { SimulateInput( "?<<\n" );       }
+static void MenuPrevHelp (const TypeMenuItem *mi)     { SimulateInput( "?<\n" );        }
 
 
 static TypeMenuItem HelpMenu[] =
@@ -372,11 +372,11 @@ static TypeMenuItem HelpMenu[] =
 *V  RunMenu . . . . . . . . . . . . . . . . . . . . . . . . xgap's "Run" menu
 **
 */
-static void MenuInterrupt () { InterruptGap();                            }
-static void MenuQuitBreak () { SimulateInput( "quit;\n" );                }
-static void MenuContBreak () { SimulateInput( "return;\n" );              }
-static void MenuGarbColl ()  { SimulateInput( "GASMAN(\"collect\");\n" ); }
-static void MenuGarbMesg ()  { SimulateInput( "GASMAN(\"message\");\n" ); }
+static void MenuInterrupt (const TypeMenuItem *mi) { InterruptGap();                            }
+static void MenuQuitBreak (const TypeMenuItem *mi) { SimulateInput( "quit;\n" );                }
+static void MenuContBreak (const TypeMenuItem *mi) { SimulateInput( "return;\n" );              }
+static void MenuGarbColl (const TypeMenuItem *mi)  { SimulateInput( "GASMAN(\"collect\");\n" ); }
+static void MenuGarbMesg (const TypeMenuItem *mi)  { SimulateInput( "GASMAN(\"message\");\n" ); }
 
 static TypeMenuItem RunMenu[] =
 {
@@ -483,7 +483,7 @@ static void MenuSelected (
     caddr_t         dummy )
 {
     if ( item->click != 0 )
-	(*(item->click))(item);
+	item->click(item);
     else
     {
 	fputs( "Warning: menu item ", stderr   );
@@ -806,11 +806,11 @@ static void CreateGapWindow ( void )
 
 *F  MyErrorHandler(<dis>) . . . . . . . . . . . . kill gap in case of X error
 */
-static int (*OldErrorHandler)();
+static int (*OldErrorHandler)(Display *, XErrorEvent *);
 
 static int MyErrorHandler ( dis, evt )
     Display       * dis;
-    XErrorEvent	    evt;
+    XErrorEvent	  * evt;
 {
 #   ifdef DEBUG_ON
         fputs( "killing gap because of X error\n", stderr );
@@ -824,7 +824,7 @@ static int MyErrorHandler ( dis, evt )
 **
 *F  MyIOErrorHandler(<dis>) . . . . . . . . . . . kill gap in case of X error
 */
-static int (*OldIOErrorHandler)();
+static int (*OldIOErrorHandler)(Display *);
 
 static int MyIOErrorHandler ( dis )
     Display   * dis;
@@ -843,50 +843,50 @@ static int MyIOErrorHandler ( dis )
 */
 #ifdef DEBUG_ON
 
-static void (*OldSignalHandlerHUP)();
-static void (*OldSignalHandlerINT)();
-static void (*OldSignalHandlerQUIT)();
-static void (*OldSignalHandlerILL)();
-static void (*OldSignalHandlerIOT)();
-static void (*OldSignalHandlerBUS)();
-static void (*OldSignalHandlerSEGV)();
+static void (*OldSignalHandlerHUP)(int);
+static void (*OldSignalHandlerINT)(int);
+static void (*OldSignalHandlerQUIT)(int);
+static void (*OldSignalHandlerILL)(int);
+static void (*OldSignalHandlerIOT)(int);
+static void (*OldSignalHandlerBUS)(int);
+static void (*OldSignalHandlerSEGV)(int);
 
-static void MySignalHandlerHUP ()
+static void MySignalHandlerHUP (int signo)
 {
     fputs( "killing gap because of signal HUP\n", stderr );
     KillGap();
     OldSignalHandlerHUP();
     exit(1);
 }
-static void MySignalHandlerINT ()
+static void MySignalHandlerINT (int signo)
 {
     fputs( "killing gap because of signal INT\n", stderr );
     KillGap();
     OldSignalHandlerINT();
     exit(1);
 }
-static void MySignalHandlerQUIT ()
+static void MySignalHandlerQUIT (int signo)
 {
     fputs( "killing gap because of signal QUIT\n", stderr );
     KillGap();
     OldSignalHandlerQUIT();
     exit(1);
 }
-static void MySignalHandlerILL ()
+static void MySignalHandlerILL (int signo)
 {
     fputs( "killing gap because of signal ILL\n", stderr );
     KillGap();
     OldSignalHandlerILL();
     exit(1);
 }
-static void MySignalHandlerIOT ()
+static void MySignalHandlerIOT (int signo)
 {
     fputs( "killing gap because of signal IOT\n", stderr );
     KillGap();
     OldSignalHandlerIOT();
     exit(1);
 }
-static void MySignalHandlerBUS ()
+static void MySignalHandlerBUS (int signo)
 {
     fputs( "killing gap because of signal BUS\n", stderr );
     KillGap();
@@ -894,7 +894,7 @@ static void MySignalHandlerBUS ()
     exit(1);
 }
 
-static void MySignalHandlerSEGV ()
+static void MySignalHandlerSEGV (int signo)
 {
     fputs( "killing gap because of signal SEGV\n", stderr );
     KillGap();
@@ -904,7 +904,7 @@ static void MySignalHandlerSEGV ()
 
 #else
 
-static void MySignalHandler ()
+static void MySignalHandler (int signo)
 {
     KillGap();
     exit(1);

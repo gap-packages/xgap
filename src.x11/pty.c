@@ -1272,7 +1272,7 @@ static UInt OpenPty(int * master, int * slave)
 **
 *F  StartGapProcess( <name>, <argv> ) . . . start a gap subprocess using ptys
 */
-static void GapStatusHasChanged ()
+static void GapStatusHasChanged (int signo)
 {
     int             w;
 

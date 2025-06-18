@@ -111,28 +111,28 @@ typedef struct {
 } SFDir;
 
 static void
-	SFenterList(),
-	SFleaveList(),
-	SFmotionList(),
-	SFbuttonPressList(),
-	SFbuttonReleaseList();
+	SFenterList(Widget, long, XEnterWindowEvent *),
+	SFleaveList(Widget, int, XEvent *),
+	SFmotionList(Widget, int, XMotionEvent *),
+	SFbuttonPressList(Widget, int, XButtonPressedEvent *),
+	SFbuttonReleaseList(Widget, int, XButtonReleasedEvent *);
 
 static void
-	SFvSliderMovedCallback(),
-	SFvFloatSliderMovedCallback(),
-	SFhSliderMovedCallback(),
-	SFpathSliderMovedCallback(),
-	SFvAreaSelectedCallback(),
-	SFhAreaSelectedCallback(),
-	SFpathAreaSelectedCallback();
+	SFvSliderMovedCallback(Widget, long, int),
+	SFvFloatSliderMovedCallback(Widget, int, float *),
+	SFhSliderMovedCallback(Widget, int, float *),
+	SFpathSliderMovedCallback(Widget, XtPointer, float *),
+	SFvAreaSelectedCallback(Widget, int, int),
+	SFhAreaSelectedCallback(Widget, int, int),
+	SFpathAreaSelectedCallback(Widget, XtPointer, int);
 
-static Boolean SFworkProc();
+static Boolean SFworkProc(XtPointer);
 
-static int SFcompareEntries();
+static int SFcompareEntries(const void *, const void *);
 
-static void SFdirModTimer();
+static void SFdirModTimer(XtPointer, XtIntervalId *);
 
-static char SFstatChar();
+static char SFstatChar(struct stat *);
 
 
 /* BSD 4.3 errno.h does not declare errno */
@@ -1157,7 +1157,7 @@ SFpathAreaSelectedCallback(Widget w, XtPointer client_data, int pnew)
 }
 
 static Boolean
-SFworkProc()
+SFworkProc(XtPointer xxx)
 {
 	register SFDir		*dir;
 	register SFEntry	*entry;
