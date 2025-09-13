@@ -8,14 +8,18 @@ rm -f manual.aux manual.pdf manual.idx manual.ilg manual.ind manual.lab manual.l
 ./buildman.pe -f buildman.config
 
 # TeX the manual
-pdftex manual
+tex manual
 # ... and build its bibliography
 bibtex manual
-# TeX the manual again to incorporate the ToC 
-pdftex manual
+# TeX the manual again to incorporate the ToC
+tex manual
 # ... and build the index
 ../../../doc/manualindex manual
 # Finally TeX the manual again to get cross-references right
+tex manual
+
+# Create PDF version
+pdftex manual
 pdftex manual
 
 # The HTML version of the manual
