@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-# This script is taken from GAP's etc/ directory. Since xgap is the only
-# GAP package left using it, we make our own copy of it.
-
 @msfiles = ();
 @gdfiles = ();
 $DIR = ".";
