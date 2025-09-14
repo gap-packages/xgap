@@ -14,19 +14,6 @@ AC_CANONICAL_TARGET
 AC_PROG_CC
 AC_PROG_MAKE_SET
 
-#Allow the user to specify a configname:
-AC_MSG_CHECKING([for CONFIGNAME])
-AC_ARG_VAR(CONFIGNAME, [Set this to the CONFIGNAME of the GAP compilation
-  against which you want to compile this package. Leave this
-  variable empty for GAP versions < 4.5.])
-if test "x$CONFIGNAME" = "x"; then
-  SYSINFO="sysinfo.gap"
-  AC_MSG_RESULT([none])
-else
-  SYSINFO="sysinfo.gap-$CONFIGNAME"
-  AC_MSG_RESULT([$CONFIGNAME])
-fi
-
 ######################################
 # Find the GAP root directory by 
 # checking for the sysinfo.gap file 
@@ -45,7 +32,7 @@ for GAPROOT in ${DEFAULT_GAPROOTS}
 do
   # Convert the path to absolute
   GAPROOT=`cd $GAPROOT > /dev/null 2>&1 && pwd`
-  if test -e ${GAPROOT}/${SYSINFO}; then
+  if test -e ${GAPROOT}/sysinfo.gap; then
     havesysinfo=1
     break
   fi
@@ -80,7 +67,7 @@ AC_SUBST(gapdir)
       
 AC_MSG_CHECKING([for GAP architecture])
 GAPARCH="Unknown"
-. $GAPROOT/$SYSINFO
+. $GAPROOT/sysinfo.gap
 if test "x$GAParch" != "x"; then
   GAPARCH=$GAParch
 fi
@@ -94,7 +81,7 @@ if test "x$GAPARCH" = "xUnknown" ; then
   echo ""
   echo "  Found a GAP installation at $GAPROOT but could not find"
   echo "  information about GAP's architecture in the"
-  echo "  ${GAPROOT}/${SYSINFO} file."
+  echo "  ${GAPROOT}/sysinfo.gap file."
   echo "  This file be present: please check your GAP installation."
   echo "********************************************************************"
   echo ""
