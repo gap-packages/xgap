@@ -18,19 +18,19 @@ concurrency:
 jobs:
   # The CI test job
   test:
-    name: ${{ matrix.gap-branch }}
+    name: ${{ matrix.gap-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        gap-branch:
-          - master
-          - stable-4.14
-          - stable-4.13
-          - stable-4.12
-          - stable-4.11
-          - stable-4.10
-          - stable-4.9
+        gap-version:
+          - 'devel'
+          - '4.14'
+          - '4.13'
+          - '4.12'
+          - '4.11'
+          - '4.10'
+          - '4.9'
 
     steps:
       - uses: actions/checkout@v5
@@ -38,15 +38,15 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libx11-dev libxaw7-dev
-      - uses: gap-actions/setup-gap@v2
+      - uses: gap-actions/setup-gap@v3
         with:
-          GAPBRANCH: ${{ matrix.gap-branch }}
-      - uses: gap-actions/build-pkg@v1
-      - uses: gap-actions/run-pkg-tests@v3
-      - uses: gap-actions/run-pkg-tests@v3
+          gap-version: ${{ matrix.gap-version }}
+      - uses: gap-actions/build-pkg@v2
+      - uses: gap-actions/run-pkg-tests@v4
+      - uses: gap-actions/run-pkg-tests@v4
         with:
-          only-needed: true
-      - uses: gap-actions/process-coverage@v2
+          mode: onlyneeded
+      - uses: gap-actions/process-coverage@v3
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -58,10 +58,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
-      - uses: gap-actions/setup-gap@v2
-      - uses: gap-actions/build-pkg-docs@v1
+      - uses: gap-actions/setup-gap@v3
+      - uses: gap-actions/build-pkg-docs@v2
         with:
           use-latex: 'true'
+          warnings-as-errors: 'false'  # see https://github.com/gap-actions/build-pkg-docs/issues/34
       - name: 'Upload documentation'
         uses: actions/upload-artifact@v4
         with:
