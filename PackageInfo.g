@@ -7,8 +7,8 @@ SetPackageInfo( rec(
 
 PackageName := "XGAP",
 Subtitle := "a graphical user interface for GAP",
-Version := "4.32",
-Date := "08/02/2024", # dd/mm/yyyy format
+Version := "4.33",
+Date := "14/09/2025", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
@@ -25,18 +25,12 @@ Persons := [
     LastName      := "Horn",
     FirstNames    := "Max",
     IsAuthor      := false,
-    IsMaintainer  := true,
+    IsMaintainer  := false,
     Email         := "mhorn@rptu.de",
     WWWHome       := "https://www.quendi.de/math",
     GitHubUsername := "fingolfin",
-    PostalAddress := Concatenation(
-                       "Fachbereich Mathematik\n",
-                       "RPTU Kaiserslautern-Landau\n",
-                       "Gottlieb-Daimler-Straße 48\n",
-                       "67663 Kaiserslautern\n",
-                       "Germany" ),
     Place         := "Kaiserslautern, Germany",
-    Institution   := "RPTU Kaiserslautern-Landau"
+    Institution   := "RPTU Kaiserslautern-Landau",
   ),
 
   rec( 
@@ -46,11 +40,7 @@ Persons := [
     IsMaintainer  := false,
     Email         := "max@9hoeffer.de",
     WWWHome       := "http://www-groups.mcs.st-and.ac.uk/~neunhoef",
-    PostalAddress := Concatenation( [
-                       "Gustav-Freytag-Straße 40\n",
-                       "50354 Hürth\n",
-                       "Germany" ] ),
-  )
+  ),
 ],
 
 Status := "accepted",

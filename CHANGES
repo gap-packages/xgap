@@ -2,6 +2,12 @@
  This file describes changes in the GAP package 'XGAP'.
 ===========================================================================
 
+4.33 (2025-09-14)
+  * Remove Max Horn as maintainer of this package. This package is now
+    unmaintained.
+  * Enhance compatibility with GCC 14 and 15 (thanks to Jan Engelhardt and
+    Jerry James for providing patches)
+
 4.32 (2024-02-09)
   * When resizing a GAP poset sheet via the Magnify command or similar,
     the level labels were not getting moved correctly. They should stay
