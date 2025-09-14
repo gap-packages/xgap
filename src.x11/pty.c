@@ -117,11 +117,11 @@ Boolean ExecRunning = False;
 */
 #ifdef DEBUG_ON
 
-Int READ_GAP ( file, where, line, len )
-    String	file;
-    Int         where;
-    String      line;
-    Int         len;
+Int READ_GAP (
+    String      file,
+    Int         where,
+    String      line,
+    Int         len)
 {
     Int         n;
     Int         old;
@@ -171,9 +171,9 @@ Int READ_GAP ( file, where, line, len )
 
 #else
 
-Int ReadGap ( line, len )
-    String	line;
-    Int         len;
+Int ReadGap (
+    String      line,
+    Int         len)
 {
     Int         n;
     Int         old;
@@ -201,15 +201,15 @@ Int ReadGap ( line, len )
 **
 *F  WriteGap( <line>, <len> ) . . . . . . . . . . . . . . . . write gap input
 */
-extern int errno;
+#include <errno.h>
 
 #ifdef DEBUG_ON
 
-void WRITE_GAP ( file, where, line, len )
-    String	file;
-    Int		where;
-    String	line;
-    Int		len;
+void WRITE_GAP (
+    String      file,
+    Int         where,
+    String      line,
+    Int         len)
 {
     Int         res;
 
@@ -238,9 +238,9 @@ void WRITE_GAP ( file, where, line, len )
 
 #else
 
-void WriteGap ( line, len )
-    String	line;
-    Int         len;
+void WriteGap (
+    String      line,
+    Int         len)
 {
     Int         res;
 
@@ -337,8 +337,8 @@ static Int LastLine;
 
 *F  WaitInput( <buf> )  . . . . . . . . . . . . . . .  wait for one character
 */
-void WaitInput ( buf )
-    struct _in_buf    * buf;
+void WaitInput (
+    struct _in_buf    * buf)
 {
     Int                 len;
 
@@ -356,8 +356,8 @@ void WaitInput ( buf )
 **
 *F  WaitInput2( <buf> ) . . . . . . . . . . . . . . . wait for two characters
 */
-void WaitInput2 ( buf )
-    struct _in_buf    * buf;
+void WaitInput2 (
+    struct _in_buf    * buf)
 {
     Int                 len;
 
@@ -385,8 +385,8 @@ void WaitInput2 ( buf )
 **
 *F  ReadLine( <buf> ) . . . . . . . . . . . . . . . . . . . . . . read a line
 */
-void ReadLine ( buf )
-    struct _in_buf    * buf;
+void ReadLine (
+    struct _in_buf    * buf)
 {
     String              ptr = GapBuffer;
 
@@ -435,9 +435,9 @@ static struct _storage
 }
 Storage = { 0, 0, 0 };
 
-void StoreInput ( str, len )
-    String      str;
-    Int         len;
+void StoreInput (
+    String      str,
+    Int         len)
 {
     if ( Storage.buffer == 0 )
     {
@@ -460,8 +460,8 @@ void StoreInput ( str, len )
 */
 static Char InputCookie = 'A';
 
-void ProcessStoredInput ( state )
-    Int             state;
+void ProcessStoredInput (
+    Int             state)
 {
     String          ptr;
     String          free;
@@ -558,8 +558,8 @@ again:
 **
 *F  SimulateInput( <str> )  . . . . . . . . . .  enter a line as command line
 */
-void SimulateInput ( str )
-    String  str;
+void SimulateInput (
+    String  str)
 {
     Int     pos;
 
@@ -585,8 +585,8 @@ void SimulateInput ( str )
 Boolean PlayingBack = False;
 FILE * Playback = 0;
 
-int PlaybackFile ( str )
-    String      str;
+int PlaybackFile (
+    String      str)
 {
     if ( Playback != 0 ) {
 	fclose(Playback);
@@ -609,9 +609,9 @@ int ResumePlayback ( void )
     return True;
 }
 
-void KeyboardInput ( str, len )
-    String      str;
-    Int     	len;
+void KeyboardInput (
+    String      str,
+    Int         len)
 {
     char        buf[1025];
 
@@ -750,9 +750,9 @@ void KeyboardInput ( str, len )
 **
 *F  CheckCaretPos( <new>, <old> ) . . . . . . . . . . .  check caret movement
 */
-Int CheckCaretPos ( new, old )
-    Int     new;
-    Int     old;
+Int CheckCaretPos (
+    Int     new,
+    Int     old)
 {
     /* if <LastLine> is -1,  then gap is running,  ignore move */
     if ( LastLine < 0 )
@@ -824,10 +824,10 @@ static Boolean ParseInt (
 
 static char TBuf[SIZE_BUFFER];
 
-void GapOutput ( cld, fid, id )
-    XtPointer       cld;
-    int           * fid;
-    XtInputId       id;
+void GapOutput (
+    XtPointer       cld,
+    int           * fid,
+    XtInputId       id)
 {
     char            ch;
     Int             special;
@@ -1272,7 +1272,7 @@ static UInt OpenPty(int * master, int * slave)
 **
 *F  StartGapProcess( <name>, <argv> ) . . . start a gap subprocess using ptys
 */
-static void GapStatusHasChanged ()
+static void GapStatusHasChanged (int signo)
 {
     int             w;
 
@@ -1286,9 +1286,9 @@ static void GapStatusHasChanged ()
     exit(1);
 }
 
-int StartGapProcess ( name, argv )
-    String          name;
-    String          argv[];
+int StartGapProcess (
+    String          name,
+    String          argv[])
 {
     Int             j;       /* loop variables                  */
     char            c[10];   /* buffer for communication        */
