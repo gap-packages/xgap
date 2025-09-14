@@ -8,7 +8,7 @@ contains data generated from the `PackageInfo.g` file of your package.
 
 ## Initial setup
 
-The easiest way to do this is to run the `setup.sh` shell script
+The easiest way to do this is to run the `setup-gh-pages` shell script
 provided in the [GitHubPagesForGAP]() from within a git clone of your
 package's GitHub repository.
 
@@ -91,7 +91,7 @@ If you previously set up [GitHubPagesForGAP]() and thus already have a `gh-pages
 branch, you may on occasion have need to make a fresh clone of your package
 repository, and then also would like to recreate the `gh-pages` directory.
 
-The easiest way to do this is to run the `setup.sh` shell script
+The easiest way to do this is to run the `setup-gh-pages` shell script
 provided in the [GitHubPagesForGAP]() from within a git clone of your
 package's GitHub repository.
 
@@ -261,7 +261,7 @@ the [issue tracker](https://github.com/gap-system/GitHubPagesForGAP/issues).
 
 You can also contact me directly via [email](max@quendi.de).
 
-Copyright (c) 2013-2019 Max Horn
+Copyright (c) 2013-2025 Max Horn
 
 [GitHubPagesForGAP]: https://github.com/gap-system/GitHubPagesForGAP
 [ReleaseTools]: https://github.com/gap-system/ReleaseTools
