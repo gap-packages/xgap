@@ -62,6 +62,7 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v1
         with:
           use-latex: 'true'
+          warnings-as-errors: 'false'  # see https://github.com/gap-actions/build-pkg-docs/issues/34
       - name: 'Upload documentation'
         uses: actions/upload-artifact@v4
         with:

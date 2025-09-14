@@ -27,6 +27,7 @@ jobs:
       - uses: gap-actions/build-pkg-docs@v2
         with:
           use-latex: true
+          warnings-as-errors: 'false'  # see https://github.com/gap-actions/build-pkg-docs/issues/34
       - uses: gap-actions/release-pkg@v1
         with:
           dry-run: ${{ inputs.dry-run }}
