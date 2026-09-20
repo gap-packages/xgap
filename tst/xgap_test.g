@@ -180,3 +180,46 @@ XGT_Test:=function(cmd)
   return output;
 end;
 
+
+##
+#F  XGT_TestGui()
+##
+##  Run the tests in tst-gui inside the real XGAP, which needs its executable
+##  and an X server: `xvfb-run' if available, else the one in DISPLAY.
+##  Return whether the tests passed, or fail if they cannot be run here.
+##
+XGT_TestGui:=function()
+  local xgap, xvfb, cmd, args, dir, status;
+
+  xgap := Filename(DirectoriesPackagePrograms("xgap"), "xgap");
+  if xgap = fail then
+    Print("#I  XGAP is not compiled, skipping the tests in tst-gui\n");
+    return fail;
+  fi;
+
+  args := [ "-G", Filename(DirectoriesLibrary(""), "gap"), "--",
+            "-l", JoinStringsWithSeparator(GAPInfo.RootPaths, ";"),
+            "--quitonbreak",
+            Filename(DirectoriesPackageLibrary("xgap", "tst-gui"), "run.g") ];
+
+  xvfb := Filename(DirectoriesSystemPrograms(), "xvfb-run");
+  if xvfb <> fail then
+    cmd := xvfb;
+    args := Concatenation([ "-a", xgap ], args);
+  elif IsBound(GAPInfo.SystemEnvironment.DISPLAY) then
+    cmd := xgap;
+  else
+    Print("#I  no X server available, skipping the tests in tst-gui\n");
+    return fail;
+  fi;
+
+  # run.g reports into the current directory, see there
+  dir := DirectoryTemporary();
+  Process(dir, cmd, InputTextNone(), OutputTextUser(), args);
+
+  status := Filename(dir, "tst-gui.status");
+  if IsReadableFile(Filename(dir, "tst-gui.log")) then
+    Print(StringFile(Filename(dir, "tst-gui.log")));
+  fi;
+  return IsReadableFile(status) and StringFile(status) = "true\n";
+end;
