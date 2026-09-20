@@ -93,10 +93,10 @@ checking whether the C compiler (gcc  ) works... yes
 checking whether the C compiler (gcc  ) is a cross-compiler... no
 checking whether we are using GNU C... yes
 ...
-updating cache ./config.cache
-creating ./config.status
-creating Makefile
-creating xgap.sh
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating xgap.sh
+config.status: creating config.h
 \endtt
 
 $\ldots$ indicate omissions. 
@@ -110,22 +110,10 @@ used to compile the code. You do this by typing
 
 \begintt
 # make
-mkdir -p bin/x86_64-unknown-linux-gnu-gcc
-cp cnf/configure.out bin/x86_64-unknown-linux-gnu-gcc/configure
-( cd bin/x86_64-unknown-linux-gnu-gcc ; CC=gcc ./configure  )
-checking for gcc... gcc
-checking whether the C compiler works... yes
+gcc -I. -g -O2 -o bin/x86_64-pc-linux-gnu-default64-kv9/xcmds.o \
+     -c src.x11/xcmds.c
 ...
-creating ./config.status
-creating Makefile
-creating config.h
-( cd bin/x86_64-unknown-linux-gnu-gcc ; make CC=gcc )
-make[1]: Entering directory 
-`/scratch/neunhoef/4.0/pkg/xgap/bin/x86_64-unknown-linux-gnu-gcc'
-gcc -I. -g -O2   -o xcmds.o -c ../../src.x11/xcmds.c
-...
-make[1]: Leaving directory \                    # line broken for this manual!
-     `/usr/local/lib/gap4/pkg/xgap/bin/i686-unknown-linux2.0.34-gcc'
+cp xgap.sh bin/xgap.sh
 \endtt
 
 (a few lines were broken for typesetting purposes in this manual, the
@@ -137,7 +125,7 @@ directory. The name of this location has something to do with your
 installation. It could for example be
 
 \begintt
-bin/x86_64-unknown-linux-gnu-gcc/xgap
+bin/x86_64-pc-linux-gnu-default64-kv9/xgap
 \endtt
 
 if you compile on a 64-bit Linux system using the GNU-C-Compiler.
