@@ -5,8 +5,8 @@
 ##
 #Y  Copyright (C)  1997,  Lehrstuhl D fuer Mathematik,  RWTH Aachen,  Germany
 ##
-##  This file is the top level make file.  It is generated from `Makefile.in'
-##  by the `configure' script.  After unpacking XGAP you simply type
+##  This is the make file of XGAP.  It is generated from `Makefile.in' by the
+##  `configure' script.  After unpacking XGAP you simply type
 ##
 ##    ./configure
 ##
@@ -16,45 +16,51 @@
 ##
 ##  to compile and link XGAP.
 ##
-##  The "default" target:
-##    - creates a subdirectory CPU-VENDOR-OS in the directory `bin',
-##    - copies the configuration script into this directory,
-##    - it switches into this directory and executes the configure script,
-##    - it makes XGAP in this directory.
+##  The "default" target compiles the sources in `src.x11' and puts the
+##  object files and the executable into the subdirectory CPU-VENDOR-OS of
+##  the directory `bin'.
 ##
-##  The "clean" target:
-##    - removes the subdirectory CPU-VENDOR-OS in the directory `bin'
-##    - removes any files created by `configure'
+##  The "clean" target removes that subdirectory, "distclean" also removes
+##  any files created by `configure'.
 ##
-SHELL=/bin/sh
-CC=@CC@
+SHELL    = /bin/sh
 @SET_MAKE@
-GAParch=@GAPARCH@
 
-default: config compile
+CC       = @CC@
+CPPFLAGS = @CPPFLAGS@
+CFLAGS   = @CFLAGS@
+LDFLAGS  = @LDFLAGS@
+LIBS     = @LIBS@
+X_LIBS   = @X_LIBS@ -lXaw -lXmu -lXt -lXext -lX11 @X_PRE_LIBS@ @X_EXTRA_LIBS@
+X_CFLAGS = @X_CFLAGS@
 
-config: bin/$(GAParch)/configure bin/$(GAParch)/Makefile
+BINDIR   = bin/@GAPARCH@
 
-bin/$(GAParch)/configure: cnf/configure.out
-	mkdir -p bin/$(GAParch)
-	@rm -f bin/$(GAParch)/configure
-	cp cnf/configure.out bin/$(GAParch)/configure
+SOURCES  = xcmds utils gapgraph gaptext pty popdial xgap selfile
+OBJECTS  = $(SOURCES:%=$(BINDIR)/%.o)
 
-bin/$(GAParch)/Makefile: bin/$(GAParch)/configure cnf/config.hin
-	( cd bin/$(GAParch) ; CC=$(CC) ./configure @gp_configure_options@ )
+default: $(BINDIR)/xgap bin/xgap.sh
 
-compile: bin/$(GAParch)/configure bin/$(GAParch)/Makefile xgap.sh
-	( cd bin/$(GAParch) ; $(MAKE) CC=$(CC) )
+$(BINDIR)/xgap: $(OBJECTS)
+	$(CC) -o $@ $(OBJECTS) $(CFLAGS) $(LDFLAGS) $(LIBS) $(X_LIBS) $(LOPTS)
+
+# every object depends on all headers, which is more than needed but cheap
+$(OBJECTS): $(BINDIR)/%.o: src.x11/%.c src.x11/*.h src.x11/bitmaps/*.bm config.h
+	@mkdir -p $(BINDIR)
+	$(CC) -I. $(CPPFLAGS) $(CFLAGS) $(X_CFLAGS) $(COPTS) -o $@ -c $<
+
+bin/xgap.sh: xgap.sh
+	@mkdir -p bin
 	cp xgap.sh bin/xgap.sh
 
-xgap.sh:
+xgap.sh: xgap.sh.in config.status
 	./config.status xgap.sh
 
 clean:
-	rm -rf bin/$(GAParch)
+	rm -rf $(BINDIR)
 	rm -f xgap.sh bin/xgap.sh
 
 distclean: clean
-	rm -f config.cache config.log config.status Makefile
+	rm -f config.cache config.h config.log config.status Makefile
 
-.PHONY: default config compile clean distclean
+.PHONY: default clean distclean

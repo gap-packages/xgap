@@ -1,9 +1,8 @@
 /Makefile
 /autom4te.cache/
 /bin/
-/cnf/autom4te.cache/
-/cnf/config.hin
-/cnf/configure.out
+/config.h
+/config.h.in
 /config.log
 /config.status
 /configure
