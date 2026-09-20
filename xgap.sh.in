@@ -37,11 +37,10 @@ fi
 ##
 ##  GAP_PRG . . . . . . . . . . . . . . . . .  name of the executable program
 ##
-##  Set 'GAP_PRG' to the  name of the executable  program of the  GAP kernel.
+##  Set 'GAP_PRG' to the  name of the executable  program of the  GAP kernel,
+##  relative to the  'bin' directory in 'GAP_DIR'.  The default is  the 'gap'
+##  executable in 'GAP_DIR' itself.
 ##
-if [ "x$GAP_PRG" = "x" ];  then
-GAP_PRG=@GAPARCH@/gap
-fi
 
 
 #############################################################################
@@ -221,7 +220,11 @@ fi;
 ##
 ##
 XGAP=@abs_top_srcdir@/bin/$XGAP_PRG
-GAP=$GAP_DIR/bin/$GAP_PRG
+if [ "x$GAP_PRG" = "x" ];  then
+  GAP=$GAP_DIR/gap
+else
+  GAP=$GAP_DIR/bin/$GAP_PRG
+fi
 
 #############################################################################
 ##
