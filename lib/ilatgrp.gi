@@ -1254,7 +1254,8 @@ function(sheet, menu, entry)
     fi;  # operation produced something
   od;  # all done
   if IsBound(menuop.retsel) and menuop.retsel = true then
-    last := SelectedGroups(sheet);
+    # `last' is read-only
+    UPDATE_STAT( "last", SelectedGroups(sheet) );
   fi;
 end);
 
