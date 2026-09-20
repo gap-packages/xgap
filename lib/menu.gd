@@ -188,13 +188,6 @@ DeclareOperation( "Dialog", [ IsString, IsString ] );
 
 #############################################################################
 ##
-#V  FILENAME_DIALOG . . . . . . . . . . . . . . a dialog asking for filenames
-##
-DeclareGlobalVariable( "FILENAME_DIALOG", "dialog for querying filenames" );
-
-
-#############################################################################
-##
 #O  PopupFromMenu( <menu> ) . . . . . . . .  creates a popup menu from a menu
 ##
 ##  creates a popup menu that contains exactly the enabled menu entries of
