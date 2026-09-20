@@ -41,10 +41,10 @@ bin/$(GAParch)/configure: cnf/configure.out
 	cp cnf/configure.out bin/$(GAParch)/configure
 
 bin/$(GAParch)/Makefile: bin/$(GAParch)/configure cnf/config.hin
-	( cd bin/$(GAParch) ; CC=$(CC) ./configure @gp_configure_options@ )
+	( cd bin/$(GAParch) ; CC="$(CC)" ./configure @gp_configure_options@ )
 
 compile: bin/$(GAParch)/configure bin/$(GAParch)/Makefile xgap.sh
-	( cd bin/$(GAParch) ; $(MAKE) CC=$(CC) )
+	( cd bin/$(GAParch) ; $(MAKE) CC="$(CC)" )
 	cp xgap.sh bin/xgap.sh
 
 xgap.sh:
