@@ -895,7 +895,7 @@ end );
 ##
 #V  FILENAME_DIALOG . . . . . . . . . . . . . . a dialog asking for filenames
 ##
-InstallValue( FILENAME_DIALOG, Dialog( "Filename", "Enter a filename" ) );
+BindGlobal( "FILENAME_DIALOG", Dialog( "Filename", "Enter a filename" ) );
 
 
 #############################################################################
