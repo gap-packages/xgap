@@ -1,11 +1,11 @@
 #
-# Run the tests which need a window. Read this file with the real XGAP,
-# from the package directory:
+# Run the tests which need a window. Read this file with the real XGAP:
 #
 #   bin/<arch>/xgap -G <gap> -- --quitonbreak tst-gui/run.g
 #
 # XGAP shows GAP's output in its window and does not pass on its exit
-# status, so the results go to the files `tst-gui.log' and `tst-gui.status'.
+# status, so the results go to the files `tst-gui.log' and `tst-gui.status'
+# in the current directory. XGT_TestGui in tst/xgap_test.g does all this.
 #
 LoadPackage( "xgap" );
 LogTo( "tst-gui.log" );
