@@ -711,8 +711,9 @@ static Boolean FunChangeList (
     }
     text[i] = 0;
 
-    /* change list */
-    XawListChange( arg->sel->list, (const char **)text, 0, 0, True );
+    /* change list; the second parameter is `const char **' in libXaw
+       1.0.14 and 1.0.15 but `char **' in all other versions */
+    XawListChange( arg->sel->list, (void *)text, 0, 0, True );
 
     /* clear old text */
     for ( i = 0;  arg->sel->text[i];  i++ )
