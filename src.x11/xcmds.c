@@ -155,7 +155,7 @@ static Boolean AnswerGap (
 	    case 'D':
 	    case 'd':  len += 9;  arg++;  break;
 	    case 'S':
-	    case 's':  len += 9 + strlen((String)args[arg++]);  break;
+	    case 's':  len += 9 + 2*strlen((String)args[arg++]);  break;
 	    default :  return False;
 	}
     }
@@ -198,8 +198,14 @@ static Boolean AnswerGap (
 		for ( m = strlen(wtr);  0 < m;  m /= 10 )
 		    *qtr++ = '0' + (m%10);
 		*qtr++ = '+';
-		while ( *wtr )
-		    *qtr++ = *wtr++;
+
+		/* GAP undoes this: '@' is doubled, <ctr>-X becomes '@X' */
+		for ( ;  *wtr;  wtr++ )
+		{
+		    if ( *wtr == '@' || ( 1 <= *wtr && *wtr <= 26 ) )
+			*qtr++ = '@';
+		    *qtr++ = ( 1 <= *wtr && *wtr <= 26 ) ? *wtr + '@' : *wtr;
+		}
 		break;
 	}
     }
