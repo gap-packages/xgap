@@ -34,7 +34,7 @@ jobs:
       - name: 'Install X Window development files'
         run: |
           sudo apt-get update
-          sudo apt-get install libx11-dev libxaw7-dev
+          sudo apt-get install libx11-dev libxaw7-dev xvfb
       - uses: gap-actions/setup-gap@v3
         with:
           gap-version: ${{ matrix.gap-version }}
@@ -46,6 +46,20 @@ jobs:
           mkdir -p /tmp/gaproot/pkg
           ln -f -s $PWD /tmp/gaproot/pkg/
           $GAPROOT/gap -l "/tmp/gaproot;" --quitonbreak tst/testall.g
+      # XGAP does not pass on GAP's exit status, see tst-gui/run.g
+      - name: 'Run tests in XGAP'
+        run: |
+          mkdir -p coverage
+          export TERM=dumb  # as xgap.sh does
+          xvfb-run -a timeout 600 bin/*/xgap -G $GAPROOT/gap -- \
+              -l "/tmp/gaproot;" --quitonbreak \
+              --cover coverage/gui.coverage tst-gui/run.g || true
+          cat tst-gui.log
+          grep -qx true tst-gui.status
+      - uses: gap-actions/process-coverage@v3
+      - uses: codecov/codecov-action@v6
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # The documentation job
   manual:

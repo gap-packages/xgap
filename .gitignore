@@ -8,6 +8,8 @@
 /configure
 /htm/
 /xgap.sh
+/tst-gui.log
+/tst-gui.status
 
 /doc/manual.aux
 /doc/manual.bbl
