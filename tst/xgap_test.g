@@ -121,12 +121,20 @@ end;
 ##  input mode, or error mode
 ##
 XGT_ParseUntilInput:=function(stream)
+  local output, chunk;
+
+  output:="";
   while XGT_inputmode = false do
     Append(XGT_buf, ReadLine(stream));
     while not IsEmpty(XGT_buf) do
-      Print(XGT_ParseChunk(stream),"\c");
+      chunk:=XGT_ParseChunk(stream);
+      Print(chunk,"\c");
+      if chunk <> fail then
+        Append(output, chunk);
+      fi;
     od;
   od;
+  return output;
 end;
 
 ##
@@ -137,10 +145,10 @@ end;
 ##  Once "GAP -p" instance is ready for input, issue a single command, then
 ##  wait for the instance to be ready for input (or error input again).
 ##  Close stream (which should close the child "GAP -p" instance) at that
-##  point.
+##  point.  Return the output of <cmd>, or fail.
 ##
 XGT_Test:=function(cmd)
-  local GAP_cmd, GAP_dir, stream, mycmd;
+  local GAP_cmd, GAP_dir, stream, mycmd, output;
 
   GAP_cmd := Filename(DirectoriesLibrary(""), "gap");
   GAP_dir := DirectoryCurrent();
@@ -150,7 +158,9 @@ XGT_Test:=function(cmd)
 
   Print("Running GAP in package mode for command:  ", cmd, "\n\n");
 
-  stream := InputOutputLocalProcess(GAP_dir,GAP_cmd,["-p"]);
+  # the child must find the same packages as we do, in particular this xgap
+  stream := InputOutputLocalProcess(GAP_dir,GAP_cmd,
+                ["-p", "-l", JoinStringsWithSeparator(GAPInfo.RootPaths, ";")]);
 
   if ReadLine(stream) <> "@p1." then
     Info(InfoWarning, 1, "Failed acknowledgement from GAP package mode");
@@ -164,8 +174,9 @@ XGT_Test:=function(cmd)
   WriteAll(stream, "\n");
   XGT_inputmode:=false;
 
-  XGT_ParseUntilInput(stream);
+  output := XGT_ParseUntilInput(stream);
 
   CloseStream(stream);
+  return output;
 end;
 
