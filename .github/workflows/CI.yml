@@ -39,14 +39,13 @@ jobs:
         with:
           gap-version: ${{ matrix.gap-version }}
       - uses: gap-actions/build-pkg@v3
-      - uses: gap-actions/run-pkg-tests@v4
-      - uses: gap-actions/run-pkg-tests@v4
-        with:
-          mode: onlyneeded
-      - uses: gap-actions/process-coverage@v3
-      - uses: codecov/codecov-action@v6
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      # gap-actions/run-pkg-tests first loads the package, which xgap
+      # refuses unless GAP runs with `-p`
+      - name: 'Run tests'
+        run: |
+          mkdir -p /tmp/gaproot/pkg
+          ln -f -s $PWD /tmp/gaproot/pkg/
+          $GAPROOT/gap -l "/tmp/gaproot;" --quitonbreak tst/testall.g
 
   # The documentation job
   manual:
