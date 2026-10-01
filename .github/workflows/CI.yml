@@ -30,7 +30,7 @@ jobs:
           - 'minimal' # oldest GAP release supported by this package
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: 'Install X Window development files'
         run: |
           sudo apt-get update
@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: gap-actions/setup-gap@v3
       - uses: gap-actions/build-pkg-docs@v2
         with:
