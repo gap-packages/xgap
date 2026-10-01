@@ -1,150 +1,169 @@
-===========================================================================
- This file describes changes in the GAP package 'XGAP'.
-===========================================================================
+This file describes changes in the GAP package 'XGAP'.
 
-unreleased
-  * Require GAP >= 4.11
-  * Fix the "SelectedGroups to GAP" menu entry, which raised an error
-    because `last` is read-only since GAP 4.11 (thanks to Russ Woodroofe
-    for the report)
-  * Fix compilation with any libXaw version: 1.0.16 reverted the type
-    change of XawListChange made in 1.0.14 (thanks to Jerry James for the
-    report)
-  * Fix text containing '@', e.g. entered into a dialog, arriving mangled
-    in GAP
-  * Avoid a warning about InstallValue when loading in GAP >= 4.15
-  * Make the test suite run tests and report failures
+## Unreleased
 
-4.33 (2025-09-14)
-  * Remove Max Horn as maintainer of this package. This package is now
-    unmaintained.
-  * Enhance compatibility with GCC 14 and 15 (thanks to Jan Engelhardt and
-    Jerry James for providing patches)
+* Require GAP >= 4.11
+* Fix the "SelectedGroups to GAP" menu entry, which raised an error
+  because `last` is read-only since GAP 4.11 (thanks to Russ Woodroofe
+  for the report)
+* Fix compilation with any libXaw version: 1.0.16 reverted the type
+  change of XawListChange made in 1.0.14 (thanks to Jerry James for the
+  report)
+* Fix text containing '@', e.g. entered into a dialog, arriving mangled
+  in GAP
+* Avoid a warning about InstallValue when loading in GAP >= 4.15
+* Make the test suite run tests and report failures
 
-4.32 (2024-02-09)
-  * When resizing a GAP poset sheet via the Magnify command or similar,
-    the level labels were not getting moved correctly. They should stay
-    by the right side of the window. This should be fixed now (thanks to
-    Russ Woodroofe for the fix)
-  * Fix a bug in the build system where 'make clean && make' would
-    run into an error because `xgap.sh` got deleted by `make clean` and
-    then `make` to use it (now `make` just regenerates it if missing)
-  * Various janitorial changes
+## 4.33 (2025-09-14)
 
-4.31 (2022-02-17)
-  * Add missing escapes to buildman.pe
-  * Enlarge the 'c' array in StartGapProcess to prevent overruns
-  * Improve the build system
-  * Add some basic test files
+* Remove Max Horn as maintainer of this package. This package is now
+  unmaintained.
+* Enhance compatibility with GCC 14 and 15 (thanks to Jan Engelhardt and
+  Jerry James for providing patches)
 
-4.30 (2019-04-16)
-  * Fix compatibility with GAP 4.11 by not writing to `last`
-  * Fix a bug that prevented XGAP from working on macOS 10.14
-  * Some janitorial changes
+## 4.32 (2024-02-09)
 
-4.29 (2018-11-10)
-  * remove "Toggle Library Read Mesg" command
-  * improve memory display (thanks to Russ Woodroofe)
+* When resizing a GAP poset sheet via the Magnify command or similar,
+  the level labels were not getting moved correctly. They should stay
+  by the right side of the window. This should be fixed now (thanks to
+  Russ Woodroofe for the fix)
+* Fix a bug in the build system where 'make clean && make' would
+  run into an error because `xgap.sh` got deleted by `make clean` and
+  then `make` to use it (now `make` just regenerates it if missing)
+* Various janitorial changes
 
-4.28 (2018-09-12)
-  * Set TermEncoding to latin1 (thanks to Russ Woodroofe)
-  * Don't change the user's helpviewer to 'firefox' (thanks to Russ Woodroofe)
+## 4.31 (2022-02-17)
 
-4.27 (2018-03-21)
-  * Replace references to obsolete ReadPkg by ReadPackage
-  * Replace calls to MakeReadWriteGVar and MakeReadOnlyGVar by calls to their
-    documented counterparts MakeReadWriteGlobal and MakeReadOnlyGlobal
+* Add missing escapes to buildman.pe
+* Enlarge the 'c' array in StartGapProcess to prevent overruns
+* Improve the build system
+* Add some basic test files
 
-4.26 (2016-11-06)
-  * Fixed a problem with the 4.25 release tarball (a file was missing
-    from the manual, leading to errors in the GAP help system)
+## 4.30 (2019-04-16)
 
-4.25 (2016-11-04)
-  * Fixed more compiler warnings
-  * Fixed problem with xgap.sh that could prevent it from working
-    on some systems
-  * Some minor tweaks to the build system
+* Fix compatibility with GAP 4.11 by not writing to `last`
+* Fix a bug that prevented XGAP from working on macOS 10.14
+* Some janitorial changes
 
-4.24 (2016-02-28)
-  * Package homepage now is on GitHub
-  * Add Max Horn as package maintainer, removed maintainer flag from
-    Max Neunhöffer
-  * Update C code from K&R to ANSI C, fix various warnings
-  * Replace uses of obsolete GAP_ROOT_PATHS by GAPInfo.RootPaths
+## 4.29 (2018-11-10)
 
-4.23 (2012-04-30)
- * XGAP now reports "4.23" as version number instead of "4.22".
+* remove "Toggle Library Read Mesg" command
+* improve memory display (thanks to Russ Woodroofe)
 
- * Follow Frank Luebeck's suggestions for some startup calls.
+## 4.28 (2018-09-12)
 
- * Fix manual documentation for installation.
+* Set TermEncoding to latin1 (thanks to Russ Woodroofe)
+* Don't change the user's helpviewer to 'firefox' (thanks to Russ Woodroofe)
 
-4.22 (~2012)
- * XGAP now runs on 64-bit machines, thanks to Nate Eldredge and 
-   Max Horn for submitting patches.
+## 4.27 (2018-03-21)
 
- * XGAP now runs with GAP >= 4.5 in addition to GAP 4.4.12.
+* Replace references to obsolete ReadPkg by ReadPackage
+* Replace calls to MakeReadWriteGVar and MakeReadOnlyGVar by calls to their
+  documented counterparts MakeReadWriteGlobal and MakeReadOnlyGlobal
 
- * Minor tweak of the help display.
+## 4.26 (2016-11-06)
 
- * Include "Save As XFig" kindly donated by Russ Woodroofe
+* Fixed a problem with the 4.25 release tarball (a file was missing
+  from the manual, leading to errors in the GAP help system)
 
-4.21 (2004-05-22)
- * The handling of pseudo terminals is fixed for newer versions of Linux
-   using devfs filesystems. Now functions getpt, grantpt and ptsname_r
-   are used in this case.
+## 4.25 (2016-11-04)
 
- * The word "share" in the connection with "package" in the manual has 
-   become extinct.
+* Fixed more compiler warnings
+* Fixed problem with xgap.sh that could prevent it from working
+  on some systems
+* Some minor tweaks to the build system
 
- * Fixed a bug in CompareLevels for graphic subgroup lattices, which came
-   into existence because some filters changed in the main library.
+## 4.24 (2016-02-28)
 
-4.20 (2004-02-20)
- * Deleted a line in src.x11/selfile.c offending the compiler on Mac OS/X.
-   Seems to work under Linux/i386 also.
+* Package homepage now is on GitHub
+* Add Max Horn as package maintainer, removed maintainer flag from
+  Max Neunhöffer
+* Update C code from K&R to ANSI C, fix various warnings
+* Replace uses of obsolete GAP_ROOT_PATHS by GAPInfo.RootPaths
 
- * Two changes with respect to pseudo terminals for the Windows/CYGWIN
-   environment, suggested by Gary Zablackis. This is not tested.
+## 4.23 (2012-04-30)
 
-4.19 (~2003)
- * Fixed behaviour when the small groups library is not around. 
+* XGAP now reports "4.23" as version number instead of "4.22".
 
-4.18 (2003-05-20)
- * Fix display of help pages (bug reported by Walter Neumann).
-   Note that this probably will make this version incompatible with
-   GAP 4.2 and earlier versions (not tested).
+* Follow Frank Luebeck's suggestions for some startup calls.
 
-4.17 (2003-05-17)
- * PackageInfo.g file is now supplied.
+* Fix manual documentation for installation.
 
- * The new package loading mechanism is therefore supported.
+## 4.22 (~2012)
 
- * A documentation package is generated.
+* XGAP now runs on 64-bit machines, thanks to Nate Eldredge and
+  Max Horn for submitting patches.
 
- * The global variable 'last' is set in init.g to make the XGAP package
-   autoloadable.
+* XGAP now runs with GAP >= 4.5 in addition to GAP 4.4.12.
 
- * Changes in the autoconf usage: All files are now here.
-   No more referring to ../../cnf from main GAP.
+* Minor tweak of the help display.
 
- * Slight changes in the startup shell script.
+* Include "Save As XFig" kindly donated by Russ Woodroofe
 
- * Display of MBytes instead of KBytes.
+## 4.21 (2004-05-22)
 
-4.16 (~2002)
- * Thanks to Greg Gamble the html version of the documentation is now
-   up to date and works with the current version of gapmacro.tex and
-   convert.pl. There were quite a few small corrections in the manual.
+* The handling of pseudo terminals is fixed for newer versions of Linux
+  using devfs filesystems. Now functions getpt, grantpt and ptsname_r
+  are used in this case.
 
- * There is now a pdf version of the manual included.
+* The word "share" in the connection with "package" in the manual has
+  become extinct.
 
-4.15 (~2002)
- * Fixed a small bug reported by Herbert Pahlings concerning output
-   to encapsulated postscript. This did not work for text objects
-   that contained opening brackets.
+* Fixed a bug in CompareLevels for graphic subgroup lattices, which came
+  into existence because some filters changed in the main library.
 
-4.14 (~2002)
+## 4.20 (2004-02-20)
+
+* Deleted a line in src.x11/selfile.c offending the compiler on Mac OS/X.
+  Seems to work under Linux/i386 also.
+
+* Two changes with respect to pseudo terminals for the Windows/CYGWIN
+  environment, suggested by Gary Zablackis. This is not tested.
+
+## 4.19 (~2003)
+
+* Fixed behaviour when the small groups library is not around.
+
+## 4.18 (2003-05-20)
+
+* Fix display of help pages (bug reported by Walter Neumann).
+  Note that this probably will make this version incompatible with
+  GAP 4.2 and earlier versions (not tested).
+
+## 4.17 (2003-05-17)
+
+* PackageInfo.g file is now supplied.
+
+* The new package loading mechanism is therefore supported.
+
+* A documentation package is generated.
+
+* The global variable 'last' is set in init.g to make the XGAP package
+  autoloadable.
+
+* Changes in the autoconf usage: All files are now here.
+  No more referring to ../../cnf from main GAP.
+
+* Slight changes in the startup shell script.
+
+* Display of MBytes instead of KBytes.
+
+## 4.16 (~2002)
+
+* Thanks to Greg Gamble the html version of the documentation is now
+  up to date and works with the current version of gapmacro.tex and
+  convert.pl. There were quite a few small corrections in the manual.
+
+* There is now a pdf version of the manual included.
+
+## 4.15 (~2002)
+
+* Fixed a small bug reported by Herbert Pahlings concerning output
+  to encapsulated postscript. This did not work for text objects
+  that contained opening brackets.
+
+## 4.14 (~2002)
+
  * XGAP compiles on newer X11R6.4, which is included for example in
    Debian/GNU Linux 3.0
 
@@ -176,7 +195,7 @@ xgap4r11 (~1999)
  * Improved description of the concept of levels in the manual.
 
  * Improved example of a space group via CRYST in the manual.
- 
+
  * Renaming of the first standard menu of graphic sheets from "Gap" to "Sheet".
 
  * Renaming of "Gap" to "GAP" in some menus.
@@ -185,4 +204,3 @@ xgap4r11 (~1999)
 
 xgap4r10 and older
  No data on these releases is currently available.
- 
